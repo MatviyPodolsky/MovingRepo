@@ -7,18 +7,23 @@ import android.view.MenuItem;
 
 import com.sdex.webteb.R;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.Optional;
+
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
 public abstract class BaseActivity extends ActionBarActivity {
 
-    private Toolbar toolbar;
+    @Optional @InjectView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResource());
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.inject(this);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
