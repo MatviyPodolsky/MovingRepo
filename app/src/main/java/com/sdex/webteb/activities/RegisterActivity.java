@@ -13,7 +13,6 @@ import butterknife.OnClick;
 
 public class RegisterActivity extends BaseActivity {
 
-    private static final int RESOURCE = R.layout.activity_register;
 
     @InjectView(R.id.username) TextView mUsername;
     @InjectView(R.id.confirm_username) TextView mConfirmUsername;
@@ -32,7 +31,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected int getLayoutResource() {
-        return RESOURCE;
+        return R.layout.activity_register;
     }
 
     @OnClick(R.id.login_facebook)

@@ -14,7 +14,6 @@ public class SplashActivity extends BaseActivity {
 	*/
 
     private static final int AUTO_HIDE_DELAY_MILLIS = 2000;
-    private static final int RESOURCE = R.layout.activity_splash;
 
     private Handler mHandler;
     private Runnable mInvokeMainActivityTask;
@@ -38,7 +37,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected int getLayoutResource() {
-        return RESOURCE;
+        return R.layout.activity_splash;
     }
 
     @Override

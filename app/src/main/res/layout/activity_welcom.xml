@@ -1,32 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_background">
+    android:background="@color/default_background"
+    android:orientation="vertical"
+    android:padding="25dp">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
     <TextView
         android:id="@+id/terms_of_usage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/terms_of_use"
-        android:textColor="@color/primary"/>
+        android:textColor="@color/primary" />
+
+    <LinearLayout
+        android:id="@+id/ll_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/terms_of_usage"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/login" />
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/register" />
+
+    </LinearLayout>
 
     <Button
-        android:id="@+id/login"
-        android:layout_width="wrap_content"
+        android:id="@+id/login_facebook"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_above="@+id/ll_buttons"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/login_with_facebook" />
 
-    <Button
-        android:id="@+id/register"
-        android:layout_width="wrap_content"
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        app:fillColor="#000000"
+        app:pageColor="#FFFFFF"
+        app:radius="5dp"
+        app:strokeColor="#000000"
+        app:strokeWidth="1dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/register"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/login_facebook"
+        android:background="#00000000"
+        android:padding="12dp" />
 
 </RelativeLayout>

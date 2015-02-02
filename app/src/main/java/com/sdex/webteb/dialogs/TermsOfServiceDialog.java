@@ -10,8 +10,6 @@ import butterknife.OnClick;
 
 public class TermsOfServiceDialog extends BaseDialogFragment {
 
-    public static final int RESOURCE = R.layout.dialog_terms_of_service;
-
     public static TermsOfServiceDialog newInstance() {
         TermsOfServiceDialog frag = new TermsOfServiceDialog();
         return frag;
@@ -24,7 +22,7 @@ public class TermsOfServiceDialog extends BaseDialogFragment {
 
     @Override
     public int getLayoutResource() {
-        return RESOURCE;
+        return R.layout.dialog_terms_of_service;
     }
 
     @OnClick(R.id.cancel)

@@ -14,8 +14,6 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
 
-    private static final int RESOURCE = R.layout.activity_login;
-
     @InjectView(R.id.username) EditText mUsername;
     @InjectView(R.id.password) EditText mPassword;
     @InjectView(R.id.forgot_password) TextView mForgotPassword;
@@ -28,7 +26,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected int getLayoutResource() {
-        return RESOURCE;
+        return R.layout.activity_login;
     }
 
     @OnClick(R.id.login_facebook)

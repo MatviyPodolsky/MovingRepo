@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.jakewharton:butterknife:6.0.0'
     compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'com.viewpagerindicator:library:2.4.1@aar'
 }
