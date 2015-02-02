@@ -13,7 +13,7 @@ import butterknife.OnClick;
 /**
  * Created by MPODOLSKY on 02.02.2015.
  */
-public class WelcomActivity extends BaseActivity {
+public class WelcomeActivity extends BaseActivity {
 
     private static final int RESOURCE = R.layout.activity_welcom;
 
@@ -29,13 +29,13 @@ public class WelcomActivity extends BaseActivity {
 
     @OnClick(R.id.login)
     public void login(final View v){
-        Intent intent = new Intent(WelcomActivity.this, LoginActivity.class);
+        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.register)
     public void register(final View v){
-        Intent intent = new Intent(WelcomActivity.this, RegisterActivity.class);
+        Intent intent = new Intent(WelcomeActivity.this, RegisterActivity.class);
         startActivity(intent);
     }
 

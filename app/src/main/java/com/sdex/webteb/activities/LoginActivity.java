@@ -14,8 +14,6 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
 
-    private static final int RESOURCE = R.layout.activity_login;
-
     @InjectView(R.id.username) EditText mUsername;
     @InjectView(R.id.password) EditText mPassword;
     @InjectView(R.id.forgot_password) TextView mForgotPassword;
@@ -28,7 +26,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected int getLayoutResource() {
-        return RESOURCE;
+        return R.layout.activity_login;
     }
 
     @OnClick(R.id.login_facebook)
@@ -39,9 +37,9 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.login)
     public void login(final View v) {
-        if (mUsername.getText().length() == 0 || mPassword.getText().length() == 0) {
-            return;
-        }
+//        if (mUsername.getText().length() == 0 || mPassword.getText().length() == 0) {
+//            return;
+//        }
         v.setEnabled(false);
         launchMainActivity();
     }
@@ -53,7 +51,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void launchMainActivity() {
-        Intent intent = new Intent(LoginActivity.this, SetupProfileActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
