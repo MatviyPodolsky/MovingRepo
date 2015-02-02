@@ -31,7 +31,13 @@
         android:layout_below="@+id/toolbar"
         android:padding="25dp">
 
-
+<Button
+    android:id="@+id/done"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Done"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>
 
