@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -20,7 +19,6 @@ import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
@@ -37,6 +35,9 @@ public class MainActivity extends BaseActivity {
     @InjectView(R.id.drawer_list)
     ListView mDrawerList;
 
+//    @InjectView(R.id.recyclerview)
+//    RecyclerView mRecyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +49,13 @@ public class MainActivity extends BaseActivity {
         ArrayAdapter<String> mDrawerAdapter = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_list_item_1, menuItems);
         mDrawerList.setAdapter(mDrawerAdapter);
+
+//        final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+//        mRecyclerView.setLayoutManager(layoutManager);
+//        final SimpleAdapter adapter = new SimpleAdapter();
+//        adapter.setItemCount(30);
+//        mRecyclerView.setAdapter(adapter);
+//        layoutManager.scrollToPosition(5);
     }
 
     @Override
@@ -58,15 +66,28 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.toggle_drawer)
     void toggleDrawer() {
         if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
-            mDrawerLayout.closeDrawer(RIGHT_DRAWER_GRAVITY);
+            closeDrawer();
         } else {
             mDrawerLayout.openDrawer(RIGHT_DRAWER_GRAVITY);
         }
     }
 
+    private void closeDrawer() {
+        mDrawerLayout.closeDrawer(RIGHT_DRAWER_GRAVITY);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
+            closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @OnItemClick(R.id.drawer_list)
     void setItem(int position) {
-        mDrawerLayout.closeDrawer(RIGHT_DRAWER_GRAVITY);
+        closeDrawer();
         Fragment fragment = getFragmentByPosition(position);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()

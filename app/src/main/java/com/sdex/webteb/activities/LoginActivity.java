@@ -37,9 +37,9 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.login)
     public void login(final View v) {
-        if (mUsername.getText().length() == 0 || mPassword.getText().length() == 0) {
-            return;
-        }
+//        if (mUsername.getText().length() == 0 || mPassword.getText().length() == 0) {
+//            return;
+//        }
         v.setEnabled(false);
         launchMainActivity();
     }
@@ -51,7 +51,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void launchMainActivity() {
-        Intent intent = new Intent(LoginActivity.this, SetupProfileActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

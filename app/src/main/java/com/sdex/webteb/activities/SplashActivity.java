@@ -49,7 +49,7 @@ public class SplashActivity extends BaseActivity {
     private void invokeMainActivity() {
         Intent intent;
         if (!isLoggedIn) {
-            intent = new Intent(this, WelcomActivity.class);
+            intent = new Intent(this, WelcomeActivity.class);
         } else {
             if(!completeSetup) {
                 intent = new Intent(this, SetupProfileActivity.class);

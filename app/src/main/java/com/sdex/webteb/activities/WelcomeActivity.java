@@ -18,7 +18,7 @@ import butterknife.OnClick;
 /**
  * Created by MPODOLSKY on 02.02.2015.
  */
-public class WelcomActivity extends BaseActivity implements PageIndicator{
+public class WelcomeActivity extends BaseActivity implements PageIndicator{
 
     private TutorialPageAdapter mAdapter;
     @InjectView(R.id.pager) ViewPager mPager;
@@ -42,13 +42,13 @@ public class WelcomActivity extends BaseActivity implements PageIndicator{
 
     @OnClick(R.id.login)
     public void login(final View v){
-        Intent intent = new Intent(WelcomActivity.this, LoginActivity.class);
+        Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.register)
     public void register(final View v){
-        Intent intent = new Intent(WelcomActivity.this, RegisterActivity.class);
+        Intent intent = new Intent(WelcomeActivity.this, RegisterActivity.class);
         startActivity(intent);
     }
 
