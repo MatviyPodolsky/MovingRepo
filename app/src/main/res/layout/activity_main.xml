@@ -12,6 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="56dp">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/imageView" />
+
         <ImageButton
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -40,9 +46,12 @@
         <ListView
             android:id="@+id/drawer_list"
             android:layout_width="300dp"
+            android:background="@android:color/white"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:dividerHeight="1dp" />
+            android:dividerHeight="1px"
+            android:drawSelectorOnTop="false"
+            android:choiceMode="singleChoice" />
 
     </android.support.v4.widget.DrawerLayout>
 

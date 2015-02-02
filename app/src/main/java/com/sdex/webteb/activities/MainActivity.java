@@ -58,15 +58,28 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.toggle_drawer)
     void toggleDrawer() {
         if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
-            mDrawerLayout.closeDrawer(RIGHT_DRAWER_GRAVITY);
+            closeDrawer();
         } else {
             mDrawerLayout.openDrawer(RIGHT_DRAWER_GRAVITY);
         }
     }
 
+    private void closeDrawer() {
+        mDrawerLayout.closeDrawer(RIGHT_DRAWER_GRAVITY);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
+            closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     @OnItemClick(R.id.drawer_list)
     void setItem(int position) {
-        mDrawerLayout.closeDrawer(RIGHT_DRAWER_GRAVITY);
+        closeDrawer();
         Fragment fragment = getFragmentByPosition(position);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
