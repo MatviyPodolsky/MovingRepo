@@ -1,5 +1,26 @@
 <resources>
     <string name="app_name">WebTeb</string>
+    
+    
+
+    <!--login & registration-->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="confirm_username">Confirm username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="login_with_facebook">Login with facebook</string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="type_your_email_here">Type your email here</string>
+    <string name="restore_password">Restore password</string>
+    <string name="create_your_profile">Create your profile</string>
+    <string name="email_is_not_registered">Email is not registered</string>
+    <string name="your_password_was_sent_to_your_email">Your password was sent to your email</string>
+    <string name="agree_to_newsletter">Agree to newsletter</string>
+    <string name="terms_of_use"><u>Terms of use</u></string>
+
 
     <string-array name="menu_items">
         <item>Home</item>
