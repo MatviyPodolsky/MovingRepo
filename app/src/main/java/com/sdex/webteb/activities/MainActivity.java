@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.inject(this);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setItem(0);
 
