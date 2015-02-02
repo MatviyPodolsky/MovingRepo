@@ -2,7 +2,8 @@
 
     <color name="primary">#000000</color>
     <color name="secondary_text">#848484</color>
-    <color name="hint_text">#AAAAAA</color>
+    <color name="hint">#AAAAAA</color>
+    <color name="error">#FF0000</color>
     <color name="default_background">#FFFFFF</color>
     <color name="action_bar_text_color">#000000</color>
 

@@ -1,13 +1,12 @@
 package com.sdex.webteb.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import com.sdex.webteb.R;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends BaseActivity {
 
     /*
      * Splash Screens Are Evil, Don't Use Them!
@@ -15,15 +14,15 @@ public class SplashActivity extends Activity {
 	*/
 
     private static final int AUTO_HIDE_DELAY_MILLIS = 2000;
+    private static final int RESOURCE = R.layout.activity_splash;
 
     private Handler mHandler;
     private Runnable mInvokeMainActivityTask;
-    private boolean isLoggedIn;
+    private boolean isLoggedIn, completeSetup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
 
         mHandler = new Handler();
 
@@ -38,6 +37,11 @@ public class SplashActivity extends Activity {
     }
 
     @Override
+    protected int getLayoutResource() {
+        return RESOURCE;
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
         mHandler.removeCallbacks(mInvokeMainActivityTask);
@@ -48,7 +52,11 @@ public class SplashActivity extends Activity {
         if (!isLoggedIn) {
             intent = new Intent(this, WelcomActivity.class);
         } else {
-            intent = new Intent(this, SetupProfileActivity.class);
+            if(!completeSetup) {
+                intent = new Intent(this, SetupProfileActivity.class);
+            } else {
+                intent = new Intent(this, MainActivity.class);
+            }
         }
         finish();
         startActivity(intent);

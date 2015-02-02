@@ -8,11 +8,12 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class RegisterActivity extends BaseActivity {
+
+    private static final int RESOURCE = R.layout.activity_register;
 
     @InjectView(R.id.username) TextView mUsername;
     @InjectView(R.id.confirm_username) TextView mConfirmUsername;
@@ -22,12 +23,16 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.inject(this);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return RESOURCE;
     }
 
     @OnClick(R.id.login_facebook)

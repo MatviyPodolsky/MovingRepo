@@ -9,9 +9,15 @@ import com.sdex.webteb.R;
  */
 public class SetupProfileActivity extends BaseActivity {
 
+    private static final int RESOURCE = R.layout.activity_setup_profile;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setup_profile);
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return RESOURCE;
     }
 }

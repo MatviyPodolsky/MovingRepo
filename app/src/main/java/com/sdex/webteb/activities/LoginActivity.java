@@ -8,12 +8,13 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 
 public class LoginActivity extends BaseActivity {
+
+    private static final int RESOURCE = R.layout.activity_login;
 
     @InjectView(R.id.username) EditText mUsername;
     @InjectView(R.id.password) EditText mPassword;
@@ -23,8 +24,11 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.inject(this);
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return RESOURCE;
     }
 
     @OnClick(R.id.login_facebook)
