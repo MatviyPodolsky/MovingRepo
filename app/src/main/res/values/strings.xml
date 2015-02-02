@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">WebTeb</string>
+
+    <string-array name="menu_items">
+        <item>Home</item>
+        <item>My tests</item>
+        <item>My Album</item>
+        <item>Search doctor</item>
+        <item>More articles</item>
+        <item>Settings screen</item>
+        <item>About</item>
+        <item>Contact us</item>
+    </string-array>
+
 </resources>

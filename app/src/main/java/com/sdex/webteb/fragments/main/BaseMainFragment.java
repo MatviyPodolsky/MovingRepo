@@ -1,4 +1,4 @@
-package com.sdex.webteb.fragments;
+package com.sdex.webteb.fragments.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseMainFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
