@@ -26,6 +26,15 @@
     <string name="done">Done</string>
     <string name="family_relation">Family relation</string>
     <string name="click_to_select_family_relation">click to select family relation</string>
+    <string-array name="relations">
+        <item>Mother</item>
+        <item>Father</item>
+        <item>Sister</item>
+        <item>Brother</item>
+        <item>Grandmother</item>
+        <item>Grandfather</item>
+        <item>Friend</item>
+    </string-array>
 
     <string name="last_period_first_day">Last period first day</string>
     <string name="expected_birth_date">Expected birth date</string>

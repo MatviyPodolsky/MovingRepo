@@ -12,12 +12,14 @@
         android:gravity="right|center_vertical"
         android:imeOptions="actionDone"
         android:background="@drawable/edit_text_without_border"
+        android:singleLine="true"
         android:layout_weight="2"/>
 
     <View
         android:layout_width="2dp"
         android:layout_height="46dp"
-        android:background="@color/primary"/>
+        android:background="@color/primary"
+        android:layout_gravity="center_vertical"/>
 
     <Switch
         android:id="@+id/gender"

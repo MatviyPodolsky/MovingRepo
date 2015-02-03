@@ -1,9 +1,14 @@
 package com.sdex.webteb.fragments.profile;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.view.View;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
+import com.sdex.webteb.dialogs.DatePickerFragment;
 import com.sdex.webteb.fragments.BaseFragment;
 
 import butterknife.InjectView;
@@ -22,6 +27,13 @@ public class BirthDateFragment extends BaseFragment {
     TextView mThirdCategory;
     @InjectView(R.id.description)
     TextView mDescription;
+    @InjectView(R.id.select_date)
+    TextView mDate;
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
 
     @Override
     public int getLayoutResource() {
@@ -33,6 +45,12 @@ public class BirthDateFragment extends BaseFragment {
         if(getActivity() instanceof SetupProfileActivity){
             ((SetupProfileActivity) getActivity()).scrollToNextPage();
         }
+    }
+
+    @OnClick(R.id.select_date)
+    public void selectDate() {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(), "datePicker");
     }
 
     @OnClick(R.id.category_1)
