@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background">
@@ -25,20 +26,40 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <RelativeLayout
+    <include
+        android:id="@+id/profile_card"
+        layout="@layout/profile_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/profile_card"
+        android:background="@color/primary" />
+
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#00000000"
+        android:padding="12dp"
+        app:fillColor="#000000"
+        app:pageColor="#FFFFFF"
+        app:radius="5dp"
+        app:strokeColor="#000000"
+        app:strokeWidth="1dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:padding="25dp">
-
-<Button
-    android:id="@+id/done"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Done"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"/>
-
-        </RelativeLayout>
+        android:layout_above="@+id/indicator"
+        android:layout_below="@+id/divider"></android.support.v4.view.ViewPager>
 
 </RelativeLayout>

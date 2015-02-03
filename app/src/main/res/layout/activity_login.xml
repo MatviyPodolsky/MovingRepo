@@ -40,6 +40,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:hint="@string/username"
+            android:imeOptions="actionNext"
             android:textColor="@color/primary"
             android:textColorHint="@color/hint" />
 
@@ -52,6 +53,7 @@
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="@string/password"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:textColor="@color/primary"
             android:textColorHint="@color/hint" />
