@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/secondary_text">
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:hint="@string/type_child_name"
+        android:gravity="right|center_vertical"
+        android:imeOptions="actionDone"
+        android:background="@drawable/edit_text_without_border"
+        android:layout_weight="2"/>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="46dp"
+        android:background="@color/primary"/>
+
+    <Switch
+        android:id="@+id/gender"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textOn="X"
+        android:textOff="Y"/>
+
+</LinearLayout>

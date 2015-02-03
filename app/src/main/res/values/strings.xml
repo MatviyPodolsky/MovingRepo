@@ -21,6 +21,20 @@
     <string name="agree_to_newsletter">Agree to newsletter</string>
     <string name="terms_of_use"><u>Terms of use</u></string>
 
+    <!--profile card-->
+    <string name="next">Next</string>
+    <string name="done">Done</string>
+    <string name="family_relation">Family relation</string>
+    <string name="click_to_select_family_relation">click to select family relation</string>
+
+    <string name="last_period_first_day">Last period first day</string>
+    <string name="expected_birth_date">Expected birth date</string>
+    <string name="birth_date">Birth date</string>
+    <string name="date">Date</string>
+    <string name="click_to_select_date">Click to select date...</string>
+
+    <string name="type_child_name">Type child name...</string>
+    <string name="add_child">Add child</string>
 
     <string-array name="menu_items">
         <item>Home</item>

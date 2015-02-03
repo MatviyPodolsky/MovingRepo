@@ -2,6 +2,7 @@
 
     <color name="primary">#000000</color>
     <color name="secondary_text">#848484</color>
+    <color name="selected_text">#00FF00</color>
     <color name="hint">#AAAAAA</color>
     <color name="error">#FF0000</color>
     <color name="default_background">#FFFFFF</color>

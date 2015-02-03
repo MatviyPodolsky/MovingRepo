@@ -40,6 +40,13 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator{
         return R.layout.activity_welcom;
     }
 
+    @OnClick(R.id.login_facebook)
+    public void loginWithFB() {
+        Intent intent = new Intent(WelcomeActivity.this, SetupProfileActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     @OnClick(R.id.login)
     public void login(final View v){
         Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
