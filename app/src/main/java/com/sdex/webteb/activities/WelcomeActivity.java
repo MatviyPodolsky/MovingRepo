@@ -44,7 +44,6 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator{
     public void loginWithFB() {
         Intent intent = new Intent(WelcomeActivity.this, SetupProfileActivity.class);
         startActivity(intent);
-        finish();
     }
 
     @OnClick(R.id.login)

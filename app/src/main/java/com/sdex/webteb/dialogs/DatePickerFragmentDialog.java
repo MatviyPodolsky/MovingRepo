@@ -1,18 +1,26 @@
 package com.sdex.webteb.dialogs;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
+
+import com.sdex.webteb.fragments.profile.BirthDateFragment;
 
 import java.util.Calendar;
 
 /**
  * Created by MPODOLSKY on 03.02.2015.
  */
-public class DatePickerFragment extends DialogFragment
+public class DatePickerFragmentDialog extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
+
+    public static final String EXTRA_YEAR = "EXTRA_YEAR";
+    public static final String EXTRA_MONTH = "EXTRA_MONTH";
+    public static final String EXTRA_DAY = "EXTRA_DAY";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,6 +35,11 @@ public class DatePickerFragment extends DialogFragment
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        // Do something with the date chosen by the user
+        Intent intent = getActivity().getIntent();
+        intent.putExtra(EXTRA_YEAR, year);
+        intent.putExtra(EXTRA_MONTH, month);
+        intent.putExtra(EXTRA_DAY, day);
+        getTargetFragment().onActivityResult(BirthDateFragment.REQUEST_GET_DATE, Activity.RESULT_OK, intent);
+        getDialog().hide();
     }
 }

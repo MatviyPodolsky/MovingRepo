@@ -1,5 +1,7 @@
 package com.sdex.webteb.fragments.profile;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -8,7 +10,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
-import com.sdex.webteb.dialogs.DatePickerFragment;
+import com.sdex.webteb.dialogs.DatePickerFragmentDialog;
 import com.sdex.webteb.fragments.BaseFragment;
 
 import butterknife.InjectView;
@@ -18,6 +20,8 @@ import butterknife.OnClick;
  * Created by MPODOLSKY on 03.02.2015.
  */
 public class BirthDateFragment extends BaseFragment {
+
+    public static final int REQUEST_GET_DATE = 0;
 
     @InjectView(R.id.category_1)
     TextView mFirstCategory;
@@ -40,6 +44,22 @@ public class BirthDateFragment extends BaseFragment {
         return R.layout.fragment_birth_date;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_GET_DATE:
+                    int year = data.getIntExtra(DatePickerFragmentDialog.EXTRA_YEAR, -1);
+                    int month = data.getIntExtra(DatePickerFragmentDialog.EXTRA_MONTH, -1);
+                    int day = data.getIntExtra(DatePickerFragmentDialog.EXTRA_DAY, -1);
+                    if(year >=0 && month>=0 && day>=0) {
+                        mDate.setText(year + " " + month + " " + day);
+                    }
+                    break;
+            }
+        }
+    }
+
     @OnClick(R.id.next)
     public void scrollToNextPage() {
         if(getActivity() instanceof SetupProfileActivity){
@@ -49,8 +69,9 @@ public class BirthDateFragment extends BaseFragment {
 
     @OnClick(R.id.select_date)
     public void selectDate() {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getFragmentManager(), "datePicker");
+        DialogFragment dialog = new DatePickerFragmentDialog();
+        dialog.setTargetFragment(this, REQUEST_GET_DATE);
+        dialog.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.category_1)
