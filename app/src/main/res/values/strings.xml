@@ -8,6 +8,7 @@
     <string name="register">Register</string>
     <string name="username">Username</string>
     <string name="confirm_username">Confirm username</string>
+    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="sign_up">Sign up</string>
@@ -20,6 +21,9 @@
     <string name="your_password_was_sent_to_your_email">Your password was sent to your email</string>
     <string name="agree_to_newsletter">Agree to newsletter</string>
     <string name="terms_of_use"><u>Terms of use</u></string>
+    <string name="please_enter_username">Please enter your username</string>
+    <string name="please_enter_email">Please enter your email</string>
+    <string name="password_must_contain_at_least_4_characters">Password must contain at least 4 characters</string>
 
     <!--profile card-->
     <string name="next">Next</string>
