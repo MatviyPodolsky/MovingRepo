@@ -39,15 +39,18 @@
         <item>Grandfather</item>
         <item>Friend</item>
     </string-array>
-
     <string name="last_period_first_day">Last period first day</string>
     <string name="expected_birth_date">Expected birth date</string>
     <string name="birth_date">Birth date</string>
     <string name="date">Date</string>
     <string name="click_to_select_date">Click to select date...</string>
-
     <string name="type_child_name">Type child name...</string>
     <string name="add_child">Add child</string>
+
+    <!--my tests-->
+    <string name="read_more">Read more</string>
+    <string name="search_doctor">Search doctor</string>
+    <string name="add_reminder">Add reminder</string>
 
     <string-array name="menu_items">
         <item>Home</item>
