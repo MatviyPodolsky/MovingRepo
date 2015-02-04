@@ -1,14 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:text="Settings"
-        android:id="@+id/textView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <View
+        android:id="@+id/top_divider"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@+id/title"
+        android:background="@color/divider"
+        android:layout_marginBottom="10dp"/>
+
+    <RelativeLayout
+        android:id="@+id/notifications_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/top_divider">
+
+        <Switch
+            android:id="@+id/notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textOff="@android:string/no"
+            android:textOn="@android:string/yes"
+            android:checked="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/notifications"
+            android:gravity="right"
+            android:layout_centerVertical="true"
+            android:text="@string/weekly_tips_notifications" />
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/reminders_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/notifications_container">
+
+        <Switch
+            android:id="@+id/reminders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textOff="@string/once_time_only"
+            android:textOn="@string/once_a_day"
+            android:checked="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/reminders"
+            android:gravity="right"
+            android:layout_centerVertical="true"
+            android:text="@string/tests_reminders" />
+
+        </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/newsletter_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/reminders_container">
+
+        <Switch
+            android:id="@+id/newsletter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textOff="@android:string/no"
+            android:textOn="@android:string/yes"
+            android:checked="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/newsletter"
+            android:gravity="right"
+            android:layout_centerVertical="true"
+            android:text="@string/newsletter" />
+
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/bot_divider"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@+id/newsletter_container"
+        android:background="@color/divider"
+        />
+
+    <RelativeLayout
+        android:id="@+id/profile_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/bot_divider">
+
+        <Button
+            android:id="@+id/my_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/edit" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/my_profile"
+            android:gravity="right"
+            android:layout_centerVertical="true"
+            android:text="@string/newsletter" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/reset_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/profile_container">
+
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/reset" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/reset"
+            android:gravity="right"
+            android:layout_centerVertical="true"
+            android:text="@string/reset_data" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/logout_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/reset_container">
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/logout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/logout"
+            android:gravity="right"
+            android:layout_centerVertical="true"
+            android:text="@string/logout" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

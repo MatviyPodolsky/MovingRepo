@@ -52,6 +52,19 @@
     <string name="search_doctor">Search doctor</string>
     <string name="add_reminder">Add reminder</string>
 
+    <!--settings-->
+    <string name="weekly_tips_notifications">Weekly tips notifications</string>
+    <string name="tests_reminders">Tests reminders</string>
+    <string name="once_a_day">Once a day</string>
+    <string name="once_time_only">Once time only</string>
+    <string name="newsletter">Newsletter</string>
+    <string name="my_profile">My profile</string>
+    <string name="edit">Edit</string>
+    <string name="reset_data">Reset data</string>
+    <string name="reset">Reset</string>
+    <string name="logout">Logout</string>
+
+
     <string-array name="menu_items">
         <item>Home</item>
         <item>My tests</item>
