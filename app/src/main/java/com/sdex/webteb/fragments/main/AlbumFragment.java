@@ -2,13 +2,15 @@ package com.sdex.webteb.fragments.main;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.AlbumAdapter;
@@ -23,7 +25,9 @@ import butterknife.InjectView;
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public class MyAlbumFragment extends BaseMainFragment {
+public class AlbumFragment extends BaseMainFragment {
+
+    public static List<String> cameraImages;
 
     @InjectView(R.id.grid_view)
     StickyGridHeadersGridView mGridView;
@@ -34,7 +38,7 @@ public class MyAlbumFragment extends BaseMainFragment {
 
         List<AlbumAdapter.Item> data = new ArrayList<>();
 
-        final List<String> cameraImages = getCameraImages(getActivity());
+        cameraImages = getCameraImages(getActivity());
 
         for (String cameraImage : cameraImages) {
             File f = new File(cameraImage);
@@ -53,11 +57,24 @@ public class MyAlbumFragment extends BaseMainFragment {
 
         mGridView.setAdapter(new AlbumAdapter(getActivity(), data));
         mGridView.setAreHeadersSticky(false);
+
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlbumViewFragment fragment = AlbumViewFragment.newInstance(position);
+
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.fragment_album_container, fragment, "gg")
+                        .addToBackStack("gg")
+                        .commit();
+            }
+        });
     }
 
     @Override
     public int getLayoutResource() {
-        return R.layout.fragment_my_album;
+        return R.layout.fragment_album;
     }
 
     public ArrayList<String> getCameraImages(Context context) {
@@ -79,7 +96,7 @@ public class MyAlbumFragment extends BaseMainFragment {
         if (cursor.moveToFirst()) {
             final int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             do {
-                final String data = cursor.getString(dataColumn);
+                final String data = "file:///" + cursor.getString(dataColumn);
                 Log.i("data :", data);
                 result.add(data);
             } while (cursor.moveToNext());

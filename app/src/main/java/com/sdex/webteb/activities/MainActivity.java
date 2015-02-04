@@ -10,11 +10,11 @@ import android.widget.ListView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.fragments.main.AboutFragment;
+import com.sdex.webteb.fragments.main.AlbumFragment;
 import com.sdex.webteb.fragments.main.BaseMainFragment;
 import com.sdex.webteb.fragments.main.ContactUsFragment;
 import com.sdex.webteb.fragments.main.HomeFragment;
 import com.sdex.webteb.fragments.main.MoreArticlesFragment;
-import com.sdex.webteb.fragments.main.MyAlbumFragment;
 import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
@@ -81,7 +81,12 @@ public class MainActivity extends BaseActivity {
         if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
             closeDrawer();
         } else {
-            super.onBackPressed();
+            Fragment curFragment = getSupportFragmentManager().findFragmentByTag("content_fragment");
+            if (curFragment != null && curFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
+                curFragment.getChildFragmentManager().popBackStack();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -91,7 +96,7 @@ public class MainActivity extends BaseActivity {
         Fragment fragment = getFragmentByPosition(position);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
+                .replace(R.id.fragment_container, fragment, "content_fragment")
                 .commit();
     }
 
@@ -102,7 +107,7 @@ public class MainActivity extends BaseActivity {
             case 1:
                 return new MyTestsFragment();
             case 2:
-                return new MyAlbumFragment();
+                return new AlbumFragment();
             case 3:
                 return new SearchDoctorFragment();
             case 4:

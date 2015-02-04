@@ -114,7 +114,7 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
         public String path;
 
         public Item(String path, String text) {
-            this.path = "file:///" + path;
+            this.path = path;
             this.text = text;
         }
     }
