@@ -94,8 +94,8 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
         Picasso.with(context)
                 .load(item.path)
                 .noPlaceholder()
-                .centerCrop()
                 .fit()
+                .centerCrop()
                 .into(holder.imageView);
 
         return convertView;

@@ -32,6 +32,8 @@ public class AlbumImageFragment extends BaseMainFragment {
         String link = getArguments().getString("photo");
         Picasso.with(getActivity())
                 .load(link)
+                .fit()
+                .centerInside()
                 .noPlaceholder()
                 .into(mImageView);
     }

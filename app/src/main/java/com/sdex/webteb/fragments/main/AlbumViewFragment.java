@@ -32,6 +32,7 @@ public class AlbumViewFragment extends BaseMainFragment {
         PhotoPagerAdapter mAdapter = new PhotoPagerAdapter(getChildFragmentManager(),
                 AlbumFragment.cameraImages);
         mViewPager.setAdapter(mAdapter);
+        mViewPager.setOffscreenPageLimit(2);
         final int currentPhoto = getArguments().getInt("current_photo");
         mViewPager.setCurrentItem(currentPhoto);
     }
