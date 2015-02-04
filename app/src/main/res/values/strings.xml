@@ -63,4 +63,8 @@
         <item>Contact us</item>
     </string-array>
 
+    <string name="test_text">Text text text text text text text text text text text text text
+    text text text text text text text text text text text text text text text text text text
+    text text text text text text text text text text text text text text text text text text </string>
+
 </resources>

@@ -30,9 +30,7 @@ public class MyTestsFragment extends BaseMainFragment {
         for (int i = 0; i < 10; i++) {
             MyTest myTest = new MyTest();
             myTest.setTitle("title" + i);
-            myTest.setText("text text text text text text text text text text text text text text text " +
-                    "text text text text text text text text text text text text text text text " +
-                    "text text text text text text text text text text text text text text text");
+            myTest.setText(getString(R.string.test_text));
             myTest.setTime(i + " hours ago");
             data.add(myTest);
         }
