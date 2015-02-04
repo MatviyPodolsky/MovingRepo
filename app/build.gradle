@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
 
+def APK_NAME = "WebTeb"
+def versionMajor = 0
+def versionMinor = 0
+def versionPatch = 1
+def versionBuild = 0
+
+def VERSION_CODE = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+def VERSION_NAME = "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
+
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -8,10 +17,14 @@ android {
         applicationId "com.sdex.webteb"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 1
-        versionName "0.0.1.0"
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            project.archivesBaseName = APK_NAME + "-" + VERSION_NAME;
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
