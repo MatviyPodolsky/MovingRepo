@@ -7,5 +7,6 @@
     <color name="error">#FF0000</color>
     <color name="default_background">#FFFFFF</color>
     <color name="action_bar_text_color">#000000</color>
+    <color name="divider">#AAAAAA</color>
 
 </resources>

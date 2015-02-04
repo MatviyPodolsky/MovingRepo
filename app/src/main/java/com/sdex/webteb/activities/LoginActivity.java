@@ -33,13 +33,14 @@ public class LoginActivity extends BaseActivity {
     public void loginWithFb(final View v) {
         v.setEnabled(false);
         launchMainActivity();
+        //for skipping user login
     }
 
     @OnClick(R.id.login)
     public void login(final View v) {
-//        if (mUsername.getText().length() == 0 || mPassword.getText().length() == 0) {
-//            return;
-//        }
+        if (!isValidData()) {
+            return;
+        }
         v.setEnabled(false);
         launchMainActivity();
     }
@@ -48,6 +49,23 @@ public class LoginActivity extends BaseActivity {
     public void forgotPassword(final View v){
         Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
         startActivity(intent);
+    }
+
+    private boolean isValidData(){
+        boolean isValid = true;
+        if (mPassword.getText().length() < 4) {
+            isValid = false;
+            mPassword.setError(getString(R.string.password_must_contain_at_least_4_characters));
+        } else {
+            mPassword.setError(null);
+        }
+        if (mUsername.getText().length() == 0) {
+            isValid = false;
+            mUsername.setError(getString(R.string.please_enter_username));
+        } else {
+            mUsername.setError(null);
+        }
+        return isValid;
     }
 
     private void launchMainActivity() {

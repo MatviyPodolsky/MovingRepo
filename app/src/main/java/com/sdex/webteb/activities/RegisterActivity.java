@@ -15,7 +15,7 @@ public class RegisterActivity extends BaseActivity {
 
 
     @InjectView(R.id.username) TextView mUsername;
-    @InjectView(R.id.confirm_username) TextView mConfirmUsername;
+    @InjectView(R.id.email) TextView mEmail;
     @InjectView(R.id.password) TextView mPassword;
     @InjectView(R.id.error_field) TextView mErrorField;
 
@@ -42,11 +42,34 @@ public class RegisterActivity extends BaseActivity {
 
     @OnClick(R.id.register)
     public void register(final View v) {
-        if (mUsername.getText().length() == 0 || mConfirmUsername.getText().length() == 0 || mPassword.getText().length() == 0) {
+        if (!isValidData()) {
             return;
         }
         v.setEnabled(false);
         launchMainActivity();
+    }
+
+    private boolean isValidData(){
+        boolean isValid = true;
+        if (mPassword.getText().length() < 4) {
+            isValid = false;
+            mPassword.setError(getString(R.string.password_must_contain_at_least_4_characters));
+        } else {
+            mPassword.setError(null);
+        }
+        if (mEmail.getText().length() == 0) {
+            isValid = false;
+            mEmail.setError(getString(R.string.please_enter_email));
+        } else {
+            mEmail.setError(null);
+        }
+        if (mUsername.getText().length() == 0) {
+            isValid = false;
+            mUsername.setError(getString(R.string.please_enter_username));
+        } else {
+            mUsername.setError(null);
+        }
+        return isValid;
     }
 
     private void launchMainActivity() {
