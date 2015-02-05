@@ -1,10 +1,12 @@
 package com.sdex.webteb.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -26,7 +28,7 @@ import butterknife.OnItemClick;
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements DrawerLayout.DrawerListener {
 
     private static final int RIGHT_DRAWER_GRAVITY = GravityCompat.END;
 
@@ -34,6 +36,9 @@ public class MainActivity extends BaseActivity {
     DrawerLayout mDrawerLayout;
     @InjectView(R.id.drawer_list)
     ListView mDrawerList;
+
+    Handler mHandler = new Handler();
+    Runnable mOpenMenuItemTask;
 
 //    @InjectView(R.id.recyclerview)
 //    RecyclerView mRecyclerView;
@@ -44,11 +49,13 @@ public class MainActivity extends BaseActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setItem(0);
+        setCurrentMenuItem();
 
         final String[] menuItems = getResources().getStringArray(R.array.menu_items);
         ArrayAdapter<String> mDrawerAdapter = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_list_item_1, menuItems);
         mDrawerList.setAdapter(mDrawerAdapter);
+        mDrawerLayout.setDrawerListener(this);
 
 //        final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 //        mRecyclerView.setLayoutManager(layoutManager);
@@ -91,13 +98,25 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnItemClick(R.id.drawer_list)
-    void setItem(int position) {
+    void setItem(final int position) {
+        mOpenMenuItemTask = new Runnable() {
+            @Override
+            public void run() {
+                Fragment fragment = getFragmentByPosition(position);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, fragment, "content_fragment")
+                        .commit();
+            }
+        };
         closeDrawer();
-        Fragment fragment = getFragmentByPosition(position);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment, "content_fragment")
-                .commit();
+    }
+
+    private void setCurrentMenuItem() {
+        if (mOpenMenuItemTask != null) {
+            mHandler.post(mOpenMenuItemTask);
+            mOpenMenuItemTask = null;
+        }
     }
 
     private static BaseMainFragment getFragmentByPosition(int position) {
@@ -120,6 +139,26 @@ public class MainActivity extends BaseActivity {
                 return new ContactUsFragment();
         }
         return null;
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        setCurrentMenuItem();
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 
 }

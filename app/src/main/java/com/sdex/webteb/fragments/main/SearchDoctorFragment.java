@@ -28,9 +28,10 @@ public class SearchDoctorFragment extends BaseMainFragment {
     @OnClick(R.id.button)
     public void searchDoctor(final View v){
         Fragment fragment = new SearchResultsFragment();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment, "content_fragment")
+                .add(R.id.fragment_container, fragment, "content_fragment")
+                .addToBackStack(null)
                 .commit();
     }
 
