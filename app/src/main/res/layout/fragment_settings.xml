@@ -157,7 +157,7 @@
             android:layout_toRightOf="@+id/my_profile"
             android:gravity="right"
             android:layout_centerVertical="true"
-            android:text="@string/newsletter" />
+            android:text="@string/my_profile" />
 
     </RelativeLayout>
 
