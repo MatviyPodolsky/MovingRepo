@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.dialogs.NotificationDialog;
 
 import butterknife.OnClick;
@@ -48,10 +49,14 @@ public class HomeFragment extends BaseMainFragment {
     }
 
     @OnClick(R.id.notification)
-    public void notification(final View v){
+     public void notification(final View v){
         DialogFragment dialog = new NotificationDialog();
         dialog.setTargetFragment(this, REQUEST_GET_NOTIFICATION);
         dialog.show(getFragmentManager(), null);
     }
 
+    @OnClick(R.id.share)
+    public void share(final View v){
+        ((MainActivity) getActivity()).publishFacebook("asd","dsa","qwer","http://www.iccup.com","http://cs7061.vk.me/c7006/v7006596/40f5b/L3hqYSMgZCM.jpg");
+    }
 }

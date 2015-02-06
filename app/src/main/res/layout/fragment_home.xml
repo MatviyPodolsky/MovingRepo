@@ -9,6 +9,14 @@
         android:background="@color/secondary_text"
         android:text="notification"/>
 
+    <Button
+        android:id="@+id/share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="share"
+        android:visibility="invisible"
+        android:layout_below="@+id/notification"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
