@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -23,6 +25,7 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
 import com.sdex.webteb.R;
+import com.sdex.webteb.adapters.SimpleAdapter;
 import com.sdex.webteb.fragments.main.AboutFragment;
 import com.sdex.webteb.fragments.main.AlbumFragment;
 import com.sdex.webteb.fragments.main.BaseMainFragment;
@@ -56,9 +59,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     Runnable mOpenMenuItemTask;
 
     private UiLifecycleHelper uiHelper;
-
-//    @InjectView(R.id.recyclerview)
-//    RecyclerView mRecyclerView;
+    @InjectView(R.id.recyclerview)
+    RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +79,12 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         mDrawerList.setAdapter(mDrawerAdapter);
         mDrawerLayout.setDrawerListener(this);
 
-//        final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        mRecyclerView.setLayoutManager(layoutManager);
-//        final SimpleAdapter adapter = new SimpleAdapter();
-//        adapter.setItemCount(30);
-//        mRecyclerView.setAdapter(adapter);
-//        layoutManager.scrollToPosition(5);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        final SimpleAdapter adapter = new SimpleAdapter();
+        adapter.setItemCount(30);
+        mRecyclerView.setAdapter(adapter);
+        layoutManager.scrollToPosition(13);
     }
 
     @Override
