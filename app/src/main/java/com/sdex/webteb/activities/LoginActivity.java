@@ -11,8 +11,7 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
-import com.sdex.webteb.rest.UserLoginResponse;
-import com.sdex.webteb.rest.request.LoginUserRequest;
+import com.sdex.webteb.rest.response.UserLoginResponse;
 
 import butterknife.InjectView;
 import butterknife.OnClick;

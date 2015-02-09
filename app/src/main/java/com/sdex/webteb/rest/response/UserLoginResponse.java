@@ -1,4 +1,4 @@
-package com.sdex.webteb.rest;
+package com.sdex.webteb.rest.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
