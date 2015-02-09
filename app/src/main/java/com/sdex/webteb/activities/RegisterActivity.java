@@ -7,12 +7,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.rest.RestCallback;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.RestError;
+import com.sdex.webteb.rest.request.RegisterUserRequest;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.client.Response;
 
 public class RegisterActivity extends BaseActivity {
-
 
     @InjectView(R.id.username) TextView mUsername;
     @InjectView(R.id.email) TextView mEmail;
@@ -42,11 +46,29 @@ public class RegisterActivity extends BaseActivity {
 
     @OnClick(R.id.register)
     public void register(final View v) {
-        if (!isValidData()) {
-            return;
-        }
-        v.setEnabled(false);
-        launchMainActivity();
+//        if (!isValidData()) {
+//            return;
+//        }
+
+        RegisterUserRequest request = new RegisterUserRequest();
+        request.email = mEmail.getText().toString();
+        request.password = mPassword.getText().toString();
+        request.confirmPassword = mPassword.getText().toString();
+
+        RestClient.getApiService().register(request, new RestCallback<String>() {
+            @Override
+            public void failure(RestError restError) {
+
+            }
+
+            @Override
+            public void success(String s, Response response) {
+                // start login
+            }
+        });
+
+//        v.setEnabled(false);
+//        launchMainActivity();
     }
 
     private boolean isValidData(){

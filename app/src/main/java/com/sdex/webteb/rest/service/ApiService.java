@@ -1,18 +1,25 @@
 package com.sdex.webteb.rest.service;
 
-import retrofit.Callback;
-import retrofit.http.GET;
-import retrofit.http.Query;
+import com.sdex.webteb.rest.RestCallback;
+import com.sdex.webteb.rest.UserLoginResponse;
+import com.sdex.webteb.rest.request.RegisterUserRequest;
+
+import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
+import retrofit.http.POST;
 
 /**
  * Created by Yuriy Mysochenko on 09.02.2015.
  */
 public interface ApiService {
 
-    @GET("/Login")
-    public void login(@Query("username") String username,@Query("password") String password, Callback<String> callback);
+    @POST("/Token")
+    @FormUrlEncoded
+    public void login(@Field("grant_type") String grantType, @Field("username") String username,
+                      @Field("password") String password, RestCallback<UserLoginResponse> callback);
 
-    @GET("/Register")
-    public void register(@Query("username") String username,@Query("password") String password, Callback<String> callback);
+    @POST("/Account/Register")
+    public void register(@Body RegisterUserRequest body, RestCallback<String> callback);
 
 }

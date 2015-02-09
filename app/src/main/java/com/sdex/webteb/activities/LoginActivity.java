@@ -2,14 +2,21 @@ package com.sdex.webteb.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.rest.RestCallback;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.RestError;
+import com.sdex.webteb.rest.UserLoginResponse;
+import com.sdex.webteb.rest.request.LoginUserRequest;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.client.Response;
 
 
 public class LoginActivity extends BaseActivity {
@@ -38,11 +45,34 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.login)
     public void login(final View v) {
-        if (!isValidData()) {
-            return;
-        }
-        v.setEnabled(false);
-        launchMainActivity();
+//        if (!isValidData()) {
+//            return;
+//        }
+//        v.setEnabled(false);
+//        launchMainActivity();
+
+//        {"ConfirmPassword":"rtE3u_6yy","Email":"hhh@ggg.com","Password":"rtE3u_6yy"}
+
+
+//        grant_type=password&username=alice%40example.com&password=Password1!
+
+        String username = "hhh@ggg.com";
+        String password = "rtE3u_6yy";
+
+        RestClient.getApiService().login("password",
+                username, password,
+                new RestCallback<UserLoginResponse>() {
+                    @Override
+                    public void failure(RestError restError) {
+
+                    }
+
+                    @Override
+                    public void success(UserLoginResponse s, Response response) {
+                        Log.d("Token", "" + s.getAccessToken());
+                    }
+                });
+
     }
 
     @OnClick(R.id.forgot_password)
