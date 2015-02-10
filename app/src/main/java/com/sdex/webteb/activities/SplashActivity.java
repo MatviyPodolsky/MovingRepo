@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.utils.PreferencesManager;
 
 public class SplashActivity extends BaseActivity {
 
@@ -22,6 +23,8 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        isLoggedIn = (PreferencesManager.getInstance().getAccessToken() != null);
 
         mHandler = new Handler();
 

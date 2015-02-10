@@ -5,6 +5,11 @@ package com.sdex.webteb.rest.model;
  */
 public class ApiResponse {
 
-    // {"Message":"The request is invalid.","ModelState":{"model.Password":["The Password must be at least 6 characters long."]}}
+//    {
+//        "Message": "The request is invalid.",
+//            "ModelState": {
+//        "model.Password": ["The Password must be at least 6 characters long."]
+//    }
+//    }
 
 }
