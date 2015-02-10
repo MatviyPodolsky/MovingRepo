@@ -12,6 +12,7 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.UserLoginResponse;
+import com.sdex.webteb.utils.PreferencesManager;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -44,11 +45,10 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.login)
     public void login(final View v) {
-//        if (!isValidData()) {
-//            return;
-//        }
-//        v.setEnabled(false);
-//        launchMainActivity();
+        if (!isValidData()) {
+            return;
+        }
+        v.setEnabled(false);
 
 //        {"ConfirmPassword":"rtE3u_6yy","Email":"hhh@ggg.com","Password":"rtE3u_6yy"}
 
@@ -56,19 +56,20 @@ public class LoginActivity extends BaseActivity {
 //        grant_type=password&username=alice%40example.com&password=Password1!
 
         String username = "hhh@ggg.com";
-        String password = "rtE3u_6yy";
+        String password = "r6yy";
 
         RestClient.getApiService().login("password",
                 username, password,
                 new RestCallback<UserLoginResponse>() {
                     @Override
                     public void failure(RestError restError) {
-
+                        v.setEnabled(true);
                     }
 
                     @Override
                     public void success(UserLoginResponse s, Response response) {
-                        Log.d("Token", "" + s.getAccessToken());
+                        PreferencesManager.getInstance().setAccessToken(s.getAccessToken());
+                        launchMainActivity();
                     }
                 });
 

@@ -1,15 +1,15 @@
 package com.sdex.webteb.rest.service;
 
-import com.sdex.webteb.rest.response.BabyHomeResponse;
-import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.RestCallback;
-import com.sdex.webteb.rest.response.UserInfoResponse;
-import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.rest.request.ChangePasswordRequest;
 import com.sdex.webteb.rest.request.RegisterUserRequest;
 import com.sdex.webteb.rest.request.RestorePasswordRequest;
 import com.sdex.webteb.rest.request.SetBabyProfileRequest;
 import com.sdex.webteb.rest.request.SetPasswordRequest;
+import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.rest.response.BabyProfileResponse;
+import com.sdex.webteb.rest.response.UserInfoResponse;
+import com.sdex.webteb.rest.response.UserLoginResponse;
 
 import retrofit.http.Body;
 import retrofit.http.Field;
