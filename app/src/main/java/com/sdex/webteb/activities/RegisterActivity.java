@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.rest.RestCallback;
@@ -18,9 +19,9 @@ import retrofit.client.Response;
 
 public class RegisterActivity extends BaseActivity {
 
-    @InjectView(R.id.username) TextView mUsername;
     @InjectView(R.id.email) TextView mEmail;
     @InjectView(R.id.password) TextView mPassword;
+    @InjectView(R.id.confirm_password) TextView mConfirmPassword;
     @InjectView(R.id.error_field) TextView mErrorField;
 
     @Override
@@ -46,24 +47,33 @@ public class RegisterActivity extends BaseActivity {
 
     @OnClick(R.id.register)
     public void register(final View v) {
-//        if (!isValidData()) {
-//            return;
-//        }
+        if (!isValidData()) {
+            return;
+        }
+        v.setEnabled(false);
 
         RegisterAccountRequest request = new RegisterAccountRequest();
         request.email = mEmail.getText().toString();
         request.password = mPassword.getText().toString();
-        request.confirmPassword = mPassword.getText().toString();
+        request.confirmPassword = mConfirmPassword.getText().toString();
 
         RestClient.getApiService().register(request, new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
-
+                v.setEnabled(true);
+                String text = "failure :(";
+                if(restError != null){
+                    text = "Error:" + restError.getStrMessage();
+                }
+                Toast.makeText(RegisterActivity.this, text, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void success(String s, Response response) {
-                // start login
+                Toast.makeText(RegisterActivity.this, "Register successful", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -73,23 +83,23 @@ public class RegisterActivity extends BaseActivity {
 
     private boolean isValidData(){
         boolean isValid = true;
-        if (mPassword.getText().length() < 4) {
+        if (mConfirmPassword.getText().length() < 4) {
             isValid = false;
-            mPassword.setError(getString(R.string.password_must_contain_at_least_4_characters));
+            mConfirmPassword.setError(getString(R.string.password_must_contain_at_least_4_characters));
+        } else {
+            mConfirmPassword.setError(null);
+        }
+        if (mPassword.getText().length() == 0) {
+            isValid = false;
+            mPassword.setError(getString(R.string.please_enter_email));
         } else {
             mPassword.setError(null);
         }
         if (mEmail.getText().length() == 0) {
             isValid = false;
-            mEmail.setError(getString(R.string.please_enter_email));
+            mEmail.setError(getString(R.string.please_enter_username));
         } else {
             mEmail.setError(null);
-        }
-        if (mUsername.getText().length() == 0) {
-            isValid = false;
-            mUsername.setError(getString(R.string.please_enter_username));
-        } else {
-            mUsername.setError(null);
         }
         return isValid;
     }

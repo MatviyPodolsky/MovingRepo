@@ -2,10 +2,10 @@ package com.sdex.webteb.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.rest.RestCallback;
@@ -55,8 +55,10 @@ public class LoginActivity extends BaseActivity {
 
 //        grant_type=password&username=alice%40example.com&password=Password1!
 
-        String username = "hhh@ggg.com";
-        String password = "r6yy";
+//        String username = "hhh@ggg.com";
+//        String password = "r6yy";
+        String username = mUsername.getText().toString();
+        String password = mPassword.getText().toString();
 
         RestClient.getApiService().login("password",
                 username, password,
@@ -64,6 +66,11 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void failure(RestError restError) {
                         v.setEnabled(true);
+                        String text = "failure :(";
+                        if(restError != null){
+                            text = "Error:" + restError.getStrMessage();
+                        }
+                        Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

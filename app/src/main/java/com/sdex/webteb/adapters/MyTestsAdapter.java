@@ -11,7 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.model.MyTest;
+import com.sdex.webteb.rest.response.BabyTestResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,8 @@ import butterknife.InjectView;
 public class MyTestsAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<MyTest> data = new ArrayList<>();
+    private List<BabyTestResponse> data = new ArrayList<>();
+    private List<Boolean> checked = new ArrayList<>();
     private LayoutInflater inflater;
 
     public MyTestsAdapter(Context context) {
@@ -33,10 +34,13 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         this.inflater = LayoutInflater.from(context);
     }
 
-    public void setItems(List<MyTest> newItems) {
+    public void setItems(List<BabyTestResponse> newItems) {
         data.clear();
         if (newItems != null) {
             data.addAll(newItems);
+            for (int i = 0; i < data.size(); i++) {
+                checked.add(false);
+            }
         }
         notifyDataSetChanged();
     }
@@ -87,10 +91,10 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
             holder = (ViewHolderGroup) convertView.getTag();
         }
 
-        MyTest item = (MyTest) getGroup(groupPosition);
-        holder.title.setText(item.getTitle());
-        holder.text.setText(item.getText());
-        holder.time.setText(item.getTime());
+        BabyTestResponse item = (BabyTestResponse) getGroup(groupPosition);
+        holder.title.setText(item.getContentPreview().getTitle());
+        holder.text.setText(item.getContentPreview().getDescription());
+        holder.time.setText("time");
 
         return convertView;
     }
@@ -106,9 +110,9 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (ViewHolderChild) convertView.getTag();
         }
-        MyTest item = (MyTest) getGroup(groupPosition);
+//        MyTest item = (MyTest) getGroup(groupPosition);
         holder.checkbox.setTag(groupPosition);
-        holder.checkbox.setChecked(item.isChecked());
+        holder.checkbox.setChecked(checked.get(groupPosition));
         return convertView;
     }
 
@@ -120,9 +124,10 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
     CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            MyTest item = (MyTest) getGroup((Integer) buttonView.getTag());
-            item.setChecked(isChecked);
-            data.set((Integer) buttonView.getTag(), item);
+//            boolean item = checked.get((Integer) buttonView.getTag());
+//            item.setChecked(isChecked);
+//            data.set((Integer) buttonView.getTag(), item);
+            checked.set((Integer) buttonView.getTag(), isChecked);
         }
     };
 
