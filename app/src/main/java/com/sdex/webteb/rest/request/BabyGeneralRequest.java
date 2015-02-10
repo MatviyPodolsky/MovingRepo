@@ -4,6 +4,11 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.sdex.webteb.rest.model.ApiRequest;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class BabyGeneralRequest extends ApiRequest {
 
     @SerializedName("WeeklyTips")
@@ -18,78 +23,5 @@ public class BabyGeneralRequest extends ApiRequest {
     @SerializedName("BackupMedia")
     @Expose
     private boolean backupMedia;
-
-    /**
-     *
-     * @return
-     * The WeeklyTips
-     */
-    public boolean isWeeklyTips() {
-        return weeklyTips;
-    }
-
-    /**
-     *
-     * @param WeeklyTips
-     * The WeeklyTips
-     */
-    public void setWeeklyTips(boolean WeeklyTips) {
-        this.weeklyTips = WeeklyTips;
-    }
-
-    /**
-     *
-     * @return
-     * The Newsletter
-     */
-    public boolean isNewsletter() {
-        return newsletter;
-    }
-
-    /**
-     *
-     * @param Newsletter
-     * The Newsletter
-     */
-    public void setNewsletter(boolean Newsletter) {
-        this.newsletter = Newsletter;
-    }
-
-    /**
-     *
-     * @return
-     * The TestReminder
-     */
-    public int getTestReminder() {
-        return testReminder;
-    }
-
-    /**
-     *
-     * @param TestReminder
-     * The TestReminder
-     */
-    public void setTestReminder(int TestReminder) {
-        this.testReminder = TestReminder;
-    }
-
-    /**
-     *
-     * @return
-     * The BackupMedia
-     */
-    public boolean isBackupMedia() {
-        return backupMedia;
-    }
-
-    /**
-     *
-     * @param BackupMedia
-     * The BackupMedia
-     */
-    public void setBackupMedia(boolean BackupMedia) {
-        this.backupMedia = BackupMedia;
-    }
-
 
 }

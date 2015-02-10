@@ -7,6 +7,11 @@ import com.sdex.webteb.rest.model.ApiRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class BabyGotbirthRequest extends ApiRequest {
 
     @SerializedName("Children")
@@ -16,43 +21,8 @@ public class BabyGotbirthRequest extends ApiRequest {
     @Expose
     private String birthDate;
 
-
-    /**
-     *
-     * @return
-     * The ActualBirthDate
-     */
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    /**
-     *
-     * @param BirthDate
-     * The ActualBirthDate
-     */
-    public void setActualBirthDate(String BirthDate) {
-        this.birthDate = BirthDate;
-    }
-
-    /**
-     *
-     * @return
-     * The Children
-     */
-    public List<Child> getChildren() {
-        return children;
-    }
-
-    /**
-     *
-     * @param Children
-     * The Children
-     */
-    public void setChildren(List<Child> Children) {
-        this.children = Children;
-    }
-
+    @Getter
+    @Setter
     public static class Child {
 
         @SerializedName("Name")
@@ -61,42 +31,6 @@ public class BabyGotbirthRequest extends ApiRequest {
         @SerializedName("Gender")
         @Expose
         private int gender;
-
-        /**
-         *
-         * @return
-         * The name
-         */
-        public String getName() {
-            return name;
-        }
-
-        /**
-         *
-         * @param Name
-         * The name
-         */
-        public void setName(String Name) {
-            this.name = Name;
-        }
-
-        /**
-         *
-         * @return
-         * The gender
-         */
-        public int getGender() {
-            return gender;
-        }
-
-        /**
-         *
-         * @param Gender
-         * The gender
-         */
-        public void setGender(int Gender) {
-            this.gender = Gender;
-        }
 
     }
 

@@ -7,6 +7,11 @@ import com.sdex.webteb.rest.model.ApiRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class BabyTestResponse extends ApiRequest {
 
     @SerializedName("ContentPreview")
@@ -19,60 +24,8 @@ public class BabyTestResponse extends ApiRequest {
     @Expose
     private List<RelatedPeriod> relatedPeriods = new ArrayList();
 
-    /**
-     *
-     * @return
-     * The ContentPreview
-     */
-    public ContentPreview getContentPreview() {
-        return contentPreview;
-    }
-
-    /**
-     *
-     * @param ContentPreview
-     * The ContentPreview
-     */
-    public void setContentPreview(ContentPreview ContentPreview) {
-        this.contentPreview = ContentPreview;
-    }
-
-    /**
-     *
-     * @return
-     * The UserTest
-     */
-    public UserTest getUserTest() {
-        return userTest;
-    }
-
-    /**
-     *
-     * @param UserTest
-     * The UserTest
-     */
-    public void setUserTest(UserTest UserTest) {
-        this.userTest = UserTest;
-    }
-
-    /**
-     *
-     * @return
-     * The RelatedPeriods
-     */
-    public List<RelatedPeriod> getRelatedPeriods() {
-        return relatedPeriods;
-    }
-
-    /**
-     *
-     * @param RelatedPeriods
-     * The RelatedPeriods
-     */
-    public void setRelatedPeriods(List<RelatedPeriod> RelatedPeriods) {
-        this.relatedPeriods = RelatedPeriods;
-    }
-
+    @Getter
+    @Setter
     public static class ContentPreview {
 
         @SerializedName("Title")
@@ -90,6 +43,8 @@ public class BabyTestResponse extends ApiRequest {
 
     }
 
+    @Getter
+    @Setter
     public static class Key {
 
         @SerializedName("ID")
@@ -104,6 +59,8 @@ public class BabyTestResponse extends ApiRequest {
 
     }
 
+    @Getter
+    @Setter
     public static class RelatedPeriod {
 
         @SerializedName("From")
@@ -115,6 +72,8 @@ public class BabyTestResponse extends ApiRequest {
 
     }
 
+    @Getter
+    @Setter
     public class UserTest {
 
         @SerializedName("TestId")

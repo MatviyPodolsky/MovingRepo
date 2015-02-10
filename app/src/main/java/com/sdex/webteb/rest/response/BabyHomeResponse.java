@@ -7,9 +7,15 @@ import com.sdex.webteb.rest.model.ApiResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by MPODOLSKY on 09.02.2015.
  */
+
+@Getter
+@Setter
 public class BabyHomeResponse extends ApiResponse {
 
     @SerializedName("Previews")
@@ -19,42 +25,8 @@ public class BabyHomeResponse extends ApiResponse {
     @Expose
     private List<AdditionalContent> additionalContent = new ArrayList();
 
-    /**
-     *
-     * @return
-     * The Previews
-     */
-    public List<Preview> getPreviews() {
-        return previews;
-    }
-
-    /**
-     *
-     * @param previews
-     * The Previews
-     */
-    public void setPreviews(List<Preview> previews) {
-        this.previews = previews;
-    }
-
-    /**
-     *
-     * @return
-     * The AdditionalContent
-     */
-    public List<AdditionalContent> getAdditionalContent() {
-        return additionalContent;
-    }
-
-    /**
-     *
-     * @param additionalContent
-     * The AdditionalContent
-     */
-    public void setAdditionalContent(List<AdditionalContent> additionalContent) {
-        this.additionalContent = additionalContent;
-    }
-
+    @Getter
+    @Setter
     public static class AdditionalContent {
 
         @SerializedName("Url")
@@ -72,6 +44,8 @@ public class BabyHomeResponse extends ApiResponse {
 
     }
 
+    @Getter
+    @Setter
     public static class Preview {
 
         @SerializedName("Title")
@@ -89,6 +63,8 @@ public class BabyHomeResponse extends ApiResponse {
 
     }
 
+    @Getter
+    @Setter
     public static class Key {
 
         @SerializedName("ID")
