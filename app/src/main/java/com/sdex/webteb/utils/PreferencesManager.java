@@ -10,9 +10,10 @@ import com.google.gson.Gson;
  */
 public class PreferencesManager {
 
-    private static final String PREF_NAME = "SETTINGS";
+    private static final String PREF_NAME = "settings";
 
     public static final String TOKEN = "token";
+    public static final String TOKEN_TYPE = "token_type";
 
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;
@@ -41,16 +42,6 @@ public class PreferencesManager {
         return mPref;
     }
 
-    public void setAccessToken(String token) {
-        mPref.edit()
-                .putString(TOKEN, token)
-                .commit();
-    }
-
-    public String getAccessToken() {
-        return mPref.getString(TOKEN, null);
-    }
-
     public void remove(String key) {
         mPref.edit()
                 .remove(key)
@@ -63,4 +54,28 @@ public class PreferencesManager {
                 .commit();
     }
 
+    public void setTokenData(String accessToken, String accessTokenType) {
+        setAccessToken(accessToken);
+        setAccessTokenType(accessTokenType);
+    }
+
+    private void setAccessToken(String token) {
+        mPref.edit()
+                .putString(TOKEN, token)
+                .commit();
+    }
+
+    public String getAccessToken() {
+        return mPref.getString(TOKEN, null);
+    }
+
+    private void setAccessTokenType(String accessTokenType) {
+        mPref.edit()
+                .putString(TOKEN_TYPE, accessTokenType)
+                .commit();
+    }
+
+    public String getAccessTokenType() {
+        return mPref.getString(TOKEN_TYPE, null);
+    }
 }
