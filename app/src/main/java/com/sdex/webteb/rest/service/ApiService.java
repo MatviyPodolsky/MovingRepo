@@ -1,21 +1,36 @@
 package com.sdex.webteb.rest.service;
 
-import com.sdex.webteb.rest.response.BabyHomeResponse;
-import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.RestCallback;
-import com.sdex.webteb.rest.response.UserInfoResponse;
-import com.sdex.webteb.rest.response.UserLoginResponse;
+import com.sdex.webteb.rest.request.BabyGeneralRequest;
+import com.sdex.webteb.rest.request.BabyGotbirthRequest;
+import com.sdex.webteb.rest.request.BabyProfileRequest;
+import com.sdex.webteb.rest.request.BabyReminderRequest;
+import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.request.ChangePasswordRequest;
 import com.sdex.webteb.rest.request.RegisterUserRequest;
 import com.sdex.webteb.rest.request.RestorePasswordRequest;
-import com.sdex.webteb.rest.request.SetBabyProfileRequest;
 import com.sdex.webteb.rest.request.SetPasswordRequest;
+import com.sdex.webteb.rest.response.BabyGeneralResponse;
+import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.rest.response.BabyProfileResponse;
+import com.sdex.webteb.rest.response.BabyTestResponse;
+import com.sdex.webteb.rest.response.UserInfoResponse;
+import com.sdex.webteb.rest.response.UserLoginResponse;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.util.List;
 
 import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.RestMethod;
+
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Created by Yuriy Mysochenko on 09.02.2015.
@@ -43,7 +58,10 @@ public interface ApiService {
     public void logout(RestCallback<String> callback);
 
     @POST("/baby/settings/profile")
-    public void setBabyProfile(@Body SetBabyProfileRequest body, RestCallback<String> callback);
+    public void setBabyProfile(@Body BabyProfileRequest body, RestCallback<String> callback);
+
+    @GET("/baby/settings/profile")
+    public void getBabyProfile(RestCallback<BabyProfileResponse> callback);
 
     @GET("/Account/UserInfo")
     public void getUserInfo(RestCallback<UserInfoResponse> callback);
@@ -51,7 +69,37 @@ public interface ApiService {
     @GET("/baby/home")
     public void getBabyHome(RestCallback<BabyHomeResponse> callback);
 
-    @GET("/baby/settings/profile")
-    public void getBabyProfile(RestCallback<BabyProfileResponse> callback);
+    @POST("/baby/settings/general")
+    public void setBabyGeneral(@Body BabyGeneralRequest body, RestCallback<String> callback);
+
+    @GET("/baby/settings/general")
+    public void getBabyGeneral(RestCallback<BabyGeneralResponse> callback);
+
+    @POST("/baby/settings/gotbirth")
+    public void setBabyGotbirth(@Body BabyGotbirthRequest body, RestCallback<String> callback);
+
+    @POST("/baby/tests/Reminder")
+    public void setBabyReminder(@Body BabyReminderRequest body, RestCallback<String> callback);
+
+    @DELETEWITHBODY("/baby/tests/Reminder")
+    public void deleteBabyReminder(@Body BabyReminderRequest body, RestCallback<String> callback);
+
+    @POST("/baby/tests/Done")
+    public void makeTestDone(@Body BabyTestDoneRequest body, RestCallback<String> callback);
+
+    @DELETEWITHBODY("/baby/tests/Done")
+    public void makeTestUndone(@Body BabyTestDoneRequest body, RestCallback<String> callback);
+
+    @GET("/baby/tests")
+    public void getBabyTests(RestCallback<List<BabyTestResponse>> callback);
+
+
+    @Documented
+    @Target(METHOD)
+    @Retention(RUNTIME)
+    @RestMethod(hasBody = true, value = "DELETE")
+    public @interface DELETEWITHBODY {
+        String value();
+    }
 
 }

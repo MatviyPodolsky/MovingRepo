@@ -7,7 +7,7 @@ import com.sdex.webteb.rest.model.ApiRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetBabyProfileRequest extends ApiRequest {
+public class BabyProfileRequest extends ApiRequest {
 
     @SerializedName("FamilyRelation")
     @Expose
