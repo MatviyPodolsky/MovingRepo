@@ -20,6 +20,14 @@
         android:divider="@color/divider"
         android:dividerHeight="1dp"
         android:childDivider="@android:color/transparent"
-        android:layout_below="@+id/title"></ExpandableListView>
+        android:layout_below="@+id/title"
+        android:visibility="gone"></ExpandableListView>
+
+    <TextView
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Wait..."/>
 
 </RelativeLayout>

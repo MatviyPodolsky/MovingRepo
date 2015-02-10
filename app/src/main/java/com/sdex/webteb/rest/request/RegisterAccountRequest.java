@@ -11,9 +11,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class RegisterUserRequest extends ApiRequest {
+public class RegisterAccountRequest extends ApiRequest {
 
-    @SerializedName("Uid")
-    public String uid;
+    @SerializedName("Email")
+    public String email;
+    @SerializedName("Password")
+    public String password;
+    @SerializedName("ConfirmPassword")
+    public String confirmPassword;
 
 }

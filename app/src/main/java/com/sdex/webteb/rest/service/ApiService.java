@@ -7,6 +7,7 @@ import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.request.BabyReminderRequest;
 import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.request.ChangePasswordRequest;
+import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.request.RegisterUserRequest;
 import com.sdex.webteb.rest.request.RestorePasswordRequest;
 import com.sdex.webteb.rest.request.SetPasswordRequest;
@@ -14,8 +15,11 @@ import com.sdex.webteb.rest.response.BabyGeneralResponse;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.BabyTestResponse;
+import com.sdex.webteb.rest.response.PromotedAppsResponse;
+import com.sdex.webteb.rest.response.UnreadEntitiesResponse;
 import com.sdex.webteb.rest.response.UserInfoResponse;
 import com.sdex.webteb.rest.response.UserLoginResponse;
+import com.sdex.webteb.rest.response.UserRetrieveResponse;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -27,6 +31,7 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 import retrofit.http.RestMethod;
 
 import static java.lang.annotation.ElementType.METHOD;
@@ -43,7 +48,7 @@ public interface ApiService {
                       @Field("password") String password, RestCallback<UserLoginResponse> callback);
 
     @POST("/Account/Register")
-    public void register(@Body RegisterUserRequest body, RestCallback<String> callback);
+    public void register(@Body RegisterAccountRequest body, RestCallback<String> callback);
 
     @POST("/Account/RegisterExternal")
     public void restorePassword(@Body RestorePasswordRequest body, RestCallback<String> callback);
@@ -92,6 +97,22 @@ public interface ApiService {
 
     @GET("/baby/tests")
     public void getBabyTests(RestCallback<List<BabyTestResponse>> callback);
+
+    @POST("/Users/Register")
+    public void makeTestDone(@Body RegisterUserRequest body, RestCallback<String> callback);
+
+    @GET("/Users/Retrieve?userId={userId}")
+    public void retrieveUser(@Path("userId") String userId, RestCallback<UserRetrieveResponse> callback);
+
+    @GET("/Users/UnreadEntities?userId={userId}")
+    public void getUnreadEntities(@Path("userId") String userId, RestCallback<List<UnreadEntitiesResponse>> callback);
+
+    @GET("/Users/GetUrl?EntityType={EntityType}&EntityID={EntityID}")
+    public void getUnreadEntities(@Path("EntityType") String entityType, @Path("EntityID") String entityID, RestCallback<String> callback);
+
+    @GET("/GetPromotedApps")
+    public void getPromotedApps(RestCallback<PromotedAppsResponse> callback);
+
 
 
     @Documented

@@ -10,7 +10,7 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
-import com.sdex.webteb.rest.request.RegisterUserRequest;
+import com.sdex.webteb.rest.request.RegisterAccountRequest;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -50,7 +50,7 @@ public class RegisterActivity extends BaseActivity {
 //            return;
 //        }
 
-        RegisterUserRequest request = new RegisterUserRequest();
+        RegisterAccountRequest request = new RegisterAccountRequest();
         request.email = mEmail.getText().toString();
         request.password = mPassword.getText().toString();
         request.confirmPassword = mPassword.getText().toString();

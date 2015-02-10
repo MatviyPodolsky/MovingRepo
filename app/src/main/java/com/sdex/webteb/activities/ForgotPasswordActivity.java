@@ -8,9 +8,7 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
-import com.sdex.webteb.rest.request.BabyGotbirthRequest;
 import com.sdex.webteb.rest.request.RestorePasswordRequest;
-import com.sdex.webteb.rest.response.UserLoginResponse;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -39,8 +37,6 @@ public class ForgotPasswordActivity extends BaseActivity {
         RestorePasswordRequest request = new RestorePasswordRequest();
         request.email = mEmail.getText().toString();
 
-        UserLoginResponse response = new UserLoginResponse();
-        BabyGotbirthRequest request1 = new BabyGotbirthRequest();
         RestClient.getApiService().restorePassword(request, new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
@@ -51,5 +47,18 @@ public class ForgotPasswordActivity extends BaseActivity {
                 //TODO
             }
         });
+
+//        RestClient.getApiService().getPromotedApps(new RestCallback<PromotedAppsResponse>() {
+//            @Override
+//            public void failure(RestError restError) {
+//                Log.d("test", "failure");
+//            }
+//
+//            @Override
+//            public void success(PromotedAppsResponse s, Response response) {
+//                //TODO
+//                Log.d("test", "success");
+//            }
+//        });
     }
 }
