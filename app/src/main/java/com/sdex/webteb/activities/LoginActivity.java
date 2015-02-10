@@ -68,7 +68,8 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void success(UserLoginResponse s, Response response) {
-                        PreferencesManager.getInstance().setAccessToken(s.getAccessToken());
+                        final PreferencesManager preferencesManager = PreferencesManager.getInstance();
+                        preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
                         launchMainActivity();
                     }
                 });
