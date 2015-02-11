@@ -21,9 +21,6 @@ import com.sdex.webteb.rest.response.UserInfoResponse;
 import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.rest.response.UserRetrieveResponse;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
 import java.util.List;
 
 import retrofit.http.Body;
@@ -32,10 +29,6 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
-import retrofit.http.RestMethod;
-
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Created by Yuriy Mysochenko on 09.02.2015.
@@ -112,15 +105,5 @@ public interface ApiService {
 
     @GET("/GetPromotedApps")
     public void getPromotedApps(RestCallback<PromotedAppsResponse> callback);
-
-
-
-    @Documented
-    @Target(METHOD)
-    @Retention(RUNTIME)
-    @RestMethod(hasBody = true, value = "DELETE")
-    public @interface DELETEWITHBODY {
-        String value();
-    }
 
 }
