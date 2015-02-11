@@ -5,7 +5,7 @@ package com.sdex.webteb.model;
  */
 public class Child {
     private String name;
-    private boolean isMale;
+    private int gender;
 
     public Child() {
     }
@@ -18,11 +18,13 @@ public class Child {
         this.name = name;
     }
 
-    public boolean isMale() {
-        return isMale;
+    public int getGender() {
+        return gender;
     }
 
-    public void setMale(boolean isMale) {
-        this.isMale = isMale;
+    public void setGender(int gender) {
+        this.gender = gender;
     }
+
+    public boolean isMale() {return (gender == 0); }
 }

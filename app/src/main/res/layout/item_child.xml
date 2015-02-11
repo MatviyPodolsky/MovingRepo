@@ -10,6 +10,8 @@
         android:layout_height="match_parent"
         android:hint="@string/type_child_name"
         android:gravity="right|center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:imeOptions="actionDone"
         android:background="@drawable/edit_text_without_border"
         android:singleLine="true"

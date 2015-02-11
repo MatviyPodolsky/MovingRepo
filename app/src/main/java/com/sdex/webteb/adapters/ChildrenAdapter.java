@@ -1,6 +1,8 @@
 package com.sdex.webteb.adapters;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,8 @@ import butterknife.InjectView;
 public class ChildrenAdapter extends ArrayAdapter<Child> {
 
     private static final int RESOURCE = R.layout.item_child;
+    public static final int MALE = 0;
+    public static final int FEMALE = 1;
 
     private LayoutInflater inflater;
 
@@ -29,11 +33,12 @@ public class ChildrenAdapter extends ArrayAdapter<Child> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(RESOURCE, parent, false);
             holder = new ViewHolder(convertView);
+            holder.name.addTextChangedListener(new NameWatcher(convertView));
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -41,6 +46,7 @@ public class ChildrenAdapter extends ArrayAdapter<Child> {
 
         final Child item = getItem(position);
 
+        holder.name.setTag(item);
         holder.name.setText(item.getName());
         holder.gender.setTag(position);
         holder.gender.setChecked(item.isMale());
@@ -48,12 +54,32 @@ public class ChildrenAdapter extends ArrayAdapter<Child> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Child child = getItem((Integer) buttonView.getTag());
-                child.setMale(isChecked);
+                child.setGender(isChecked ? FEMALE : MALE);
             }
         });
 
-
         return convertView;
+    }
+
+    public class NameWatcher implements TextWatcher {
+
+        private View view;
+        @InjectView(R.id.name)
+        EditText name;
+        private NameWatcher(View view) {
+            this.view = view;
+            ButterKnife.inject(this, view);
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+        public void afterTextChanged(Editable s) {
+            Child child = (Child) name.getTag();
+            child.setName(s.toString());
+            return;
+        }
     }
 
     static class ViewHolder {
