@@ -42,6 +42,7 @@
             android:layout_marginTop="50dp"
             android:hint="@string/email"
             android:singleLine="true"
+            android:inputType="textEmailAddress"
             android:textColor="@color/primary"
             android:imeOptions="actionNext"
             android:textColorHint="@color/hint" />
