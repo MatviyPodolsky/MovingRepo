@@ -138,7 +138,6 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
         RestClient.getApiService().setBabyProfile(request, new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
-                int a = 0;
             }
 
             @Override
