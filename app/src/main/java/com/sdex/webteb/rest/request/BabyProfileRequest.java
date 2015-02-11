@@ -2,6 +2,7 @@ package com.sdex.webteb.rest.request;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.sdex.webteb.model.Child;
 import com.sdex.webteb.rest.model.ApiRequest;
 
 import java.util.ArrayList;
@@ -29,19 +30,5 @@ public class BabyProfileRequest extends ApiRequest {
     @SerializedName("Children")
     @Expose
     private List<Child> children = new ArrayList<Child>();
-
-    @Getter
-    @Setter
-    public static class Child {
-
-        @SerializedName("Name")
-        @Expose
-        private String name;
-        @SerializedName("Gender")
-        @Expose
-        private int gender;
-
-    }
-
 
 }
