@@ -13,6 +13,7 @@ import com.sdex.webteb.rest.request.RestorePasswordRequest;
 import com.sdex.webteb.rest.request.SetPasswordRequest;
 import com.sdex.webteb.rest.response.BabyGeneralResponse;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.rest.response.BabyLookupResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.rest.response.PromotedAppsResponse;
@@ -105,5 +106,8 @@ public interface ApiService {
 
     @GET("/GetPromotedApps")
     public void getPromotedApps(RestCallback<PromotedAppsResponse> callback);
+
+    @GET("/lookups/specialties/baby")
+    public void getBabyLookups(RestCallback<List<BabyLookupResponse>> callback);
 
 }

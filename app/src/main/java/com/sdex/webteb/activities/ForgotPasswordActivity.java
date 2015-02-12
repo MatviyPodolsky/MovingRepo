@@ -48,14 +48,14 @@ public class ForgotPasswordActivity extends BaseActivity {
             }
         });
 
-//        RestClient.getApiService().getPromotedApps(new RestCallback<PromotedAppsResponse>() {
+//        RestClient.getApiService().getBabyLookups(new RestCallback<List<BabyLookupResponse>>() {
 //            @Override
 //            public void failure(RestError restError) {
 //                Log.d("test", "failure");
 //            }
 //
 //            @Override
-//            public void success(PromotedAppsResponse s, Response response) {
+//            public void success(List<BabyLookupResponse> resp, Response response) {
 //                //TODO
 //                Log.d("test", "success");
 //            }
