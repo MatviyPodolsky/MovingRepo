@@ -56,4 +56,5 @@ dependencies {
     compile 'com.squareup.okio:okio:1.0.1'
     compile 'com.google.code.gson:gson:2.3'
     compile 'org.parceler:parceler:0.2.15'
+    compile 'com.sothree.slidinguppanel:library:3.0.0'
 }

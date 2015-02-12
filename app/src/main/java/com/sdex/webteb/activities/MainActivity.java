@@ -12,8 +12,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,6 +38,8 @@ import com.sdex.webteb.fragments.main.MoreArticlesFragment;
 import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
+import com.sdex.webteb.utils.DisplayUtil;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +66,10 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     private UiLifecycleHelper uiHelper;
     @InjectView(R.id.recyclerview)
     RecyclerView mRecyclerView;
+    @InjectView(R.id.sliding_layout)
+    SlidingUpPanelLayout mSlidingUpPanelLayout;
+    @InjectView(R.id.drag_view)
+    FrameLayout mDragView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +94,42 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         adapter.setItemCount(30);
         mRecyclerView.setAdapter(adapter);
         layoutManager.scrollToPosition(13);
+
+        mSlidingUpPanelLayout.setOverlayed(true);
+        mSlidingUpPanelLayout.setCoveredFadeColor(0x00000000);
+
+        int panelHeight = DisplayUtil.getScreenHeight(this) - 200;
+        ViewGroup.LayoutParams layoutParams = mDragView.getLayoutParams();
+        layoutParams.height = panelHeight;
+        mDragView.requestLayout();
+
+        mSlidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View view, float slideOffset) {
+                float alpha = 0.5f + slideOffset / 2;
+                mDragView.setAlpha(alpha);
+            }
+
+            @Override
+            public void onPanelCollapsed(View view) {
+
+            }
+
+            @Override
+            public void onPanelExpanded(View view) {
+
+            }
+
+            @Override
+            public void onPanelAnchored(View view) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View view) {
+
+            }
+        });
     }
 
     @Override

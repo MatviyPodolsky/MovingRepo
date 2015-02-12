@@ -25,6 +25,7 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         isLoggedIn = (PreferencesManager.getInstance().getAccessToken() != null);
+        completeSetup = true;
 
         mHandler = new Handler();
 
