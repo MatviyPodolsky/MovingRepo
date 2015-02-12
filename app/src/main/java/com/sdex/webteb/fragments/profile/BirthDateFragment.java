@@ -13,6 +13,10 @@ import com.sdex.webteb.activities.SetupProfileActivity;
 import com.sdex.webteb.dialogs.DatePickerFragmentDialog;
 import com.sdex.webteb.fragments.BaseFragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -54,6 +58,10 @@ public class BirthDateFragment extends BaseFragment {
                     int day = data.getIntExtra(DatePickerFragmentDialog.EXTRA_DAY, -1);
                     if(year >=0 && month>=0 && day>=0) {
                         mDate.setText(year + " " + month + " " + day);
+                        Calendar date = new GregorianCalendar(year,month,day,0,0);
+                        SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+                        String dt = outFormat.format(date.getTime());
+                        ((SetupProfileActivity)getActivity()).setBirthDate(dt);
                     }
                     break;
             }

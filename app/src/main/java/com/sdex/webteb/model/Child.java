@@ -1,11 +1,18 @@
 package com.sdex.webteb.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by MPODOLSKY on 03.02.2015.
  */
 public class Child {
+    @SerializedName("Name")
+    @Expose
     private String name;
-    private boolean isMale;
+    @SerializedName("Gender")
+    @Expose
+    private int gender;
 
     public Child() {
     }
@@ -18,11 +25,13 @@ public class Child {
         this.name = name;
     }
 
-    public boolean isMale() {
-        return isMale;
+    public int getGender() {
+        return gender;
     }
 
-    public void setMale(boolean isMale) {
-        this.isMale = isMale;
+    public void setGender(int gender) {
+        this.gender = gender;
     }
+
+    public boolean isMale() {return (gender == 0); }
 }

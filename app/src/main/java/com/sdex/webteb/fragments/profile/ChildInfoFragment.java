@@ -28,7 +28,8 @@ public class ChildInfoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAdapter = new ChildrenAdapter(getActivity(), new ArrayList<Child>());
+        mAdapter = new ChildrenAdapter(getActivity());
+        mAdapter.setItems(new ArrayList<Child>());
         mList.setAdapter(mAdapter);
     }
 
@@ -39,14 +40,16 @@ public class ChildInfoFragment extends BaseFragment {
 
     @OnClick(R.id.add)
     public void addChild(){
-        mAdapter.add(new Child());
+//        mAdapter.add(new Child());
+        mAdapter.addChild(new Child());
         mAdapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.done)
-    public void launchMainActivity() {
+    public void done() {
         if(getActivity() instanceof SetupProfileActivity){
-            ((SetupProfileActivity) getActivity()).launchMainActivity();
+            ((SetupProfileActivity) getActivity()).setChildren(mAdapter.getChildren());
+            ((SetupProfileActivity) getActivity()).sendRequest();
         }
     }
 }

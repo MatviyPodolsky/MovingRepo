@@ -45,6 +45,8 @@ public class FamilyRelationFragment extends BaseFragment {
                 case REQUEST_GET_RELATION:
                     String extra = data.getStringExtra(FamilyRelationDialog.EXTRA_RELATION);
                     relation.setText(extra);
+                    ((SetupProfileActivity)getActivity()).setFamilyRelation(
+                            data.getIntExtra(FamilyRelationDialog.EXTRA_POSITION, 0));
                     break;
             }
         }

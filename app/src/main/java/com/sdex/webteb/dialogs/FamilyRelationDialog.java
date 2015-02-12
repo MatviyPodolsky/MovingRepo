@@ -17,6 +17,7 @@ import com.sdex.webteb.fragments.profile.FamilyRelationFragment;
 public class FamilyRelationDialog extends DialogFragment {
 
     public static final String EXTRA_RELATION = "EXTRA_RELATION";
+    public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class FamilyRelationDialog extends DialogFragment {
             public void onClick(DialogInterface dialog, int index) {
                 Intent intent = getActivity().getIntent();
                 intent.putExtra(EXTRA_RELATION, values[index]);
+                intent.putExtra(EXTRA_POSITION, index);
                 getTargetFragment().onActivityResult(FamilyRelationFragment.REQUEST_GET_RELATION, Activity.RESULT_OK, intent);
                 getDialog().hide();
             }
