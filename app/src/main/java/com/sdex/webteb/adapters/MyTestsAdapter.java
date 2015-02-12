@@ -11,6 +11,10 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.rest.RestCallback;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.RestError;
+import com.sdex.webteb.rest.request.BabyReminderRequest;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 
 import java.util.ArrayList;
@@ -18,6 +22,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit.client.Response;
 
 /**
  * Created by MPODOLSKY on 04.02.2015.
@@ -95,6 +100,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         holder.title.setText(item.getContentPreview().getTitle());
         holder.text.setText(item.getContentPreview().getDescription());
         holder.time.setText("time");
+        refreshStatus(data.get(groupPosition).getUserTest(), holder);
 
         return convertView;
     }
@@ -110,7 +116,23 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (ViewHolderChild) convertView.getTag();
         }
-//        MyTest item = (MyTest) getGroup(groupPosition);
+
+        holder.addReminder.setTag(data.get(groupPosition));
+        holder.addReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeReminder(data.get(groupPosition), holder, groupPosition);
+            }
+        });
+        holder.doneTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeTestStatus(data.get(groupPosition), holder, groupPosition);
+            }
+        });
+
+        refreshButtons(data.get(groupPosition).getUserTest(), holder);
+
         holder.checkbox.setTag(groupPosition);
         holder.checkbox.setChecked(checked.get(groupPosition));
         return convertView;
@@ -124,12 +146,124 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
     CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//            boolean item = checked.get((Integer) buttonView.getTag());
-//            item.setChecked(isChecked);
-//            data.set((Integer) buttonView.getTag(), item);
             checked.set((Integer) buttonView.getTag(), isChecked);
         }
     };
+
+    private void refreshStatus(final BabyTestResponse.UserTest test, final ViewHolderGroup holder) {
+        if(test != null) {
+            if(test.isReminderStatus()){
+                holder.reminder.setVisibility(View.VISIBLE);
+            } else{
+                holder.reminder.setVisibility(View.GONE);
+            }
+            if(test.isTestDone()){
+                holder.done.setVisibility(View.VISIBLE);
+            } else{
+                holder.done.setVisibility(View.GONE);
+            }
+        } else {
+            holder.reminder.setVisibility(View.GONE);
+            holder.done.setVisibility(View.GONE);
+        }
+    }
+
+    private void refreshButtons(final BabyTestResponse.UserTest test, final ViewHolderChild holder) {
+        if(test != null && test.isReminderStatus()) {
+            holder.addReminder.setText(context.getString(R.string.delete_reminder));
+        } else {
+            holder.addReminder.setText(context.getString(R.string.add_reminder));
+        }
+
+        if(test != null && test.isTestDone()) {
+            holder.doneTest.setText(context.getString(R.string.undone_test));
+        } else {
+            holder.doneTest.setText(context.getString(R.string.done_test));
+        }
+    }
+    private void changeReminder(final BabyTestResponse item, final ViewHolderChild holder, final int position) {
+        BabyReminderRequest request = new BabyReminderRequest();
+        request.setTestId(item.getContentPreview().getKey().getId());
+        if(item.getUserTest() != null && item.getUserTest().isReminderStatus()) {
+            RestClient.getApiService().deleteBabyReminder(request, new RestCallback<String>() {
+                @Override
+                public void failure(RestError restError) {
+                }
+
+                @Override
+                public void success(String s, Response response) {
+                    BabyTestResponse.UserTest test = item.getUserTest();
+                    test.setReminderStatus(false);
+                    item.setUserTest(test);
+                    data.set(position, item);
+                    notifyDataSetChanged();
+                }
+            });
+        } else {
+            RestClient.getApiService().setBabyReminder(request, new RestCallback<String>() {
+                @Override
+                public void failure(RestError restError) {
+                }
+
+                @Override
+                public void success(String s, Response response) {
+                    BabyTestResponse.UserTest test;
+                    if(item.getUserTest() == null) {
+                        test = new BabyTestResponse.UserTest();
+                        test.setTestId(item.getContentPreview().getKey().getId());
+                    } else {
+                        test = item.getUserTest();
+                    }
+                    test.setReminderStatus(true);
+                    item.setUserTest(test);
+                    data.set(position, item);
+                    notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    private void changeTestStatus(final BabyTestResponse item, final ViewHolderChild holder, final int position) {
+        BabyReminderRequest request = new BabyReminderRequest();
+        request.setTestId(item.getContentPreview().getKey().getId());
+        if(item.getUserTest() != null && item.getUserTest().isTestDone()) {
+            RestClient.getApiService().deleteBabyReminder(request, new RestCallback<String>() {
+                @Override
+                public void failure(RestError restError) {
+                }
+
+                @Override
+                public void success(String s, Response response) {
+                    BabyTestResponse.UserTest test = item.getUserTest();
+                    test.setTestDone(false);
+                    item.setUserTest(test);
+                    data.set(position, item);
+                    notifyDataSetChanged();
+                }
+            });
+        } else {
+            RestClient.getApiService().setBabyReminder(request, new RestCallback<String>() {
+                @Override
+                public void failure(RestError restError) {
+                }
+
+                @Override
+                public void success(String s, Response response) {
+                    BabyTestResponse.UserTest test;
+                    if(item.getUserTest() == null) {
+                        test = new BabyTestResponse.UserTest();
+                        test.setTestId(item.getContentPreview().getKey().getId());
+                    } else {
+                        test = item.getUserTest();
+                    }
+                    test.setTestDone(true);
+                    item.setUserTest(test);
+                    data.set(position, item);
+                    notifyDataSetChanged();
+                }
+            });
+        }
+    }
 
     static class ViewHolderGroup {
         @InjectView(R.id.title)
@@ -138,6 +272,10 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         TextView text;
         @InjectView(R.id.time)
         TextView time;
+        @InjectView(R.id.reminder)
+        TextView reminder;
+        @InjectView(R.id.done)
+        TextView done;
 
         public ViewHolderGroup(View view) {
             ButterKnife.inject(this, view);
@@ -151,6 +289,8 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         Button searchDoctor;
         @InjectView(R.id.add_reminder)
         Button addReminder;
+        @InjectView(R.id.done_test)
+        Button doneTest;
         @InjectView(R.id.checkbox)
         CheckBox checkbox;
 

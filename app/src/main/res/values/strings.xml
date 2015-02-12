@@ -51,6 +51,10 @@
     <string name="read_more">Read more</string>
     <string name="search_doctor">Search doctor</string>
     <string name="add_reminder">Add reminder</string>
+    <string name="delete_reminder">Delete reminder</string>
+    <string name="done_test">Done test</string>
+    <string name="undone_test">Undone test</string>
+    <string name="reminder">Reminder</string>
 
     <!--settings-->
     <string name="weekly_tips_notifications">Weekly tips notifications</string>
