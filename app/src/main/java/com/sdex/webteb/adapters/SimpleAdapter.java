@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.view.TimeControllerItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +72,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
     @Override
     public void onBindViewHolder(VerticalItemHolder itemHolder, int position) {
         Item item = mItems.get(position);
-
         itemHolder.setValue(item.value);
+        itemHolder.setSelected(item.isSelected);
     }
 
     @Override
@@ -94,6 +95,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
     public static class Item {
 
         public String value;
+        public boolean isSelected;
 
         public Item(String value) {
             this.value = value;
@@ -121,8 +123,17 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
             mAdapter.onItemHolderClick(this);
         }
 
-        public void setValue(CharSequence value) {
+        public void setValue(String value) {
             mValue.setText(value);
+        }
+
+        public void setSelected(boolean selected) {
+            //mValue.setSelected(selected);
+            if (selected) {
+                mValue.setBackgroundResource(R.drawable.ic_footer_nbr_selected);
+            } else {
+                mValue.setBackgroundResource(R.drawable.ic_footer_nbr_normal);
+            }
         }
 
     }
@@ -133,6 +144,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
         for (int i = 0; i < count; i++) {
             items.add(new SimpleAdapter.Item(String.valueOf(i)));
         }
+
+        items.get(13).isSelected = true;
 
         return items;
     }

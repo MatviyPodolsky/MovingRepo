@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid
+        android:color="#fff"/>
+
+    <size
+        android:width="@dimen/time_navigation_controller_size"
+        android:height="@dimen/time_navigation_controller_size"/>
+</shape>

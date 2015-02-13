@@ -6,9 +6,10 @@
     tools:context="com.sdex.datadoctor.activities.SplashActivity">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/imageView2"
-        android:background="@mipmap/ic_launcher"
+        android:scaleType="fitXY"
+        android:background="@drawable/webteb_splashscreen"
         android:layout_gravity="center" />
 </FrameLayout>
