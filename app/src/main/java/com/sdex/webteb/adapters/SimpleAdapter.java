@@ -1,5 +1,6 @@
 package com.sdex.webteb.adapters;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -131,8 +132,10 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
             //mValue.setSelected(selected);
             if (selected) {
                 mValue.setBackgroundResource(R.drawable.ic_footer_nbr_selected);
+                mValue.setTextColor(Color.BLACK);
             } else {
                 mValue.setBackgroundResource(R.drawable.ic_footer_nbr_normal);
+                mValue.setTextColor(Color.WHITE);
             }
         }
 
