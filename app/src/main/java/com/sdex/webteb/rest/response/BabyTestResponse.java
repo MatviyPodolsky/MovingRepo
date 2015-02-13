@@ -74,7 +74,7 @@ public class BabyTestResponse extends ApiRequest {
 
     @Getter
     @Setter
-    public class UserTest {
+    public static class UserTest {
 
         @SerializedName("TestId")
         @Expose
