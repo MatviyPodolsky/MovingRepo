@@ -88,7 +88,7 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.activity_welcom;
+        return R.layout.activity_welcome;
     }
 
     @Override

@@ -2,6 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <include
+        layout="@layout/profile_card" />
+
     <Button
         android:id="@+id/notification"
         android:layout_width="match_parent"
@@ -17,14 +20,5 @@
         android:text="share"
         android:visibility="invisible"
         android:layout_below="@+id/notification"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Home"
-        android:id="@+id/textView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

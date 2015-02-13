@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -38,6 +41,7 @@ import com.sdex.webteb.fragments.main.MoreArticlesFragment;
 import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
+import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -98,10 +102,21 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         mSlidingUpPanelLayout.setOverlayed(true);
         mSlidingUpPanelLayout.setCoveredFadeColor(0x00000000);
 
-        int panelHeight = DisplayUtil.getScreenHeight(this) - 300;
-        ViewGroup.LayoutParams layoutParams = mDragView.getLayoutParams();
-        layoutParams.height = panelHeight;
-        mDragView.requestLayout();
+        mDrawerLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int height = mDrawerLayout.getMeasuredHeight();
+                int panelHeight = height - DisplayUtil.dpToPx(120);
+                ViewGroup.LayoutParams layoutParams = mDragView.getLayoutParams();
+                layoutParams.height = panelHeight;
+                mDragView.requestLayout();
+                if (CompatibilityUtil.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mDrawerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    mDrawerLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+            }
+        });
 
         mSlidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override

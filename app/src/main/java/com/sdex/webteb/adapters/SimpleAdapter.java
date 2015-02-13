@@ -105,7 +105,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
     public static class VerticalItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TimeControllerItem mValue;
+        private TextView mValue;
 
         private SimpleAdapter mAdapter;
 
@@ -115,7 +115,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
             mAdapter = adapter;
 
-            mValue = (TimeControllerItem) itemView.findViewById(R.id.value);
+            mValue = (TextView) itemView.findViewById(R.id.value);
         }
 
         @Override
@@ -124,11 +124,16 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
         }
 
         public void setValue(String value) {
-            mValue.setValue(value);
+            mValue.setText(value);
         }
 
         public void setSelected(boolean selected) {
-            mValue.setSelected(selected);
+            //mValue.setSelected(selected);
+            if (selected) {
+                mValue.setBackgroundResource(R.drawable.ic_footer_nbr_selected);
+            } else {
+                mValue.setBackgroundResource(R.drawable.ic_footer_nbr_normal);
+            }
         }
 
     }

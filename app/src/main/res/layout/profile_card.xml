@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:padding="10dp"
+    android:background="@drawable/bg_photo_top">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+    <com.sdex.webteb.view.SquareImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentRight="true"
         android:src="@mipmap/ic_launcher"
         android:id="@+id/avatar" />
@@ -17,7 +19,7 @@
         android:id="@+id/username"
         android:layout_alignParentTop="true"
         android:textSize="18sp"
-        android:layout_toLeftOf="@+id/avatar"/>
+        android:layout_toLeftOf="@+id/avatar" />
 
     <TextView
         android:layout_width="wrap_content"

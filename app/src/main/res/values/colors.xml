@@ -1,6 +1,5 @@
 <resources>
 
-    <color name="primary">#000000</color>
     <color name="secondary_text">#848484</color>
     <color name="selected_text">#00FF00</color>
     <color name="hint">#AAAAAA</color>
@@ -8,5 +7,8 @@
     <color name="default_background">#FFFFFF</color>
     <color name="action_bar_text_color">#000000</color>
     <color name="divider">#AAAAAA</color>
+
+    <color name="primary">#EC1561</color>
+    <color name="primary_dark">#C5115B</color>
 
 </resources>
