@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.view.TimeControllerItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +72,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
     @Override
     public void onBindViewHolder(VerticalItemHolder itemHolder, int position) {
         Item item = mItems.get(position);
-
         itemHolder.setValue(item.value);
+        itemHolder.setSelected(item.isSelected);
     }
 
     @Override
@@ -94,6 +95,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
     public static class Item {
 
         public String value;
+        public boolean isSelected;
 
         public Item(String value) {
             this.value = value;
@@ -103,7 +105,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
     public static class VerticalItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView mValue;
+        private TimeControllerItem mValue;
 
         private SimpleAdapter mAdapter;
 
@@ -113,7 +115,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
             mAdapter = adapter;
 
-            mValue = (TextView) itemView.findViewById(R.id.value);
+            mValue = (TimeControllerItem) itemView.findViewById(R.id.value);
         }
 
         @Override
@@ -121,8 +123,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
             mAdapter.onItemHolderClick(this);
         }
 
-        public void setValue(CharSequence value) {
-            mValue.setText(value);
+        public void setValue(String value) {
+            mValue.setValue(value);
+        }
+
+        public void setSelected(boolean selected) {
+            mValue.setSelected(selected);
         }
 
     }
@@ -133,6 +139,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
         for (int i = 0; i < count; i++) {
             items.add(new SimpleAdapter.Item(String.valueOf(i)));
         }
+
+        items.get(13).isSelected = true;
 
         return items;
     }

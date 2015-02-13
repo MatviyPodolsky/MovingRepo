@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         mSlidingUpPanelLayout.setOverlayed(true);
         mSlidingUpPanelLayout.setCoveredFadeColor(0x00000000);
 
-        int panelHeight = DisplayUtil.getScreenHeight(this) - 200;
+        int panelHeight = DisplayUtil.getScreenHeight(this) - 300;
         ViewGroup.LayoutParams layoutParams = mDragView.getLayoutParams();
         layoutParams.height = panelHeight;
         mDragView.requestLayout();
