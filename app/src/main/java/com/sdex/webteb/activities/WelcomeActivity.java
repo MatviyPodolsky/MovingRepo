@@ -21,7 +21,7 @@ import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TutorialPageAdapter;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
-import com.viewpagerindicator.CirclePageIndicator;
+import com.viewpagerindicator.IconPageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
 import java.util.Arrays;
@@ -42,7 +42,7 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
     @InjectView(R.id.pager)
     ViewPager mPager;
     @InjectView(R.id.indicator)
-    CirclePageIndicator mIndicator;
+    IconPageIndicator mIndicator;
     @InjectView(R.id.authButton)
     LoginButton loginButton;
     @InjectView(R.id.info)

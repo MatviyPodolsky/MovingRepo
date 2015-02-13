@@ -49,6 +49,7 @@
     </LinearLayout>
 
     <com.facebook.widget.LoginButton
+        xmlns:fb="http://schemas.android.com/apk/res-auto"
         android:id="@+id/authButton"
         android:layout_above="@+id/ll_buttons"
         android:layout_centerHorizontal="true"
@@ -58,7 +59,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="10dp"
+        fb:login_text="Facebook تسجيل الدخول"/>
 
     <TextView
         android:id="@+id/info"
@@ -68,13 +70,14 @@
         android:textColor="@color/primary"
         android:textSize="20sp"/>
 
-    <com.viewpagerindicator.CirclePageIndicator
+    <!--app:fillColor="#000000"-->
+    <!--app:pageColor="#FFFFFF"-->
+    <!--app:radius="5dp"-->
+    <!--app:strokeColor="#000000"-->
+    <!--app:strokeWidth="1dp"-->
+    <com.viewpagerindicator.IconPageIndicator
         android:id="@+id/indicator"
-        app:fillColor="#000000"
-        app:pageColor="#FFFFFF"
-        app:radius="5dp"
-        app:strokeColor="#000000"
-        app:strokeWidth="1dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00000000"

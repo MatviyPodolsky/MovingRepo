@@ -99,11 +99,9 @@ public class ChildrenAdapter extends BaseAdapter {
 
     public class NameWatcher implements TextWatcher {
 
-        private View view;
         @InjectView(R.id.name)
         EditText name;
         private NameWatcher(View view) {
-            this.view = view;
             ButterKnife.inject(this, view);
         }
 

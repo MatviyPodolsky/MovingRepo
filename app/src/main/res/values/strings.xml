@@ -81,6 +81,10 @@
         <item>Contact us</item>
     </string-array>
 
+    <!--welcome-->
+    <string name="welcome_text">Test text to test data display on the screen of the mobile device</string>
+    <string name="welcome_subtext">Test subtext to test data display on the screen of the mobile device</string>
+
     <!--requests-->
     <string name="error_loading_data">Error loading data</string>
 

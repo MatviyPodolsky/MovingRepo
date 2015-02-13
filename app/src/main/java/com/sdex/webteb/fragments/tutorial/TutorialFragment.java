@@ -13,6 +13,8 @@ import butterknife.InjectView;
 
 public class TutorialFragment extends BaseFragment {
 
+    @InjectView(R.id.root)
+    RelativeLayout root;
     @InjectView(R.id.content)
     RelativeLayout content;
 
@@ -30,16 +32,17 @@ public class TutorialFragment extends BaseFragment {
 
         switch (getArguments().getInt("position")) {
             case 0:
-                content.setBackgroundResource(R.drawable.webteb_welcome_1);
+                root.setBackgroundResource(R.drawable.webteb_welcome_1);
                 break;
             case 1:
-                content.setBackgroundResource(R.drawable.webteb_welcome_2);
+                root.setBackgroundResource(R.drawable.webteb_welcome_2);
+                content.setVisibility(View.VISIBLE);
                 break;
             case 2:
-                content.setBackgroundResource(R.drawable.webteb_welcome_1);
+                root.setBackgroundResource(R.drawable.webteb_welcome_1);
                 break;
             case 3:
-                content.setBackgroundResource(R.drawable.webteb_welcome_2);
+                root.setBackgroundResource(R.drawable.webteb_welcome_2);
                 break;
         }
 
