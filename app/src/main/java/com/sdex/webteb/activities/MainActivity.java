@@ -43,6 +43,7 @@ import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
+import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
@@ -83,21 +84,16 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         uiHelper.onCreate(savedInstanceState);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        setItem(0);
-        setCurrentMenuItem();
-
-        final String[] menuItems = getResources().getStringArray(R.array.menu_items);
-        ArrayAdapter<String> mDrawerAdapter = new ArrayAdapter<>(MainActivity.this,
-                android.R.layout.simple_list_item_1, menuItems);
-        mDrawerList.setAdapter(mDrawerAdapter);
-        mDrawerLayout.setDrawerListener(this);
+        initSideMenu();
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         final SimpleAdapter adapter = new SimpleAdapter();
         adapter.setItemCount(30);
         mRecyclerView.setAdapter(adapter);
-        layoutManager.scrollToPosition(13);
+
+        int offset = getTimeNavigationControllerItemOffset();
+        layoutManager.scrollToPositionWithOffset(13, offset);
 
         mSlidingUpPanelLayout.setOverlayed(true);
         mSlidingUpPanelLayout.setCoveredFadeColor(0x00000000);
@@ -105,8 +101,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         mDrawerLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                int height = mDrawerLayout.getMeasuredHeight();
-                int panelHeight = height - DisplayUtil.dpToPx(120);
+                int panelHeight = getSlidingPanelHeight();
                 ViewGroup.LayoutParams layoutParams = mDragView.getLayoutParams();
                 layoutParams.height = panelHeight;
                 mDragView.requestLayout();
@@ -118,33 +113,36 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             }
         });
 
-        mSlidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+        mSlidingUpPanelLayout.setPanelSlideListener(new SlideListenerAdapter() {
             @Override
             public void onPanelSlide(View view, float slideOffset) {
                 float alpha = 0.5f + slideOffset / 2;
                 mDragView.setAlpha(alpha);
             }
-
-            @Override
-            public void onPanelCollapsed(View view) {
-
-            }
-
-            @Override
-            public void onPanelExpanded(View view) {
-
-            }
-
-            @Override
-            public void onPanelAnchored(View view) {
-
-            }
-
-            @Override
-            public void onPanelHidden(View view) {
-
-            }
         });
+    }
+
+    private void initSideMenu() {
+        setItem(0);
+        setCurrentMenuItem();
+
+        final String[] menuItems = getResources().getStringArray(R.array.menu_items);
+        ArrayAdapter<String> mDrawerAdapter = new ArrayAdapter<>(MainActivity.this,
+                android.R.layout.simple_list_item_1, menuItems);
+        mDrawerList.setAdapter(mDrawerAdapter);
+        mDrawerLayout.setDrawerListener(this);
+    }
+
+    private int getSlidingPanelHeight() {
+        int windowHeight = mDrawerLayout.getMeasuredHeight();
+        int profileHeight = getResources().getDimensionPixelSize(R.dimen.profile_height);
+        return windowHeight - profileHeight;
+    }
+
+    private int getTimeNavigationControllerItemOffset() {
+        int itemPadding = getResources().getDimensionPixelSize(R.dimen.time_navigation_controller_item_padding);
+        int itemSize = getResources().getDimensionPixelSize(R.dimen.time_navigation_controller_item_size);
+        return (DisplayUtil.getScreenWidth(this) - (2 * itemPadding + itemSize)) / 2;
     }
 
     @Override

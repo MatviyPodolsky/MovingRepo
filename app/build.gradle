@@ -21,13 +21,38 @@ android {
         versionCode VERSION_CODE
         versionName VERSION_NAME
     }
+
+    signingConfigs {
+
+        debug {
+            storeFile file("keys/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+
+        release {
+            storeFile file("keys/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+
+    }
+
     buildTypes {
         debug {
+            signingConfig signingConfigs.debug
+            debuggable true
             minifyEnabled false
+            shrinkResources false
             project.archivesBaseName = APK_NAME + "-" + VERSION_NAME;
         }
         release {
+            signingConfig signingConfigs.release
+            debuggable false
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
