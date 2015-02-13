@@ -105,8 +105,9 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         mDrawerLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                int height = mDrawerLayout.getMeasuredHeight();
-                int panelHeight = height - DisplayUtil.dpToPx(120);
+                int windowHeight = mDrawerLayout.getMeasuredHeight();
+                int profileHeight = getResources().getDimensionPixelSize(R.dimen.profile_height);
+                int panelHeight = windowHeight - profileHeight;
                 ViewGroup.LayoutParams layoutParams = mDragView.getLayoutParams();
                 layoutParams.height = panelHeight;
                 mDragView.requestLayout();
