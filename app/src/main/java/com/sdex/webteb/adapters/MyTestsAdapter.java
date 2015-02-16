@@ -15,6 +15,7 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyReminderRequest;
+import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 
 import java.util.ArrayList;
@@ -224,10 +225,10 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
     }
 
     private void changeTestStatus(final BabyTestResponse item, final ViewHolderChild holder, final int position) {
-        BabyReminderRequest request = new BabyReminderRequest();
+        BabyTestDoneRequest request = new BabyTestDoneRequest();
         request.setTestId(item.getContentPreview().getKey().getId());
         if(item.getUserTest() != null && item.getUserTest().isTestDone()) {
-            RestClient.getApiService().deleteBabyReminder(request, new RestCallback<String>() {
+            RestClient.getApiService().makeTestUndone(request, new RestCallback<String>() {
                 @Override
                 public void failure(RestError restError) {
                 }
@@ -242,7 +243,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                 }
             });
         } else {
-            RestClient.getApiService().setBabyReminder(request, new RestCallback<String>() {
+            RestClient.getApiService().makeTestDone(request, new RestCallback<String>() {
                 @Override
                 public void failure(RestError restError) {
                 }

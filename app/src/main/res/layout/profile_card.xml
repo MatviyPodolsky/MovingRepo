@@ -115,7 +115,7 @@
         android:layout_height="10dp"
         android:id="@+id/progressBar"
         android:progress="80"
-        android:layout_alignParentBottom="true" />
+        android:layout_below="@id/linearLayout" />
 
 
 </RelativeLayout>

@@ -40,6 +40,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:hint="@string/username"
+            android:inputType="textEmailAddress"
             android:singleLine="true"
             android:imeOptions="actionNext"
             android:textColor="@color/primary"

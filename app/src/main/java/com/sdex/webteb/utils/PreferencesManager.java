@@ -15,6 +15,8 @@ public class PreferencesManager {
     public static final String TOKEN = "token";
     public static final String TOKEN_TYPE = "token_type";
 
+    public static final String COMPLETE_SETUP = "complete_setup";
+
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;
 
@@ -77,5 +79,15 @@ public class PreferencesManager {
 
     public String getAccessTokenType() {
         return mPref.getString(TOKEN_TYPE, null);
+    }
+
+    public void setCompleteSetup(boolean isComplete){
+        mPref.edit()
+                .putBoolean(COMPLETE_SETUP, isComplete)
+                .commit();
+    }
+
+    public boolean isCompleteSetup() {
+        return mPref.getBoolean(COMPLETE_SETUP, false);
     }
 }

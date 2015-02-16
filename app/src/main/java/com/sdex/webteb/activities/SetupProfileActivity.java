@@ -14,6 +14,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.response.UserInfoResponse;
+import com.sdex.webteb.utils.PreferencesManager;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
@@ -142,6 +143,7 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
 
             @Override
             public void success(String s, Response response) {
+                PreferencesManager.getInstance().setCompleteSetup(true);
                 Intent intent = new Intent(SetupProfileActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

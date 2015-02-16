@@ -50,13 +50,6 @@ public class LoginActivity extends BaseActivity {
         }
         v.setEnabled(false);
 
-//        {"ConfirmPassword":"rtE3u_6yy","Email":"hhh@ggg.com","Password":"rtE3u_6yy"}
-
-
-//        grant_type=password&username=alice%40example.com&password=Password1!
-
-//        String username = "hhh@ggg.com";
-//        String password = "r6yy";
         String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();
 
@@ -107,7 +100,12 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void launchMainActivity() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent;
+        if(PreferencesManager.getInstance().isCompleteSetup()) {
+            intent = new Intent(LoginActivity.this, MainActivity.class);
+        } else {
+            intent = new Intent(LoginActivity.this, SetupProfileActivity.class);
+        }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

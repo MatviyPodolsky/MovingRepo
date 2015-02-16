@@ -25,6 +25,7 @@ import com.sdex.webteb.rest.response.UserRetrieveResponse;
 import java.util.List;
 
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -61,6 +62,9 @@ public interface ApiService {
 
     @GET("/baby/settings/profile")
     public void getBabyProfile(RestCallback<BabyProfileResponse> callback);
+
+    @DELETE("/baby/settings")
+    public void deleteSettings(RestCallback<String> callback);
 
     @GET("/Account/UserInfo")
     public void getUserInfo(RestCallback<UserInfoResponse> callback);
