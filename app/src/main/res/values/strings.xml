@@ -13,7 +13,7 @@
     <string name="confirm_password">Confirm password</string>
     <string name="sign_up">Sign up</string>
     <string name="login_with_facebook">Login with facebook</string>
-    <string name="forgot_password">Forgot password</string>
+    <string name="forgot_password"><u>Forgot password</u></string>
     <string name="type_your_email_here">Type your email here</string>
     <string name="restore_password">Restore password</string>
     <string name="create_your_profile">Create your profile</string>
@@ -24,6 +24,8 @@
     <string name="please_enter_username">Please enter your username</string>
     <string name="please_enter_email">Please enter your email</string>
     <string name="password_must_contain_at_least_4_characters">Password must contain at least 4 characters</string>
+    <string name="link_text"><u>link text</u></string>
+    <string name="text"> text </string>
 
     <!--profile card-->
     <string name="next">Next</string>
@@ -91,6 +93,6 @@
     <string name="test_text">Text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text </string>
-    <string name="facebook_app_id">869915516366538</string>
+    <string name="facebook_app_id">326836307523571</string>
 
 </resources>

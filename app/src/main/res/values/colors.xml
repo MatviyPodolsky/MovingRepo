@@ -2,10 +2,12 @@
 
     <color name="secondary_text">#848484</color>
     <color name="selected_text">#00FF00</color>
+    <color name="link">#03A9F5</color>
+    <color name="button_text">#FFFFFF</color>
     <color name="hint">#AAAAAA</color>
     <color name="error">#FF0000</color>
     <color name="default_background">#FFFFFF</color>
-    <color name="action_bar_text_color">#000000</color>
+    <color name="action_bar_text_color">#FFFFFF</color>
     <color name="divider">#AAAAAA</color>
 
     <color name="primary">#EC1561</color>

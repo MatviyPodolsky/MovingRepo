@@ -9,14 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.facebook.Request;
-import com.facebook.RequestBatch;
-import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.facebook.model.GraphObject;
-import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TutorialPageAdapter;
@@ -41,7 +36,7 @@ import butterknife.OnClick;
  */
 public class WelcomeActivity extends BaseActivity implements PageIndicator {
 
-    private static final String TAG = "WelcomActivity";
+    private static final String TAG = "WelcomeActivity";
 
     private TutorialPageAdapter mAdapter;
     private UiLifecycleHelper uiHelper;
@@ -165,24 +160,23 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         if (state.isOpened()) {
             Log.i(TAG, "Logged in...");
-            RequestBatch requestBatch = new RequestBatch();
-            requestBatch.add(new Request(Session.getActiveSession(),
-                    "me", null, null, new Request.Callback() {
-                public void onCompleted(Response response) {
-                    GraphObject graphObject = response.getGraphObject();
-                    String s = "";
-                    if (graphObject != null) {
-                        if (graphObject.getProperty("id") != null) {
-                            s = String.format("%s: %s",
-                                    graphObject.getProperty("id"),
-                                    graphObject.getProperty("name"));
-                        }
-                    }
-                    userInfoTextView.setText(s);
-                }
-            }));
+//            RequestBatch requestBatch = new RequestBatch();
+//            requestBatch.add(new Request(Session.getActiveSession(),
+//                    "me", null, null, new Request.Callback() {
+//                public void onCompleted(Response response) {
+//                    GraphObject graphObject = response.getGraphObject();
+//                    String s = "";
+//                    if (graphObject != null) {
+//                        if (graphObject.getProperty("id") != null) {
+//                            s = String.format("%s: %s",
+//                                    graphObject.getProperty("id"),
+//                                    graphObject.getProperty("name"));
+//                        }
+//                    }
+//                    userInfoTextView.setText(s);
+//                }
+//            }));
 //            requestBatch.executeAsync();
-//            userInfoTextView.setText(session.getAccessToken());
             FacebookLoginRequest request = new FacebookLoginRequest();
             request.setToken(session.getAccessToken());
 
@@ -238,33 +232,6 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
             return session;
         }
         return null;
-    }
-
-    private String buildUserInfoDisplay(GraphUser user) {
-        StringBuilder userInfo = new StringBuilder("");
-
-        // Example: typed access (name)
-        // - no special permissions required
-        userInfo.append(String.format("Name: %s\n\n",
-                user.getName()));
-
-        // Example: typed access (birthday)
-        // - requires user_birthday permission
-        userInfo.append(String.format("Birthday: %s\n\n",
-                user.getBirthday()));
-
-        // Example: partially typed access, to location field,
-        // name key (location)
-        // - requires user_location permission
-//        userInfo.append(String.format("Location: %s\n\n",
-//                user.getLocation().getProperty("name")));
-
-        // Example: access via property name (locale)
-        // - no special permissions required
-        userInfo.append(String.format("Locale: %s\n\n",
-                user.getProperty("locale")));
-
-        return userInfo.toString();
     }
 
     private void launchMainActivity() {
