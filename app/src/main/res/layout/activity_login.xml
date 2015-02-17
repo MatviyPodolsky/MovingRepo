@@ -40,11 +40,11 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="4dp"
-            android:textSize="13sp"
             android:hint="@string/username"
+            android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:singleLine="true"
-            android:imeOptions="actionNext" />
+            android:textSize="13sp" />
 
         <EditText
             android:id="@+id/password"
@@ -54,13 +54,13 @@
             android:layout_below="@+id/username"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:textSize="13sp"
             android:ems="10"
             android:hint="@string/password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:textColor="@color/primary"
-            android:textColorHint="@color/hint" />
+            android:textColorHint="@color/hint"
+            android:textSize="13sp" />
 
         <Button
             android:id="@+id/login"
@@ -68,87 +68,86 @@
             android:layout_height="39dp"
             android:layout_below="@+id/password"
             android:layout_centerHorizontal="true"
-            android:textSize="13sp"
-            android:textColor="@color/button_text"
             android:layout_marginTop="7dp"
             android:background="@drawable/btn_blue"
-            android:text="@string/login" />
+            android:text="@string/login"
+            android:textColor="@color/button_text"
+            android:textSize="13sp" />
 
-        <com.facebook.widget.LoginButton
-            xmlns:fb="http://schemas.android.com/apk/res-auto"
+        <com.facebook.widget.LoginButton xmlns:fb="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/auth_button"
             style="@style/FacebookLoginButton"
-            android:id="@+id/authButton"
-            android:layout_below="@+id/login"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="7dp"
             android:layout_width="match_parent"
             android:layout_height="39dp"
+            android:layout_below="@+id/login"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            fb:login_text="Facebook تسجيل الدخول"/>
+            android:layout_marginTop="7dp"
+            fb:login_text="Facebook تسجيل الدخول" />
 
 
         <TextView
             android:id="@+id/forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/authButton"
-            android:textColor="@android:color/black"
+            android:layout_below="@+id/auth_button"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="118dp"
             android:text="@string/forgot_password"
-            android:layout_marginTop="118dp" />
+            android:textColor="@android:color/black" />
 
         <RelativeLayout
             android:id="@+id/terms_of_usage_container"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
 
             <TextView
                 android:id="@+id/text"
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/small_text"
+                android:layout_centerHorizontal="true"
+                android:text="@string/text"
                 android:textColor="@android:color/black"
-                android:text="@string/text"/>
+                android:textSize="@dimen/small_text" />
 
             <LinearLayout
-                android:layout_below="@+id/text"
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/text"
+                android:layout_centerHorizontal="true"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/link1"
-                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/small_text"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/link_text"
                     android:textColor="@color/link"
-                    android:text="@string/link_text"/>
+                    android:textSize="@dimen/small_text" />
 
                 <TextView
-                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/small_text"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/text"
                     android:textColor="@android:color/black"
-                    android:text="@string/text"/>
+                    android:textSize="@dimen/small_text" />
 
                 <TextView
                     android:id="@+id/link2"
-                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/small_text"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/link_text"
                     android:textColor="@color/link"
-                    android:text="@string/link_text"/>
+                    android:textSize="@dimen/small_text" />
 
-                </LinearLayout>
+            </LinearLayout>
 
-            </RelativeLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

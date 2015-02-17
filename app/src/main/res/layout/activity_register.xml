@@ -31,90 +31,148 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:padding="25dp">
+        android:padding="9dp">
 
         <EditText
             android:id="@+id/email"
+            style="@style/AppTheme.EditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="4dp"
             android:hint="@string/email"
-            android:singleLine="true"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/primary"
             android:imeOptions="actionNext"
-            android:textColorHint="@color/hint" />
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:textSize="13sp" />
 
         <EditText
             android:id="@+id/password"
+            style="@style/AppTheme.EditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_below="@+id/email"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:hint="@string/password"
+            android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:singleLine="true"
-            android:textColor="@color/primary"
-            android:imeOptions="actionNext"
-            android:textColorHint="@color/hint" />
+            android:textSize="13sp" />
 
         <EditText
             android:id="@+id/confirm_password"
+            style="@style/AppTheme.EditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_below="@+id/password"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="@string/confirm_password"
-            android:singleLine="true"
-            android:inputType="textPassword"
-            android:textColor="@color/primary"
             android:imeOptions="actionDone"
-            android:textColorHint="@color/hint" />
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textSize="13sp" />
 
         <Button
             android:id="@+id/register"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="39dp"
             android:layout_below="@+id/confirm_password"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/sign_up" />
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_blue"
+            android:text="@string/sign_up"
+            android:textSize="13sp" />
 
-        <Button
-            android:id="@+id/login_facebook"
+        <com.facebook.widget.LoginButton xmlns:fb="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/auth_button"
+            style="@style/FacebookLoginButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="39dp"
             android:layout_below="@+id/register"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="@string/login_with_facebook" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="52dp"
+            fb:login_text="Facebook تسجيل الدخول" />
 
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/login_facebook"
+            android:layout_below="@+id/auth_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="68dp"
             android:background="@android:color/transparent"
             android:checked="true"
             android:switchPadding="10sp"
             android:text="@string/agree_to_newsletter"
-            android:textColor="@color/primary" />
+            android:textColor="@color/primary"
+            android:textOff=""
+            android:textOn="" />
 
         <TextView
             android:id="@+id/error_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/login_facebook"
+            android:layout_below="@+id/auth_button"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:visibility="gone" />
 
+        <RelativeLayout
+            android:id="@+id/terms_of_usage_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/text"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/small_text" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/link1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/link_text"
+                    android:textColor="@color/link"
+                    android:textSize="@dimen/small_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/text"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/small_text" />
+
+                <TextView
+                    android:id="@+id/link2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/link_text"
+                    android:textColor="@color/link"
+                    android:textSize="@dimen/small_text" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

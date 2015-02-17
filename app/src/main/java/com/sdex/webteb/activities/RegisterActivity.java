@@ -2,16 +2,25 @@ package com.sdex.webteb.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
 import com.sdex.webteb.R;
+import com.sdex.webteb.dialogs.TermsOfServiceDialog;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
+import com.sdex.webteb.rest.request.FacebookLoginRequest;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
+import com.sdex.webteb.rest.response.UserLoginResponse;
+import com.sdex.webteb.utils.PreferencesManager;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -19,14 +28,19 @@ import retrofit.client.Response;
 
 public class RegisterActivity extends BaseActivity {
 
+    private static final String TAG = "RegisterActivity";
+
     @InjectView(R.id.email) TextView mEmail;
     @InjectView(R.id.password) TextView mPassword;
     @InjectView(R.id.confirm_password) TextView mConfirmPassword;
-    @InjectView(R.id.error_field) TextView mErrorField;
+    private UiLifecycleHelper uiHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        uiHelper = new UiLifecycleHelper(this, callback);
+        uiHelper.onCreate(savedInstanceState);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -39,10 +53,46 @@ public class RegisterActivity extends BaseActivity {
         return R.layout.activity_register;
     }
 
-    @OnClick(R.id.login_facebook)
-    public void loginWithFb(final View v) {
-        v.setEnabled(false);
-        launchMainActivity();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        uiHelper.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        uiHelper.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        uiHelper.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        uiHelper.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+    }
+
+    @OnClick(R.id.link1)
+    public void showTOC(final View v) {
+        DialogFragment newFragment = TermsOfServiceDialog.newInstance();
+        newFragment.show(getSupportFragmentManager(), null);
+    }
+
+    @OnClick(R.id.link2)
+    public void showTOS(final View v) {
+        DialogFragment newFragment = TermsOfServiceDialog.newInstance();
+        newFragment.show(getSupportFragmentManager(), null);
     }
 
     @OnClick(R.id.register)
@@ -109,5 +159,36 @@ public class RegisterActivity extends BaseActivity {
         startActivity(intent);
         finish();
     }
+
+    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+        if (state.isOpened()) {
+            Log.i(TAG, "Logged in...");
+            FacebookLoginRequest request = new FacebookLoginRequest();
+            request.setToken(session.getAccessToken());
+
+            RestClient.getApiService().facebookLogin(request, new RestCallback<UserLoginResponse>() {
+                @Override
+                public void failure(RestError restError) {
+                }
+
+                @Override
+                public void success(UserLoginResponse s, retrofit.client.Response response) {
+                    //TODO
+                    final PreferencesManager preferencesManager = PreferencesManager.getInstance();
+                    preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
+                    launchMainActivity();
+                }
+            });
+        } else if (state.isClosed()) {
+            Log.i(TAG, "Logged out...");
+        }
+    }
+
+    private Session.StatusCallback callback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            onSessionStateChange(session, state, exception);
+        }
+    };
 
 }

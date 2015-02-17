@@ -44,7 +44,7 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
     ViewPager mPager;
     @InjectView(R.id.indicator)
     IconPageIndicator mIndicator;
-    @InjectView(R.id.authButton)
+    @InjectView(R.id.auth_button)
     LoginButton loginButton;
     @InjectView(R.id.info)
     TextView userInfoTextView;
