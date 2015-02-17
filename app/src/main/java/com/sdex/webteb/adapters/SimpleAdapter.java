@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.view.TimeControllerItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,7 @@ import java.util.List;
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalItemHolder> {
 
     private ArrayList<Item> mItems;
+    private int selectedItem = 13;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
@@ -74,7 +74,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
     public void onBindViewHolder(VerticalItemHolder itemHolder, int position) {
         Item item = mItems.get(position);
         itemHolder.setValue(item.value);
-        itemHolder.setSelected(item.isSelected);
+//        itemHolder.setSelected(item.isSelected);
+        itemHolder.setSelected(position == selectedItem);
     }
 
     @Override
@@ -152,4 +153,19 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
         return items;
     }
+
+    public void setSelectedItem(int selectedItem) {
+        this.selectedItem = selectedItem;
+        notifyDataSetChanged();
+    }
+
+//    public void makeItemSelected(int selectedItem) {
+//        Item item = mItems.get(this.selectedItem);
+//        item.isSelected = false;
+//        mItems.set(this.selectedItem, item);
+//        Item item1 = mItems.get(selectedItem);
+//        item1.isSelected = true;
+//        mItems.set(selectedItem, item1);
+//        notifyDataSetChanged();
+//    }
 }

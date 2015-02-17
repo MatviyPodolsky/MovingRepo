@@ -7,6 +7,7 @@ import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.request.BabyReminderRequest;
 import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.request.ChangePasswordRequest;
+import com.sdex.webteb.rest.request.FacebookLoginRequest;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.request.RegisterUserRequest;
 import com.sdex.webteb.rest.request.RestorePasswordRequest;
@@ -41,6 +42,9 @@ public interface ApiService {
     @FormUrlEncoded
     public void login(@Field("grant_type") String grantType, @Field("username") String username,
                       @Field("password") String password, RestCallback<UserLoginResponse> callback);
+
+    @POST("/Account/FacebookLogin")
+    public void facebookLogin(@Body FacebookLoginRequest body, RestCallback<UserLoginResponse> callback);
 
     @POST("/Account/Register")
     public void register(@Body RegisterAccountRequest body, RestCallback<String> callback);

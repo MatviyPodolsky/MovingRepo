@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,11 +12,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -43,6 +41,7 @@ import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
+import com.sdex.webteb.view.CenteredRecyclerView;
 import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -70,7 +69,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     private UiLifecycleHelper uiHelper;
     @InjectView(R.id.recyclerview)
-    RecyclerView mRecyclerView;
+    CenteredRecyclerView mRecyclerView;
     @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout mSlidingUpPanelLayout;
     @InjectView(R.id.drag_view)
@@ -90,7 +89,25 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         mRecyclerView.setLayoutManager(layoutManager);
         final SimpleAdapter adapter = new SimpleAdapter();
         adapter.setItemCount(30);
+        adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LinearLayoutManager layoutManager = ((LinearLayoutManager)mRecyclerView.getLayoutManager());
+                int offset = getTimeNavigationControllerItemOffset();
+                layoutManager.scrollToPositionWithOffset(position, offset);
+                adapter.setSelectedItem(position);
+            }
+        });
         mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setOnItemCenteredListener(new CenteredRecyclerView.OnItemCenteredListener() {
+            @Override
+            public void onItemCentered(View v) {
+                LinearLayoutManager layoutManager = ((LinearLayoutManager)mRecyclerView.getLayoutManager());
+                int offset = getTimeNavigationControllerItemOffset();
+                layoutManager.scrollToPositionWithOffset(mRecyclerView.getChildPosition(v), offset);
+                adapter.setSelectedItem(mRecyclerView.getChildPosition(v));
+            }
+        });
 
         int offset = getTimeNavigationControllerItemOffset();
         layoutManager.scrollToPositionWithOffset(13, offset);

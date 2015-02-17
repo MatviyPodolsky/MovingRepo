@@ -21,6 +21,12 @@ import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TutorialPageAdapter;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
+import com.sdex.webteb.rest.RestCallback;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.RestError;
+import com.sdex.webteb.rest.request.FacebookLoginRequest;
+import com.sdex.webteb.rest.response.UserLoginResponse;
+import com.sdex.webteb.utils.PreferencesManager;
 import com.viewpagerindicator.IconPageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
@@ -175,7 +181,25 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
                     userInfoTextView.setText(s);
                 }
             }));
-            requestBatch.executeAsync();
+//            requestBatch.executeAsync();
+//            userInfoTextView.setText(session.getAccessToken());
+            FacebookLoginRequest request = new FacebookLoginRequest();
+            request.setToken(session.getAccessToken());
+
+            RestClient.getApiService().facebookLogin(request, new RestCallback<UserLoginResponse>() {
+                @Override
+                public void failure(RestError restError) {
+                }
+
+                @Override
+                public void success(UserLoginResponse s, retrofit.client.Response response) {
+                    //TODO
+                    final PreferencesManager preferencesManager = PreferencesManager.getInstance();
+                    preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
+                    launchMainActivity();
+                }
+            });
+//            session.getAccessToken();
         } else if (state.isClosed()) {
             Log.i(TAG, "Logged out...");
             userInfoTextView.setText("");
@@ -241,5 +265,17 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
                 user.getProperty("locale")));
 
         return userInfo.toString();
+    }
+
+    private void launchMainActivity() {
+        Intent intent;
+        if(PreferencesManager.getInstance().isCompleteSetup()) {
+            intent = new Intent(WelcomeActivity.this, MainActivity.class);
+        } else {
+            intent = new Intent(WelcomeActivity.this, SetupProfileActivity.class);
+        }
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
