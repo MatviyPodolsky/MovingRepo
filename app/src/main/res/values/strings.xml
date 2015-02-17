@@ -48,6 +48,8 @@
     <string name="click_to_select_date">Click to select date...</string>
     <string name="type_child_name">Type child name...</string>
     <string name="add_child">Add child</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 
     <!--my tests-->
     <string name="read_more">Read more</string>

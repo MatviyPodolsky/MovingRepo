@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.model.Child;
@@ -74,11 +77,16 @@ public class ChildrenAdapter extends BaseAdapter {
             convertView = inflater.inflate(RESOURCE, parent, false);
             holder = new ViewHolder(convertView);
             holder.name.addTextChangedListener(new NameWatcher(convertView));
-            holder.gender.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            holder.containerFemale.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Child child = getItem((Integer) buttonView.getTag());
-                    child.setGender(isChecked ? FEMALE : MALE);
+                public void onClick(View v) {
+                    setGender(holder, false);
+                }
+            });
+            holder.containerMale.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setGender(holder, true);
                 }
             });
             convertView.setTag(holder);
@@ -90,11 +98,28 @@ public class ChildrenAdapter extends BaseAdapter {
 
         holder.name.setTag(item);
         holder.name.setText(item.getName());
-        holder.gender.setTag(position);
-        holder.gender.setChecked(item.isMale());
+        setGender(holder, item.isMale());
 
 
         return convertView;
+    }
+
+    private void setGender(ViewHolder holder, boolean isMale){
+        if(isMale){
+            holder.textFemale.setVisibility(View.GONE);
+            holder.imageFemale.setImageResource(R.drawable.ic_female_normal);
+            holder.containerFemale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            holder.textMale.setVisibility(View.VISIBLE);
+            holder.imageMale.setImageResource(R.drawable.ic_male_pressed);
+            holder.containerMale.setBackgroundColor(context.getResources().getColor(R.color.primary));
+        } else {
+            holder.textMale.setVisibility(View.GONE);
+            holder.imageMale.setImageResource(R.drawable.ic_male_normal);
+            holder.containerMale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            holder.textFemale.setVisibility(View.VISIBLE);
+            holder.imageFemale.setImageResource(R.drawable.ic_female_pressed);
+            holder.containerFemale.setBackgroundColor(context.getResources().getColor(R.color.primary));
+        }
     }
 
     public class NameWatcher implements TextWatcher {
@@ -119,8 +144,18 @@ public class ChildrenAdapter extends BaseAdapter {
     static class ViewHolder {
         @InjectView(R.id.name)
         EditText name;
-        @InjectView(R.id.gender)
-        Switch gender;
+        @InjectView(R.id.container_female)
+        LinearLayout containerFemale;
+        @InjectView(R.id.text_female)
+        TextView textFemale;
+        @InjectView(R.id.image_female)
+        ImageView imageFemale;
+        @InjectView(R.id.container_male)
+        LinearLayout containerMale;
+        @InjectView(R.id.text_male)
+        TextView textMale;
+        @InjectView(R.id.image_male)
+        ImageView imageMale;
 
         public ViewHolder(View view) {
             ButterKnife.inject(this, view);
