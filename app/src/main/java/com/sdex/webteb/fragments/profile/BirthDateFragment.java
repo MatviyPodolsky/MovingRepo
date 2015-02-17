@@ -86,6 +86,7 @@ public class BirthDateFragment extends BaseFragment {
     public void selectFirstCategory(TextView v) {
         clearCategories();
         v.setTextColor(getResources().getColor(R.color.selected_text));
+        v.setBackgroundColor(getResources().getColor(R.color.primary));
         mDescription.setText("category 1");
     }
 
@@ -93,6 +94,7 @@ public class BirthDateFragment extends BaseFragment {
     public void selectSecondCategory(TextView v) {
         clearCategories();
         v.setTextColor(getResources().getColor(R.color.selected_text));
+        v.setBackgroundColor(getResources().getColor(R.color.primary));
         mDescription.setText("category 2");
     }
 
@@ -100,6 +102,7 @@ public class BirthDateFragment extends BaseFragment {
     public void selectThirdCategory(TextView v) {
         clearCategories();
         v.setTextColor(getResources().getColor(R.color.selected_text));
+        v.setBackgroundColor(getResources().getColor(R.color.primary));
         mDescription.setText("category 3");
     }
 
@@ -107,5 +110,8 @@ public class BirthDateFragment extends BaseFragment {
         mFirstCategory.setTextColor(getResources().getColor(R.color.primary));
         mSecondCategory.setTextColor(getResources().getColor(R.color.primary));
         mThirdCategory.setTextColor(getResources().getColor(R.color.primary));
+        mFirstCategory.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        mSecondCategory.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        mThirdCategory.setBackgroundColor(getResources().getColor(android.R.color.transparent));
     }
 }
