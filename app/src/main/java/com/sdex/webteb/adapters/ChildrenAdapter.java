@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
@@ -105,7 +103,9 @@ public class ChildrenAdapter extends BaseAdapter {
     }
 
     private void setGender(ViewHolder holder, boolean isMale){
+        Child child = (Child) holder.name.getTag();
         if(isMale){
+            child.setGender(MALE);
             holder.textFemale.setVisibility(View.GONE);
             holder.imageFemale.setImageResource(R.drawable.ic_female_normal);
             holder.containerFemale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
@@ -113,6 +113,7 @@ public class ChildrenAdapter extends BaseAdapter {
             holder.imageMale.setImageResource(R.drawable.ic_male_pressed);
             holder.containerMale.setBackgroundColor(context.getResources().getColor(R.color.primary));
         } else {
+            child.setGender(FEMALE);
             holder.textMale.setVisibility(View.GONE);
             holder.imageMale.setImageResource(R.drawable.ic_male_normal);
             holder.containerMale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));

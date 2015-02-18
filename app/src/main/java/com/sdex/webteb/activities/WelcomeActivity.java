@@ -9,9 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.Request;
+import com.facebook.RequestBatch;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphObject;
 import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TutorialPageAdapter;
@@ -61,6 +65,7 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
         mIndicator.setViewPager(mPager);
         mPager.setOnPageChangeListener(this);
         mPager.setOffscreenPageLimit(3);
+        loginButton.setReadPermissions(Arrays.asList("email"));
     }
 
     @Override
@@ -160,23 +165,23 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
     private void onSessionStateChange(Session session, SessionState state, Exception exception) {
         if (state.isOpened()) {
             Log.i(TAG, "Logged in...");
-//            RequestBatch requestBatch = new RequestBatch();
-//            requestBatch.add(new Request(Session.getActiveSession(),
-//                    "me", null, null, new Request.Callback() {
-//                public void onCompleted(Response response) {
-//                    GraphObject graphObject = response.getGraphObject();
-//                    String s = "";
-//                    if (graphObject != null) {
-//                        if (graphObject.getProperty("id") != null) {
-//                            s = String.format("%s: %s",
-//                                    graphObject.getProperty("id"),
-//                                    graphObject.getProperty("name"));
-//                        }
-//                    }
-//                    userInfoTextView.setText(s);
-//                }
-//            }));
-//            requestBatch.executeAsync();
+            RequestBatch requestBatch = new RequestBatch();
+            requestBatch.add(new Request(Session.getActiveSession(),
+                    "me", null, null, new Request.Callback() {
+                public void onCompleted(Response response) {
+                    GraphObject graphObject = response.getGraphObject();
+                    String s = "";
+                    if (graphObject != null) {
+                        if (graphObject.getProperty("id") != null) {
+                            s = String.format("%s: %s",
+                                    graphObject.getProperty("id"),
+                                    graphObject.getProperty("name"));
+                        }
+                    }
+                    userInfoTextView.setText(s);
+                }
+            }));
+            requestBatch.executeAsync();
             FacebookLoginRequest request = new FacebookLoginRequest();
             request.setToken(session.getAccessToken());
 

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
 import com.sdex.webteb.rest.RestCallback;
@@ -21,6 +22,8 @@ import com.sdex.webteb.rest.request.FacebookLoginRequest;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.utils.PreferencesManager;
+
+import java.util.Arrays;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -33,6 +36,7 @@ public class RegisterActivity extends BaseActivity {
     @InjectView(R.id.email) TextView mEmail;
     @InjectView(R.id.password) TextView mPassword;
     @InjectView(R.id.confirm_password) TextView mConfirmPassword;
+    @InjectView(R.id.auth_button) LoginButton loginButton;
     private UiLifecycleHelper uiHelper;
 
     @Override
@@ -41,6 +45,7 @@ public class RegisterActivity extends BaseActivity {
 
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
+        loginButton.setReadPermissions(Arrays.asList("email"));
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

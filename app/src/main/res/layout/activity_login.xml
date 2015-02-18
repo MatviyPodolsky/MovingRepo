@@ -44,7 +44,7 @@
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:singleLine="true"
-            android:textSize="13sp" />
+            android:textSize="@dimen/default_text_size" />
 
         <EditText
             android:id="@+id/password"
@@ -58,9 +58,8 @@
             android:hint="@string/password"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
-            android:textColor="@color/primary"
             android:textColorHint="@color/hint"
-            android:textSize="13sp" />
+            android:textSize="@dimen/default_text_size" />
 
         <Button
             android:id="@+id/login"

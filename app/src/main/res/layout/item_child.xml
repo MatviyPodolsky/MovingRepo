@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="40dp"
     android:background="@drawable/text_field">
 
     <EditText
@@ -12,6 +12,7 @@
         android:gravity="right|center_vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:textSize="@dimen/default_text_size"
         android:imeOptions="actionDone"
         android:background="@drawable/edit_text_without_border"
         android:singleLine="true"
@@ -19,7 +20,7 @@
 
     <View
         android:layout_width="2dp"
-        android:layout_height="46dp"
+        android:layout_height="match_parent"
         android:background="@color/primary"
         android:layout_gravity="center_vertical"/>
 
@@ -31,27 +32,30 @@
         
         <TextView
             android:id="@+id/text_female"
-            android:layout_width="wrap_content"
+            android:layout_width="38dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="-10dp"
             android:text="@string/female"
             android:textSize="@dimen/small_text"
             android:paddingLeft="5dp"
+            android:gravity="center"
             android:textColor="@color/button_text"
             android:visibility="gone"
             android:layout_gravity="center_vertical"/>
         
         <ImageView
             android:id="@+id/image_female"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="5dp"
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/ic_female_normal"/>
         
         </LinearLayout>
 
     <View
         android:layout_width="2dp"
-        android:layout_height="46dp"
+        android:layout_height="match_parent"
         android:background="@color/primary"
         android:layout_gravity="center_vertical"/>
 
@@ -63,35 +67,38 @@
 
         <TextView
             android:id="@+id/text_male"
-            android:layout_width="wrap_content"
+            android:layout_width="28dp"
             android:layout_height="wrap_content"
             android:text="@string/male"
             android:textSize="@dimen/small_text"
             android:paddingLeft="5dp"
+            android:gravity="center"
             android:textColor="@color/button_text"
             android:visibility="gone"
             android:layout_gravity="center_vertical"/>
 
         <ImageView
             android:id="@+id/image_male"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:padding="5dp"
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/ic_male_normal"/>
 
     </LinearLayout>
 
     <View
         android:layout_width="2dp"
-        android:layout_height="46dp"
+        android:layout_height="match_parent"
         android:background="@color/primary"
         android:layout_gravity="center_vertical"/>
 
     <ImageView
         android:id="@+id/image_question"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:padding="5dp"
+        android:layout_width="42dp"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:layout_gravity="center_vertical"
         android:src="@drawable/ic_question_mark_normal"/>
 
 </LinearLayout>
