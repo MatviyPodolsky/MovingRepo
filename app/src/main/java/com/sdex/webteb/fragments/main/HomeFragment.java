@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +53,13 @@ public class HomeFragment extends BaseMainFragment {
         profileCard.findViewById(R.id.avatar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCameraHelper.dispatchTakePictureIntent(TAKE_PICTURE);
+//                mCameraHelper.dispatchTakePictureIntent(TAKE_PICTURE);
+                Fragment fragment = new UserProfileFragment();
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, fragment, "content_fragment")
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }

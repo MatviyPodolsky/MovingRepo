@@ -1,86 +1,62 @@
 package com.sdex.webteb.adapters;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.model.Article;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Yuriy Mysochenko on 02.02.2015.
- */
-public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalItemHolder> {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
-    private ArrayList<Item> mItems;
+public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHolder> {
+
+    private ArrayList<Item> mTags;
     private int selectedItem = 13;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
-    public SimpleAdapter() {
-        mItems = new ArrayList<>();
+    public TagsAdapter() {
+        mTags = new ArrayList();
     }
 
-    /*
-     * A common adapter modification or reset mechanism. As with ListAdapter,
-     * calling notifyDataSetChanged() will trigger the RecyclerView to update
-     * the view. However, this method will not trigger any of the RecyclerView
-     * animation features.
-     */
     public void setItemCount(int count) {
-        mItems.clear();
-        mItems.addAll(generateDummyData(count));
+        mTags.clear();
+        mTags.addAll(generateDummyData(count));
 
         notifyDataSetChanged();
-    }
-
-    /*
-     * Inserting a new item at the head of the list. This uses a specialized
-     * RecyclerView method, notifyItemInserted(), to trigger any enabled item
-     * animations in addition to updating the view.
-     */
-    public void addItem() {
-        //mItems.add(1, generateDummyItem());
-        notifyItemInserted(1);
-    }
-
-    /*
-     * Inserting a new item at the head of the list. This uses a specialized
-     * RecyclerView method, notifyItemRemoved(), to trigger any enabled item
-     * animations in addition to updating the view.
-     */
-    public void removeItem() {
-        if (mItems.isEmpty()) return;
-
-        mItems.remove(0);
-        notifyItemRemoved(0);
     }
 
     @Override
     public VerticalItemHolder onCreateViewHolder(ViewGroup container, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(container.getContext());
-        View root = inflater.inflate(R.layout.item_time_navigation_controller_list, container, false);
+        View root = inflater.inflate(R.layout.item_tag, container, false);
 
         return new VerticalItemHolder(root, this);
     }
 
     @Override
     public void onBindViewHolder(VerticalItemHolder itemHolder, int position) {
-        Item item = mItems.get(position);
+        Item item = mTags.get(position);
         itemHolder.setValue(item.value);
-//        itemHolder.setSelected(item.isSelected);
-        itemHolder.setSelected(position == selectedItem);
+        itemHolder.setSelected(item.isSelected);
+//        itemHolder.setSelected(position == selectedItem);
     }
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return mTags.size();
     }
 
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
@@ -92,6 +68,18 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
             mOnItemClickListener.onItemClick(null, itemHolder.itemView,
                     itemHolder.getPosition(), itemHolder.getItemId());
         }
+    }
+
+    public static List<Item> generateDummyData(int count) {
+        ArrayList<Item> items = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            items.add(new TagsAdapter.Item("test" + String.valueOf(i)));
+        }
+
+        items.get(2).isSelected = true;
+
+        return items;
     }
 
     public static class Item {
@@ -109,9 +97,9 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
         private TextView mValue;
 
-        private SimpleAdapter mAdapter;
+        private TagsAdapter mAdapter;
 
-        public VerticalItemHolder(View itemView, SimpleAdapter adapter) {
+        public VerticalItemHolder(View itemView, TagsAdapter adapter) {
             super(itemView);
             itemView.setOnClickListener(this);
 
@@ -132,30 +120,20 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
         public void setSelected(boolean selected) {
             //mValue.setSelected(selected);
             if (selected) {
-                mValue.setBackgroundResource(R.drawable.ic_footer_nbr_selected);
-                mValue.setTextColor(Color.BLACK);
-            } else {
-                mValue.setBackgroundResource(R.drawable.ic_footer_nbr_normal);
+                mValue.setBackgroundResource(android.R.color.black);
                 mValue.setTextColor(Color.WHITE);
+            } else {
+                mValue.setBackgroundResource(android.R.color.white);
+                mValue.setTextColor(Color.BLACK);
             }
         }
 
     }
 
-    public static List<Item> generateDummyData(int count) {
-        ArrayList<Item> items = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            items.add(new SimpleAdapter.Item(String.valueOf(i)));
-        }
-
-        items.get(13).isSelected = true;
-
-        return items;
-    }
 
     public void setSelectedItem(int selectedItem) {
         this.selectedItem = selectedItem;
         notifyDataSetChanged();
     }
+
 }

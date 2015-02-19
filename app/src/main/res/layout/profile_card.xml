@@ -9,7 +9,7 @@
         android:layout_width="74dp"
         android:layout_height="74dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/avatar"
+        android:src="@drawable/fake"
         android:layout_marginLeft="5dp"
         android:id="@+id/avatar"/>
 
