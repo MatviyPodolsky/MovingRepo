@@ -11,6 +11,6 @@
     <dimen name="time_navigation_controller_item_size">50dp</dimen>
     <dimen name="time_navigation_controller_item_padding">8dp</dimen>
 
-    <dimen name="profile_height">120dp</dimen>
+    <dimen name="profile_height">98dp</dimen>
 
 </resources>

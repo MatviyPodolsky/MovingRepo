@@ -50,6 +50,7 @@
     <string name="add_child">Add child</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="none">None</string>
 
     <!--my tests-->
     <string name="read_more">Read more</string>

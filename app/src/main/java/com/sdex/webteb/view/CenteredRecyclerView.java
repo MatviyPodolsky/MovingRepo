@@ -1,7 +1,6 @@
 package com.sdex.webteb.view;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -19,17 +18,17 @@ public class CenteredRecyclerView extends RecyclerView {
 
     public CenteredRecyclerView(Context context) {
         super(context);
-        setScrollListener();
+//        setScrollListener();
     }
 
     public CenteredRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setScrollListener();
+//        setScrollListener();
     }
 
     public CenteredRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setScrollListener();
+//        setScrollListener();
     }
 
     @Override
@@ -62,8 +61,10 @@ public class CenteredRecyclerView extends RecyclerView {
                                 mOnItemCenteredListener.onItemCentered(childView);
                             }
 
-                            mCenterRunnable.setView(childView);
-                            ViewCompat.postOnAnimation(recyclerView, mCenterRunnable);
+
+                            smoothScrollToView(childView);
+//                            mCenterRunnable.setView(childView);
+//                            ViewCompat.postOnAnimation(recyclerView, mCenterRunnable);
                         }
                     }
                 }
@@ -103,7 +104,7 @@ public class CenteredRecyclerView extends RecyclerView {
         final float x = v.getX() + v.getWidth() * 0.5f;
         final float halfWidth = getWidth() * 0.5f;
         final int distance = (int) (x - halfWidth);
-        smoothScrollBy(distance, mScrollDuration);
+        smoothScrollBy(distance, 0);
     }
 
     public class CenterRunnable implements Runnable {

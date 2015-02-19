@@ -24,8 +24,9 @@ import butterknife.InjectView;
 public class ChildrenAdapter extends BaseAdapter {
 
     private static final int RESOURCE = R.layout.item_child;
-    public static final int MALE = 0;
-    public static final int FEMALE = 1;
+    public static final int MALE = 1;
+    public static final int FEMALE = 2;
+    public static final int UNKNOWN = 0;
 
     private Context context;
     private List<Child> data = new ArrayList();
@@ -78,13 +79,19 @@ public class ChildrenAdapter extends BaseAdapter {
             holder.containerFemale.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setGender(holder, false);
+                    setGender(holder, FEMALE);
                 }
             });
             holder.containerMale.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setGender(holder, true);
+                    setGender(holder, MALE);
+                }
+            });
+            holder.containerUnknown.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setGender(holder, UNKNOWN);
                 }
             });
             convertView.setTag(holder);
@@ -96,31 +103,67 @@ public class ChildrenAdapter extends BaseAdapter {
 
         holder.name.setTag(item);
         holder.name.setText(item.getName());
-        setGender(holder, item.isMale());
+        setGender(holder, item.getGender());
 
 
         return convertView;
     }
 
-    private void setGender(ViewHolder holder, boolean isMale){
+    private void setGender(ViewHolder holder, int gender){
         Child child = (Child) holder.name.getTag();
-        if(isMale){
-            child.setGender(MALE);
-            holder.textFemale.setVisibility(View.GONE);
-            holder.imageFemale.setImageResource(R.drawable.ic_female_normal);
-            holder.containerFemale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
-            holder.textMale.setVisibility(View.VISIBLE);
-            holder.imageMale.setImageResource(R.drawable.ic_male_pressed);
-            holder.containerMale.setBackgroundColor(context.getResources().getColor(R.color.primary));
-        } else {
-            child.setGender(FEMALE);
-            holder.textMale.setVisibility(View.GONE);
-            holder.imageMale.setImageResource(R.drawable.ic_male_normal);
-            holder.containerMale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
-            holder.textFemale.setVisibility(View.VISIBLE);
-            holder.imageFemale.setImageResource(R.drawable.ic_female_pressed);
-            holder.containerFemale.setBackgroundColor(context.getResources().getColor(R.color.primary));
+        switch (gender){
+            case MALE :
+                child.setGender(MALE);
+                selectMale(holder);
+                break;
+            case FEMALE:
+                child.setGender(FEMALE);
+                selectFemale(holder);
+                break;
+            case UNKNOWN:
+                child.setGender(UNKNOWN);
+                selectUnknown(holder);
+                break;
+            default:
+                break;
         }
+    }
+
+    private void clearFemale(ViewHolder holder){
+        holder.textFemale.setVisibility(View.GONE);
+        holder.imageFemale.setImageResource(R.drawable.ic_female_normal);
+        holder.containerFemale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+    }
+    private void clearMale(ViewHolder holder){
+        holder.textMale.setVisibility(View.GONE);
+        holder.imageMale.setImageResource(R.drawable.ic_male_normal);
+        holder.containerMale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+    }
+    private void clearUnknown(ViewHolder holder){
+        holder.textUnknown.setVisibility(View.GONE);
+        holder.imageUnknown.setImageResource(R.drawable.ic_question_mark_normal);
+        holder.containerUnknown.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+    }
+    private void selectFemale(ViewHolder holder){
+        clearMale(holder);
+        clearUnknown(holder);
+        holder.textFemale.setVisibility(View.VISIBLE);
+        holder.imageFemale.setImageResource(R.drawable.ic_female_pressed);
+        holder.containerFemale.setBackgroundColor(context.getResources().getColor(R.color.primary));
+    }
+    private void selectMale(ViewHolder holder){
+        clearFemale(holder);
+        clearUnknown(holder);
+        holder.textMale.setVisibility(View.VISIBLE);
+        holder.imageMale.setImageResource(R.drawable.ic_male_pressed);
+        holder.containerMale.setBackgroundColor(context.getResources().getColor(R.color.primary));
+    }
+    private void selectUnknown(ViewHolder holder){
+        clearFemale(holder);
+        clearMale(holder);
+        holder.textUnknown.setVisibility(View.VISIBLE);
+        holder.imageUnknown.setImageResource(R.drawable.ic_question_mark_selected);
+        holder.containerUnknown.setBackgroundColor(context.getResources().getColor(R.color.primary));
     }
 
     public class NameWatcher implements TextWatcher {
@@ -157,6 +200,12 @@ public class ChildrenAdapter extends BaseAdapter {
         TextView textMale;
         @InjectView(R.id.image_male)
         ImageView imageMale;
+        @InjectView(R.id.container_unknown)
+        LinearLayout containerUnknown;
+        @InjectView(R.id.text_unknown)
+        TextView textUnknown;
+        @InjectView(R.id.image_unknown)
+        ImageView imageUnknown;
 
         public ViewHolder(View view) {
             ButterKnife.inject(this, view);

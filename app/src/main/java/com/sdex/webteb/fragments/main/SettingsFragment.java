@@ -11,8 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.activities.LoginActivity;
 import com.sdex.webteb.activities.SetupProfileActivity;
+import com.sdex.webteb.activities.WelcomeActivity;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -78,7 +78,7 @@ public class SettingsFragment extends BaseMainFragment {
             @Override
             public void success(String s, Response response) {
                 PreferencesManager.getInstance().clear();
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                Intent intent = new Intent(getActivity(), WelcomeActivity.class);
                 startActivity(intent);
                 getActivity().finish();
             }
@@ -89,7 +89,7 @@ public class SettingsFragment extends BaseMainFragment {
     public void editProfile(View v){
         Intent intent = new Intent(getActivity(), SetupProfileActivity.class);
         startActivity(intent);
-        getActivity().finish();
+//        getActivity().finish();
     }
 
     @OnClick(R.id.reset)

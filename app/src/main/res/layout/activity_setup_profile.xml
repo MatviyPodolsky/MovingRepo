@@ -36,7 +36,7 @@
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="13dp"
         android:layout_below="@+id/profile_card"
         android:background="@color/primary" />
 

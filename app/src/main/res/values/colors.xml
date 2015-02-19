@@ -2,6 +2,7 @@
 
     <color name="secondary_text">#848484</color>
     <color name="selected_text">#FFFFFF</color>
+    <color name="done_test">#00FF00</color>
     <color name="link">#03A9F5</color>
     <color name="button_text">#FFFFFF</color>
     <color name="hint">#AAAAAA</color>

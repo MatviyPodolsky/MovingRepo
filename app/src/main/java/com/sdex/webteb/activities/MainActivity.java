@@ -92,22 +92,11 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LinearLayoutManager layoutManager = ((LinearLayoutManager)mRecyclerView.getLayoutManager());
-                int offset = getTimeNavigationControllerItemOffset();
-                layoutManager.scrollToPositionWithOffset(position, offset);
+                mRecyclerView.smoothScrollToView(view);
                 adapter.setSelectedItem(position);
             }
         });
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setOnItemCenteredListener(new CenteredRecyclerView.OnItemCenteredListener() {
-            @Override
-            public void onItemCentered(View v) {
-                LinearLayoutManager layoutManager = ((LinearLayoutManager)mRecyclerView.getLayoutManager());
-                int offset = getTimeNavigationControllerItemOffset();
-                layoutManager.scrollToPositionWithOffset(mRecyclerView.getChildPosition(v), offset);
-                adapter.setSelectedItem(mRecyclerView.getChildPosition(v));
-            }
-        });
 
         int offset = getTimeNavigationControllerItemOffset();
         layoutManager.scrollToPositionWithOffset(13, offset);
@@ -256,25 +245,29 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == HomeFragment.TAKE_PICTURE){
+            Toast.makeText(this, "PHOTO TAKED", Toast.LENGTH_SHORT).show();
+        } else {
 
 //        use only for webViewDialog
-        if (Session.getActiveSession() != null) {
-            Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-        }
+            if (Session.getActiveSession() != null) {
+                Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+            }
 
-        Session currentSession = Session.getActiveSession();
-        if (currentSession == null || currentSession.getState().isClosed()) {
-            Session session = new Session.Builder(MainActivity.this).build();
-            Session.setActiveSession(session);
-            currentSession = session;
-        }
+            Session currentSession = Session.getActiveSession();
+            if (currentSession == null || currentSession.getState().isClosed()) {
+                Session session = new Session.Builder(MainActivity.this).build();
+                Session.setActiveSession(session);
+                currentSession = session;
+            }
 
 //        if (!isFacebookInstalled()) {
             if (currentSession.isOpened()) {
-                publishFeedDialog("appName","caption","description","link","picture");
+                publishFeedDialog("appName", "caption", "description", "link", "picture");
             }
 //        }
 //        use only for webViewDialog
+        }
     }
 
     private void setCurrentMenuItem() {

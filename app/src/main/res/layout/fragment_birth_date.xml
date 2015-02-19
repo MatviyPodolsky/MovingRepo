@@ -35,10 +35,11 @@
             android:text="@string/last_period_first_day"
             android:textColor="@color/selected_text" />
 
-        <!--<View-->
-            <!--android:layout_width="2dp"-->
-            <!--android:layout_height="46dp"-->
-            <!--android:background="@color/primary" />-->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/primary"
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/category_2"
@@ -52,10 +53,11 @@
             android:text="@string/expected_birth_date"
             android:textColor="@color/primary" />
 
-        <!--<View-->
-            <!--android:layout_width="2dp"-->
-            <!--android:layout_height="46dp"-->
-            <!--android:background="@color/primary" />-->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/primary"
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/category_3"

@@ -2,29 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/profile_height"
-    android:background="@drawable/bg_photo_top">
+    android:background="@android:color/black"
+    android:padding="12dp">
 
     <com.sdex.webteb.view.SquareImageView
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="74dp"
+        android:layout_height="74dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/fake"
-        android:id="@+id/avatar"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp" />
+        android:src="@drawable/avatar"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/avatar"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text=""
         android:id="@+id/username"
         android:layout_alignParentTop="true"
-        android:textSize="18sp"
+        android:textSize="@dimen/large_text"
         android:gravity="right"
         android:textColor="@android:color/white"
         android:layout_toLeftOf="@+id/avatar"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
         android:layout_toRightOf="@+id/linearLayout"
         android:layout_toEndOf="@+id/linearLayout" />
 
@@ -33,11 +31,11 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/textView5"
-        android:textSize="18sp"
+        android:textSize="@dimen/large_text"
         android:textColor="@android:color/white"
         android:layout_below="@+id/username"
         android:gravity="right"
-        android:layout_marginTop="8dp"
+        android:visibility="gone"
         android:layout_alignRight="@+id/username"
         android:layout_alignEnd="@+id/username"
         android:layout_toRightOf="@+id/linearLayout"
@@ -52,14 +50,15 @@
         android:layout_below="@+id/textView5"
         android:textStyle="bold"
         android:gravity="right"
-        android:textSize="18sp"
-        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        android:textSize="@dimen/large_text"
         android:layout_alignRight="@+id/textView5"
         android:layout_alignEnd="@+id/textView5"
         android:layout_toRightOf="@+id/linearLayout"
         android:layout_toEndOf="@+id/linearLayout" />
 
     <LinearLayout
+        android:visibility="gone"
         android:orientation="vertical"
         android:layout_width="140dp"
         android:gravity="center"
@@ -112,10 +111,11 @@
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="8dp"
         android:id="@+id/progressBar"
         android:progress="80"
-        android:layout_below="@id/linearLayout" />
+        android:visibility="gone"
+        android:layout_below="@id/avatar" />
 
 
 </RelativeLayout>

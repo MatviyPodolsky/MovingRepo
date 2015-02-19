@@ -33,5 +33,4 @@ public class Child {
         this.gender = gender;
     }
 
-    public boolean isMale() {return (gender == 0); }
 }

@@ -22,7 +22,7 @@
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:text="@string/done"
-                android:textColor="@color/selected_text"
+                android:textColor="@color/done_test"
                 android:layout_gravity="left|top"
                 android:textStyle="bold" />
 
