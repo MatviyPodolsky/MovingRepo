@@ -21,10 +21,19 @@ public class CameraHelper {
     private static final String JPEG_FILE_PREFIX = "IMG_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
 
+    public interface Callback {
+        void onPhotoTaking(Uri path);
+    }
+
     private Activity activity;
+    private Callback mCallback;
 
     public CameraHelper(Activity activity) {
         this.activity = activity;
+    }
+
+    public void setCallback(Callback callback) {
+        this.mCallback = callback;
     }
 
     private File getAlbumStorageDir(String albumName) {
@@ -83,9 +92,13 @@ public class CameraHelper {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
+                final Uri path = Uri.fromFile(photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(photoFile));
+                        path);
                 activity.startActivityForResult(takePictureIntent, requestCode);
+                if (mCallback != null) {
+                    mCallback.onPhotoTaking(path);
+                }
             }
         }
     }
