@@ -245,29 +245,24 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == HomeFragment.TAKE_PICTURE){
-            Toast.makeText(this, "PHOTO TAKED", Toast.LENGTH_SHORT).show();
-        } else {
-
 //        use only for webViewDialog
-            if (Session.getActiveSession() != null) {
-                Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-            }
+        if (Session.getActiveSession() != null) {
+            Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+        }
 
-            Session currentSession = Session.getActiveSession();
-            if (currentSession == null || currentSession.getState().isClosed()) {
-                Session session = new Session.Builder(MainActivity.this).build();
-                Session.setActiveSession(session);
-                currentSession = session;
-            }
+        Session currentSession = Session.getActiveSession();
+        if (currentSession == null || currentSession.getState().isClosed()) {
+            Session session = new Session.Builder(MainActivity.this).build();
+            Session.setActiveSession(session);
+            currentSession = session;
+        }
 
 //        if (!isFacebookInstalled()) {
-            if (currentSession.isOpened()) {
-                publishFeedDialog("appName", "caption", "description", "link", "picture");
-            }
+        if (currentSession.isOpened()) {
+            publishFeedDialog("appName", "caption", "description", "link", "picture");
+        }
 //        }
 //        use only for webViewDialog
-        }
     }
 
     private void setCurrentMenuItem() {
@@ -304,12 +299,12 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 //        if(isFacebookInstalled()){
 //            publishFromFacebookApp(appName, caption, description, link, picture);
 //        } else {
-            publishFromFacebookWeb(appName, caption, description, link, picture);
+        publishFromFacebookWeb(appName, caption, description, link, picture);
 //        }
     }
 
     private void publishFromFacebookApp(String appName, String caption, String description, String link,
-                                       String picture) {
+                                        String picture) {
         FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(MainActivity.this)
                 .setName(appName)
                 .setCaption(caption)
@@ -368,8 +363,9 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                             // When the story is posted, echo the success
                             // and the post Id.
                             final String postId = values.getString("post_id");
-                            if (postId != null) { Toast.makeText(MainActivity.this, "Posted story, id: " + postId,
-                                    Toast.LENGTH_SHORT).show();
+                            if (postId != null) {
+                                Toast.makeText(MainActivity.this, "Posted story, id: " + postId,
+                                        Toast.LENGTH_SHORT).show();
                             } else {
                                 // User clicked the Cancel button
                                 Toast.makeText(MainActivity.this.getApplicationContext(), "Publish cancelled",
@@ -381,7 +377,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Generic, ex: network error
-                            Toast.makeText(MainActivity.this.getApplicationContext(),  "Error posting story",
+                            Toast.makeText(MainActivity.this.getApplicationContext(), "Error posting story",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -391,12 +387,12 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         feedDialog.show();
     }
 
-    private boolean isFacebookInstalled(){
-        try{
+    private boolean isFacebookInstalled() {
+        try {
             ApplicationInfo info = getPackageManager().
-                    getApplicationInfo("com.facebook.katana", 0 );
+                    getApplicationInfo("com.facebook.katana", 0);
             return true;
-        } catch( PackageManager.NameNotFoundException e ){
+        } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
     }
