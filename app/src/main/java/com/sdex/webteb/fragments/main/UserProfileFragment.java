@@ -2,14 +2,16 @@ package com.sdex.webteb.fragments.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TagsAdapter;
@@ -27,16 +29,30 @@ public class UserProfileFragment extends BaseMainFragment {
     public static final int REQUEST_TAKE_PHOTO = 0;
     public static final int REQUEST_SELECT_PHOTO = 1;
     public static final int REQUEST_DIALOG = 2;
+    public static final int PHOTO_TAKEN = 3;
+    public static final int PHOTO_SELECTED = 4;
 
+    @InjectView(R.id.avatar)
+    ImageView avatar;
     @InjectView(R.id.tags)
     RecyclerView mRecyclerView;
-    public static final int TAKE_PICTURE = 1221;
     private CameraHelper mCameraHelper;
+    private Uri currentPhoto;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mCameraHelper = new CameraHelper(getActivity());
+        mCameraHelper.setCallback(new CameraHelper.Callback() {
+            @Override
+            public void onPhotoTaking(Uri path) {
+                currentPhoto = path;
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        path);
+                startActivityForResult(takePictureIntent, PHOTO_TAKEN);
+            }
+        });
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         final TagsAdapter adapter = new TagsAdapter();
@@ -60,10 +76,20 @@ public class UserProfileFragment extends BaseMainFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_TAKE_PHOTO) {
-                Toast.makeText(getActivity(), "PHOTO TOOK fragment", Toast.LENGTH_SHORT).show();
+                mCameraHelper.dispatchTakePictureIntent(PHOTO_TAKEN);
             }
             if (requestCode == REQUEST_SELECT_PHOTO) {
-                Toast.makeText(getActivity(), "PHOTO SELECTED fragment", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,
+                        "Select Photo"), PHOTO_SELECTED);
+            }
+            if (requestCode == PHOTO_TAKEN) {
+                avatar.setImageURI(currentPhoto);
+            }
+            if (requestCode == PHOTO_SELECTED) {
+                avatar.setImageURI(data.getData());
             }
         }
     }
@@ -73,8 +99,5 @@ public class UserProfileFragment extends BaseMainFragment {
         DialogFragment dialog = new PhotoDialog();
         dialog.setTargetFragment(this, REQUEST_DIALOG);
         dialog.show(getFragmentManager(), null);
-//        File CameraDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + "/" + "test_album");
-//        File[] files = CameraDirectory.listFiles();
-//        mCameraHelper.dispatchTakePictureIntent(TAKE_PICTURE);
     }
 }

@@ -39,6 +39,7 @@ import com.sdex.webteb.fragments.main.MoreArticlesFragment;
 import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
+import com.sdex.webteb.fragments.main.UserProfileFragment;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.view.CenteredRecyclerView;

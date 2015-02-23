@@ -93,9 +93,10 @@ public class CameraHelper {
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 final Uri path = Uri.fromFile(photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        path);
-                activity.startActivityForResult(takePictureIntent, requestCode);
+//                need call startActivityForResult from fragment to catch onActivityResult
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+//                        path);
+//                activity.startActivityForResult(takePictureIntent, requestCode);
                 if (mCallback != null) {
                     mCallback.onPhotoTaking(path);
                 }

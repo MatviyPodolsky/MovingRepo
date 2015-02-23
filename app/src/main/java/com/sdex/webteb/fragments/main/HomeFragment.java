@@ -18,7 +18,8 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.UserInfoResponse;
-import com.sdex.webteb.utils.CameraHelper;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -30,8 +31,6 @@ import retrofit.client.Response;
 public class HomeFragment extends BaseMainFragment {
 
     public static final int REQUEST_GET_NOTIFICATION = 0;
-    public static final int TAKE_PICTURE = 1221;
-    private CameraHelper mCameraHelper;
     @InjectView(R.id.profile_card)
     View profileCard;
 
@@ -49,11 +48,9 @@ public class HomeFragment extends BaseMainFragment {
             }
         });
 
-        mCameraHelper = new CameraHelper(getActivity());
         profileCard.findViewById(R.id.avatar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mCameraHelper.dispatchTakePictureIntent(TAKE_PICTURE);
                 Fragment fragment = new UserProfileFragment();
                 FragmentManager fragmentManager = getChildFragmentManager();
                 fragmentManager.beginTransaction()
@@ -71,6 +68,23 @@ public class HomeFragment extends BaseMainFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // notifying nested fragments (support library bug fix)
+        if (requestCode == UserProfileFragment.PHOTO_TAKEN || requestCode == UserProfileFragment.PHOTO_SELECTED){
+            final FragmentManager childFragmentManager = getChildFragmentManager();
+
+            if (childFragmentManager != null) {
+                final List<Fragment> nestedFragments = childFragmentManager.getFragments();
+
+                if (nestedFragments == null || nestedFragments.size() == 0) return;
+
+                for (Fragment childFragment : nestedFragments) {
+                    if (childFragment != null && !childFragment.isDetached() && !childFragment.isRemoving()) {
+                        childFragment.onActivityResult(requestCode, resultCode, data);
+                    }
+                }
+            }
+        }
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_GET_NOTIFICATION:
