@@ -38,6 +38,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
+        android:imeOptions="actionDone"
         android:layout_below="@+id/tags"
         android:layout_above="@+id/save"
         />

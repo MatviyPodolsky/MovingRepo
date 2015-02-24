@@ -100,4 +100,9 @@ public class UserProfileFragment extends BaseMainFragment {
         dialog.setTargetFragment(this, REQUEST_DIALOG);
         dialog.show(getFragmentManager(), null);
     }
+
+    @OnClick(R.id.save)
+    public void save(View v){
+        getActivity().onBackPressed();
+    }
 }

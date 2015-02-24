@@ -1,29 +1,21 @@
 package com.sdex.webteb.adapters;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.model.Article;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHolder> {
 
     private ArrayList<Item> mTags;
-    private int selectedItem = 13;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
@@ -51,7 +43,6 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         Item item = mTags.get(position);
         itemHolder.setValue(item.value);
         itemHolder.setSelected(item.isSelected);
-//        itemHolder.setSelected(position == selectedItem);
     }
 
     @Override
@@ -76,8 +67,6 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         for (int i = 0; i < count; i++) {
             items.add(new TagsAdapter.Item("test" + String.valueOf(i)));
         }
-
-        items.get(2).isSelected = true;
 
         return items;
     }
@@ -132,7 +121,9 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
 
 
     public void setSelectedItem(int selectedItem) {
-        this.selectedItem = selectedItem;
+        Item curItem = mTags.get(selectedItem);
+        curItem.isSelected = !curItem.isSelected;
+        mTags.set(selectedItem, curItem);
         notifyDataSetChanged();
     }
 
