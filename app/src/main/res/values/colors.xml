@@ -15,5 +15,6 @@
     <color name="primary_dark">#C5115B</color>
 
     <color name="menu_divider">#2A2A2A</color>
+    <color name="black">#000</color>
 
 </resources>

@@ -87,10 +87,11 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isExpanded,
+                             View convertView, ViewGroup parent) {
         final ViewHolderGroup holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_my_tests_group, null);
+            convertView = inflater.inflate(R.layout.item_my_tests_group, parent, false);
             holder = new ViewHolderGroup(convertView);
             convertView.setTag(holder);
         } else {
@@ -107,10 +108,11 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, int childPosition,
+                             boolean isLastChild, View convertView, ViewGroup parent) {
         final ViewHolderChild holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_my_tests_child, null);
+            convertView = inflater.inflate(R.layout.item_my_tests_child, parent, false);
             holder = new ViewHolderChild(convertView);
             holder.checkbox.setOnCheckedChangeListener(onCheckedChangeListener);
             convertView.setTag(holder);
@@ -182,7 +184,8 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
             holder.doneTest.setText(context.getString(R.string.done_test));
         }
     }
-    private void changeReminder(final BabyTestResponse item, final ViewHolderChild holder, final int position) {
+    private void changeReminder(final BabyTestResponse item,
+                                final ViewHolderChild holder, final int position) {
         BabyReminderRequest request = new BabyReminderRequest();
         request.setTestId(item.getContentPreview().getKey().getId());
         if(item.getUserTest() != null && item.getUserTest().isReminderStatus()) {
@@ -224,7 +227,8 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    private void changeTestStatus(final BabyTestResponse item, final ViewHolderChild holder, final int position) {
+    private void changeTestStatus(final BabyTestResponse item,
+                                  final ViewHolderChild holder, final int position) {
         BabyTestDoneRequest request = new BabyTestDoneRequest();
         request.setTestId(item.getContentPreview().getKey().getId());
         if(item.getUserTest() != null && item.getUserTest().isTestDone()) {

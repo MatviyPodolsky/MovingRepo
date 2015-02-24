@@ -7,21 +7,27 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:text="My tests"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textColor="#03a9f5"
+        android:textSize="15sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_below="@+id/error"
+        android:layout_alignParentRight="true" />
 
     <ExpandableListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:groupIndicator="@null"
-        android:divider="@color/divider"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:divider="@color/primary"
         android:dividerHeight="1dp"
         android:childDivider="@android:color/transparent"
         android:layout_below="@+id/title"
-        android:visibility="gone"></ExpandableListView>
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progress"

@@ -25,7 +25,7 @@
             android:layout_height="56dp"
             android:layout_gravity="end"
             android:src="@drawable/ic_nb_sidebar_list"
-            android:background="@null"
+            android:background="@drawable/btn_menu_selector"
             android:id="@+id/toggle_drawer" />
 
     </android.support.v7.widget.Toolbar>

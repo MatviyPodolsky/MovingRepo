@@ -49,7 +49,8 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
         if (convertView == null) {
             convertView = mInflater.inflate(mHeaderResId, parent, false);
             holder = new HeaderViewHolder();
-            holder.textView = (TextView) convertView.findViewById(android.R.id.text1);
+            holder.number = (TextView) convertView.findViewById(R.id.number);
+            holder.title = (TextView) convertView.findViewById(R.id.title);
             convertView.setTag(holder);
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
@@ -57,7 +58,8 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
 
         Item item = getItem(position);
 
-        holder.textView.setText(item.text);
+//        holder.number.setText(item.text);
+//        holder.title.setText(item.text);
 
         return convertView;
     }
@@ -102,7 +104,8 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
     }
 
     protected class HeaderViewHolder {
-        public TextView textView;
+        public TextView number;
+        public TextView title;
     }
 
     protected class ViewHolder {
