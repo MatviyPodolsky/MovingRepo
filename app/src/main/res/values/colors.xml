@@ -5,6 +5,8 @@
     <color name="done_test">#00FF00</color>
     <color name="link">#03A9F5</color>
     <color name="button_text">#FFFFFF</color>
+    <color name="black_text">#000000</color>
+    <color name="subtext">#808080</color>
     <color name="hint">#AAAAAA</color>
     <color name="error">#FF0000</color>
     <color name="default_background">#FFFFFF</color>
