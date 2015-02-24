@@ -79,6 +79,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     SlidingUpPanelLayout mSlidingUpPanelLayout;
     @InjectView(R.id.drag_view)
     FrameLayout mDragView;
+    private static final String contentFragment = "content_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +222,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
             closeDrawer();
         } else {
-            Fragment curFragment = getSupportFragmentManager().findFragmentByTag("content_fragment");
+            Fragment curFragment = getSupportFragmentManager().findFragmentByTag(contentFragment);
             if (curFragment != null && curFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
                 curFragment.getChildFragmentManager().popBackStack();
             } else {
@@ -240,7 +241,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 if (fragment != null) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, fragment, "content_fragment")
+                            .replace(R.id.fragment_container, fragment, contentFragment)
                             .commit();
                 } else {
                     finish();
