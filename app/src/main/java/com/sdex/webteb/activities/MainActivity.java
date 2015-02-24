@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -29,6 +31,7 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
 import com.sdex.webteb.R;
+import com.sdex.webteb.adapters.MenuAdapter;
 import com.sdex.webteb.adapters.SimpleAdapter;
 import com.sdex.webteb.fragments.main.AboutFragment;
 import com.sdex.webteb.fragments.main.AlbumFragment;
@@ -40,6 +43,7 @@ import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
 import com.sdex.webteb.fragments.main.UserProfileFragment;
+import com.sdex.webteb.model.SideMenuItem;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.view.CenteredRecyclerView;
@@ -75,6 +79,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     SlidingUpPanelLayout mSlidingUpPanelLayout;
     @InjectView(R.id.drag_view)
     FrameLayout mDragView;
+    private static final String contentFragment = "content_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,9 +138,27 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         setItem(0);
         setCurrentMenuItem();
 
-        final String[] menuItems = getResources().getStringArray(R.array.menu_items);
-        ArrayAdapter<String> mDrawerAdapter = new ArrayAdapter<>(MainActivity.this,
-                android.R.layout.simple_list_item_1, menuItems);
+        final LayoutInflater inflater = LayoutInflater.from(this);
+        View menuHeader = inflater.inflate(R.layout.menu_list_header, mDrawerList, false);
+        mDrawerList.addHeaderView(menuHeader, null, true);
+
+        String[] titles = getResources().getStringArray(R.array.menu_item_titles);
+        TypedArray icons = getResources().obtainTypedArray(R.array.menu_item_icons);
+
+        if (titles.length != icons.length()) {
+            throw new RuntimeException("Wrong menu items");
+        }
+
+        List<SideMenuItem> menuItems = new ArrayList<>(titles.length);
+        for (int i = 0; i < titles.length; i++) {
+            int iconResId = icons.getResourceId(i, -1);
+            String title = titles[i];
+            SideMenuItem item = new SideMenuItem(title, iconResId);
+            menuItems.add(item);
+        }
+        icons.recycle();
+
+        MenuAdapter mDrawerAdapter = new MenuAdapter(MainActivity.this, menuItems);
         mDrawerList.setAdapter(mDrawerAdapter);
         mDrawerLayout.setDrawerListener(this);
     }
@@ -199,7 +222,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
             closeDrawer();
         } else {
-            Fragment curFragment = getSupportFragmentManager().findFragmentByTag("content_fragment");
+            Fragment curFragment = getSupportFragmentManager().findFragmentByTag(contentFragment);
             if (curFragment != null && curFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
                 curFragment.getChildFragmentManager().popBackStack();
             } else {
@@ -210,17 +233,21 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     @OnItemClick(R.id.drawer_list)
     void setItem(final int position) {
+        closeDrawer();
         mOpenMenuItemTask = new Runnable() {
             @Override
             public void run() {
                 Fragment fragment = getFragmentByPosition(position);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, fragment, "content_fragment")
-                        .commit();
+                if (fragment != null) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, fragment, contentFragment)
+                            .commit();
+                } else {
+                    finish();
+                }
             }
         };
-        closeDrawer();
     }
 
     @Override

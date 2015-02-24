@@ -25,7 +25,7 @@
             android:layout_height="56dp"
             android:layout_gravity="end"
             android:src="@drawable/ic_nb_sidebar_list"
-            android:background="@null"
+            android:background="@drawable/btn_menu_selector"
             android:id="@+id/toggle_drawer" />
 
     </android.support.v7.widget.Toolbar>
@@ -78,11 +78,13 @@
         <ListView
             android:id="@+id/drawer_list"
             android:layout_width="300dp"
-            android:background="@android:color/white"
+            android:background="@drawable/ad_bcg"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:dividerHeight="1px"
-            android:drawSelectorOnTop="false"
+            android:divider="@color/menu_divider"
+            android:dividerHeight="1dp"
+            android:paddingRight="18dp"
+            android:paddingLeft="18dp"
             android:choiceMode="singleChoice" />
 
     </android.support.v4.widget.DrawerLayout>

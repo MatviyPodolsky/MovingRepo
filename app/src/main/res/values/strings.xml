@@ -113,8 +113,7 @@
         <item>Psychiatrist</item>
     </string-array>
 
-    <string-array name="menu_items">
-        <item>Home</item>
+    <string-array name="menu_item_titles">
         <item>My tests</item>
         <item>My Album</item>
         <item>Search doctor</item>
@@ -122,6 +121,18 @@
         <item>Settings screen</item>
         <item>About</item>
         <item>Contact us</item>
+        <item>Exit</item>
+    </string-array>
+
+    <string-array name="menu_item_icons">
+        <item>@drawable/ic_ad_1</item>
+        <item>@drawable/ic_ad_2</item>
+        <item>@drawable/ic_ad_3</item>
+        <item>@drawable/ic_ad_4</item>
+        <item>@drawable/ic_ad_5</item>
+        <item>@drawable/ic_ad_6</item>
+        <item>@drawable/ic_ad_7</item>
+        <item>@drawable/ic_ad_8</item>
     </string-array>
 
     <!--welcome-->
