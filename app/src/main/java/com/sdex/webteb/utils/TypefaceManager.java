@@ -9,8 +9,8 @@ import android.util.SparseArray;
  */
 public class TypefaceManager {
 
-    public final static int ROBOTO_MEDIUM = 0;
-    public final static int ROBOTO_REGULAR = 1;
+    public final static int CAPTURE_IT = 0;
+    public final static int POST_ROCK = 1;
     /**
      * Array of created typefaces for later reused.
      */
@@ -45,11 +45,11 @@ public class TypefaceManager {
     private static Typeface createTypeface(Context context, int typefaceValue) throws IllegalArgumentException {
         Typeface typeface;
         switch (typefaceValue) {
-            case ROBOTO_MEDIUM:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/roboto/Roboto_Medium.ttf");
+            case CAPTURE_IT:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Capture_it.ttf");
                 break;
-            case ROBOTO_REGULAR:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/roboto/Roboto_Regular.ttf");
+            case POST_ROCK:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/post rock.ttf");
                 break;
             default:
                 throw new IllegalArgumentException("Unknown `typeface` attribute value " + typefaceValue);
