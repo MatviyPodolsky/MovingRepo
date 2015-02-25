@@ -74,6 +74,44 @@
     <string name="logout">Logout</string>
     <string name="save">Save</string>
 
+    <!--search doctor-->
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="specialty">Specialty</string>
+    <string name="doctor_name">Doctor name</string>
+    <string name="search">Search</string>
+    <string-array name="countries">
+        <item>Algeria</item>
+        <item>Bahrain</item>
+        <item>Egypt</item>
+        <item>Western</item>
+        <item>Yemen</item>
+        <item>Palestine</item>
+        <item>Iraq</item>
+        <item>Sahara</item>
+        <item>Jordan</item>
+        <item>Qatar</item>
+        <item>Libya</item>
+    </string-array>
+    <string-array name="cities">
+        <item>Cairo</item>
+        <item>Baghdad</item>
+        <item>Riyadh</item>
+        <item>Jeddah</item>
+        <item>Dammam</item>
+        <item>Damascus</item>
+        <item>Casablanca</item>
+        <item>Aleppo</item>
+        <item>Alexandria</item>
+    </string-array>
+    <string-array name="specialities">
+        <item>Dermatologist</item>
+        <item>Gynaecologist‎</item>
+        <item>Endocrinologist</item>
+        <item>Oncologist</item>
+        <item>Venereologist</item>
+        <item>Psychiatrist</item>
+    </string-array>
 
     <string-array name="menu_item_titles">
         <item>My tests</item>

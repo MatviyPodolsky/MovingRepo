@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:paddingTop="10dp">
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="104dp"
+        android:layout_height="104dp"
         android:layout_alignParentRight="true"
         android:src="@mipmap/ic_launcher"
         android:layout_marginLeft="10dp"
@@ -15,8 +14,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
+        android:layout_marginTop="6dp"
         android:id="@+id/name"
+        android:textSize="@dimen/extra_large_text"
         android:textStyle="bold"
+        android:textColor="@color/black_text"
         android:layout_alignTop="@+id/image"
         android:layout_toLeftOf="@+id/image"
         android:layout_toStartOf="@+id/image" />
@@ -25,41 +27,96 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
+        android:textColor="@color/subtext"
         android:id="@+id/specialty"
+        android:textSize="@dimen/default_text_size"
         android:layout_below="@+id/name"
         android:layout_toLeftOf="@+id/image"
         android:layout_toStartOf="@+id/image" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/contact_data"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/specialty"
         android:layout_toLeftOf="@+id/image"
-        android:layout_toStartOf="@+id/image">
-
-        <ImageView
-            android:id="@+id/location"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_mapmode"/>
-
-        <ImageView
-            android:id="@+id/email"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@android:drawable/sym_action_email"/>
+        android:layout_toStartOf="@+id/image"
+        android:layout_alignBottom="@+id/image">
 
         <ImageView
             android:id="@+id/call"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@android:drawable/stat_sys_phone_call_forward"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/btn_doctor_search_phone_normal"/>
 
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/call"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/btn_doctor_search_list_normal"/>
+
+        <TextView
+            android:id="@+id/location_text"
+            android:textSize="@dimen/default_text_size"
+            android:text="p5 1.3"
+            android:layout_marginLeft="11dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            />
+
+        <ImageView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/location_text"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_doctor_search_location_normal"
+            android:layout_centerVertical="true" />
+
+
+
+
+
+        </RelativeLayout>
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/contact_data"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@+id/specialty"-->
+        <!--android:layout_toLeftOf="@+id/image"-->
+        <!--android:layout_toStartOf="@+id/image">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/location"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:src="@android:drawable/ic_menu_mapmode"/>-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/email"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:src="@android:drawable/sym_action_email"/>-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/call"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:src="@android:drawable/stat_sys_phone_call_forward"/>-->
+
+        <!--</LinearLayout>-->
 
 </RelativeLayout>
