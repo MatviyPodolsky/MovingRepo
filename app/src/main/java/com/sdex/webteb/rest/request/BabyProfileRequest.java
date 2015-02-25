@@ -24,9 +24,6 @@ public class BabyProfileRequest extends ApiRequest {
     @SerializedName("Date")
     @Expose
     private String date;
-    @SerializedName("ActualBirthDate")
-    @Expose
-    private String actualBirthDate;
     @SerializedName("Children")
     @Expose
     private List<Child> children = new ArrayList<Child>();

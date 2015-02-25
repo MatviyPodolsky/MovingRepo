@@ -48,8 +48,8 @@ public class SettingsFragment extends BaseMainFragment {
         RestClient.getApiService().getBabyGeneral(new RestCallback<BabyGeneralResponse>() {
             @Override
             public void failure(RestError restError) {
-                progressBar.setVisibility(View.GONE);
-                error.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.GONE);
+//                error.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -57,8 +57,8 @@ public class SettingsFragment extends BaseMainFragment {
                 notifications.setChecked(babyGeneralResponse.isWeeklyTips());
                 reminders.setChecked(babyGeneralResponse.getTestReminder() > 0);
                 newsletter.setChecked(babyGeneralResponse.isNewsletter());
-                root.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
+//                root.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.GONE);
             }
         });
     }

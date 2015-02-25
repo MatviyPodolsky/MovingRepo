@@ -26,6 +26,9 @@ import butterknife.OnClick;
 public class BirthDateFragment extends BaseFragment {
 
     public static final int REQUEST_GET_DATE = 0;
+    public static final int LAST_PERIOD = 1;
+    public static final int DUE_TO = 2;
+    public static final int BIRTH_DATE = 3;
 
     @InjectView(R.id.category_1)
     TextView mFirstCategory;
@@ -37,6 +40,7 @@ public class BirthDateFragment extends BaseFragment {
     TextView mDescription;
     @InjectView(R.id.select_date)
     TextView mDate;
+    private int mDateType = LAST_PERIOD;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -61,7 +65,7 @@ public class BirthDateFragment extends BaseFragment {
                         Calendar date = new GregorianCalendar(year,month,day,0,0);
                         SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
                         String dt = outFormat.format(date.getTime());
-                        ((SetupProfileActivity)getActivity()).setBirthDate(dt);
+                        ((SetupProfileActivity)getActivity()).setBirthDate(dt, mDateType);
                     }
                     break;
             }
@@ -88,6 +92,7 @@ public class BirthDateFragment extends BaseFragment {
         v.setTextColor(getResources().getColor(R.color.selected_text));
         v.setBackgroundColor(getResources().getColor(R.color.primary));
         mDescription.setText("category 1");
+        mDateType = LAST_PERIOD;
     }
 
     @OnClick(R.id.category_2)
@@ -96,6 +101,7 @@ public class BirthDateFragment extends BaseFragment {
         v.setTextColor(getResources().getColor(R.color.selected_text));
         v.setBackgroundColor(getResources().getColor(R.color.primary));
         mDescription.setText("category 2");
+        mDateType = DUE_TO;
     }
 
     @OnClick(R.id.category_3)
@@ -104,6 +110,7 @@ public class BirthDateFragment extends BaseFragment {
         v.setTextColor(getResources().getColor(R.color.selected_text));
         v.setBackgroundColor(getResources().getColor(R.color.primary));
         mDescription.setText("category 3");
+        mDateType = BIRTH_DATE;
     }
 
     public void clearCategories(){

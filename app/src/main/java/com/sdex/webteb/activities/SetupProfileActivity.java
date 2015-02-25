@@ -51,7 +51,7 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         String dt = outFormat.format(date);
-        request.setDate(dt);
+//        request.setDate(dt);
 
         RestClient.getApiService().getUserInfo(new RestCallback<UserInfoResponse>() {
             @Override
@@ -127,8 +127,9 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
         request.setFamilyRelation(relation);
     }
 
-    public void setBirthDate(String date){
-        request.setActualBirthDate(date);
+    public void setBirthDate(String date, int dateType){
+        request.setDate(date);
+        request.setDateType(dateType);
     }
 
     public void setChildren(List<Child> children){
