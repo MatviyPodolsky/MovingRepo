@@ -1,5 +1,6 @@
 package com.sdex.webteb.fragments.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.activities.VideoPlayerActivity;
 import com.sdex.webteb.fragments.BaseFragment;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.squareup.picasso.Picasso;
@@ -25,6 +27,8 @@ public class VideoThumbnailFragment extends BaseFragment {
     @InjectView(R.id.thumbnail)
     ImageView mThumbnail;
 
+    BabyHomeResponse.Video video;
+
     public static Fragment newInstance(BabyHomeResponse.Video video) {
         VideoThumbnailFragment f = new VideoThumbnailFragment();
         Bundle args = new Bundle();
@@ -37,8 +41,6 @@ public class VideoThumbnailFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        BabyHomeResponse.Video video;
 
         final Parcelable wrapped = getArguments().getParcelable("video");
         video = Parcels.unwrap(wrapped);
@@ -56,7 +58,10 @@ public class VideoThumbnailFragment extends BaseFragment {
 
     @OnClick(R.id.btn_play)
     void play() {
-
+        Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+        Parcelable wrapped = Parcels.wrap(video);
+        intent.putExtra("video", wrapped);
+        startActivity(intent);
     }
 
 }

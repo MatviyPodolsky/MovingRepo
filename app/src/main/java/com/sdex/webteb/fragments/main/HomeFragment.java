@@ -19,6 +19,7 @@ import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.dialogs.NotificationDialog;
 import com.sdex.webteb.extras.SimpleDividerItemDecoration;
+import com.sdex.webteb.mock.MockData;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -69,7 +70,7 @@ public class HomeFragment extends BaseMainFragment {
                 mUserName.setText(babyHomeResponse.getCard().getName());
 
                 // debug
-//                babyHomeResponse = MockHome.getMockHome(getActivity());
+//                babyHomeResponse = MockData.getMockHome(getActivity());
 
                 List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
                 List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
