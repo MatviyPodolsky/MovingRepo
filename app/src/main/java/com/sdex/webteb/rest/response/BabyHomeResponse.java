@@ -47,6 +47,9 @@ public class BabyHomeResponse extends ApiResponse {
         @SerializedName("Author")
         @Expose
         private String author;
+        @SerializedName("Description")
+        @Expose
+        private String description;
 
     }
 
@@ -69,6 +72,9 @@ public class BabyHomeResponse extends ApiResponse {
         @SerializedName("SectionIconUrl")
         @Expose
         private String sectionIconUrl;
+        @SerializedName("SectionName")
+        @Expose
+        private String sectionName;
 
     }
 

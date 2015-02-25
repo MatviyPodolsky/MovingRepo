@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.Layout;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.LeadingMarginSpan;
 import android.view.Display;
@@ -59,6 +60,7 @@ public class FlowTextHelper {
     }
 
     static class MyLeadingMarginSpan2 implements LeadingMarginSpan.LeadingMarginSpan2 {
+
         private int margin;
         private int lines;
 
@@ -81,6 +83,7 @@ public class FlowTextHelper {
         public void drawLeadingMargin(Canvas c, Paint p, int x, int dir,
                                       int top, int baseline, int bottom, CharSequence text,
                                       int start, int end, boolean first, Layout layout) {}
+
     }
 
 }
