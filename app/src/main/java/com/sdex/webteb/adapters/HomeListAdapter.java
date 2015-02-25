@@ -1,6 +1,8 @@
 package com.sdex.webteb.adapters;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,15 +31,18 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_ADDITIONAL_CONTENT = 2;
 
     private Context context;
+    private FragmentManager fragmentManager;
     private List<BabyHomeResponse.Preview> previews;
     private List<BabyHomeResponse.Video> videos;
     private List<BabyHomeResponse.AdditionalContent> additionalContent;
 
     public HomeListAdapter(Context context,
+                           FragmentManager fragmentManager,
                            List<BabyHomeResponse.Preview> previews,
                            List<BabyHomeResponse.Video> videos,
                            List<BabyHomeResponse.AdditionalContent> additionalContent) {
         this.context = context;
+        this.fragmentManager = fragmentManager;
         this.previews = previews;
         this.videos = videos;
         this.additionalContent = additionalContent;
@@ -94,6 +99,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .load(preview.getSectionIconUrl())
                     .noPlaceholder()
                     .into(viewHolder.icon);
+        } else if (holder instanceof VideoViewHolder) {
+            VideoViewHolder viewHolder = (VideoViewHolder) holder;
+            VideoThumbnailAdapter videoThumbnailAdapter =
+                    new VideoThumbnailAdapter(fragmentManager, videos);
+            viewHolder.viewPager.setAdapter(videoThumbnailAdapter);
+            viewHolder.viewPager.setOffscreenPageLimit(3);
         }
     }
 
@@ -122,7 +133,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return previews.size() + additionalContent.size() + 1;
+        int video = videos.isEmpty() ? 0 : 1;
+        return previews.size() + additionalContent.size() + video;
     }
 
     static class PreviewViewHolder extends RecyclerView.ViewHolder {
@@ -145,8 +157,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     static class VideoViewHolder extends RecyclerView.ViewHolder {
 
+        @InjectView(R.id.viewpager)
+        ViewPager viewPager;
+
         public VideoViewHolder(View view) {
             super(view);
+            ButterKnife.inject(this, view);
         }
 
     }

@@ -14,13 +14,7 @@ public class WTApp extends Application {
         super.onCreate();
         PreferencesManager.initializeInstance(this);
 
-        PreferencesManager.getInstance().setTokenData("CRMZeyj5MRS3Tjtqj1To5RvWk3edDMdq7TetjJzng" +
-                "KAkjjeEN97EgCpwSJrL8PJy2gRsHZ6_65i57kQ3fKvKj-Q0chvrBKyNEVAXxv9HDWGMxXIfONHHLAv8" +
-                "jxmHmFdGdFrUZnI53kxBcv8zrL2DDiL4AWH00_QTkFFYbL_VyYDTQ7rbT-0fbSnxz7K8_JJvbJ9AbcA" +
-                "4dXULZoGQkMP6oUygLs-Ob-pnfckXDJxpedomVBEDmbrcQ1lV_7ADQiDTjGJje1pd2ThDJOTfaMUuZ4" +
-                "sVi0s0xHJU1AqBDdC_uxbHOKYOhwPN6ksjw5eROR05SBognSl9nrLRHzmXqmkfuDqsUCeNRVrIVzPMw" +
-                "6WgtVL4bryV6hoGAqBSuaDnzGsCEI0FeJoisHxhBIoNKd7WNskAfTdql7pHmpGHMhesDXv_WBLqZVpj" +
-                "7v8UrvVnNC9Upur-WxcEwzRt0zavQF9hO4c9Z8k", "Bearer");
+//        PreferencesManager.getInstance().setTokenData("RnpGANN0F2LOVnn_UkLqcFpTHbKwsJEZcG6MotBdc6_LUW6x6CXY6w9A6n9wllv0_uSHgc8ZrbxTh4NkZIummLQtGKpZDTUP4vGw1iNIg7YE5MFY0SxbK0cBCro8AN81_PA-y0zjwcDJu4z_rKwh1dJDaGCyRKP61YUsotrJIwBYMmomslmBp2IEey3IxY31sllj36azymYIAv3JwuyBm9pZtAZcQZH8IhzxMiapEliIDlqqr0s9d4hD7SxZztpU2JAhurF_brmQ_wBHMRnjy7Hx8slKLvAw86vu68cUaq087nwCnoEAJQoc_Qb95RaLJlUwSPiGVkCzTpFdMizjxa7O_Ucsa8aWMa2ckbuzMOegEwck9FQqd1MLO0_HC4R58Tta23DMvpF3ZW6Jpx8sUtMIv72f6H9emHa2S5W7Tp7KQ919IiHdEu2er4TfAzfbgRBywcE0HJc0M_W2JrqbHiiB1o8", "Bearer");
     }
 
 }

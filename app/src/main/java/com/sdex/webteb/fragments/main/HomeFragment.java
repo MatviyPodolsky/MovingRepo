@@ -24,6 +24,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -67,11 +68,25 @@ public class HomeFragment extends BaseMainFragment {
             public void success(BabyHomeResponse babyHomeResponse, Response response) {
                 mUserName.setText(babyHomeResponse.getCard().getName());
 
+                // debug
+//                babyHomeResponse = MockHome.getMockHome(getActivity());
+
                 List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
                 List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
                 List<BabyHomeResponse.AdditionalContent> additionalContent = babyHomeResponse.getAdditionalContent();
 
+                if (previews == null) {
+                    previews = Collections.emptyList();
+                }
+                if (videos == null) {
+                    videos = Collections.emptyList();
+                }
+                if (additionalContent == null) {
+                    additionalContent = Collections.emptyList();
+                }
+
                 HomeListAdapter adapter = new HomeListAdapter(getActivity(),
+                        getChildFragmentManager(),
                         previews, videos, additionalContent);
                 mRecyclerView.setAdapter(adapter);
             }

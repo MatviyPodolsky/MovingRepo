@@ -4,10 +4,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.sdex.webteb.rest.model.ApiResponse;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -105,6 +109,7 @@ public class BabyHomeResponse extends ApiResponse {
 
     @Getter
     @Setter
+    @Parcel
     public static class Video {
 
         @SerializedName("Url")
@@ -120,6 +125,8 @@ public class BabyHomeResponse extends ApiResponse {
         @Expose
         private String author;
 
+        public Video() {
+        }
     }
 
     @Getter
