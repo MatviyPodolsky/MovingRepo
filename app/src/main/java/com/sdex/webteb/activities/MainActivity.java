@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -42,7 +41,6 @@ import com.sdex.webteb.fragments.main.MoreArticlesFragment;
 import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
-import com.sdex.webteb.fragments.main.UserProfileFragment;
 import com.sdex.webteb.model.SideMenuItem;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
@@ -221,6 +219,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
             closeDrawer();
+        } else if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             Fragment curFragment = getSupportFragmentManager().findFragmentByTag(contentFragment);
             if (curFragment != null && curFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {

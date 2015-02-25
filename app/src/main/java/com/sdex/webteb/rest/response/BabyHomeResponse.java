@@ -20,10 +20,16 @@ public class BabyHomeResponse extends ApiResponse {
 
     @SerializedName("Previews")
     @Expose
-    private List<Preview> previews = new ArrayList();
+    private List<Preview> previews;
     @SerializedName("AdditionalContent")
     @Expose
-    private List<AdditionalContent> additionalContent = new ArrayList();
+    private List<AdditionalContent> additionalContent;
+    @SerializedName("Card")
+    @Expose
+    private Card card;
+    @SerializedName("Videos")
+    @Expose
+    private List<Video> videos;
 
     @Getter
     @Setter
@@ -41,6 +47,9 @@ public class BabyHomeResponse extends ApiResponse {
         @SerializedName("Author")
         @Expose
         private String author;
+        @SerializedName("Description")
+        @Expose
+        private String description;
 
     }
 
@@ -60,6 +69,56 @@ public class BabyHomeResponse extends ApiResponse {
         @SerializedName("Key")
         @Expose
         private Key key;
+        @SerializedName("SectionIconUrl")
+        @Expose
+        private String sectionIconUrl;
+        @SerializedName("SectionName")
+        @Expose
+        private String sectionName;
+
+    }
+
+    @Getter
+    @Setter
+    public static class Card {
+
+        @SerializedName("Name")
+        @Expose
+        private String name;
+        @SerializedName("CurrentWeek")
+        @Expose
+        private int currentWeek;
+        @SerializedName("DaysLeft")
+        @Expose
+        private int daysLeft;
+        @SerializedName("TotalDays")
+        @Expose
+        private int totalDays;
+        @SerializedName("GaveBirth")
+        @Expose
+        private boolean gaveBirth;
+        @SerializedName("DueDate")
+        @Expose
+        private String dueDate;
+
+    }
+
+    @Getter
+    @Setter
+    public static class Video {
+
+        @SerializedName("Url")
+        @Expose
+        private String url;
+        @SerializedName("Title")
+        @Expose
+        private String title;
+        @SerializedName("ImageUrl")
+        @Expose
+        private String imageUrl;
+        @SerializedName("Author")
+        @Expose
+        private String author;
 
     }
 

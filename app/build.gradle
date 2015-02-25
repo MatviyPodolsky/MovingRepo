@@ -82,5 +82,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3'
     compile 'org.parceler:parceler:0.2.15'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
+    compile 'uk.co.deanwild:flowtextview:2.0.2@aar'
     compile 'nl.qbusict:cupboard:2.1.1'
 }

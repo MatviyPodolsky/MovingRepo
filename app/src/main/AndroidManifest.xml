@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.sdex.webteb">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -7,6 +8,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
+        tools:replace="android:icon"
         android:name=".WTApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
