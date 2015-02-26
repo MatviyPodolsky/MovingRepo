@@ -44,60 +44,52 @@ public class HomeFragment extends BaseMainFragment {
     RecyclerView mRecyclerView;
     @InjectView(R.id.username)
     TextView mUserName;
+    @InjectView(R.id.textView5)
+    TextView mText;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        RestClient.getApiService().getUserInfo(new RestCallback<UserInfoResponse>() {
-//            @Override
-//            public void failure(RestError restError) {
-//            }
-//
-//            @Override
-//            public void success(UserInfoResponse userInfoResponse, Response response) {
-//                ((TextView)profileCard.findViewById(R.id.username)).setText(userInfoResponse.getEmail());
-//            }
-//        });
-
-        RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
-            @Override
-            public void failure(RestError restError) {
-                Log.d("", "");
-            }
-
-            @Override
-            public void success(BabyHomeResponse babyHomeResponse, Response response) {
-                mUserName.setText(babyHomeResponse.getCard().getName());
-
-                // debug
-//                babyHomeResponse = MockData.getMockHome(getActivity());
-
-                List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
-                List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
-                List<BabyHomeResponse.AdditionalContent> additionalContent = babyHomeResponse.getAdditionalContent();
-
-                if (previews == null) {
-                    previews = Collections.emptyList();
-                }
-                if (videos == null) {
-                    videos = Collections.emptyList();
-                }
-                if (additionalContent == null) {
-                    additionalContent = Collections.emptyList();
-                }
-
-                HomeListAdapter adapter = new HomeListAdapter(getActivity(),
-                        getChildFragmentManager(),
-                        previews, videos, additionalContent);
-                mRecyclerView.setAdapter(adapter);
-            }
-        });
-
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
                 getActivity(), R.drawable.divider_home_list));
+
+        // debug
+        BabyHomeResponse babyHomeResponse = MockData.getMockHome(getActivity());
+        List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
+        List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
+        List<BabyHomeResponse.AdditionalContent> additionalContent = babyHomeResponse.getAdditionalContent();
+        HomeListAdapter adapter = new HomeListAdapter(getActivity(),
+                getChildFragmentManager(),
+                previews, videos, additionalContent);
+        mRecyclerView.setAdapter(adapter);
+        mUserName.setText(babyHomeResponse.getCard().getName());
+        mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
+
+//        RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
+//            @Override
+//            public void failure(RestError restError) {
+//                Log.d("", "");
+//            }
+//
+//            @Override
+//            public void success(BabyHomeResponse babyHomeResponse, Response response) {
+//                mUserName.setText(babyHomeResponse.getCard().getName());
+//                mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
+//
+//                List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
+//                List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
+//                List<BabyHomeResponse.AdditionalContent> additionalContent = babyHomeResponse.getAdditionalContent();
+//
+//                HomeListAdapter adapter = new HomeListAdapter(getActivity(),
+//                        getChildFragmentManager(),
+//                        previews, videos, additionalContent);
+//                mRecyclerView.setAdapter(adapter);
+//            }
+//        });
+
     }
 
     @Override

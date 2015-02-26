@@ -36,7 +36,7 @@ public class VideoThumbnailAdapter extends FragmentStatePagerAdapter implements 
     public Fragment getItem(int position) {
         switch (position) {
             default:
-                return VideoThumbnailFragment.newInstance(data.get(position));
+                return VideoThumbnailFragment.newInstance(data, position);
         }
     }
 

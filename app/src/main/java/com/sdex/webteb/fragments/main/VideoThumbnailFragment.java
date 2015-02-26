@@ -16,6 +16,8 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import java.util.List;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -24,16 +26,21 @@ import butterknife.OnClick;
  */
 public class VideoThumbnailFragment extends BaseFragment {
 
+    public static final String ALL_VIDEO = "all_video";
+    public static final String CURRENT_VIDEO_POSITION = "current_video_position";
+
     @InjectView(R.id.thumbnail)
     ImageView mThumbnail;
 
-    BabyHomeResponse.Video video;
+    private List<BabyHomeResponse.Video> data;
+    private int currentVideoPosition;
 
-    public static Fragment newInstance(BabyHomeResponse.Video video) {
+    public static Fragment newInstance(List<BabyHomeResponse.Video> data, int currentVideoPosition) {
         VideoThumbnailFragment f = new VideoThumbnailFragment();
         Bundle args = new Bundle();
-        Parcelable wrapped = Parcels.wrap(video);
-        args.putParcelable("video", wrapped);
+        Parcelable wrapped = Parcels.wrap(data);
+        args.putParcelable(ALL_VIDEO, wrapped);
+        args.putInt(CURRENT_VIDEO_POSITION, currentVideoPosition);
         f.setArguments(args);
         return f;
     }
@@ -42,11 +49,15 @@ public class VideoThumbnailFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final Parcelable wrapped = getArguments().getParcelable("video");
-        video = Parcels.unwrap(wrapped);
+        final Bundle args = getArguments();
+        final Parcelable wrapped = args.getParcelable(ALL_VIDEO);
+        currentVideoPosition = args.getInt(CURRENT_VIDEO_POSITION);
+        data = Parcels.unwrap(wrapped);
+
+        BabyHomeResponse.Video video = data.get(currentVideoPosition);
 
         Picasso.with(getActivity())
-                .load(video.getImageUrl().replaceAll(" ", ""))
+                .load(video.getImageUrl())
                 .noPlaceholder()
                 .into(mThumbnail);
     }
@@ -59,8 +70,9 @@ public class VideoThumbnailFragment extends BaseFragment {
     @OnClick(R.id.btn_play)
     void play() {
         Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
-        Parcelable wrapped = Parcels.wrap(video);
-        intent.putExtra("video", wrapped);
+        Parcelable wrapped = Parcels.wrap(data);
+        intent.putExtra(ALL_VIDEO, wrapped);
+        intent.putExtra(CURRENT_VIDEO_POSITION, currentVideoPosition);
         startActivity(intent);
     }
 
