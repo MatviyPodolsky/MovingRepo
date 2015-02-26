@@ -141,6 +141,7 @@
 
     <!--requests-->
     <string name="error_loading_data">Error loading data</string>
+    <string name="empty_loaded_data">Empty loaded data</string>
 
     <!--photo-->
     <string name="take_photo">Take photo</string>

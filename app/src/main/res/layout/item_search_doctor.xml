@@ -6,7 +6,7 @@
         android:layout_width="104dp"
         android:layout_height="104dp"
         android:layout_alignParentRight="true"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/ic_photo_large"
         android:layout_marginLeft="10dp"
         android:id="@+id/image" />
 
@@ -53,7 +53,7 @@
             android:src="@drawable/btn_doctor_search_phone_normal"/>
 
         <ImageView
-            android:id="@+id/email"
+            android:id="@+id/save_contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -86,37 +86,5 @@
 
 
         </RelativeLayout>
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/contact_data"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_below="@+id/specialty"-->
-        <!--android:layout_toLeftOf="@+id/image"-->
-        <!--android:layout_toStartOf="@+id/image">-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/location"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:src="@android:drawable/ic_menu_mapmode"/>-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/email"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:src="@android:drawable/sym_action_email"/>-->
-
-        <!--<ImageView-->
-            <!--android:id="@+id/call"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:src="@android:drawable/stat_sys_phone_call_forward"/>-->
-
-        <!--</LinearLayout>-->
 
 </RelativeLayout>

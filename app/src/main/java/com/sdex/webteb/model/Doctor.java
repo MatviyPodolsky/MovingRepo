@@ -1,64 +1,65 @@
 package com.sdex.webteb.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by MPODOLSKY on 04.02.2015.
  */
+
+@Getter
+@Setter
 public class Doctor {
-    private String image;
+
+    @SerializedName("ID")
+    @Expose
+    private int id;
+    @SerializedName("Name")
+    @Expose
     private String name;
+    @SerializedName("JobTitle")
+    @Expose
+    private String jobTitle;
+    @SerializedName("SpecialtyID")
+    @Expose
+    private int specialtyID;
+    @SerializedName("Specialty")
+    @Expose
     private String specialty;
-    private String location;
-    private String email;
-    private String phone;
+    @SerializedName("SubSpecialtyID")
+    @Expose
+    private int subSpecialtyID;
+    @SerializedName("SubSpecialty")
+    @Expose
+    private String subSpecialty;
+    @SerializedName("CountryID")
+    @Expose
+    private int countryID;
+    @SerializedName("Country")
+    @Expose
+    private String country;
+    @SerializedName("CityID")
+    @Expose
+    private int cityID;
+    @SerializedName("City")
+    @Expose
+    private String city;
+    @SerializedName("Latitude")
+    @Expose
+    private String latitude;
+    @SerializedName("Longitude")
+    @Expose
+    private String longitude;
+    @SerializedName("ImpressionKey")
+    @Expose
+    private String impressionKey;
+    @SerializedName("ImageUrl")
+    @Expose
+    private String imageUrl;
 
     public Doctor() {
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSpecialty() {
-        return specialty;
-    }
-
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 }

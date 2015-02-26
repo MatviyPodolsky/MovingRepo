@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.model.Doctor;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -44,33 +45,52 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
 
         holder.name.setText(item.getName());
         holder.specialty.setText(item.getSpecialty());
-        holder.call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + item.getPhone()));
-                getContext().startActivity(intent);
-            }
-        });
-        holder.email.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                        "mailto",item.getEmail(), null));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hello");
-                getContext().startActivity(Intent.createChooser(emailIntent, "Send email..."));
-            }
-        });
-        holder.location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String map = "http://maps.google.co.in/maps?q=" + item.getLocation();
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(map));
-                getContext().startActivity(intent);
-            }
-        });
+        if(false) {
+            holder.call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+//                    intent.setData(Uri.parse("tel:" + item.getPhone()));
+                    getContext().startActivity(intent);
+                }
+            });
+            holder.saveContact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO save contact
+//                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+//                            "mailto", item.getEmail(), null));
+//                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hello");
+//                    getContext().startActivity(Intent.createChooser(emailIntent, "Send email..."));
+                }
+            });
+        } else {
+            holder.call.setVisibility(View.GONE);
+            holder.saveContact.setVisibility(View.GONE);
+        }
+        if(item.getLatitude() != null && item.getLongitude() != null) {
+            holder.location.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    Uri uri = Uri.parse("geo:0,0?q=" + item.getLatitude() + "," + item.getLongitude());
+//                    Uri uri = Uri.parse("http://maps.google.co.in/maps?q=" + item.getLocation());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    getContext().startActivity(intent);
+                }
+            });
+        } else {
+            holder.location.setVisibility(View.GONE);
+            holder.locationText.setVisibility(View.GONE);
+        }
 
+        String url = item.getImageUrl();
+        if(url != null && !url.equals("")) {
+            Picasso.with(getContext())
+                    .load(url)
+                    .noPlaceholder()
+                    .into(holder.image);
+        }
 
         return convertView;
     }
@@ -84,8 +104,10 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         TextView specialty;
         @InjectView(R.id.location)
         ImageView location;
-        @InjectView(R.id.email)
-        ImageView email;
+        @InjectView(R.id.location_text)
+        TextView locationText;
+        @InjectView(R.id.save_contact)
+        ImageView saveContact;
         @InjectView(R.id.call)
         ImageView call;
 

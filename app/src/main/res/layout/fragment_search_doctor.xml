@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/doctor_name"
                     android:id="@+id/search"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionSearch"
                     android:singleLine="true"
                     android:inputType="text"
                     android:gravity="center_vertical|right"

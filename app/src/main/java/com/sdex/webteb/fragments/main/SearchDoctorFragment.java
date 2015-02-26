@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.ArrayMap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.dialogs.SearchFilterDialog;
+
+import java.util.Map;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -32,6 +35,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
     public static final int REQUEST_GET_SPECIALITY = 2;
     public static final String LIST = "LIST";
     public static final String REQUEST = "REQUEST";
+    public static final String REQUEST_STRING = "REQUEST_STRING";
 
     @InjectView(R.id.search)
     EditText search;
@@ -48,11 +52,18 @@ public class SearchDoctorFragment extends BaseMainFragment {
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE){
+                if(actionId == EditorInfo.IME_ACTION_SEARCH){
                     InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
                     Fragment fragment = new SearchResultsFragment();
+                    Bundle args = new Bundle();
+//                    args.putStringArray(REQUEST_STRING, buildSearchString());
+                    args.putString("Name", search.getText().toString());
+                    args.putString("Country", country.getText().toString());
+                    args.putString("City", city.getText().toString());
+                    args.putString("Specialty", specialty.getText().toString());
+                    fragment.setArguments(args);
                     FragmentManager fragmentManager = getChildFragmentManager();
                     fragmentManager.beginTransaction()
                             .add(R.id.fragment_container, fragment, "content_fragment")
@@ -127,6 +138,14 @@ public class SearchDoctorFragment extends BaseMainFragment {
         dialog.setArguments(args);
         dialog.setTargetFragment(this, REQUEST_GET_SPECIALITY);
         dialog.show(ft, "dialog");
+    }
+
+    private String[] buildSearchString(){
+        Map<String, String> map = new ArrayMap<>();
+        map.put("Name", search.getText().toString());
+        map.put("Country", country.getText().toString());
+        String[] result = map.values().toArray(new String[0]);
+        return result;
     }
 
 }

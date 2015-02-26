@@ -1,5 +1,6 @@
 package com.sdex.webteb.rest.service;
 
+import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.request.BabyGeneralRequest;
 import com.sdex.webteb.rest.request.BabyGotbirthRequest;
 import com.sdex.webteb.rest.request.BabyProfileRequest;
@@ -17,12 +18,14 @@ import com.sdex.webteb.rest.response.BabyLookupResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.rest.response.PromotedAppsResponse;
+import com.sdex.webteb.rest.response.SearchDoctorResponse;
 import com.sdex.webteb.rest.response.UnreadEntitiesResponse;
 import com.sdex.webteb.rest.response.UserInfoResponse;
 import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.rest.response.UserRetrieveResponse;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -32,6 +35,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.QueryMap;
 
 /**
  * Created by Yuriy Mysochenko on 09.02.2015.
@@ -117,5 +121,8 @@ public interface ApiService {
 
     @GET("/lookups/specialties/baby")
     public void getBabyLookups(Callback<List<BabyLookupResponse>> callback);
+
+    @GET("/SearchDoctors")
+    public void searchDoctor(@QueryMap Map<String, String> options, RestCallback<SearchDoctorResponse> callback);
 
 }
