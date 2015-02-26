@@ -71,12 +71,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     Runnable mOpenMenuItemTask;
 
     private UiLifecycleHelper uiHelper;
-    @InjectView(R.id.recyclerview)
-    CenteredRecyclerView mRecyclerView;
-    @InjectView(R.id.sliding_layout)
-    SlidingUpPanelLayout mSlidingUpPanelLayout;
-    @InjectView(R.id.drag_view)
-    FrameLayout mDragView;
+
     private static final String contentFragment = "content_fragment";
 
     @Override
@@ -88,48 +83,6 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         initSideMenu();
-
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        final SimpleAdapter adapter = new SimpleAdapter();
-        adapter.setItemCount(30);
-        adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mRecyclerView.smoothScrollToView(view);
-                adapter.setSelectedItem(position);
-            }
-        });
-        mRecyclerView.setAdapter(adapter);
-
-        int offset = getTimeNavigationControllerItemOffset();
-        layoutManager.scrollToPositionWithOffset(13, offset);
-
-        mSlidingUpPanelLayout.setOverlayed(true);
-        mSlidingUpPanelLayout.setCoveredFadeColor(0x00000000);
-
-        mDrawerLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int panelHeight = getSlidingPanelHeight();
-                ViewGroup.LayoutParams layoutParams = mDragView.getLayoutParams();
-                layoutParams.height = panelHeight;
-                mDragView.requestLayout();
-                if (CompatibilityUtil.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mDrawerLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                } else {
-                    mDrawerLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
-            }
-        });
-
-        mSlidingUpPanelLayout.setPanelSlideListener(new SlideListenerAdapter() {
-            @Override
-            public void onPanelSlide(View view, float slideOffset) {
-                float alpha = 0.5f + slideOffset / 2;
-                mDragView.setAlpha(alpha);
-            }
-        });
     }
 
     private void initSideMenu() {
@@ -159,18 +112,6 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         MenuAdapter mDrawerAdapter = new MenuAdapter(MainActivity.this, menuItems);
         mDrawerList.setAdapter(mDrawerAdapter);
         mDrawerLayout.setDrawerListener(this);
-    }
-
-    private int getSlidingPanelHeight() {
-        int windowHeight = mDrawerLayout.getMeasuredHeight();
-        int profileHeight = getResources().getDimensionPixelSize(R.dimen.profile_height);
-        return windowHeight - profileHeight;
-    }
-
-    private int getTimeNavigationControllerItemOffset() {
-        int itemPadding = getResources().getDimensionPixelSize(R.dimen.time_navigation_controller_item_padding);
-        int itemSize = getResources().getDimensionPixelSize(R.dimen.time_navigation_controller_item_size);
-        return (DisplayUtil.getScreenWidth(this) - (2 * itemPadding + itemSize)) / 2;
     }
 
     @Override
@@ -219,8 +160,6 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
             closeDrawer();
-        } else if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
-            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
             Fragment curFragment = getSupportFragmentManager().findFragmentByTag(contentFragment);
             if (curFragment != null && curFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {

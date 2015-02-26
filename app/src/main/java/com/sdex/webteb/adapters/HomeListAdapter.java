@@ -16,6 +16,7 @@ import com.sdex.webteb.utils.FlowTextHelper;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -43,6 +44,17 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                            List<BabyHomeResponse.AdditionalContent> additionalContent) {
         this.context = context;
         this.fragmentManager = fragmentManager;
+
+        if (previews == null) {
+            previews = Collections.emptyList();
+        }
+        if (videos == null) {
+            videos = Collections.emptyList();
+        }
+        if (additionalContent == null) {
+            additionalContent = Collections.emptyList();
+        }
+
         this.previews = previews;
         this.videos = videos;
         this.additionalContent = additionalContent;

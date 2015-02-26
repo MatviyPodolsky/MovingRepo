@@ -41,11 +41,12 @@ public class SettingsFragment extends BaseMainFragment {
     ProgressBar progressBar;
     @InjectView(R.id.error)
     TextView error;
+    private RestCallback<BabyGeneralResponse> getSettingsCallback;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RestClient.getApiService().getBabyGeneral(new RestCallback<BabyGeneralResponse>() {
+        getSettingsCallback = new RestCallback<BabyGeneralResponse>() {
             @Override
             public void failure(RestError restError) {
 //                progressBar.setVisibility(View.GONE);
@@ -60,7 +61,8 @@ public class SettingsFragment extends BaseMainFragment {
 //                root.setVisibility(View.VISIBLE);
 //                progressBar.setVisibility(View.GONE);
             }
-        });
+        };
+        RestClient.getApiService().getBabyGeneral(getSettingsCallback);
     }
 
     @Override
@@ -68,8 +70,14 @@ public class SettingsFragment extends BaseMainFragment {
         return R.layout.fragment_settings;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getSettingsCallback.cancel();
+    }
+
     @OnClick(R.id.logout)
-    public void logout(View v){
+    public void logout(View v) {
         RestClient.getApiService().logout(new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
@@ -86,21 +94,21 @@ public class SettingsFragment extends BaseMainFragment {
     }
 
     @OnClick(R.id.my_profile)
-    public void editProfile(View v){
+    public void editProfile(View v) {
         Intent intent = new Intent(getActivity(), SetupProfileActivity.class);
         startActivity(intent);
 //        getActivity().finish();
     }
 
     @OnClick(R.id.reset)
-    public void reset(View v){
+    public void reset(View v) {
         notifications.setChecked(true);
         reminders.setChecked(true);
         newsletter.setChecked(true);
     }
 
     @OnClick(R.id.save)
-    public void save(View v){
+    public void save(View v) {
         BabyGeneralRequest request = new BabyGeneralRequest();
         request.setNewsletter(newsletter.isChecked());
         request.setWeeklyTips(notifications.isChecked());
