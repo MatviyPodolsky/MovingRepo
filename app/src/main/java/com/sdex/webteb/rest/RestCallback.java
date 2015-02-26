@@ -1,14 +1,14 @@
 package com.sdex.webteb.rest;
 
-import retrofit.Callback;
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
- * Created by Yuriy Mysochenko on 09.02.2015.
+ * Created by Yuriy Mysochenko on 26.02.2015.
  */
-public abstract class RestCallback<T> implements Callback<T> {
+public abstract class RestCallback<T> implements CancellableRestCallback<T> {
 
-    public abstract void failure(RestError restError);
+    private boolean isCancelled;
 
     @Override
     public void failure(RetrofitError error) {
@@ -25,6 +25,22 @@ public abstract class RestCallback<T> implements Callback<T> {
             restError.setCode(status);
             failure(restError);
         }
+    }
+
+    @Override
+    public void success(T t, Response response) {
+        if(isCancelled()) return;
+        success(t, response);
+    }
+
+    @Override
+    public void cancel() {
+        isCancelled = true;
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return isCancelled;
     }
 
 }
