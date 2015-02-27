@@ -3,6 +3,9 @@ package com.sdex.webteb.fragments.main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -10,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.ArrayMap;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -37,6 +41,10 @@ public class SearchDoctorFragment extends BaseMainFragment {
     public static final String REQUEST = "REQUEST";
     public static final String REQUEST_STRING = "REQUEST_STRING";
 
+    public static final long MIN_TIME_BW_UPDATES = 10;
+    public static final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 10f;
+    private boolean canGetLocation;
+
     @InjectView(R.id.search)
     EditText search;
     @InjectView(R.id.country_text)
@@ -49,11 +57,12 @@ public class SearchDoctorFragment extends BaseMainFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Location loc = getLocation();
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH){
-                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
                     Fragment fragment = new SearchResultsFragment();
@@ -86,17 +95,17 @@ public class SearchDoctorFragment extends BaseMainFragment {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_GET_COUNTRY:
-                    if(data != null) {
+                    if (data != null) {
                         country.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
                     }
                     break;
                 case REQUEST_GET_CITY:
-                    if(data != null) {
+                    if (data != null) {
                         city.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
                     }
                     break;
                 case REQUEST_GET_SPECIALITY:
-                    if(data != null) {
+                    if (data != null) {
                         specialty.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
                     }
                     break;
@@ -140,7 +149,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
         dialog.show(ft, "dialog");
     }
 
-    private String[] buildSearchString(){
+    private String[] buildSearchString() {
         Map<String, String> map = new ArrayMap<>();
         map.put("Name", search.getText().toString());
         map.put("Country", country.getText().toString());
@@ -148,4 +157,87 @@ public class SearchDoctorFragment extends BaseMainFragment {
         return result;
     }
 
+
+    public Location getLocation() {
+        Location location = null;
+        double latitude;
+        double longitude;
+        try {
+            LocationManager locationManager = (LocationManager) getActivity()
+                    .getSystemService(getActivity().LOCATION_SERVICE);
+
+            // getting GPS status
+            boolean isGPSEnabled = locationManager
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+            // getting network status
+            boolean isNetworkEnabled = locationManager
+                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if (!isGPSEnabled && !isNetworkEnabled) {
+                // no network provider is enabled
+            } else {
+                this.canGetLocation = true;
+                if (isNetworkEnabled) {
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+                    Log.d("Network", "Network Enabled");
+                    if (locationManager != null) {
+                        location = locationManager
+                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        }
+                    }
+                }
+                // if GPS Enabled get lat/long using GPS Services
+                if (isGPSEnabled) {
+                    if (location == null) {
+                        locationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+                        Log.d("GPS", "GPS Enabled");
+                        if (locationManager != null) {
+                            location = locationManager
+                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if (location != null) {
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                            }
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return location;
+    }
+
+    private final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+
+    };
 }

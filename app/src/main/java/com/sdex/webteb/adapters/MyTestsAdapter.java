@@ -114,7 +114,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_my_tests_child, parent, false);
             holder = new ViewHolderChild(convertView);
-            holder.checkbox.setOnCheckedChangeListener(onCheckedChangeListener);
+//            holder.checkbox.setOnCheckedChangeListener(onCheckedChangeListener);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolderChild) convertView.getTag();
@@ -127,17 +127,28 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                 changeReminder(data.get(groupPosition), holder, groupPosition);
             }
         });
-        holder.doneTest.setOnClickListener(new View.OnClickListener() {
+//        holder.doneTest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                changeTestStatus(data.get(groupPosition), holder, groupPosition);
+//            }
+//        });
+//        holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                changeTestStatus(data.get(groupPosition), holder, groupPosition);
+//            }
+//        });
+        holder.checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeTestStatus(data.get(groupPosition), holder, groupPosition);
             }
         });
-
         refreshButtons(data.get(groupPosition).getUserTest(), holder);
 
         holder.checkbox.setTag(groupPosition);
-        holder.checkbox.setChecked(checked.get(groupPosition));
+//        holder.checkbox.setChecked(checked.get(groupPosition));
         return convertView;
     }
 
@@ -177,12 +188,13 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         } else {
             holder.addReminder.setText(context.getString(R.string.add_reminder));
         }
+        holder.checkbox.setChecked(test != null && test.isTestDone());
 
-        if(test != null && test.isTestDone()) {
-            holder.doneTest.setText(context.getString(R.string.undone_test));
-        } else {
-            holder.doneTest.setText(context.getString(R.string.done_test));
-        }
+//        if(test != null && test.isTestDone()) {
+//            holder.checkbox.setChecked(test != null && test.isTestDone());
+//        } else {
+//            holder.doneTest.setText(context.getString(R.string.done_test));
+//        }
     }
     private void changeReminder(final BabyTestResponse item,
                                 final ViewHolderChild holder, final int position) {
@@ -294,9 +306,9 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         Button searchDoctor;
         @InjectView(R.id.add_reminder)
         Button addReminder;
-        @InjectView(R.id.done_test)
-        Button doneTest;
-        @InjectView(R.id.checkbox)
+//        @InjectView(R.id.done_test)
+//        Button doneTest;
+        @InjectView(R.id.done)
         CheckBox checkbox;
 
         public ViewHolderChild(View view) {

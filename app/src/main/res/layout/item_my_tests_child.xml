@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:background="@drawable/btn_blue_normal"
             android:text="@string/read_more" />
 
         <Button
@@ -27,6 +28,7 @@
             android:layout_below="@id/read_more"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:background="@drawable/btn_blue_normal"
             android:text="@string/search_doctor" />
 
         <Button
@@ -36,21 +38,22 @@
             android:layout_below="@id/search_doctor"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:background="@drawable/btn_facebook_normal"
             android:text="@string/add_reminder" />
 
-        <Button
-            android:id="@+id/done_test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/add_reminder"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="@string/done_test" />
+        <!--<Button-->
+            <!--android:id="@+id/done_test"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/add_reminder"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:text="@string/done_test" />-->
 
     </RelativeLayout>
 
     <CheckBox
-        android:id="@+id/checkbox"
+        android:id="@+id/done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/container"
