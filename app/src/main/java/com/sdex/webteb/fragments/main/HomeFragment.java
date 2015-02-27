@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -25,6 +26,9 @@ import com.sdex.webteb.adapters.SimpleAdapter;
 import com.sdex.webteb.dialogs.NotificationDialog;
 import com.sdex.webteb.extras.SimpleDividerItemDecoration;
 import com.sdex.webteb.mock.MockData;
+import com.sdex.webteb.rest.RestCallback;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
@@ -36,6 +40,7 @@ import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.client.Response;
 
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
@@ -120,38 +125,38 @@ public class HomeFragment extends BaseMainFragment {
                 getActivity(), R.drawable.divider_home_list));
 
         // debug
-        BabyHomeResponse babyHomeResponse = MockData.getMockHome(getActivity());
-        List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
-        List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
-        List<BabyHomeResponse.AdditionalContent> additionalContent = babyHomeResponse.getAdditionalContent();
-        HomeListAdapter adapter = new HomeListAdapter(getActivity(),
-                getChildFragmentManager(),
-                previews, videos, additionalContent);
-        mRecyclerView.setAdapter(adapter);
-        mUserName.setText(babyHomeResponse.getCard().getName());
-        mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
+//        BabyHomeResponse babyHomeResponse = MockData.getMockHome(getActivity());
+//        List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
+//        List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
+//        List<BabyHomeResponse.AdditionalContent> additionalContent = babyHomeResponse.getAdditionalContent();
+//        HomeListAdapter adapter = new HomeListAdapter(getActivity(),
+//                getChildFragmentManager(),
+//                previews, videos, additionalContent);
+//        mRecyclerView.setAdapter(adapter);
+//        mUserName.setText(babyHomeResponse.getCard().getName());
+//        mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
 
-//        RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
-//            @Override
-//            public void failure(RestError restError) {
-//                Log.d("", "");
-//            }
-//
-//            @Override
-//            public void success(BabyHomeResponse babyHomeResponse, Response response) {
-//                mUserName.setText(babyHomeResponse.getCard().getName());
-//                mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
-//
-//                List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
-//                List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
-//                List<BabyHomeResponse.AdditionalContent> additionalContent = babyHomeResponse.getAdditionalContent();
-//
-//                HomeListAdapter adapter = new HomeListAdapter(getActivity(),
-//                        getChildFragmentManager(),
-//                        previews, videos, additionalContent);
-//                mRecyclerView.setAdapter(adapter);
-//            }
-//        });
+        RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                Log.d("", "");
+            }
+
+            @Override
+            public void success(BabyHomeResponse babyHomeResponse, Response response) {
+                mUserName.setText(babyHomeResponse.getCard().getName());
+                mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
+
+                List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
+                List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
+                List<BabyHomeResponse.AdditionalContent> additionalContent = babyHomeResponse.getAdditionalContent();
+
+                HomeListAdapter adapter = new HomeListAdapter(getActivity(),
+                        getChildFragmentManager(),
+                        previews, videos, additionalContent);
+                mRecyclerView.setAdapter(adapter);
+            }
+        });
 
     }
 

@@ -3,10 +3,14 @@ package com.sdex.webteb.utils;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.text.Html;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.AlignmentSpan;
 import android.text.style.LeadingMarginSpan;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -34,7 +38,8 @@ public class FlowTextHelper {
                                    TextView messageView,  int addPadding){
         // There is nothing I can do for older versions, so just return
         if(!mNewClassAvailable) return;
-
+//        text = "djkfghdghdkhg kd kfd ghkdg hd ghdgh dkgh dkfhg kdfshg kfdh gdfh gfdh gkdsg kdfj gdjkg d gdf dfg" +
+//                "dkfg dklgdk ghdkjfh gjkdf hgkjdh kjdfhg kdfh gkdjfh gkjdfh gdfj hdkfh dhk hdfk ghdfkj gdkf hdfkg";
         int screenWidth = DisplayUtil.getScreenWidth(context);
         int screenHeight = DisplayUtil.getScreenHeight(context);
 
@@ -49,8 +54,10 @@ public class FlowTextHelper {
         // Set the span according to the number of lines and width of the image
         int lines =  (int)Math.round((height - padding) / textLineHeight);
         SpannableString ss = new SpannableString(text);
-        //For an html text you can use this line: SpannableStringBuilder ss = (SpannableStringBuilder)Html.fromHtml(text);
+        //For an html text you can use this line:
+//        SpannableStringBuilder ss = (SpannableStringBuilder)Html.fromHtml(text);
         ss.setSpan(new MyLeadingMarginSpan2(lines, width), 0, ss.length(), 0);
+
         messageView.setText(ss);
 
         // Align the text with the image by removing the rule that the text is to the right of the image
@@ -82,7 +89,9 @@ public class FlowTextHelper {
         @Override
         public void drawLeadingMargin(Canvas c, Paint p, int x, int dir,
                                       int top, int baseline, int bottom, CharSequence text,
-                                      int start, int end, boolean first, Layout layout) {}
+                                      int start, int end, boolean first, Layout layout) {
+            Log.d("", "");
+        }
 
     }
 

@@ -114,16 +114,16 @@ public class BabyHomeResponse extends ApiResponse {
 
         @SerializedName("Url")
         @Expose
-        private String url;
+        String url;
         @SerializedName("Title")
         @Expose
-        private String title;
+        String title;
         @SerializedName("ImageUrl")
         @Expose
-        private String imageUrl;
+        String imageUrl;
         @SerializedName("Author")
         @Expose
-        private String author;
+        String author;
 
         public Video() {
         }

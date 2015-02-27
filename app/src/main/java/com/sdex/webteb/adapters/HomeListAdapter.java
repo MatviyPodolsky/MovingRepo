@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.FlowTextHelper;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -90,18 +91,13 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 Picasso.with(context)
                         .load(preview.getImageUrl())
                         .noPlaceholder()
-                        .into(viewHolder.image, new Callback() {
+                        .into(viewHolder.image, new Callback.EmptyCallback() {
                             @Override
                             public void onSuccess() {
 //                                FlowTextHelper.tryFlowText(context, preview.getDescription(),
 //                                        viewHolder.image,
 //                                        viewHolder.text,
-//                                        10);
-                            }
-
-                            @Override
-                            public void onError() {
-
+//                                        DisplayUtil.dpToPx(10));
                             }
                         });
             } else {

@@ -8,7 +8,6 @@ import org.parceler.ParcelConstructor;
 /**
  * Created by Yuriy Mysochenko on 09.02.2015.
  */
-@Parcel
 public class RestError {
 
     @SerializedName("code")
