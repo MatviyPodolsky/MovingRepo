@@ -3,6 +3,8 @@ package com.sdex.webteb.fragments.main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,7 +14,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,11 +21,13 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.dialogs.SearchFilterDialog;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -57,7 +60,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Location loc = getLocation();
+        setCurrentLocation();
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -149,23 +152,14 @@ public class SearchDoctorFragment extends BaseMainFragment {
         dialog.show(ft, "dialog");
     }
 
-    private String[] buildSearchString() {
-        Map<String, String> map = new ArrayMap<>();
-        map.put("Name", search.getText().toString());
-        map.put("Country", country.getText().toString());
-        String[] result = map.values().toArray(new String[0]);
-        return result;
-    }
+    private void setCurrentLocation(){
+        Locale defaultLocale = getActivity().getResources().getConfiguration().locale;
 
-
-    public Location getLocation() {
+        LocationManager locationManager = (LocationManager) getActivity()
+                .getSystemService(Context.LOCATION_SERVICE);
+        double latitude = 0, longitude = 0;
         Location location = null;
-        double latitude;
-        double longitude;
         try {
-            LocationManager locationManager = (LocationManager) getActivity()
-                    .getSystemService(getActivity().LOCATION_SERVICE);
-
             // getting GPS status
             boolean isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -174,9 +168,13 @@ public class SearchDoctorFragment extends BaseMainFragment {
             boolean isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
+
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
+                Toast.makeText(getActivity(), "No network provider is enabled", Toast.LENGTH_SHORT).show();
             } else {
+                Geocoder geocoder = new Geocoder(getActivity(), defaultLocale);
+                List<Address> addresses = null;
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
                     locationManager.requestLocationUpdates(
@@ -192,32 +190,32 @@ public class SearchDoctorFragment extends BaseMainFragment {
                             longitude = location.getLongitude();
                         }
                     }
-                }
-                // if GPS Enabled get lat/long using GPS Services
-                if (isGPSEnabled) {
-                    if (location == null) {
-                        locationManager.requestLocationUpdates(
-                                LocationManager.GPS_PROVIDER,
-                                MIN_TIME_BW_UPDATES,
-                                MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
-                        Log.d("GPS", "GPS Enabled");
-                        if (locationManager != null) {
-                            location = locationManager
-                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
+                } else {
+                    // if GPS Enabled get lat/long using GPS Services
+                        if (location == null) {
+                            locationManager.requestLocationUpdates(
+                                    LocationManager.GPS_PROVIDER,
+                                    MIN_TIME_BW_UPDATES,
+                                    MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+                            Log.d("GPS", "GPS Enabled");
+                            if (locationManager != null) {
+                                location = locationManager
+                                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                if (location != null) {
+                                    latitude = location.getLatitude();
+                                    longitude = location.getLongitude();
+                                }
                             }
                         }
                     }
-                }
+                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                this.country.setText(addresses.get(0).getCountryName());
+                this.city.setText(addresses.get(0).getLocality());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return location;
     }
 
     private final LocationListener locationListener = new LocationListener() {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ProfilePageAdapter;
@@ -51,7 +52,8 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         String dt = outFormat.format(date);
-//        request.setDate(dt);
+        request.setDateType(1);
+        request.setDate(dt);
 
         RestClient.getApiService().getUserInfo(new RestCallback<UserInfoResponse>() {
             @Override
@@ -140,6 +142,7 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
         RestClient.getApiService().setBabyProfile(request, new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
+                Toast.makeText(SetupProfileActivity.this, "Error, check if u correct input data", Toast.LENGTH_SHORT).show();
             }
 
             @Override
