@@ -1,54 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/mb_solid_yellow"
-            android:id="@+id/relativeLayout">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:layout_centerInParent="true"
-                tools:text="Some text"
-                android:id="@+id/textView7" />
-        </RelativeLayout>
-
-        <com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView
-            android:id="@+id/grid_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:numColumns="4"
-            android:padding="16dp"
-            tools:context=".fragments.AlbumFragment"
-            android:layout_below="@+id/relativeLayout" />
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/mb_solid_yellow"
+        android:id="@+id/relativeLayout">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="My album"
-            android:id="@+id/textView"
-            android:visibility="gone"
-            android:layout_gravity="center" />
+            android:text="New Text"
+            android:layout_centerInParent="true"
+            tools:text="Some text"
+            android:id="@+id/textView7" />
+
+        <include
+            layout="@layout/btn_take_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/btn_delete_photo"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete_photo"
+            android:background="@drawable/btn_delete_photo_selector"
+            android:visibility="gone" />
+
 
     </RelativeLayout>
+
+    <com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView
+        android:id="@+id/grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:numColumns="4"
+        android:padding="16dp"
+        tools:context=".fragments.AlbumFragment"
+        android:layout_below="@+id/relativeLayout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="My album"
+        android:id="@+id/textView"
+        android:visibility="gone"
+        android:layout_gravity="center" />
 
     <FrameLayout
         android:id="@+id/fragment_album_container"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/relativeLayout">
 
     </FrameLayout>
 
-</FrameLayout>
+</RelativeLayout>

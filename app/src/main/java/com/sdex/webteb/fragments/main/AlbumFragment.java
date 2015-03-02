@@ -11,9 +11,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.AlbumAdapter;
+import com.sdex.webteb.internal.events.DeletePhotoEvent;
+import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
 import java.io.File;
@@ -21,22 +24,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public class AlbumFragment extends BaseMainFragment {
+public class AlbumFragment extends BaseMainFragment implements FragmentManager.OnBackStackChangedListener {
 
     public static List<String> cameraImages;
 
     @InjectView(R.id.grid_view)
     StickyGridHeadersGridView mGridView;
+    @InjectView(R.id.btn_delete_photo)
+    ImageButton mDeletePhoto;
+
+    private AlbumAdapter mAdapter;
+    private EventBus mEventBus = EventBus.getDefault();
+    private final List<AlbumAdapter.Item> data = new ArrayList<>();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        List<AlbumAdapter.Item> data = new ArrayList<>();
 
         cameraImages = getCameraImages(getActivity());
 
@@ -55,7 +64,10 @@ public class AlbumFragment extends BaseMainFragment {
 //            }
 //        }
 
-        mGridView.setAdapter(new AlbumAdapter(getActivity(), data));
+        getChildFragmentManager().addOnBackStackChangedListener(this);
+
+        mAdapter = new AlbumAdapter(getActivity(), data);
+        mGridView.setAdapter(mAdapter);
         mGridView.setAreHeadersSticky(false);
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,6 +88,41 @@ public class AlbumFragment extends BaseMainFragment {
     public int getLayoutResource() {
         return R.layout.fragment_album;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mEventBus.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mEventBus.unregister(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getChildFragmentManager().removeOnBackStackChangedListener(this);
+    }
+
+    @OnClick(R.id.btn_take_photo)
+    void takePhoto() {
+
+    }
+
+    @OnClick(R.id.btn_delete_photo)
+    void deletePhoto() {
+        IntentDeletePhotoEvent event = new IntentDeletePhotoEvent();
+        mEventBus.post(event);
+    }
+
+    public void onEvent(DeletePhotoEvent event) {
+        data.remove(event.getIndex());
+        mAdapter.notifyDataSetChanged();
+    }
+
 
     public ArrayList<String> getCameraImages(Context context) {
 
@@ -125,4 +172,15 @@ public class AlbumFragment extends BaseMainFragment {
         }
         return data;
     }
+
+    @Override
+    public void onBackStackChanged() {
+        final int count = getChildFragmentManager().getBackStackEntryCount();
+        if (count > 0) {
+            mDeletePhoto.setVisibility(View.VISIBLE);
+        } else {
+            mDeletePhoto.setVisibility(View.GONE);
+        }
+    }
+
 }

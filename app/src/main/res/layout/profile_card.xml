@@ -67,15 +67,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="photo"
-            android:drawableRight="@drawable/ic_photo"
-            android:drawablePadding="5dp"
-            android:textColor="@android:color/white"
-            android:background="@drawable/btn_blue"
-            android:id="@+id/button6" />
+        <include layout="@layout/btn_take_photo" />
 
         <LinearLayout
             android:orientation="horizontal"

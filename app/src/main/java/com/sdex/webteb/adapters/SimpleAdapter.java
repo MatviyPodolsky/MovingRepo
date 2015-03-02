@@ -145,7 +145,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
     public static List<Item> generateDummyData(int count) {
         ArrayList<Item> items = new ArrayList<>();
 
-        for (int i = 0; i < count; i++) {
+        for (int i = count; i > 0; i--) {
             items.add(new SimpleAdapter.Item(String.valueOf(i)));
         }
 
