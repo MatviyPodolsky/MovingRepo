@@ -50,4 +50,9 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="AppTheme.Switch" parent="android:Theme.Holo.Light">
+        <item name="android:thumb">@drawable/apptheme_switch_inner_holo_light</item>
+        <item name="android:track">@drawable/apptheme_switch_track_holo_light</item>
+    </style>
+
 </resources>

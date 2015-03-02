@@ -12,10 +12,9 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
-import com.sdex.webteb.utils.DisplayUtil;
-import com.sdex.webteb.utils.FlowTextHelper;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.viewpagerindicator.IconPageIndicator;
 
 import java.util.Collections;
 import java.util.List;
@@ -108,11 +107,29 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .noPlaceholder()
                     .into(viewHolder.icon);
         } else if (holder instanceof VideoViewHolder) {
-            VideoViewHolder viewHolder = (VideoViewHolder) holder;
+            final VideoViewHolder viewHolder = (VideoViewHolder) holder;
             VideoThumbnailAdapter videoThumbnailAdapter =
                     new VideoThumbnailAdapter(fragmentManager, videos);
             viewHolder.viewPager.setAdapter(videoThumbnailAdapter);
+            viewHolder.mIndicator.setViewPager(viewHolder.viewPager);
             viewHolder.viewPager.setOffscreenPageLimit(3);
+            viewHolder.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    viewHolder.mIndicator.setCurrentItem(position);
+                    viewHolder.mIndicator.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
         }
     }
 
@@ -167,6 +184,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @InjectView(R.id.viewpager)
         ViewPager viewPager;
+        @InjectView(R.id.indicator)
+        IconPageIndicator mIndicator;
 
         public VideoViewHolder(View view) {
             super(view);
