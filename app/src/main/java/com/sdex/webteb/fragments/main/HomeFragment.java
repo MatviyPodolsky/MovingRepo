@@ -2,8 +2,10 @@ package com.sdex.webteb.fragments.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -24,12 +26,13 @@ import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.SimpleAdapter;
 import com.sdex.webteb.dialogs.NotificationDialog;
+import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.extras.SimpleDividerItemDecoration;
-import com.sdex.webteb.mock.MockData;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.utils.CameraHelper;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.view.CenteredRecyclerView;
@@ -47,7 +50,13 @@ import retrofit.client.Response;
  */
 public class HomeFragment extends BaseMainFragment {
 
-    public static final int REQUEST_GET_NOTIFICATION = 0;
+    public static final int REQUEST_GET_NOTIFICATION = 10;
+    public static final int REQUEST_TAKE_PHOTO = 0;
+    public static final int REQUEST_SELECT_PHOTO = 1;
+    public static final int REQUEST_DIALOG = 2;
+    public static final int PHOTO_TAKEN = 3;
+    public static final int PHOTO_SELECTED = 4;
+    public static final String PHOTO_PATH = "PHOTO_PATH";
 
     @InjectView(R.id.fragment_container)
     FrameLayout mRootView;
@@ -67,9 +76,24 @@ public class HomeFragment extends BaseMainFragment {
     @InjectView(R.id.drag_view)
     FrameLayout mDragView;
 
+    private CameraHelper mCameraHelper;
+    private Uri currentPhoto;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mCameraHelper = new CameraHelper(getActivity());
+        mCameraHelper.setCallback(new CameraHelper.Callback() {
+            @Override
+            public void onPhotoTaking(Uri path) {
+                currentPhoto = path;
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                        path);
+                startActivityForResult(takePictureIntent, PHOTO_TAKEN);
+            }
+        });
 
         final LinearLayoutManager timeNavControllerLayoutManager =
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -180,26 +204,26 @@ public class HomeFragment extends BaseMainFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // notifying nested fragments (support library bug fix)
-        if (requestCode == UserProfileFragment.PHOTO_TAKEN || requestCode == UserProfileFragment.PHOTO_SELECTED) {
-            final FragmentManager childFragmentManager = getChildFragmentManager();
-
-            if (childFragmentManager != null) {
-                final List<Fragment> nestedFragments = childFragmentManager.getFragments();
-
-                if (nestedFragments == null || nestedFragments.size() == 0) return;
-
-                for (Fragment childFragment : nestedFragments) {
-                    if (childFragment != null && !childFragment.isDetached() && !childFragment.isRemoving()) {
-                        childFragment.onActivityResult(requestCode, resultCode, data);
-                    }
-                }
-            }
-        }
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_GET_NOTIFICATION:
                     Toast.makeText(getActivity(), "Notification confirmed", Toast.LENGTH_SHORT).show();
+                    break;
+                case REQUEST_TAKE_PHOTO:
+                    mCameraHelper.dispatchTakePictureIntent(PHOTO_TAKEN);
+                    break;
+                case REQUEST_SELECT_PHOTO:
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent,
+                            "Select Photo"), PHOTO_SELECTED);
+                    break;
+                case PHOTO_TAKEN:
+                    showPhotoPreview(currentPhoto.toString());
+                    break;
+                case PHOTO_SELECTED:
+                    showPhotoPreview(data.getData().toString());
                     break;
             }
         } else {
@@ -213,12 +237,9 @@ public class HomeFragment extends BaseMainFragment {
 
     @OnClick(R.id.avatar)
     public void takePhoto(final View v) {
-        Fragment fragment = new UserProfileFragment();
-        FragmentManager fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment, "content_fragment")
-                .addToBackStack(null)
-                .commit();
+        DialogFragment dialog = new PhotoDialog();
+        dialog.setTargetFragment(this, REQUEST_DIALOG);
+        dialog.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.notification)
@@ -231,5 +252,17 @@ public class HomeFragment extends BaseMainFragment {
     @OnClick(R.id.share)
     public void share(final View v) {
         ((MainActivity) getActivity()).publishFacebook("asd", "dsa", "qwer", "http://www.google.com", "http://cs7061.vk.me/c7006/v7006596/40f5b/L3hqYSMgZCM.jpg");
+    }
+
+    private void showPhotoPreview(String path){
+        Fragment fragment = new UserProfileFragment();
+        Bundle args = new Bundle();
+        args.putString(PHOTO_PATH, path);
+        fragment.setArguments(args);
+        FragmentManager fragmentManager = getChildFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_container, fragment, "content_fragment")
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
     }
 }
