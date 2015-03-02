@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.fragments.main.UserProfileFragment;
+import com.sdex.webteb.fragments.main.HomeFragment;
 
 import butterknife.OnClick;
 
@@ -29,19 +29,19 @@ public class PhotoDialog extends BaseDialogFragment {
 
     @OnClick(R.id.take_photo)
     public void takePhoto(final View v){
-        getTargetFragment().onActivityResult(UserProfileFragment.REQUEST_TAKE_PHOTO, Activity.RESULT_OK, null);
+        getTargetFragment().onActivityResult(HomeFragment.REQUEST_TAKE_PHOTO, Activity.RESULT_OK, null);
         this.dismiss();
     }
 
     @OnClick(R.id.select_photo)
     public void selectPhoto(final View v){
-        getTargetFragment().onActivityResult(UserProfileFragment.REQUEST_SELECT_PHOTO, Activity.RESULT_OK, null);
+        getTargetFragment().onActivityResult(HomeFragment.REQUEST_SELECT_PHOTO, Activity.RESULT_OK, null);
         this.dismiss();
     }
 
     @OnClick(R.id.cancel)
     public void cancel(final View v){
-        getTargetFragment().onActivityResult(UserProfileFragment.REQUEST_DIALOG, Activity.RESULT_CANCELED, null);
+        getTargetFragment().onActivityResult(HomeFragment.REQUEST_DIALOG, Activity.RESULT_CANCELED, null);
         this.dismiss();
     }
 
