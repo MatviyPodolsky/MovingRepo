@@ -7,49 +7,83 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ArticlesAdapter;
-import com.sdex.webteb.model.Article;
+import com.sdex.webteb.rest.RestCallback;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.RestError;
+import com.sdex.webteb.rest.response.ArticlesResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import retrofit.client.Response;
 
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
 public class MoreArticlesFragment extends BaseMainFragment {
 
+    public static final String ARTICLE_URL = "ARTICLE_URL";
+
     private ArticlesAdapter mAdapter;
     @InjectView(R.id.list)
     ListView mList;
+    @InjectView(R.id.progress)
+    ProgressBar progress;
+    @InjectView(R.id.error)
+    TextView error;
+    private RestCallback<ArticlesResponse> getArticles;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<Article> data = new ArrayList();
-        for (int i = 0; i < 10; i++) {
-            Article article = new Article();
-            article.setTitle("title" + i);
-            article.setText(getString(R.string.test_text));
-            article.setDate("10.10.2010");
-            data.add(article);
-        }
-        mAdapter = new ArticlesAdapter(getActivity(), data);
-        mList.setAdapter(mAdapter);
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        progress.setVisibility(View.VISIBLE);
+        mList.setVisibility(View.GONE);
+
+        getArticles = new RestCallback<ArticlesResponse>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = new ArticleFragment();
-                FragmentManager fragmentManager = getChildFragmentManager();
-                fragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, fragment, "content_fragment")
-                        .addToBackStack(null)
-                        .commit();
+            public void failure(RestError restError) {
+                progress.setVisibility(View.GONE);
+                error.setVisibility(View.VISIBLE);
             }
-        });
+
+            @Override
+            public void success(ArticlesResponse articlesResponse, Response response) {
+                List<ArticlesResponse.Article> articles = articlesResponse.getArticles();
+                if(articles !=null && !articles.isEmpty()) {
+                    mAdapter = new ArticlesAdapter(getActivity(), articles);
+                    mList.setAdapter(mAdapter);
+                    mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Fragment fragment = new ArticleFragment();
+                            Bundle args = new Bundle();
+                            args.putString(ARTICLE_URL, mAdapter.getItem(position).getUrl());
+                            fragment.setArguments(args);
+                            FragmentManager fragmentManager = getChildFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.fragment_container, fragment, "content_fragment")
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+                    });
+                    progress.setVisibility(View.GONE);
+                    mList.setVisibility(View.VISIBLE);
+                }
+            }
+        };
+        RestClient.getApiService().getArticles(1, 20, getArticles);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getArticles.cancel();
     }
 
     @Override

@@ -13,10 +13,13 @@ public class ArticleFragment extends BaseMainFragment {
 
     @InjectView(R.id.text)
     TextView text;
+    private String url;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle args = getArguments();
+        url = args.getString(MoreArticlesFragment.ARTICLE_URL);
         String fake = getActivity().getString(R.string.test_text);
         text.setText(fake+fake+fake+fake+fake+fake+fake+fake+fake+fake+fake+fake+fake+fake+fake+fake+fake+fake);
     }
