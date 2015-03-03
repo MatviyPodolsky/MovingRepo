@@ -32,6 +32,7 @@ import com.facebook.widget.WebDialog;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MenuAdapter;
 import com.sdex.webteb.adapters.SimpleAdapter;
+import com.sdex.webteb.fragments.BaseFragment;
 import com.sdex.webteb.fragments.main.AboutFragment;
 import com.sdex.webteb.fragments.main.AlbumFragment;
 import com.sdex.webteb.fragments.main.BaseMainFragment;
@@ -239,7 +240,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         }
     }
 
-    private static BaseMainFragment getFragmentByPosition(int position) {
+    private static Fragment getFragmentByPosition(int position) {
         switch (position) {
             case 0:
                 return new HomeFragment();

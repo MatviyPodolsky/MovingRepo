@@ -4,11 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.PhotoPagerAdapter;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.internal.events.DeletePhotoEvent;
 import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
+import com.sdex.webteb.internal.events.TakePhotoEvent;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -21,7 +27,10 @@ public class AlbumViewFragment extends BaseMainFragment {
     private final EventBus mEventBus = EventBus.getDefault();
     @InjectView(R.id.viewpager)
     ViewPager mViewPager;
+    @InjectView(R.id.description)
+    TextView mDescription;
     private PhotoPagerAdapter mAdapter;
+    private List<DbPhoto> data;
 
     public static AlbumViewFragment newInstance(int currentPhoto) {
         AlbumViewFragment fragment = new AlbumViewFragment();
@@ -34,12 +43,22 @@ public class AlbumViewFragment extends BaseMainFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAdapter = new PhotoPagerAdapter(getChildFragmentManager(),
-                AlbumFragment.cameraImages);
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
+        data = databaseHelper.getPhotos();
+        mAdapter = new PhotoPagerAdapter(getChildFragmentManager(), data);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(2);
         final int currentPhoto = getArguments().getInt("current_photo");
         mViewPager.setCurrentItem(currentPhoto);
+        setDescription(currentPhoto);
+
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                setDescription(position);
+            }
+        });
     }
 
     @Override
@@ -59,15 +78,26 @@ public class AlbumViewFragment extends BaseMainFragment {
         mEventBus.unregister(this);
     }
 
+    private void setDescription(int position) {
+        DbPhoto photo = data.get(position);
+        mDescription.setText(photo.getDescription());
+    }
+
     public void onEvent(IntentDeletePhotoEvent event) {
         int currentItem = mViewPager.getCurrentItem();
-
-        AlbumFragment.cameraImages.remove(currentItem);
-
+        DbPhoto photo = data.get(currentItem);
         DeletePhotoEvent photoDelete = new DeletePhotoEvent();
         photoDelete.setIndex(currentItem);
+        photoDelete.setPhoto(photo);
         mEventBus.post(photoDelete);
 
+        data.remove(currentItem);
+        mAdapter.notifyDataSetChanged();
+        setDescription(mViewPager.getCurrentItem());
+    }
+
+    public void onEvent(TakePhotoEvent event) {
+        data.add(event.getPhoto());
         mAdapter.notifyDataSetChanged();
     }
 

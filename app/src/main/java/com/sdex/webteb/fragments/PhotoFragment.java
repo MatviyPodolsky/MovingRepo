@@ -1,11 +1,13 @@
-package com.sdex.webteb.utils;
+package com.sdex.webteb.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import com.sdex.webteb.database.DatabaseHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,28 +15,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by Yuriy Mysochenko on 03.02.2015.
+ * Created by Yuriy Mysochenko on 03.03.2015.
  */
-@Deprecated
-public class CameraHelper {
+public abstract class PhotoFragment extends BaseFragment {
 
     private static final String CAMERA_DIR = "/dcim/";
     private static final String JPEG_FILE_PREFIX = "IMG_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
 
-    public interface Callback {
-        void onPhotoTaking(Uri path);
-    }
+    public static final String FILE_PREFIX = "file:///";
 
-    private Activity activity;
-    private Callback mCallback;
-
-    public CameraHelper(Activity activity) {
-        this.activity = activity;
-    }
-
-    public void setCallback(Callback callback) {
-        this.mCallback = callback;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     private File getAlbumStorageDir(String albumName) {
@@ -68,7 +62,7 @@ public class CameraHelper {
         File f = new File(photoPath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
-        activity.sendBroadcast(mediaScanIntent);
+        getActivity().sendBroadcast(mediaScanIntent);
     }
 
     private File createImageFile() throws IOException {
@@ -83,7 +77,7 @@ public class CameraHelper {
     public void dispatchTakePictureIntent(int requestCode) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
             try {
@@ -91,16 +85,14 @@ public class CameraHelper {
             } catch (IOException ex) {
                 // Error occurred while creating the File
             }
-            // Continue only if the File was successfully created
             if (photoFile != null) {
-                final Uri path = Uri.fromFile(photoFile);
-//                need call startActivityForResult from fragment to catch onActivityResult
-//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-//                        path);
-//                activity.startActivityForResult(takePictureIntent, requestCode);
-                if (mCallback != null) {
-                    mCallback.onPhotoTaking(path);
-                }
+                Uri uri = Uri.fromFile(photoFile);
+
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
+                databaseHelper.setTmpPhoto(uri);
+
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                startActivityForResult(takePictureIntent, requestCode);
             }
         }
     }

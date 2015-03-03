@@ -1,12 +1,17 @@
 package com.sdex.webteb.fragments.main;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.database.model.DbPhoto;
+import com.sdex.webteb.fragments.PhotoFragment;
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import butterknife.InjectView;
 
@@ -15,13 +20,16 @@ import butterknife.InjectView;
  */
 public class AlbumImageFragment extends BaseMainFragment {
 
+    private static final String ARG_PHOTO = "photo";
+
     @InjectView(R.id.photo)
     ImageView mImageView;
 
-    public static AlbumImageFragment newInstance(String photo) {
+    public static AlbumImageFragment newInstance(DbPhoto photo) {
         AlbumImageFragment fragment = new AlbumImageFragment();
+        Parcelable wrapped = Parcels.wrap(photo);
         Bundle args = new Bundle();
-        args.putString("photo", photo);
+        args.putParcelable(ARG_PHOTO, wrapped);
         fragment.setArguments(args);
         return fragment;
     }
@@ -29,9 +37,10 @@ public class AlbumImageFragment extends BaseMainFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String link = getArguments().getString("photo");
+        Parcelable wrapped = getArguments().getParcelable(ARG_PHOTO);
+        DbPhoto photo = Parcels.unwrap(wrapped);
         Picasso.with(getActivity())
-                .load(link)
+                .load(PhotoFragment.FILE_PREFIX + photo.getPath())
                 .fit()
                 .centerInside()
                 .noPlaceholder()

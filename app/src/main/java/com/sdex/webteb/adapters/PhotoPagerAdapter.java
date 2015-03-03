@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 
+import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.fragments.main.AlbumImageFragment;
 
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.List;
  */
 public class PhotoPagerAdapter extends FragmentStatePagerAdapter {
 
-    private List<String> photos;
+    private List<DbPhoto> photos;
 
-    public PhotoPagerAdapter(FragmentManager fm, List<String> photos) {
+    public PhotoPagerAdapter(FragmentManager fm, List<DbPhoto> photos) {
         super(fm);
         this.photos = photos;
     }

@@ -1,26 +1,31 @@
 package com.sdex.webteb.fragments.main;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.AlbumAdapter;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbPhoto;
+import com.sdex.webteb.dialogs.PhotoDialog;
+import com.sdex.webteb.fragments.PhotoFragment;
+import com.sdex.webteb.fragments.PhotoResultFragment;
 import com.sdex.webteb.internal.events.DeletePhotoEvent;
 import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
+import com.sdex.webteb.internal.events.TakePhotoEvent;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -30,39 +35,37 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public class AlbumFragment extends BaseMainFragment implements FragmentManager.OnBackStackChangedListener {
-
-    public static List<String> cameraImages;
+public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBackStackChangedListener {
 
     @InjectView(R.id.grid_view)
     StickyGridHeadersGridView mGridView;
     @InjectView(R.id.btn_delete_photo)
     ImageButton mDeletePhoto;
+    @InjectView(R.id.empty_view)
+    View mEmptyView;
 
     private AlbumAdapter mAdapter;
     private EventBus mEventBus = EventBus.getDefault();
-    private final List<AlbumAdapter.Item> data = new ArrayList<>();
+    private List<DbPhoto> data;
+    private DatabaseHelper databaseHelper;
+
+    private boolean isHandleCameraPhoto = false;
+    private boolean isHandleGalleryPhoto = false;
+    private Uri galleryPhotoUri = null;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        databaseHelper = DatabaseHelper.getInstance(getActivity());
+        data = databaseHelper.getPhotos();
 
-        cameraImages = getCameraImages(getActivity());
-
-        for (String cameraImage : cameraImages) {
-            File f = new File(cameraImage);
-            AlbumAdapter.Item item = new AlbumAdapter.Item(cameraImage, f.getParent());
-            data.add(item);
-        }
-
-//        for (int i = 0; i < 40; i++) {
-//            AlbumAdapter.Item header = new AlbumAdapter.Item("header " + i, i);
-//            data.add(header);
-//            for (int j = 0; j < 13; j++) {
-//                AlbumAdapter.Item item = new AlbumAdapter.Item("item " + j, i);
-//                data.add(item);
-//            }
-//        }
+        showOrHideEmptyView();
 
         getChildFragmentManager().addOnBackStackChangedListener(this);
 
@@ -96,6 +99,20 @@ public class AlbumFragment extends BaseMainFragment implements FragmentManager.O
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (isHandleCameraPhoto) {
+            DbPhoto photo = databaseHelper.getTmpPhoto();
+            showPhotoPreview(photo.getPath());
+            isHandleCameraPhoto = false;
+        }
+        if (isHandleGalleryPhoto) {
+            showPhotoPreview(galleryPhotoUri.getPath());
+            isHandleGalleryPhoto = false;
+        }
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         mEventBus.unregister(this);
@@ -109,7 +126,9 @@ public class AlbumFragment extends BaseMainFragment implements FragmentManager.O
 
     @OnClick(R.id.btn_take_photo)
     void takePhoto() {
-
+        DialogFragment dialog = new PhotoDialog();
+        dialog.setTargetFragment(this, HomeFragment.REQUEST_DIALOG);
+        dialog.show(getFragmentManager(), null);
     }
 
     @OnClick(R.id.btn_delete_photo)
@@ -121,56 +140,73 @@ public class AlbumFragment extends BaseMainFragment implements FragmentManager.O
     public void onEvent(DeletePhotoEvent event) {
         data.remove(event.getIndex());
         mAdapter.notifyDataSetChanged();
+        DbPhoto photo = event.getPhoto();
+        databaseHelper.deletePhoto(photo);
+
+        showOrHideEmptyView();
     }
 
+    public void onEvent(TakePhotoEvent event) {
+        data.add(event.getPhoto());
+        mAdapter.notifyDataSetChanged();
 
-    public ArrayList<String> getCameraImages(Context context) {
-
-        // Set up an array of the Thumbnail Image ID column we want
-        String[] projection = {MediaStore.Images.Media.DATA};
-
-
-        final Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                projection,
-                null,
-                null,
-                null);
-
-        ArrayList<String> result = new ArrayList<>(cursor.getCount());
-
-        Log.i("cursor.getCount()) :", cursor.getCount() + "");
-
-        if (cursor.moveToFirst()) {
-            final int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            do {
-                final String data = "file:///" + cursor.getString(dataColumn);
-                Log.i("data :", data);
-                result.add(data);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-
-        return result;
-
+        showOrHideEmptyView();
     }
 
-    private List<String> getPhotos() {
-        String ExternalStorageDirectoryPath = Environment
-                .getExternalStorageDirectory()
-                .getAbsolutePath();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case HomeFragment.REQUEST_TAKE_PHOTO:
+                    dispatchTakePictureIntent(HomeFragment.PHOTO_TAKEN);
+                    break;
+                case HomeFragment.REQUEST_SELECT_PHOTO:
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent,
+                            "Select Photo"), HomeFragment.PHOTO_SELECTED);
+                    break;
+                case HomeFragment.PHOTO_TAKEN:
+                    isHandleCameraPhoto = true;
+                    break;
+                case HomeFragment.PHOTO_SELECTED:
+                    isHandleGalleryPhoto = true;
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-        String targetPath = ExternalStorageDirectoryPath + "/dcim/camera/";
+                    Cursor cursor = getActivity().getContentResolver().query(
+                            selectedImage, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
 
-        File targetDirector = new File(targetPath);
-
-        List<String> data = new ArrayList<>();
-
-        File[] files = targetDirector.listFiles();
-        for (File file : files){
-            final String absolutePath = file.getAbsolutePath();
-            data.add(absolutePath);
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String filePath = cursor.getString(columnIndex);
+                    galleryPhotoUri = Uri.parse(filePath);
+                    cursor.close();
+                    break;
+            }
         }
-        return data;
+    }
+
+    private void showOrHideEmptyView() {
+        if (data.isEmpty()) {
+            mEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            mEmptyView.setVisibility(View.GONE);
+        }
+    }
+
+    private void showPhotoPreview(String path) {
+        Fragment fragment = new PhotoResultFragment();
+        Bundle args = new Bundle();
+        args.putString(HomeFragment.PHOTO_PATH, path);
+        fragment.setArguments(args);
+        FragmentManager fragmentManager = getChildFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_container, fragment, "content_fragment")
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

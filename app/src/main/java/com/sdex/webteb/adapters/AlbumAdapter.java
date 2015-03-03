@@ -9,10 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.database.model.DbPhoto;
+import com.sdex.webteb.fragments.PhotoFragment;
 import com.squareup.picasso.Picasso;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleAdapter;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Yuriy Mysochenko on 03.02.2015.
@@ -23,10 +26,10 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
     int mItemResId = R.layout.item_my_album_grid;
 
     private LayoutInflater mInflater;
-    private List<Item> data;
+    private List<DbPhoto> data;
     private Context context;
 
-    public AlbumAdapter(Context context, List<Item> data) {
+    public AlbumAdapter(Context context, List<DbPhoto> data) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         this.data = data;
@@ -34,8 +37,10 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
 
     @Override
     public long getHeaderId(int position) {
-        Item item = getItem(position);
-        return item.text.hashCode();
+        DbPhoto item = getItem(position);
+        // group by date
+        long hours = TimeUnit.MILLISECONDS.toMinutes(item.getTimestamp());
+        return hours;
     }
 
     @Override
@@ -56,9 +61,9 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
             holder = (HeaderViewHolder) convertView.getTag();
         }
 
-        Item item = getItem(position);
+        DbPhoto item = getItem(position);
 
-//        holder.number.setText(item.text);
+        holder.number.setText(String.valueOf(item.getTimestamp()));
 //        holder.title.setText(item.text);
 
         return convertView;
@@ -70,7 +75,7 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
     }
 
     @Override
-    public Item getItem(int position) {
+    public DbPhoto getItem(int position) {
         return data.get(position);
     }
 
@@ -91,11 +96,11 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Item item = getItem(position);
+        DbPhoto item = getItem(position);
 
         Picasso.with(context)
-                .load(item.path)
-                .noPlaceholder()
+                .load(PhotoFragment.FILE_PREFIX + item.path)
+                .placeholder(R.drawable.ic_transparent_placeholder)
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);
@@ -110,16 +115,6 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
 
     protected class ViewHolder {
         public ImageView imageView;
-    }
-
-    public static class Item {
-        public String text;
-        public String path;
-
-        public Item(String path, String text) {
-            this.path = path;
-            this.text = text;
-        }
     }
 
 }
