@@ -12,6 +12,7 @@ import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.request.RegisterUserRequest;
 import com.sdex.webteb.rest.request.RestorePasswordRequest;
 import com.sdex.webteb.rest.request.SetPasswordRequest;
+import com.sdex.webteb.rest.response.ArticlesResponse;
 import com.sdex.webteb.rest.response.BabyGeneralResponse;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.BabyLookupResponse;
@@ -35,6 +36,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import retrofit.http.QueryMap;
 
 /**
@@ -124,5 +126,8 @@ public interface ApiService {
 
     @GET("/SearchDoctors")
     public void searchDoctor(@QueryMap Map<String, String> options, RestCallback<SearchDoctorResponse> callback);
+
+    @GET("/baby/articles/latest")
+    public void getArticles(@Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize, Callback<ArticlesResponse> callback);
 
 }

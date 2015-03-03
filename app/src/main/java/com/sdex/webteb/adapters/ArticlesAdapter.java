@@ -9,20 +9,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.model.Article;
+import com.sdex.webteb.rest.response.ArticlesResponse;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ArticlesAdapter extends ArrayAdapter<Article> {
+public class ArticlesAdapter extends ArrayAdapter<ArticlesResponse.Article> {
 
     private static final int RESOURCE = R.layout.item_article;
 
     private LayoutInflater inflater;
 
-    public ArticlesAdapter(Context context, List<Article> objects) {
+    public ArticlesAdapter(Context context, List<ArticlesResponse.Article> objects) {
         super(context, RESOURCE, objects);
         this.inflater = LayoutInflater.from(context);
     }
@@ -38,11 +39,21 @@ public class ArticlesAdapter extends ArrayAdapter<Article> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Article item = getItem(position);
+        final ArticlesResponse.Article item = getItem(position);
 
         holder.title.setText(item.getTitle());
-        holder.text.setText(item.getText());
-        holder.date.setText(item.getDate());
+        holder.text.setText(item.getDescription());
+        holder.date.setText("10.10.2010");
+        String url = item.getImageUrl();
+
+        if (url != null && !url.equals("")) {
+            Picasso.with(getContext())
+                    .load(url)
+                    .noPlaceholder()
+                    .into(holder.image);
+        } else {
+            holder.image.setVisibility(View.GONE);
+        }
 
 
         return convertView;
