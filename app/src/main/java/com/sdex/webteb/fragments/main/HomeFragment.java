@@ -109,8 +109,11 @@ public class HomeFragment extends BaseMainFragment {
         });
         mTimeNavigationRecyclerView.setAdapter(timeNavAdapter);
 
+        int currentWeek = 30 - 6;
+
         int offset = getTimeNavigationControllerItemOffset();
-        timeNavControllerLayoutManager.scrollToPositionWithOffset(13, offset);
+        timeNavControllerLayoutManager.scrollToPositionWithOffset(currentWeek, offset);
+        timeNavAdapter.setSelectedItem(currentWeek);
 
         mSlidingUpPanelLayout.setOverlayed(true);
         mSlidingUpPanelLayout.setCoveredFadeColor(0x00000000);

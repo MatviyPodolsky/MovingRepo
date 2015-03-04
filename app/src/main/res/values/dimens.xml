@@ -10,7 +10,7 @@
     <dimen name="extra_small_text">8sp</dimen>
     <dimen name="article_text_size">11sp</dimen>
 
-    <dimen name="time_navigation_controller_size">60dp</dimen>
+    <dimen name="time_navigation_controller_size">65dp</dimen>
     <dimen name="time_navigation_controller_item_size">50dp</dimen>
     <dimen name="time_navigation_controller_item_padding">8dp</dimen>
 
