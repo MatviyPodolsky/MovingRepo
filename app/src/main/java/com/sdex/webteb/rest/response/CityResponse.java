@@ -9,13 +9,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BabyLookupResponse extends ApiResponse {
+public class CityResponse extends ApiResponse {
 
-    @SerializedName("Text")
+    @SerializedName("ID")
     @Expose
-    private String text;
-    @SerializedName("Value")
+    private int id;
+    @SerializedName("Name")
     @Expose
-    private int value;
+    private String name;
+    @SerializedName("CountryID")
+    @Expose
+    private int countryID;
 
 }

@@ -15,9 +15,10 @@ import com.sdex.webteb.rest.request.SetPasswordRequest;
 import com.sdex.webteb.rest.response.ArticlesResponse;
 import com.sdex.webteb.rest.response.BabyGeneralResponse;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
-import com.sdex.webteb.rest.response.BabyLookupResponse;
+import com.sdex.webteb.rest.response.SpecialtiesResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.BabyTestResponse;
+import com.sdex.webteb.rest.response.CityResponse;
 import com.sdex.webteb.rest.response.PromotedAppsResponse;
 import com.sdex.webteb.rest.response.SearchDoctorResponse;
 import com.sdex.webteb.rest.response.UnreadEntitiesResponse;
@@ -122,7 +123,10 @@ public interface ApiService {
     public void getPromotedApps(Callback<PromotedAppsResponse> callback);
 
     @GET("/lookups/specialties/baby")
-    public void getBabyLookups(Callback<List<BabyLookupResponse>> callback);
+    public void getSpecialties(Callback<List<SpecialtiesResponse>> callback);
+
+    @GET("/lookups/cities/bycountry")
+    public void getCities(@Query("isoCode") String isoCode, Callback<List<CityResponse>> callback);
 
     @GET("/SearchDoctors")
     public void searchDoctor(@QueryMap Map<String, String> options, RestCallback<SearchDoctorResponse> callback);
