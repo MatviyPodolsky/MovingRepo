@@ -1,6 +1,7 @@
 package com.sdex.webteb.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -9,6 +10,7 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.RestorePasswordRequest;
+import com.sdex.webteb.rest.response.MonthResponse;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -37,28 +39,28 @@ public class ForgotPasswordActivity extends BaseActivity {
         RestorePasswordRequest request = new RestorePasswordRequest();
         request.email = mEmail.getText().toString();
 
-        RestClient.getApiService().restorePassword(request, new RestCallback<String>() {
-            @Override
-            public void failure(RestError restError) {
-            }
-
-            @Override
-            public void success(String s, Response response) {
-                //TODO
-            }
-        });
-
-//        RestClient.getApiService().deleteSettings(new RestCallback<String>() {
+//        RestClient.getApiService().restorePassword(request, new RestCallback<String>() {
 //            @Override
 //            public void failure(RestError restError) {
-//                Log.d("test", "failure");
 //            }
 //
 //            @Override
 //            public void success(String s, Response response) {
 //                //TODO
-//                Log.d("test", "success");
 //            }
 //        });
+
+        RestClient.getApiService().getMonth(5, new RestCallback<MonthResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                Log.d("test", "failure");
+            }
+
+            @Override
+            public void success(MonthResponse month, Response response) {
+                //TODO
+                Log.d("test", "success");
+            }
+        });
     }
 }
