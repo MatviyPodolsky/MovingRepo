@@ -19,5 +19,7 @@ public class RegisterAccountRequest extends ApiRequest {
     public String password;
     @SerializedName("ConfirmPassword")
     public String confirmPassword;
+    @SerializedName("Name")
+    public String name;
 
 }
