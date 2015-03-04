@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.rest.response.ArticlesResponse;
+import com.sdex.webteb.model.ContentLink;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -17,13 +17,13 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class ArticlesAdapter extends ArrayAdapter<ArticlesResponse.Article> {
+public class ArticlesAdapter extends ArrayAdapter<ContentLink> {
 
     private static final int RESOURCE = R.layout.item_article;
 
     private LayoutInflater inflater;
 
-    public ArticlesAdapter(Context context, List<ArticlesResponse.Article> objects) {
+    public ArticlesAdapter(Context context, List<ContentLink> objects) {
         super(context, RESOURCE, objects);
         this.inflater = LayoutInflater.from(context);
     }
@@ -39,7 +39,7 @@ public class ArticlesAdapter extends ArrayAdapter<ArticlesResponse.Article> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final ArticlesResponse.Article item = getItem(position);
+        final ContentLink item = getItem(position);
 
         holder.title.setText(item.getTitle());
         holder.text.setText(item.getDescription());

@@ -15,16 +15,18 @@ import com.sdex.webteb.rest.request.SetPasswordRequest;
 import com.sdex.webteb.rest.response.ArticlesResponse;
 import com.sdex.webteb.rest.response.BabyGeneralResponse;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
-import com.sdex.webteb.rest.response.SpecialtiesResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.rest.response.CityResponse;
+import com.sdex.webteb.rest.response.MonthResponse;
 import com.sdex.webteb.rest.response.PromotedAppsResponse;
 import com.sdex.webteb.rest.response.SearchDoctorResponse;
+import com.sdex.webteb.rest.response.SpecialtiesResponse;
 import com.sdex.webteb.rest.response.UnreadEntitiesResponse;
 import com.sdex.webteb.rest.response.UserInfoResponse;
 import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.rest.response.UserRetrieveResponse;
+import com.sdex.webteb.rest.response.WeekResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -133,5 +135,11 @@ public interface ApiService {
 
     @GET("/baby/articles/latest")
     public void getArticles(@Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize, Callback<ArticlesResponse> callback);
+
+    @GET("/baby/week")
+    public void getWeek(@Query("weekNumber") int weekNumber, Callback<WeekResponse> callback);
+
+    @GET("/baby/month")
+    public void getMonth(@Query("ageInMonths") int ageInMonths, Callback<MonthResponse> callback);
 
 }

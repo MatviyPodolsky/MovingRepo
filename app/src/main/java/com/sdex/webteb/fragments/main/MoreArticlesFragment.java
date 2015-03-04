@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ArticlesAdapter;
+import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -54,7 +55,7 @@ public class MoreArticlesFragment extends BaseMainFragment {
 
             @Override
             public void success(ArticlesResponse articlesResponse, Response response) {
-                List<ArticlesResponse.Article> articles = articlesResponse.getArticles();
+                List<ContentLink> articles = articlesResponse.getArticles();
                 if(articles !=null && !articles.isEmpty()) {
                     mAdapter = new ArticlesAdapter(getActivity(), articles);
                     mList.setAdapter(mAdapter);

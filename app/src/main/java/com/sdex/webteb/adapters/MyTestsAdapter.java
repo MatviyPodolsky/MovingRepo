@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.model.UserTest;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -164,7 +165,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         }
     };
 
-    private void refreshStatus(final BabyTestResponse.UserTest test, final ViewHolderGroup holder) {
+    private void refreshStatus(final UserTest test, final ViewHolderGroup holder) {
         if(test != null) {
             if(test.isReminderStatus()){
                 holder.reminder.setVisibility(View.VISIBLE);
@@ -182,7 +183,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    private void refreshButtons(final BabyTestResponse.UserTest test, final ViewHolderChild holder) {
+    private void refreshButtons(final UserTest test, final ViewHolderChild holder) {
         if(test != null && test.isReminderStatus()) {
             holder.addReminder.setText(context.getString(R.string.delete_reminder));
         } else {
@@ -208,7 +209,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
 
                 @Override
                 public void success(String s, Response response) {
-                    BabyTestResponse.UserTest test = item.getUserTest();
+                    UserTest test = item.getUserTest();
                     test.setReminderStatus(false);
                     item.setUserTest(test);
                     data.set(position, item);
@@ -223,9 +224,9 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
 
                 @Override
                 public void success(String s, Response response) {
-                    BabyTestResponse.UserTest test;
+                    UserTest test;
                     if(item.getUserTest() == null) {
-                        test = new BabyTestResponse.UserTest();
+                        test = new UserTest();
                         test.setTestId(item.getContentPreview().getKey().getId());
                     } else {
                         test = item.getUserTest();
@@ -251,7 +252,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
 
                 @Override
                 public void success(String s, Response response) {
-                    BabyTestResponse.UserTest test = item.getUserTest();
+                    UserTest test = item.getUserTest();
                     test.setTestDone(false);
                     item.setUserTest(test);
                     data.set(position, item);
@@ -266,9 +267,9 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
 
                 @Override
                 public void success(String s, Response response) {
-                    BabyTestResponse.UserTest test;
+                    UserTest test;
                     if(item.getUserTest() == null) {
-                        test = new BabyTestResponse.UserTest();
+                        test = new UserTest();
                         test.setTestId(item.getContentPreview().getKey().getId());
                     } else {
                         test = item.getUserTest();

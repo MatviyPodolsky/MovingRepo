@@ -36,6 +36,7 @@ public class RegisterActivity extends BaseActivity {
     @InjectView(R.id.email) TextView mEmail;
     @InjectView(R.id.password) TextView mPassword;
     @InjectView(R.id.confirm_password) TextView mConfirmPassword;
+    @InjectView(R.id.name) TextView mName;
     @InjectView(R.id.auth_button) LoginButton loginButton;
     private UiLifecycleHelper uiHelper;
 
@@ -111,6 +112,7 @@ public class RegisterActivity extends BaseActivity {
         request.email = mEmail.getText().toString();
         request.password = mPassword.getText().toString();
         request.confirmPassword = mConfirmPassword.getText().toString();
+        request.name = mName.getText().toString();
 
         RestClient.getApiService().register(request, new RestCallback<String>() {
             @Override
@@ -152,9 +154,15 @@ public class RegisterActivity extends BaseActivity {
         }
         if (mEmail.getText().length() == 0) {
             isValid = false;
-            mEmail.setError(getString(R.string.please_enter_username));
+            mEmail.setError(getString(R.string.please_enter_email));
         } else {
             mEmail.setError(null);
+        }
+        if (mName.getText().length() == 0) {
+            isValid = false;
+            mName.setError(getString(R.string.please_enter_username));
+        } else {
+            mName.setError(null);
         }
         return isValid;
     }
