@@ -3,15 +3,10 @@ package com.sdex.webteb.utils;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.text.Html;
 import android.text.Layout;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.AlignmentSpan;
 import android.text.style.LeadingMarginSpan;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,6 +59,9 @@ public class FlowTextHelper {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)messageView.getLayoutParams();
         int[]rules = params.getRules();
         rules[RelativeLayout.RIGHT_OF] = 0;
+        if (CompatibilityUtil.getSdkVersion() >= 17) {
+            rules[RelativeLayout.END_OF] = 0;
+        }
     }
 
     static class MyLeadingMarginSpan2 implements LeadingMarginSpan.LeadingMarginSpan2 {
