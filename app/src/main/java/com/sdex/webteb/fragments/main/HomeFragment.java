@@ -1,11 +1,9 @@
 package com.sdex.webteb.fragments.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -18,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,43 +24,45 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.SimpleAdapter;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.dialogs.NotificationDialog;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.extras.SimpleDividerItemDecoration;
+import com.sdex.webteb.fragments.PhotoFragment;
+import com.sdex.webteb.fragments.PhotoResultFragment;
+import com.sdex.webteb.internal.events.SavedPhotoEvent;
+import com.sdex.webteb.internal.events.SelectedPhotoEvent;
+import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
-import com.sdex.webteb.utils.CameraHelper;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.view.CenteredRecyclerView;
 import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.InjectViews;
 import butterknife.OnClick;
 import retrofit.client.Response;
 
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public class HomeFragment extends BaseMainFragment {
+public class HomeFragment extends PhotoFragment {
 
     public static final int REQUEST_GET_NOTIFICATION = 10;
-    public static final int REQUEST_TAKE_PHOTO = 0;
-    public static final int REQUEST_SELECT_PHOTO = 1;
-    public static final int REQUEST_DIALOG = 2;
-    public static final int PHOTO_TAKEN = 3;
-    public static final int PHOTO_SELECTED = 4;
-    public static final String PHOTO_PATH = "PHOTO_PATH";
 
     @InjectView(R.id.fragment_container)
     FrameLayout mRootView;
-    @InjectView(R.id.profile_card)
-    View profileCard;
+    @InjectView(R.id.photo_container)
+    View photoContainer;
     @InjectView(R.id.content_list)
     RecyclerView mRecyclerView;
     @InjectView(R.id.username)
@@ -75,25 +76,16 @@ public class HomeFragment extends BaseMainFragment {
     SlidingUpPanelLayout mSlidingUpPanelLayout;
     @InjectView(R.id.drag_view)
     FrameLayout mDragView;
+    @InjectViews({R.id.photo_1, R.id.photo_2, R.id.photo_3})
+    List<ImageView> mPhotoViews;
 
-    private CameraHelper mCameraHelper;
-    private Uri currentPhoto;
+    private DatabaseHelper databaseHelper;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mCameraHelper = new CameraHelper(getActivity());
-        mCameraHelper.setCallback(new CameraHelper.Callback() {
-            @Override
-            public void onPhotoTaking(Uri path) {
-                currentPhoto = path;
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        path);
-                startActivityForResult(takePictureIntent, PHOTO_TAKEN);
-            }
-        });
+        databaseHelper = DatabaseHelper.getInstance(getActivity());
 
         final LinearLayoutManager timeNavControllerLayoutManager =
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -151,6 +143,9 @@ public class HomeFragment extends BaseMainFragment {
         mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
                 getActivity(), R.drawable.divider_home_list));
 
+        photoContainer.setVisibility(View.VISIBLE);
+        showLastPhoto();
+
         // debug
 //        BabyHomeResponse babyHomeResponse = MockData.getMockHome(getActivity());
 //        List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
@@ -171,6 +166,11 @@ public class HomeFragment extends BaseMainFragment {
 
             @Override
             public void success(BabyHomeResponse babyHomeResponse, Response response) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
                 mUserName.setText(babyHomeResponse.getCard().getName());
                 mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
 
@@ -192,6 +192,18 @@ public class HomeFragment extends BaseMainFragment {
         return R.layout.fragment_home;
     }
 
+    private void showLastPhoto() {
+        final List<DbPhoto> photos = databaseHelper.getPhotos(3);
+        for (int i = 0; i < photos.size(); i++) {
+            Picasso.with(getActivity())
+                    .load(PhotoFragment.FILE_PREFIX + photos.get(i).getPath())
+                    .noPlaceholder()
+                    .fit()
+                    .centerCrop()
+                    .into(mPhotoViews.get(i));
+        }
+    }
+
     private int getSlidingPanelHeight() {
         int windowHeight = mRootView.getMeasuredHeight();
         int profileHeight = getResources().getDimensionPixelSize(R.dimen.profile_height);
@@ -207,38 +219,14 @@ public class HomeFragment extends BaseMainFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_GET_NOTIFICATION:
-                    Toast.makeText(getActivity(), "Notification confirmed", Toast.LENGTH_SHORT).show();
-                    break;
-                case REQUEST_TAKE_PHOTO:
-                    mCameraHelper.dispatchTakePictureIntent(PHOTO_TAKEN);
-                    break;
-                case REQUEST_SELECT_PHOTO:
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent,
-                            "Select Photo"), PHOTO_SELECTED);
-                    break;
-                case PHOTO_TAKEN:
-                    showPhotoPreview(currentPhoto.toString());
-                    break;
-                case PHOTO_SELECTED:
-                    showPhotoPreview(data.getData().toString());
-                    break;
-            }
-        } else {
-            switch (requestCode) {
-                case REQUEST_GET_NOTIFICATION:
-                    Toast.makeText(getActivity(), "Notification canceled", Toast.LENGTH_SHORT).show();
-                    break;
-            }
+        switch (requestCode) {
+            case REQUEST_GET_NOTIFICATION:
+                Toast.makeText(getActivity(), "Notification canceled", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
-    @OnClick(R.id.avatar)
+    @OnClick(R.id.btn_take_photo)
     public void takePhoto(final View v) {
         DialogFragment dialog = new PhotoDialog();
         dialog.setTargetFragment(this, REQUEST_DIALOG);
@@ -257,8 +245,8 @@ public class HomeFragment extends BaseMainFragment {
         ((MainActivity) getActivity()).publishFacebook("asd", "dsa", "qwer", "http://www.google.com", "http://cs7061.vk.me/c7006/v7006596/40f5b/L3hqYSMgZCM.jpg");
     }
 
-    private void showPhotoPreview(String path){
-        Fragment fragment = new UserProfileFragment();
+    private void showPhotoPreview(String path) {
+        Fragment fragment = new PhotoResultFragment();
         Bundle args = new Bundle();
         args.putString(PHOTO_PATH, path);
         fragment.setArguments(args);
@@ -266,6 +254,21 @@ public class HomeFragment extends BaseMainFragment {
         fragmentManager.beginTransaction()
                 .add(R.id.fragment_container, fragment, "content_fragment")
                 .addToBackStack(null)
-                .commitAllowingStateLoss();
+                .commit();
     }
+
+    public void onEventMainThread(SavedPhotoEvent event) {
+        showLastPhoto();
+    }
+
+    public void onEventMainThread(TakenPhotoEvent event) {
+        DbPhoto photo = databaseHelper.getTmpPhoto();
+        showPhotoPreview(photo.getPath());
+    }
+
+    public void onEventMainThread(SelectedPhotoEvent event) {
+        Uri galleryPhotoUri = getGalleryPhotoUri(event.getSelectedImage());
+        showPhotoPreview(galleryPhotoUri.getPath());
+    }
+
 }

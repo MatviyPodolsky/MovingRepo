@@ -13,7 +13,7 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.fragments.main.HomeFragment;
-import com.sdex.webteb.internal.events.TakePhotoEvent;
+import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
@@ -62,7 +62,7 @@ public class PhotoResultFragment extends BaseFragment {
         photo.setTimestamp(System.currentTimeMillis());
         photo.setDescription(mDescription.getText().toString());
         databaseHelper.addPhoto(photo);
-        EventBus.getDefault().post(new TakePhotoEvent(photo));
+        EventBus.getDefault().post(new SavedPhotoEvent(photo));
         getActivity().onBackPressed();
     }
 

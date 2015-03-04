@@ -5,20 +5,15 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,23 +26,18 @@ import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MenuAdapter;
-import com.sdex.webteb.adapters.SimpleAdapter;
-import com.sdex.webteb.fragments.BaseFragment;
+import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.main.AboutFragment;
 import com.sdex.webteb.fragments.main.AlbumFragment;
-import com.sdex.webteb.fragments.main.BaseMainFragment;
 import com.sdex.webteb.fragments.main.ContactUsFragment;
 import com.sdex.webteb.fragments.main.HomeFragment;
 import com.sdex.webteb.fragments.main.MoreArticlesFragment;
 import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
+import com.sdex.webteb.internal.events.SelectedPhotoEvent;
+import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.model.SideMenuItem;
-import com.sdex.webteb.utils.CompatibilityUtil;
-import com.sdex.webteb.utils.DisplayUtil;
-import com.sdex.webteb.view.CenteredRecyclerView;
-import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +45,7 @@ import java.util.List;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
@@ -63,6 +54,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     private static final int RIGHT_DRAWER_GRAVITY = GravityCompat.END;
 
+    private static final String CURRENT_FRAGMENT_INDEX = "CURRENT_FRAGMENT_INDEX";
+
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @InjectView(R.id.drawer_list)
@@ -70,6 +63,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     Handler mHandler = new Handler();
     Runnable mOpenMenuItemTask;
+    int mCurrentFragmentIndex = 0;
 
     private UiLifecycleHelper uiHelper;
 
@@ -82,12 +76,16 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         uiHelper = new UiLifecycleHelper(this, null);
         uiHelper.onCreate(savedInstanceState);
 
+        if (savedInstanceState != null) {
+            mCurrentFragmentIndex = savedInstanceState.getInt(CURRENT_FRAGMENT_INDEX);
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         initSideMenu();
     }
 
     private void initSideMenu() {
-        setItem(0);
+        setItem(mCurrentFragmentIndex);
         setCurrentMenuItem();
 
         final LayoutInflater inflater = LayoutInflater.from(this);
@@ -130,6 +128,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         uiHelper.onSaveInstanceState(outState);
+        outState.putInt(CURRENT_FRAGMENT_INDEX, mCurrentFragmentIndex);
     }
 
     @Override
@@ -162,6 +161,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
             closeDrawer();
         } else {
+            EventBus.getDefault().removeAllStickyEvents();
             Fragment curFragment = getSupportFragmentManager().findFragmentByTag(contentFragment);
             if (curFragment != null && curFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
                 curFragment.getChildFragmentManager().popBackStack();
@@ -179,6 +179,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             public void run() {
                 Fragment fragment = getFragmentByPosition(position);
                 if (fragment != null) {
+                    mCurrentFragmentIndex = position;
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.fragment_container, fragment, contentFragment)
@@ -213,6 +214,19 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case PhotoFragment.PHOTO_TAKEN:
+                    EventBus.getDefault().postSticky(new TakenPhotoEvent());
+                    break;
+                case PhotoFragment.PHOTO_SELECTED:
+                    Uri selectedImage = data.getData();
+                    EventBus.getDefault().postSticky(new SelectedPhotoEvent(selectedImage));
+                    break;
+            }
+        }
+
 //        use only for webViewDialog
         if (Session.getActiveSession() != null) {
             Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
