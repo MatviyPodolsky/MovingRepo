@@ -29,16 +29,9 @@
     <include
         android:id="@+id/profile_card"
         layout="@layout/profile_card"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar" />
-
-    <View
-        android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="13dp"
-        android:layout_below="@+id/profile_card"
-        android:background="@color/primary" />
+        android:layout_height="@dimen/profile_height"
+        android:layout_below="@+id/toolbar" />
 
     <com.viewpagerindicator.CirclePageIndicator
         android:id="@+id/indicator"
@@ -60,6 +53,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/indicator"
-        android:layout_below="@+id/divider" />
+        android:layout_below="@+id/profile_card" />
 
 </RelativeLayout>

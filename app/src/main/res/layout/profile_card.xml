@@ -10,10 +10,10 @@
         android:layout_height="74dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/fake"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="8dp"
         android:id="@+id/avatar"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="12dp" />
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
         android:layout_toEndOf="@+id/photo_container" />
 
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:orientation="vertical"
         android:layout_width="140dp"
         android:gravity="center"
@@ -78,22 +78,25 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="5dp">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                tools:src="@drawable/fake"
                 android:id="@+id/photo_1" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                tools:src="@drawable/fake"
                 android:id="@+id/photo_2"
                 android:layout_marginLeft="5dp" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                tools:src="@drawable/fake"
                 android:id="@+id/photo_3"
                 android:layout_marginLeft="5dp" />
         </LinearLayout>
@@ -101,14 +104,12 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
+    <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:id="@+id/progressBar"
-        android:progress="80"
-        android:visibility="gone"
-        android:layout_below="@id/avatar" />
+        android:background="@color/primary"
+        android:id="@+id/line"
+        android:layout_alignParentBottom="true"/>
 
 
 </RelativeLayout>
