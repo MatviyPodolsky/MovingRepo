@@ -25,12 +25,18 @@ import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.dialogs.SearchFilterDialog;
+import com.sdex.webteb.rest.RestCallback;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.RestError;
+import com.sdex.webteb.rest.response.CityResponse;
+import com.sdex.webteb.rest.response.SpecialtiesResponse;
 
 import java.util.List;
 import java.util.Locale;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.client.Response;
 
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
@@ -47,6 +53,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
     public static final long MIN_TIME_BW_UPDATES = 10;
     public static final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 10f;
     private boolean canGetLocation;
+    String[] citiesList = {"Any city"};
+    String[] specialtiesList = {"Any speciality"};
 
     @InjectView(R.id.search)
     EditText search;
@@ -57,10 +65,14 @@ public class SearchDoctorFragment extends BaseMainFragment {
     @InjectView(R.id.specialty_text)
     TextView specialty;
 
+    private RestCallback<List<CityResponse>> getCitiesCallback;
+    private RestCallback<List<SpecialtiesResponse>> getSpecialtiesCallback;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setCurrentLocation();
+        setSpecialties();
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -70,11 +82,19 @@ public class SearchDoctorFragment extends BaseMainFragment {
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
                     Fragment fragment = new SearchResultsFragment();
                     Bundle args = new Bundle();
-//                    args.putStringArray(REQUEST_STRING, buildSearchString());
                     args.putString("Name", search.getText().toString());
-                    args.putString("Country", country.getText().toString());
-                    args.putString("City", city.getText().toString());
-                    args.putString("Specialty", specialty.getText().toString());
+                    String countryName = country.getText().toString();
+                    if(!countryName.equals("Any country")) {
+                        args.putString("Country", countryName);
+                    }
+                    String cityName = city.getText().toString();
+                    if(!cityName.equals("Any city")) {
+                        args.putString("City", cityName);
+                    }
+                    String specialityName = specialty.getText().toString();
+                    if(!specialityName.equals("Any speciality")) {
+                        args.putString("Specialty", specialityName);
+                    }
                     fragment.setArguments(args);
                     FragmentManager fragmentManager = getChildFragmentManager();
                     fragmentManager.beginTransaction()
@@ -133,7 +153,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         DialogFragment dialog = new SearchFilterDialog();
         Bundle args = new Bundle();
-        args.putStringArray(LIST, getResources().getStringArray(R.array.cities));
+        args.putStringArray(LIST, citiesList);
         args.putInt(REQUEST, REQUEST_GET_CITY);
         dialog.setArguments(args);
         dialog.setTargetFragment(this, REQUEST_GET_CITY);
@@ -145,7 +165,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         DialogFragment dialog = new SearchFilterDialog();
         Bundle args = new Bundle();
-        args.putStringArray(LIST, getResources().getStringArray(R.array.specialities));
+        args.putStringArray(LIST, specialtiesList);
         args.putInt(REQUEST, REQUEST_GET_SPECIALITY);
         dialog.setArguments(args);
         dialog.setTargetFragment(this, REQUEST_GET_SPECIALITY);
@@ -209,6 +229,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
                         }
                     }
                 addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                setCities(addresses.get(0).getCountryCode());
                 this.country.setText(addresses.get(0).getCountryName());
                 this.city.setText(addresses.get(0).getLocality());
             }
@@ -238,4 +259,49 @@ public class SearchDoctorFragment extends BaseMainFragment {
         }
 
     };
+
+    private void setCities(String isoCode){
+        getCitiesCallback = new RestCallback<List<CityResponse>>() {
+            @Override
+            public void failure(RestError restError) {
+
+            }
+
+            @Override
+            public void success(List<CityResponse> cities, Response response) {
+                if(cities != null) {
+                    citiesList = new String[cities.size() + 1];
+                    citiesList[0] = "Any city";
+
+                    for (int i = 0; i < cities.size(); i++) {
+                        citiesList[i + 1] = cities.get(i).getName();
+                    }
+                    int i = 0;
+                }
+            }
+        };
+        RestClient.getApiService().getCities("JO", getCitiesCallback);
+    }
+
+    private void setSpecialties(){
+        getSpecialtiesCallback = new RestCallback<List<SpecialtiesResponse>>() {
+            @Override
+            public void failure(RestError restError) {
+
+            }
+
+            @Override
+            public void success(List<SpecialtiesResponse> specialties, Response response) {
+                if(specialties != null) {
+                    specialtiesList = new String[specialties.size() + 1];
+                    specialtiesList[0] = "Any speciality";
+
+                    for (int i = 0; i < specialties.size(); i++) {
+                        specialtiesList[i+1] = specialties.get(i).getName();
+                    }
+                }
+            }
+        };
+        RestClient.getApiService().getSpecialties(getSpecialtiesCallback);
+    }
 }
