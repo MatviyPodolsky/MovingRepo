@@ -17,7 +17,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "album.db";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     private static DatabaseHelper mInstance = null;
 
@@ -61,6 +61,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<DbPhoto> getPhotos() {
         return cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
                 .withSelection("timestamp > ?", "0")
+                .list();
+    }
+
+    public List<DbPhoto> getPhotos(int limit) {
+        return cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
+                .withSelection("timestamp > ?", "0")
+                .orderBy("timestamp DESC")
+                .limit(limit)
                 .list();
     }
 

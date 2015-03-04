@@ -12,6 +12,7 @@ public class DbPhoto {
     public Long timestamp;
     public String path;
     public String description;
+    public String owner;
 
     public DbPhoto() {
     }
@@ -40,4 +41,11 @@ public class DbPhoto {
         this.description = description;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 }

@@ -12,7 +12,7 @@ import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.internal.events.DeletePhotoEvent;
 import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
-import com.sdex.webteb.internal.events.TakePhotoEvent;
+import com.sdex.webteb.internal.events.SavedPhotoEvent;
 
 import java.util.List;
 
@@ -96,7 +96,7 @@ public class AlbumViewFragment extends BaseMainFragment {
         setDescription(mViewPager.getCurrentItem());
     }
 
-    public void onEvent(TakePhotoEvent event) {
+    public void onEvent(SavedPhotoEvent event) {
         data.add(event.getPhoto());
         mAdapter.notifyDataSetChanged();
     }

@@ -5,11 +5,11 @@ import com.sdex.webteb.database.model.DbPhoto;
 /**
  * Created by Yuriy Mysochenko on 03.02.2015.
  */
-public class TakePhotoEvent {
+public class SavedPhotoEvent {
 
     private DbPhoto photo;
 
-    public TakePhotoEvent(DbPhoto photo) {
+    public SavedPhotoEvent(DbPhoto photo) {
         this.photo = photo;
     }
 

@@ -1,6 +1,7 @@
 package com.sdex.webteb.fragments;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,10 +15,19 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Yuriy Mysochenko on 03.03.2015.
  */
 public abstract class PhotoFragment extends BaseFragment {
+
+    public static final int REQUEST_DIALOG = 2;
+
+    public static final int PHOTO_TAKEN = 6001;
+    public static final int PHOTO_SELECTED = 6002;
+
+    public static final String PHOTO_PATH = "PHOTO_PATH";
 
     private static final String CAMERA_DIR = "/dcim/";
     private static final String JPEG_FILE_PREFIX = "IMG_";
@@ -25,10 +35,45 @@ public abstract class PhotoFragment extends BaseFragment {
 
     public static final String FILE_PREFIX = "file:///";
 
+    protected EventBus BUS = EventBus.getDefault();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        BUS.registerSticky(this);
+    }
+
+    @Override
+    public void onStop() {
+        BUS.unregister(this);
+        super.onStop();
+    }
+
+
+    protected Uri getGalleryPhotoUri(Uri selectedImage) {
+        Cursor cursor = null;
+        String filePath = null;
+        try {
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            cursor = getActivity().getContentResolver().query(
+                    selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            filePath = cursor.getString(columnIndex);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return Uri.parse(filePath);
     }
 
     private File getAlbumStorageDir(String albumName) {
@@ -74,7 +119,7 @@ public abstract class PhotoFragment extends BaseFragment {
         return imageF;
     }
 
-    public void dispatchTakePictureIntent(int requestCode) {
+    public void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -92,9 +137,17 @@ public abstract class PhotoFragment extends BaseFragment {
                 databaseHelper.setTmpPhoto(uri);
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                startActivityForResult(takePictureIntent, requestCode);
+                getActivity().startActivityForResult(takePictureIntent, PHOTO_TAKEN);
             }
         }
+    }
+
+    public void dispatchGetGalleryPictureIntent() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        getActivity().startActivityForResult(Intent.createChooser(intent, "Select Photo"),
+                PHOTO_SELECTED);
     }
 
 }

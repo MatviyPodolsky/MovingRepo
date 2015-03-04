@@ -113,21 +113,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             viewHolder.viewPager.setAdapter(videoThumbnailAdapter);
             viewHolder.mIndicator.setViewPager(viewHolder.viewPager);
             viewHolder.viewPager.setOffscreenPageLimit(3);
-            viewHolder.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
+            viewHolder.viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
                 @Override
                 public void onPageSelected(int position) {
+                    super.onPageSelected(position);
                     viewHolder.mIndicator.setCurrentItem(position);
                     viewHolder.mIndicator.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
                 }
             });
         }

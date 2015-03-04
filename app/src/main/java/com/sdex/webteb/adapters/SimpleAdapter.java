@@ -19,7 +19,7 @@ import java.util.List;
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalItemHolder> {
 
     private ArrayList<Item> mItems;
-    private int selectedItem = 13;
+    private int selectedItem;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
@@ -73,9 +73,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
     @Override
     public void onBindViewHolder(VerticalItemHolder itemHolder, int position) {
         Item item = mItems.get(position);
-        itemHolder.setValue(item.value);
-//        itemHolder.setSelected(item.isSelected);
         itemHolder.setSelected(position == selectedItem);
+        itemHolder.bindView(item);
     }
 
     @Override
@@ -96,8 +95,9 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
     public static class Item {
 
+        public int color;
         public String value;
-        public boolean isSelected;
+        public boolean hasLabel;
 
         public Item(String value) {
             this.value = value;
@@ -107,7 +107,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
     public static class VerticalItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView mValue;
+        private TextView mValue, mLabel;
+        private View mView;
 
         private SimpleAdapter mAdapter;
 
@@ -118,6 +119,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
             mAdapter = adapter;
 
             mValue = (TextView) itemView.findViewById(R.id.value);
+            mLabel = (TextView) itemView.findViewById(R.id.label);
+            mView = itemView.findViewById(R.id.item_time);
         }
 
         @Override
@@ -125,12 +128,17 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
             mAdapter.onItemHolderClick(this);
         }
 
-        public void setValue(String value) {
-            mValue.setText(value);
+        public void bindView(Item item) {
+            mValue.setText(item.value);
+            if (item.hasLabel) {
+                mLabel.setVisibility(View.VISIBLE);
+            } else {
+                mLabel.setVisibility(View.GONE);
+            }
+            mView.setBackgroundColor(item.color);
         }
 
         public void setSelected(boolean selected) {
-            //mValue.setSelected(selected);
             if (selected) {
                 mValue.setBackgroundResource(R.drawable.ic_footer_nbr_selected);
                 mValue.setTextColor(Color.BLACK);
@@ -146,10 +154,25 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
         ArrayList<Item> items = new ArrayList<>();
 
         for (int i = count; i > 0; i--) {
-            items.add(new SimpleAdapter.Item(String.valueOf(i)));
-        }
+            Item item = new Item(String.valueOf(i));
+            if (i % 4 == 0) {
+                item.hasLabel = true;
+            }
 
-        items.get(13).isSelected = true;
+            if (i <= 4) {
+                item.color = Color.parseColor("#EC1561");
+            } else if (i > 4 && i <= 8) {
+                item.color = Color.parseColor("#EA2E83");
+            } else if (i > 8 && i <= 12) {
+                item.color = Color.parseColor("#E84C8F");
+            } else if (i > 12 && i <= 16) {
+                item.color = Color.parseColor("#E52987");
+            } else {
+                item.color = Color.parseColor("#E21490");
+            }
+
+            items.add(item);
+        }
 
         return items;
     }
@@ -158,4 +181,5 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
         this.selectedItem = selectedItem;
         notifyDataSetChanged();
     }
+
 }

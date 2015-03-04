@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:umanoPanelHeight="60dp"
+        sothree:umanoPanelHeight="@dimen/time_navigation_controller_size"
         sothree:umanoShadowHeight="2dp"
         sothree:umanoParalaxOffset="0dp"
         sothree:umanoDragView="@+id/drag_view">
@@ -61,9 +61,8 @@
 
             <com.sdex.webteb.view.CenteredRecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/time_navigation_controller_size"
                 android:id="@+id/recyclerview"
-                android:background="@color/primary"
                 android:layout_gravity="top" />
 
         </FrameLayout>
