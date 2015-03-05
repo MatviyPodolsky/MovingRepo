@@ -62,6 +62,8 @@
     <string name="reminder">Reminder</string>
 
     <!--settings-->
+    <string name="settings_title_1">Settings</string>
+    <string name="settings_title_2">Settings</string>
     <string name="weekly_tips_notifications">Weekly tips notifications</string>
     <string name="tests_reminders">Tests reminders</string>
     <string name="once_a_day">Once a day</string>
@@ -163,6 +165,5 @@
     <string name="about_app_version">1.1.0 application version</string>
     <string name="logo_text">logo text</string>
     <string name="about_text">long about text with app description or other stuff</string>
-
 
 </resources>

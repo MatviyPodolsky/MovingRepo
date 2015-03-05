@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +18,7 @@ import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyGeneralRequest;
 import com.sdex.webteb.rest.response.BabyGeneralResponse;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.view.switchbutton.SwitchButton;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -30,11 +30,11 @@ import retrofit.client.Response;
 public class SettingsFragment extends BaseMainFragment {
 
     @InjectView(R.id.notifications)
-    Switch notifications;
+    SwitchButton notifications;
     @InjectView(R.id.reminders)
-    Switch reminders;
+    SwitchButton reminders;
     @InjectView(R.id.newsletter)
-    Switch newsletter;
+    SwitchButton newsletter;
     @InjectView(R.id.container)
     RelativeLayout root;
     @InjectView(R.id.progress)
