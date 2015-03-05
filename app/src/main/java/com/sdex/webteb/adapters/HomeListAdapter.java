@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by Yuriy Mysochenko on 24.02.2015.
- */
+* Created by Yuriy Mysochenko on 24.02.2015.
+*/
 public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_PREVIEW = 0;

@@ -12,6 +12,8 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.model.ContentLink;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -43,7 +45,8 @@ public class ArticlesAdapter extends ArrayAdapter<ContentLink> {
 
         holder.title.setText(item.getTitle());
         holder.text.setText(item.getDescription());
-        holder.date.setText("10.10.2010");
+        //convert date to
+        holder.date.setText(convertDate(item.getPublishedDate()));
         String url = item.getImageUrl();
 
         if (url != null && !url.equals("")) {
@@ -57,6 +60,22 @@ public class ArticlesAdapter extends ArrayAdapter<ContentLink> {
 
 
         return convertView;
+    }
+
+    private String convertDate(String publishedDate){
+        if(publishedDate != null){
+            SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            Date date = null;
+            try {
+                date = inFormat.parse(publishedDate);
+                SimpleDateFormat outFormat = new SimpleDateFormat("mm/dd/yyyy");
+                publishedDate = outFormat.format(date);
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+
+        }
+        return publishedDate;
     }
 
     static class ViewHolder {

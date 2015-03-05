@@ -59,11 +59,25 @@
             android:layout_marginTop="120dp"
             android:alpha="0.5">
 
-            <com.sdex.webteb.view.CenteredRecyclerView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/time_navigation_controller_size"
-                android:id="@+id/recyclerview"
-                android:layout_gravity="top" />
+                android:layout_height="match_parent">
+
+                <com.sdex.webteb.view.CenteredRecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/time_navigation_controller_size"
+                    android:id="@+id/recyclerview"
+                    android:layout_gravity="top" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/summary_list"
+                    android:layout_below="@+id/recyclerview"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true" />
+
+                </RelativeLayout>
 
         </FrameLayout>
 

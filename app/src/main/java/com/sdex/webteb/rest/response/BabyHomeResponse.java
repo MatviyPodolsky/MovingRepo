@@ -6,12 +6,9 @@ import com.sdex.webteb.rest.model.ApiResponse;
 
 import org.parceler.Parcel;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
