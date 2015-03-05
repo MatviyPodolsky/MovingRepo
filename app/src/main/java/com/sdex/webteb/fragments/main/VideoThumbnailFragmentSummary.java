@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.VideoPlayerActivity;
 import com.sdex.webteb.fragments.BaseFragment;
-import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.model.ContentLink;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -22,9 +22,9 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
-* Created by Yuriy Mysochenko on 25.02.2015.
-*/
-public class VideoThumbnailFragment extends BaseFragment {
+ * Created by Yuriy Mysochenko on 25.02.2015.
+ */
+public class VideoThumbnailFragmentSummary extends BaseFragment {
 
     public static final String ALL_VIDEO = "all_video";
     public static final String CURRENT_VIDEO_POSITION = "current_video_position";
@@ -32,11 +32,11 @@ public class VideoThumbnailFragment extends BaseFragment {
     @InjectView(R.id.thumbnail)
     ImageView mThumbnail;
 
-    private List<BabyHomeResponse.Video> data;
+    private List<ContentLink> data;
     private int currentVideoPosition;
 
-    public static Fragment newInstance(List<BabyHomeResponse.Video> data, int currentVideoPosition) {
-        VideoThumbnailFragment f = new VideoThumbnailFragment();
+    public static Fragment newInstance(List<ContentLink> data, int currentVideoPosition) {
+        VideoThumbnailFragmentSummary f = new VideoThumbnailFragmentSummary();
         Bundle args = new Bundle();
         Parcelable wrapped = Parcels.wrap(data);
         args.putParcelable(ALL_VIDEO, wrapped);
@@ -54,7 +54,7 @@ public class VideoThumbnailFragment extends BaseFragment {
         currentVideoPosition = args.getInt(CURRENT_VIDEO_POSITION);
         data = Parcels.unwrap(wrapped);
 
-        BabyHomeResponse.Video video = data.get(currentVideoPosition);
+        ContentLink video = data.get(currentVideoPosition);
 
         Picasso.with(getActivity())
                 .load(video.getImageUrl())

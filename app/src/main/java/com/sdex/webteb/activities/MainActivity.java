@@ -35,6 +35,7 @@ import com.sdex.webteb.fragments.main.MoreArticlesFragment;
 import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
+import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.model.SideMenuItem;
@@ -173,22 +174,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     @OnItemClick(R.id.drawer_list)
     void setItem(final int position) {
-        closeDrawer();
-        mOpenMenuItemTask = new Runnable() {
-            @Override
-            public void run() {
-                Fragment fragment = getFragmentByPosition(position);
-                if (fragment != null) {
-                    mCurrentFragmentIndex = position;
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, fragment, contentFragment)
-                            .commit();
-                } else {
-                    finish();
-                }
-            }
-        };
+        setMenuItem(position);
     }
 
     @Override
@@ -245,6 +231,29 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         }
 //        }
 //        use only for webViewDialog
+    }
+
+    public void onEvent(SelectMenuItemEvent event) {
+        setMenuItem(event.getPosition());
+    }
+
+    private void setMenuItem(final int position) {
+        closeDrawer();
+        mOpenMenuItemTask = new Runnable() {
+            @Override
+            public void run() {
+                Fragment fragment = getFragmentByPosition(position);
+                if (fragment != null) {
+                    mCurrentFragmentIndex = position;
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, fragment, contentFragment)
+                            .commit();
+                } else {
+                    finish();
+                }
+            }
+        };
     }
 
     private void setCurrentMenuItem() {

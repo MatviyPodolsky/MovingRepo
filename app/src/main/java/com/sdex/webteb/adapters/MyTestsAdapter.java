@@ -35,10 +35,22 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
     private List<BabyTestResponse> data = new ArrayList<>();
     private List<Boolean> checked = new ArrayList<>();
     private LayoutInflater inflater;
+    private Callback mCallback;
+
+    public interface Callback {
+        void onReadMoreBtnClick();
+        void onSearchDoctorBtnClick();
+        void onAddReminderBtnClick();
+        void onTestDoneClick();
+    }
 
     public MyTestsAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+    }
+
+    public void setCallback(Callback callback) {
+        this.mCallback = callback;
     }
 
     public void setItems(List<BabyTestResponse> newItems) {
@@ -120,6 +132,12 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
             holder = (ViewHolderChild) convertView.getTag();
         }
 
+        holder.readMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         holder.addReminder.setTag(data.get(groupPosition));
         holder.addReminder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,18 +145,6 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                 changeReminder(data.get(groupPosition), holder, groupPosition);
             }
         });
-//        holder.doneTest.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                changeTestStatus(data.get(groupPosition), holder, groupPosition);
-//            }
-//        });
-//        holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                changeTestStatus(data.get(groupPosition), holder, groupPosition);
-//            }
-//        });
         holder.checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,11 +196,6 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         }
         holder.checkbox.setChecked(test != null && test.isTestDone());
 
-//        if(test != null && test.isTestDone()) {
-//            holder.checkbox.setChecked(test != null && test.isTestDone());
-//        } else {
-//            holder.doneTest.setText(context.getString(R.string.done_test));
-//        }
     }
     private void changeReminder(final BabyTestResponse item,
                                 final ViewHolderChild holder, final int position) {
@@ -304,8 +305,6 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         Button searchDoctor;
         @InjectView(R.id.add_reminder)
         Button addReminder;
-//        @InjectView(R.id.done_test)
-//        Button doneTest;
         @InjectView(R.id.done)
         CheckBox checkbox;
 
@@ -313,4 +312,5 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
             ButterKnife.inject(this, view);
         }
     }
+
 }

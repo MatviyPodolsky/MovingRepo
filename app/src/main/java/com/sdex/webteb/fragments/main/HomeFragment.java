@@ -24,6 +24,7 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.SimpleAdapter;
+import com.sdex.webteb.adapters.SummaryAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.dialogs.NotificationDialog;
@@ -34,10 +35,13 @@ import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
+import com.sdex.webteb.model.ContentLink;
+import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.rest.response.WeekResponse;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.view.CenteredRecyclerView;
@@ -61,6 +65,8 @@ public class HomeFragment extends PhotoFragment {
 
     @InjectView(R.id.fragment_container)
     FrameLayout mRootView;
+    @InjectView(R.id.summary_list)
+    RecyclerView mSummaryList;
     @InjectView(R.id.photo_container)
     View photoContainer;
     @InjectView(R.id.content_list)
@@ -78,6 +84,8 @@ public class HomeFragment extends PhotoFragment {
     FrameLayout mDragView;
     @InjectViews({R.id.photo_1, R.id.photo_2, R.id.photo_3})
     List<ImageView> mPhotoViews;
+
+    private RestCallback<WeekResponse> getWeekCallback;
 
     private DatabaseHelper databaseHelper;
 
@@ -97,6 +105,7 @@ public class HomeFragment extends PhotoFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mTimeNavigationRecyclerView.smoothScrollToView(view);
                 timeNavAdapter.setSelectedItem(position);
+                RestClient.getApiService().getWeek(timeNavAdapter.getItemCount() - position, getWeekCallback);
             }
         });
         mTimeNavigationRecyclerView.setAdapter(timeNavAdapter);
@@ -138,9 +147,14 @@ public class HomeFragment extends PhotoFragment {
         });
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
+        mSummaryList.setLayoutManager(layoutManager1);
         mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
+                getActivity(), R.drawable.divider_home_list));
+        mSummaryList.addItemDecoration(new SimpleDividerItemDecoration(
                 getActivity(), R.drawable.divider_home_list));
 
         photoContainer.setVisibility(View.VISIBLE);
@@ -185,6 +199,30 @@ public class HomeFragment extends PhotoFragment {
             }
         });
 
+        getWeekCallback = new RestCallback<WeekResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                //TODO show error loading
+            }
+
+            @Override
+            public void success(WeekResponse weekResponse, Response response) {
+                //TODO
+                if(weekResponse != null) {
+                    List<ContentPreview> tests = weekResponse.getTests();
+                    List<ContentPreview> previews = weekResponse.getPreviews();
+                    List<ContentLink> additionalContent = weekResponse.getAdditionalContent();
+                    List<ContentLink> videos = weekResponse.getVideos();
+
+                    SummaryAdapter adapter = new SummaryAdapter(getActivity(),
+                            getChildFragmentManager(),
+                            tests, previews, additionalContent, videos);
+                    mSummaryList.setAdapter(adapter);
+                } else {
+                    //TODO show no data
+                }
+            }
+        };
     }
 
     @Override

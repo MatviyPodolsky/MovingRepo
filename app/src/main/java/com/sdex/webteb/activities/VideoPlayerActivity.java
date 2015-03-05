@@ -10,7 +10,7 @@ import android.widget.GridView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.VideoListAdapter;
-import com.sdex.webteb.fragments.main.VideoThumbnailFragment;
+import com.sdex.webteb.fragments.main.VideoThumbnailFragmentSummary;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.view.VideoView;
 
@@ -39,8 +39,8 @@ public class VideoPlayerActivity extends BaseActivity {
 
         showLoading();
 
-        final Parcelable wrapped = getIntent().getExtras().getParcelable(VideoThumbnailFragment.ALL_VIDEO);
-        currentVideoPosition = getIntent().getExtras().getInt(VideoThumbnailFragment.CURRENT_VIDEO_POSITION);
+        final Parcelable wrapped = getIntent().getExtras().getParcelable(VideoThumbnailFragmentSummary.ALL_VIDEO);
+        currentVideoPosition = getIntent().getExtras().getInt(VideoThumbnailFragmentSummary.CURRENT_VIDEO_POSITION);
         data = Parcels.unwrap(wrapped);
 
         VideoListAdapter adapter = new VideoListAdapter(this, data);

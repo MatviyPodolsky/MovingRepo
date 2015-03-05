@@ -3,6 +3,8 @@ package com.sdex.webteb.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +14,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Parcel
 public class ContentLink {
 
     @SerializedName("Url")

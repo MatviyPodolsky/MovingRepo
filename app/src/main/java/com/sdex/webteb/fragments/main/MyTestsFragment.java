@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MyTestsAdapter;
+import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -17,6 +18,7 @@ import com.sdex.webteb.rest.response.BabyTestResponse;
 import java.util.List;
 
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
 
 /**
@@ -32,10 +34,37 @@ public class MyTestsFragment extends BaseMainFragment {
     @InjectView(R.id.error)
     TextView error;
 
+    protected EventBus BUS = EventBus.getDefault();
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mAdapter = new MyTestsAdapter(getActivity());
+        mAdapter.setCallback(new MyTestsAdapter.Callback() {
+            @Override
+            public void onReadMoreBtnClick() {
+                SelectMenuItemEvent event = new SelectMenuItemEvent();
+                event.setPosition(4);
+//                BUS.post(event);
+            }
+
+            @Override
+            public void onSearchDoctorBtnClick() {
+                SelectMenuItemEvent event = new SelectMenuItemEvent();
+                event.setPosition(3);
+//                BUS.post(event);
+            }
+
+            @Override
+            public void onAddReminderBtnClick() {
+
+            }
+
+            @Override
+            public void onTestDoneClick() {
+
+            }
+        });
         mList.setAdapter(mAdapter);
 
         RestClient.getApiService().getBabyTests(new RestCallback<List<BabyTestResponse>>() {
@@ -60,5 +89,17 @@ public class MyTestsFragment extends BaseMainFragment {
     public int getLayoutResource() {
         return R.layout.fragment_my_tests;
     }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        BUS.register(this);
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        BUS.unregister(this);
+//        super.onStop();
+//    }
 
 }
