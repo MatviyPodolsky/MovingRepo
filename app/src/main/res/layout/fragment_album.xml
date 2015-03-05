@@ -19,9 +19,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
+                android:text="@string/album_title"
                 android:layout_centerInParent="true"
-                tools:text="Some text"
                 android:id="@+id/textView7" />
 
             <include
@@ -56,16 +55,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
+                android:text="@string/album_empty_text"
                 android:id="@+id/textView3"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/textView8"
-                android:layout_marginTop="17dp"
+                android:textColor="#8c8c8c"
                 android:textSize="15sp" />
 
             <ImageView
@@ -85,7 +77,9 @@
             android:numColumns="4"
             android:padding="16dp"
             tools:context=".fragments.AlbumFragment"
-            android:layout_below="@+id/relativeLayout" />
+            android:layout_below="@+id/relativeLayout"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
         <FrameLayout
             android:id="@+id/fragment_album_container"

@@ -110,6 +110,12 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         databaseHelper.deletePhoto(photo);
 
         showOrHideEmptyView();
+
+        if (data.isEmpty()) {
+            if (getChildFragmentManager().getBackStackEntryCount() > 0) {
+                getActivity().onBackPressed();
+            }
+        }
     }
 
     public void onEvent(SavedPhotoEvent event) {

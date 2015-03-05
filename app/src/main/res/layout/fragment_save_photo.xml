@@ -14,9 +14,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            android:text="@string/album_save_photo"
             android:layout_centerInParent="true"
-            tools:text="Some text"
             android:id="@+id/textView7" />
 
     </RelativeLayout>
@@ -38,7 +37,7 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="233dp"
-                android:src="@drawable/avatar"
+                tools:src="@drawable/avatar"
                 android:layout_marginTop="10dp" />
 
             <com.sdex.webteb.view.CenteredRecyclerView

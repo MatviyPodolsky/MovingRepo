@@ -153,4 +153,16 @@
     text text text text text text text text text text text text text text text text text text </string>
     <string name="facebook_app_id">326836307523571</string>
 
+    <!--album-->
+    <string name="album_title">My album</string>
+    <string name="album_empty_text">Album is empty</string>
+    <string name="take_photo_button_title">photo</string>
+    <string name="album_save_photo">Save photo</string>
+
+    <!--about-->
+    <string name="about_app_version">1.1.0 application version</string>
+    <string name="logo_text">logo text</string>
+    <string name="about_text">long about text with app description or other stuff</string>
+
+
 </resources>
