@@ -6,10 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.adapters.TagsAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.fragments.main.HomeFragment;
@@ -23,11 +25,11 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Yuriy Mysochenko on 02.03.2015.
  */
-public class PhotoResultFragment extends BaseFragment {
+public class SavePhotoFragment extends BaseFragment {
 
     @InjectView(R.id.description)
     EditText mDescription;
-    @InjectView(R.id.avatar)
+    @InjectView(R.id.image)
     ImageView mPhotoView;
     @InjectView(R.id.tags)
     RecyclerView mRecyclerView;
@@ -47,11 +49,20 @@ public class PhotoResultFragment extends BaseFragment {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
+        final TagsAdapter adapter = new TagsAdapter();
+        adapter.setItemCount(10);
+        adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.setSelectedItem(position);
+            }
+        });
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
     public int getLayoutResource() {
-        return R.layout.fragment_user_profile;
+        return R.layout.fragment_save_photo;
     }
 
     @OnClick(R.id.save)

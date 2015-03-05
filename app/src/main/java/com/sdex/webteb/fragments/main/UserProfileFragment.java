@@ -18,6 +18,7 @@ import butterknife.OnClick;
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
+@Deprecated
 public class UserProfileFragment extends BaseMainFragment {
 
     @InjectView(R.id.avatar)

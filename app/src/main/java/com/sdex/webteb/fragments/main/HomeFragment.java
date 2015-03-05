@@ -30,7 +30,7 @@ import com.sdex.webteb.dialogs.NotificationDialog;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.extras.SimpleDividerItemDecoration;
 import com.sdex.webteb.fragments.PhotoFragment;
-import com.sdex.webteb.fragments.PhotoResultFragment;
+import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
@@ -246,7 +246,7 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void showPhotoPreview(String path) {
-        Fragment fragment = new PhotoResultFragment();
+        Fragment fragment = new SavePhotoFragment();
         Bundle args = new Bundle();
         args.putString(PHOTO_PATH, path);
         fragment.setArguments(args);

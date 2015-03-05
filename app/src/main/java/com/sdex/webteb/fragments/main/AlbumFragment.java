@@ -16,7 +16,7 @@ import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
-import com.sdex.webteb.fragments.PhotoResultFragment;
+import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.internal.events.DeletePhotoEvent;
 import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
@@ -140,7 +140,7 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     }
 
     private void showPhotoPreview(String path) {
-        Fragment fragment = new PhotoResultFragment();
+        Fragment fragment = new SavePhotoFragment();
         Bundle args = new Bundle();
         args.putString(PHOTO_PATH, path);
         fragment.setArguments(args);
