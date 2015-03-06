@@ -28,8 +28,6 @@ import retrofit.client.Response;
  */
 public class MoreArticlesFragment extends BaseMainFragment {
 
-    public static final String ARTICLE_URL = "ARTICLE_URL";
-
     private ArticlesAdapter mAdapter;
     @InjectView(R.id.list)
     ListView mList;
@@ -64,7 +62,8 @@ public class MoreArticlesFragment extends BaseMainFragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Fragment fragment = new ArticleFragment();
                             Bundle args = new Bundle();
-                            args.putString(ARTICLE_URL, mAdapter.getItem(position).getUrl());
+                            args.putString(ArticleFragment.ARTICLE_URL, mAdapter.getItem(position).getUrl());
+                            args.putString(ArticleFragment.ARTICLE_TITLE, mAdapter.getItem(position).getTitle());
                             fragment.setArguments(args);
                             FragmentManager fragmentManager = getChildFragmentManager();
                             fragmentManager.beginTransaction()

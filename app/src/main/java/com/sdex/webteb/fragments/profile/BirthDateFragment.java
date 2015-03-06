@@ -51,19 +51,19 @@ public class BirthDateFragment extends BaseFragment {
             int dateType = data.getInt(SetupProfileActivity.DATE_TYPE, LAST_PERIOD);
             String dateStr = data.getString(SetupProfileActivity.DATE);
             selectCategory(dateType);
+            ((SetupProfileActivity) getActivity()).setBirthDate(dateStr, dateType);
             if(dateStr != null){
                 SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
                 Date date = null;
                 try {
                     date = inFormat.parse(dateStr);
-                    SimpleDateFormat outFormat = new SimpleDateFormat("mm/dd/yyyy");
+                    SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd");
                     dateStr = outFormat.format(date);
                 }catch(Exception ex){
                     ex.printStackTrace();
                 }
             }
             mDate.setText(dateStr);
-            ((SetupProfileActivity) getActivity()).setBirthDate(dateStr, dateType);
         }
     }
 

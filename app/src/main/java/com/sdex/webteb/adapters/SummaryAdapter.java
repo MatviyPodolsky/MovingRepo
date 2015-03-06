@@ -80,7 +80,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 v = inflater.inflate(R.layout.item_home_list_preview, parent, false);
                 return new PreviewViewHolder(v);
             case TYPE_ADDITIONAL_CONTENT:
-                v = inflater.inflate(R.layout.item_home_list_additional_content_summary, parent, false);
+                v = inflater.inflate(R.layout.item_home_list_additional_content, parent, false);
                 return new AdditionalContentViewHolder(v);
             case TYPE_VIDEO:
                 v = inflater.inflate(R.layout.item_home_list_video, parent, false);

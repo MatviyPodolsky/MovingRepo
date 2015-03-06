@@ -25,12 +25,17 @@
     <string name="email_is_not_registered">Email is not registered</string>
     <string name="your_password_was_sent_to_your_email">Your password was sent to your email</string>
     <string name="agree_to_newsletter">Agree to newsletter</string>
-    <string name="terms_of_use"><u>Terms of use</u></string>
     <string name="please_enter_username">Please enter your username</string>
     <string name="please_enter_email">Please enter your email</string>
     <string name="password_must_contain_at_least_4_characters">Password must contain at least 4 characters</string>
     <string name="link_text"><u>link text</u></string>
     <string name="text"> text </string>
+
+    <!--terms of use-->
+    <string name="in_the_registration_process_agree_on">في عملية التسجيل الاتفاق على</string>
+    <string name="terms_of_use"><u>شروط الاستخدام</u></string>
+    <string name="and"> و </string>
+    <string name="security_agreement"><u>الاتفاقية الأمنية</u></string>
 
     <!--profile card-->
     <string name="next">Next</string>

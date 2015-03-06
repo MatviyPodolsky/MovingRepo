@@ -196,9 +196,26 @@ public class HomeFragment extends PhotoFragment {
                 List<ContentLink> videos = babyHomeResponse.getVideos();
                 List<ContentLink> additionalContent = babyHomeResponse.getAdditionalContent();
 
-                HomeListAdapter adapter = new HomeListAdapter(getActivity(),
+                final HomeListAdapter adapter = new HomeListAdapter(getActivity(),
                         getChildFragmentManager(),
                         previews, videos, additionalContent);
+                adapter.setCallback(new HomeListAdapter.OnItemClickCallback() {
+                    @Override
+                    public void onItemClick(ContentLink content) {
+                        Fragment fragment = new ArticleFragment();
+                        Bundle args = new Bundle();
+                        args.putString(ArticleFragment.ARTICLE_TITLE, content.getTitle());
+                        args.putString(ArticleFragment.ARTICLE_URL, content.getUrl());
+                        fragment.setArguments(args);
+                        FragmentManager fragmentManager = getChildFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .add(R.id.fragment_container, fragment, "content_fragment")
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                });
+
+
                 mRecyclerView.setAdapter(adapter);
             }
         });
@@ -212,7 +229,7 @@ public class HomeFragment extends PhotoFragment {
             @Override
             public void success(WeekResponse weekResponse, Response response) {
                 //TODO
-                if(weekResponse != null) {
+                if (weekResponse != null) {
                     List<ContentPreview> tests = weekResponse.getTests();
                     List<ContentPreview> previews = weekResponse.getPreviews();
                     List<ContentLink> additionalContent = weekResponse.getAdditionalContent();
