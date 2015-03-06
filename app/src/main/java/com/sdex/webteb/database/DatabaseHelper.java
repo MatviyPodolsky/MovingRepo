@@ -19,7 +19,7 @@ import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "album.db";
-    private static final int VERSION = 2;
+    private static final int VERSION = 3;
 
     private static DatabaseHelper mInstance = null;
 
