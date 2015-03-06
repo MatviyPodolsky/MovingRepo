@@ -93,10 +93,11 @@
 
                 <TextView
                     style="@style/AppTheme.Settings.TextView"
+                    android:textColor="@color/settings_text_selector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/once_time_only"
-                    android:id="@+id/textView13" />
+                    android:id="@+id/once_time" />
 
                 <TextView
                     style="@style/AppTheme.Settings.TextView"
@@ -107,10 +108,11 @@
 
                 <TextView
                     style="@style/AppTheme.Settings.TextView"
+                    android:textColor="@color/settings_text_selector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/once_a_day"
-                    android:id="@+id/textView15" />
+                    android:id="@+id/once_a_day" />
             </LinearLayout>
 
 
@@ -264,17 +266,6 @@
                 android:text="@string/logout" />
 
         </RelativeLayout>
-
-        <Button
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/btn_blue_normal"
-            android:text="@string/save" />
 
     </RelativeLayout>
 

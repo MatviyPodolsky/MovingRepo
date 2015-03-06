@@ -17,6 +17,8 @@
     <color name="primary">#EC1561</color>
     <color name="primary_dark">#C5115B</color>
 
+    <color name="settings_text">#ababab</color>
+
     <color name="menu_divider">#2A2A2A</color>
     <color name="black">#000</color>
 

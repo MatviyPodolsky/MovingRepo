@@ -4,23 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
 import com.sdex.webteb.activities.WelcomeActivity;
+import com.sdex.webteb.internal.model.Settings;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
-import com.sdex.webteb.rest.request.BabyGeneralRequest;
 import com.sdex.webteb.rest.response.BabyGeneralResponse;
+import com.sdex.webteb.service.ApiActionService;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.switchbutton.SwitchButton;
 
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import retrofit.client.Response;
 
@@ -41,12 +43,27 @@ public class SettingsFragment extends BaseMainFragment {
     ProgressBar progressBar;
     @InjectView(R.id.error)
     TextView error;
-    private RestCallback<BabyGeneralResponse> getSettingsCallback;
+    @InjectView(R.id.once_time)
+    TextView mOnceTime;
+    @InjectView(R.id.once_a_day)
+    TextView mOnceADay;
+
+    private final Settings mOldSettings = new Settings();
+    private final Settings mNewSettings = new Settings();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getSettingsCallback = new RestCallback<BabyGeneralResponse>() {
+
+        reminders.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mOnceADay.setSelected(isChecked);
+                mOnceTime.setSelected(!isChecked);
+            }
+        });
+
+        RestClient.getApiService().getBabyGeneral(new RestCallback<BabyGeneralResponse>() {
             @Override
             public void failure(RestError restError) {
 //                progressBar.setVisibility(View.GONE);
@@ -55,14 +72,31 @@ public class SettingsFragment extends BaseMainFragment {
 
             @Override
             public void success(BabyGeneralResponse babyGeneralResponse, Response response) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
+                mOldSettings.setWeeklyTipNotification(babyGeneralResponse.isWeeklyTips());
+                mOldSettings.setTestsReminder(babyGeneralResponse.getTestReminder());
+                mOldSettings.setNewsletter(babyGeneralResponse.isNewsletter());
+
+                mNewSettings.setWeeklyTipNotification(babyGeneralResponse.isWeeklyTips());
+                mNewSettings.setTestsReminder(babyGeneralResponse.getTestReminder());
+                mNewSettings.setNewsletter(babyGeneralResponse.isNewsletter());
+
                 notifications.setChecked(babyGeneralResponse.isWeeklyTips());
-                reminders.setChecked(babyGeneralResponse.getTestReminder() > 0);
+                boolean isOnceADay = babyGeneralResponse.getTestReminder() > 0;
+                reminders.setChecked(isOnceADay);
                 newsletter.setChecked(babyGeneralResponse.isNewsletter());
+
+                mOnceADay.setSelected(isOnceADay);
+                mOnceTime.setSelected(!isOnceADay);
+
 //                root.setVisibility(View.VISIBLE);
 //                progressBar.setVisibility(View.GONE);
             }
-        };
-        RestClient.getApiService().getBabyGeneral(getSettingsCallback);
+        });
     }
 
     @Override
@@ -70,10 +104,27 @@ public class SettingsFragment extends BaseMainFragment {
         return R.layout.fragment_settings;
     }
 
+    @OnCheckedChanged(R.id.notifications)
+    void onCheckedChangedNotifications(boolean checked) {
+        mNewSettings.setWeeklyTipNotification(checked);
+    }
+
+    @OnCheckedChanged(R.id.reminders)
+    void onCheckedChangedReminders(boolean checked) {
+        mNewSettings.setTestsReminder(checked ? 1 : 0);
+    }
+
+    @OnCheckedChanged(R.id.newsletter)
+    void onCheckedChangedNewsletter(boolean checked) {
+        mNewSettings.setNewsletter(checked);
+    }
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getSettingsCallback.cancel();
+    public void onDetach() {
+        super.onDetach();
+        if (!mNewSettings.equals(mOldSettings)) {
+            ApiActionService.startSaveSettings(getActivity(), mNewSettings);
+        }
     }
 
     @OnClick(R.id.logout)
@@ -94,34 +145,16 @@ public class SettingsFragment extends BaseMainFragment {
     }
 
     @OnClick(R.id.my_profile)
-    public void editProfile(View v) {
+    public void editProfile() {
         Intent intent = new Intent(getActivity(), SetupProfileActivity.class);
         startActivity(intent);
-//        getActivity().finish();
     }
 
     @OnClick(R.id.reset)
-    public void reset(View v) {
+    public void reset() {
         notifications.setChecked(true);
         reminders.setChecked(true);
         newsletter.setChecked(true);
     }
 
-    @OnClick(R.id.save)
-    public void save(View v) {
-        BabyGeneralRequest request = new BabyGeneralRequest();
-        request.setNewsletter(newsletter.isChecked());
-        request.setWeeklyTips(notifications.isChecked());
-        request.setTestReminder(reminders.isChecked() ? 1 : 0);
-        RestClient.getApiService().setBabyGeneral(request, new RestCallback<String>() {
-            @Override
-            public void failure(RestError restError) {
-            }
-
-            @Override
-            public void success(String s, Response response) {
-                Toast.makeText(getActivity(), "Settings saved", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
