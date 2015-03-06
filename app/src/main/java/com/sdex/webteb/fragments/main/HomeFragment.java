@@ -27,6 +27,7 @@ import com.sdex.webteb.adapters.SimpleAdapter;
 import com.sdex.webteb.adapters.SummaryAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
+import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.NotificationDialog;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.extras.SimpleDividerItemDecoration;
@@ -196,6 +197,8 @@ public class HomeFragment extends PhotoFragment {
                 mUserName.setText(babyHomeResponse.getCard().getName());
                 mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
 
+                setProfilePhoto(babyHomeResponse.getCard().getName());
+
                 List<ContentPreview> previews = babyHomeResponse.getPreviews();
                 List<ContentLink> videos = babyHomeResponse.getVideos();
                 List<ContentLink> additionalContent = babyHomeResponse.getAdditionalContent();
@@ -248,6 +251,23 @@ public class HomeFragment extends PhotoFragment {
                 }
             }
         };
+    }
+
+    private void setProfilePhoto(String name) {
+        DbUser user = databaseHelper.getUser(name);
+        if (user == null) {
+            DbUser newUser = new DbUser();
+            newUser.setEmail(name);
+            databaseHelper.addUser(newUser);
+        } else {
+            final String photoPath = user.getPhotoPath();
+            if (photoPath != null) {
+                Picasso.with(getActivity())
+                        .load(PhotoFragment.FILE_PREFIX + photoPath)
+                        .placeholder(R.drawable.ic_photo)
+                        .into(mProfilePhoto);
+            }
+        }
     }
 
     @Override

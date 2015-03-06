@@ -1,11 +1,13 @@
 package com.sdex.webteb.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 import com.sdex.webteb.database.model.DbPhoto;
+import com.sdex.webteb.database.model.DbUser;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     static {
         cupboard().register(DbPhoto.class);
+        cupboard().register(DbUser.class);
     }
 
     public static DatabaseHelper getInstance(Context context) {
@@ -85,6 +88,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 .get();
         photo.setPath(uri.getPath());
         cupboard().withDatabase(getWritableDatabase()).put(photo);
+    }
+
+    public void addUser(DbUser user) {
+        cupboard().withDatabase(getWritableDatabase()).put(user);
+    }
+
+    public DbUser getUser(String email) {
+        return cupboard().withDatabase(getReadableDatabase()).query(DbUser.class)
+                .withSelection("email = ?", email)
+                .get();
+    }
+
+    public void updateUser(DbUser user) {
+        ContentValues values = cupboard().withEntity(DbUser.class).toContentValues(user);
+        cupboard().withDatabase(getWritableDatabase()).update(DbPhoto.class, values);
     }
 
 }

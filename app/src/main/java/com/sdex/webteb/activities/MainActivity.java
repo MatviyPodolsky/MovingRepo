@@ -37,7 +37,9 @@ import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
 import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
+import com.sdex.webteb.internal.events.SelectedProfilePhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
+import com.sdex.webteb.internal.events.TakenProfilePhotoEvent;
 import com.sdex.webteb.model.SideMenuItem;
 
 import java.util.ArrayList;
@@ -223,6 +225,13 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 case PhotoFragment.PHOTO_SELECTED_ALBUM:
                     Uri selectedImage = data.getData();
                     EventBus.getDefault().postSticky(new SelectedPhotoEvent(selectedImage));
+                    break;
+                case PhotoFragment.PHOTO_TAKEN_PROFILE:
+                    EventBus.getDefault().postSticky(new TakenProfilePhotoEvent());
+                    break;
+                case PhotoFragment.PHOTO_SELECTED_PROFILE:
+                    Uri selectedProfileImage = data.getData();
+                    EventBus.getDefault().postSticky(new SelectedProfilePhotoEvent(selectedProfileImage));
                     break;
             }
         }
