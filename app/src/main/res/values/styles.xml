@@ -21,7 +21,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:background">@drawable/btn_blue</item>
+        <item name="android:background">@drawable/app_theme_btn_selector</item>
     </style>
 
     <style name="AppTheme.ButtonTextAppearance" parent="@style/Base.TextAppearance.AppCompat.Button">

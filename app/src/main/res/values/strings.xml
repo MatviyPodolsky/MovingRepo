@@ -4,6 +4,10 @@
 
     <string name="facebook_app_id" translatable="false">326836307523571</string>
 
+    <!--welcome-->
+    <string name="welcome_text">Test text to test data display on the screen of the mobile device</string>
+    <string name="welcome_subtext">Test subtext to test data display on the screen of the mobile device</string>
+
     <!--login & registration-->
     <string name="login">Login</string>
     <string name="register">Register</string>
@@ -53,6 +57,31 @@
     <string name="female">Female</string>
     <string name="none">None</string>
 
+    <!--home-->
+    <!--menu-->
+    <string name="title_home">Home</string>
+    <string-array name="menu_item_titles">
+        <item>My tests</item>
+        <item>My Album</item>
+        <item>Search doctor</item>
+        <item>More articles</item>
+        <item>Settings screen</item>
+        <item>About</item>
+        <item>Contact us</item>
+        <item>Exit</item>
+    </string-array>
+
+    <string-array name="menu_item_icons">
+        <item>@drawable/ic_ad_1</item>
+        <item>@drawable/ic_ad_2</item>
+        <item>@drawable/ic_ad_3</item>
+        <item>@drawable/ic_ad_4</item>
+        <item>@drawable/ic_ad_5</item>
+        <item>@drawable/ic_ad_6</item>
+        <item>@drawable/ic_ad_7</item>
+        <item>@drawable/ic_ad_8</item>
+    </string-array>
+
     <!--my tests-->
     <string name="read_more">Read more</string>
     <string name="search_doctor">Search doctor</string>
@@ -62,19 +91,15 @@
     <string name="undone_test">Undone test</string>
     <string name="reminder">Reminder</string>
 
-    <!--settings-->
-    <string name="settings_title_1">Settings title 1</string>
-    <string name="settings_title_2">Settings title 2</string>
-    <string name="weekly_tips_notifications">Weekly tips notifications</string>
-    <string name="tests_reminders">Tests reminders</string>
-    <string name="once_a_day">Once a day</string>
-    <string name="once_time_only">Once time only</string>
-    <string name="newsletter">Newsletter</string>
-    <string name="my_profile">My profile</string>
-    <string name="edit">Edit</string>
-    <string name="reset_data">Reset data</string>
-    <string name="reset">Reset</string>
-    <string name="logout">Logout</string>
+    <!--album-->
+    <string name="take_photo">Take photo</string>
+    <string name="select_photo">Select photo</string>
+    <string name="cancel">Cancel</string>
+    <string name="album_title">My album</string>
+    <string name="album_empty_text">Album is empty</string>
+    <string name="take_photo_button_title">photo</string>
+    <string name="album_save_photo">Save photo</string>
+    <string name="save">Save</string>
 
     <!--search doctor-->
     <string name="country">Country</string>
@@ -115,57 +140,38 @@
         <item>Psychiatrist</item>
     </string-array>
 
-    <string-array name="menu_item_titles">
-        <item>My tests</item>
-        <item>My Album</item>
-        <item>Search doctor</item>
-        <item>More articles</item>
-        <item>Settings screen</item>
-        <item>About</item>
-        <item>Contact us</item>
-        <item>Exit</item>
-    </string-array>
-
-    <string-array name="menu_item_icons">
-        <item>@drawable/ic_ad_1</item>
-        <item>@drawable/ic_ad_2</item>
-        <item>@drawable/ic_ad_3</item>
-        <item>@drawable/ic_ad_4</item>
-        <item>@drawable/ic_ad_5</item>
-        <item>@drawable/ic_ad_6</item>
-        <item>@drawable/ic_ad_7</item>
-        <item>@drawable/ic_ad_8</item>
-    </string-array>
-
-    <!--welcome-->
-    <string name="welcome_text">Test text to test data display on the screen of the mobile device</string>
-    <string name="welcome_subtext">Test subtext to test data display on the screen of the mobile device</string>
-
-    <!--errors-->
-    <string name="error_loading_data">Error loading data</string>
-    <string name="empty_loaded_data">Empty loaded data</string>
-
-    <!--album-->
-    <string name="take_photo">Take photo</string>
-    <string name="select_photo">Select photo</string>
-    <string name="cancel">Cancel</string>
-    <string name="album_title">My album</string>
-    <string name="album_empty_text">Album is empty</string>
-    <string name="take_photo_button_title">photo</string>
-    <string name="album_save_photo">Save photo</string>
-    <string name="save">Save</string>
+    <!--settings-->
+    <string name="settings_title_1">Settings title 1</string>
+    <string name="settings_title_2">Settings title 2</string>
+    <string name="weekly_tips_notifications">Weekly tips notifications</string>
+    <string name="tests_reminders">Tests reminders</string>
+    <string name="once_a_day">Once a day</string>
+    <string name="once_time_only">Once time only</string>
+    <string name="newsletter">Newsletter</string>
+    <string name="my_profile">My profile</string>
+    <string name="edit">Edit</string>
+    <string name="reset_data">Reset data</string>
+    <string name="reset">Reset</string>
+    <string name="logout">Logout</string>
 
     <!--about-->
     <string name="about_app_version">1.1.0 application version</string>
     <string name="logo_text">logo text</string>
     <string name="about_text">long about text with app description or other stuff</string>
 
+    <!--contact us-->
+    <string name="contact_us_title_hint">title hint</string>
+    <string name="contact_us_text_hint">text hint</string>
+    <string name="contact_us_btn_send">Send</string>
+
+    <!--errors-->
+    <string name="error_loading_data">Error loading data</string>
+    <string name="empty_loaded_data">Empty loaded data</string>
+    <string name="no_connection">No connection to the internet</string>
+
     <!--debug text-->
     <string name="test_text" translatable="false">Text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text </string>
-    <string name="contact_us_title_hint">title hint</string>
-    <string name="contact_us_text_hint">text hint</string>
-    <string name="contact_us_btn_send">Send</string>
 
 </resources>
