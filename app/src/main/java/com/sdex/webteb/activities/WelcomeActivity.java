@@ -115,8 +115,14 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
         startActivity(intent);
     }
 
-    @OnClick(R.id.terms_of_usage)
+    @OnClick(R.id.link1)
     public void showTOC(final View v) {
+        DialogFragment newFragment = TermsOfServiceDialog.newInstance();
+        newFragment.show(getSupportFragmentManager(), null);
+    }
+
+    @OnClick(R.id.link2)
+    public void showSA(final View v) {
         DialogFragment newFragment = TermsOfServiceDialog.newInstance();
         newFragment.show(getSupportFragmentManager(), null);
     }

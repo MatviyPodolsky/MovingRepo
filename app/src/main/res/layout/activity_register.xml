@@ -159,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/text"
+                android:text="@string/in_the_registration_process_agree_on"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/small_text" />
 
@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/link_text"
+                    android:text="@string/terms_of_use"
                     android:textColor="@color/link"
                     android:textSize="@dimen/small_text" />
 
@@ -183,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/text"
+                    android:text="@string/and"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/small_text" />
 
@@ -192,7 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/link_text"
+                    android:text="@string/security_agreement"
                     android:textColor="@color/link"
                     android:textSize="@dimen/small_text" />
 
