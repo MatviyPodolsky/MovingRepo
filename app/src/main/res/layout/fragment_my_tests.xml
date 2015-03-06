@@ -7,7 +7,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My tests"
+        android:text="@string/my_tests_title"
         android:textColor="#03a9f5"
         android:textSize="15sp"
         android:layout_marginRight="10dp"

@@ -83,6 +83,7 @@
     </string-array>
 
     <!--my tests-->
+    <string name="my_tests_title">My tests</string>
     <string name="read_more">Read more</string>
     <string name="search_doctor">Search doctor</string>
     <string name="add_reminder">Add reminder</string>
@@ -139,6 +140,9 @@
         <item>Venereologist</item>
         <item>Psychiatrist</item>
     </string-array>
+
+    <!--more articles-->
+    <string name="more_articles_title">More articles</string>
 
     <!--settings-->
     <string name="settings_title_1">Settings title 1</string>

@@ -12,9 +12,15 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="More articles"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/more_articles_title"
+            android:textColor="#03a9f5"
+            android:textSize="15sp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp" />
 
         <ListView
             android:id="@+id/list"
