@@ -55,4 +55,23 @@
         <item name="android:track">@drawable/apptheme_switch_track_holo_light</item>
     </style>
 
+    <style name="AppTheme.SwitchButton">
+        <item name="sb_animationVelocity">6</item>
+        <item name="sb_insetBottom">16dp</item>
+        <item name="sb_insetTop">16dp</item>
+        <item name="sb_insetLeft">16dp</item>
+        <item name="sb_insetRight">16dp</item>
+        <item name="sb_measureFactor">1.4</item>
+        <item name="sb_offDrawable">@drawable/md_back_off</item>
+        <item name="sb_onDrawable">@drawable/md_back_on</item>
+        <item name="sb_thumbDrawable">@drawable/md_thumb</item>
+        <item name="sb_thumb_margin">-17dp</item>
+    </style>
+
+    <style name="AppTheme.SwitchButton.Material" parent="AppTheme.SwitchButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
 </resources>

@@ -114,7 +114,6 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         BabyTestResponse item = (BabyTestResponse) getGroup(groupPosition);
         holder.title.setText(item.getContentPreview().getTitle());
         holder.text.setText(item.getContentPreview().getDescription());
-        holder.time.setText("time");
         refreshStatus(data.get(groupPosition).getUserTest(), holder);
 
         return convertView;
@@ -299,8 +298,6 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         TextView title;
         @InjectView(R.id.text)
         TextView text;
-        @InjectView(R.id.time)
-        TextView time;
         @InjectView(R.id.reminder)
         TextView reminder;
         @InjectView(R.id.done)

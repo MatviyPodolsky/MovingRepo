@@ -9,60 +9,81 @@
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <Button
             android:id="@+id/read_more"
-            android:layout_width="match_parent"
+            android:layout_width="146dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:textColor="@android:color/white"
             android:background="@drawable/btn_blue_normal"
-            android:text="@string/read_more" />
+            android:text="@string/read_more"
+            android:textSize="13dp" />
 
         <Button
             android:id="@+id/search_doctor"
-            android:layout_width="match_parent"
+            android:layout_width="146dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/read_more"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:textColor="@android:color/white"
             android:background="@drawable/btn_blue_normal"
-            android:text="@string/search_doctor" />
+            android:text="@string/search_doctor"
+            android:textSize="13dp"
+            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/add_reminder"
-            android:layout_width="match_parent"
+            android:layout_width="146dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/search_doctor"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:textColor="@android:color/white"
             android:background="@drawable/btn_facebook_normal"
-            android:text="@string/add_reminder" />
+            android:text="@string/add_reminder"
+            android:textSize="13dp"
+            android:layout_marginTop="8dp" />
 
         <!--<Button-->
-            <!--android:id="@+id/done_test"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@id/add_reminder"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:text="@string/done_test" />-->
+        <!--android:id="@+id/done_test"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/add_reminder"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:text="@string/done_test" />-->
 
     </RelativeLayout>
 
-    <CheckBox
-        android:id="@+id/done"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/checkbox_container"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/container"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="13dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:id="@+id/textView12" />
+
+        <CheckBox
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/container"
+            android:layout_centerHorizontal="true" />
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/checkbox"
+        android:layout_below="@+id/checkbox_container"
         android:background="@color/divider" />
 
 </RelativeLayout>

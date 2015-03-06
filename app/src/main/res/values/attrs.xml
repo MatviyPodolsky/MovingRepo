@@ -11,4 +11,28 @@
         <enum name="post_rock" value="1" />
     </attr>
 
+    <declare-styleable name="SwitchButton">
+        <attr name="sb_onDrawable" format="reference" />
+        <attr name="sb_offDrawable" format="reference" />
+        <attr name="sb_thumbDrawable" format="reference" />
+        <attr name="sb_thumb_margin" format="dimension|reference" />
+        <attr name="sb_thumb_marginTop" format="dimension|reference" />
+        <attr name="sb_thumb_marginBottom" format="dimension|reference" />
+        <attr name="sb_thumb_marginLeft" format="dimension|reference" />
+        <attr name="sb_thumb_marginRight" format="dimension|reference" />
+        <attr name="sb_thumb_width" format="dimension|reference" />
+        <attr name="sb_thumb_height" format="dimension|reference" />
+        <attr name="sb_onColor" format="color|reference" />
+        <attr name="sb_offColor" format="color|reference" />
+        <attr name="sb_thumbColor" format="color|reference" />
+        <attr name="sb_thumbPressedColor" format="color|reference" />
+        <attr name="sb_animationVelocity" format="integer" />
+        <attr name="sb_radius" format="integer" />
+        <attr name="sb_measureFactor" format="float" />
+        <attr name="sb_insetLeft" format="dimension|reference" />
+        <attr name="sb_insetRight" format="dimension|reference" />
+        <attr name="sb_insetTop" format="dimension|reference" />
+        <attr name="sb_insetBottom" format="dimension|reference" />
+    </declare-styleable>
+
 </resources>
