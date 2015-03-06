@@ -40,7 +40,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="AppTheme.Settings.TextView" parent="@android:style/Widget.TextView">
+    <style name="AppTheme.TextView.Settings" parent="@android:style/Widget.TextView">
         <item name="android:textColor">@color/settings_text</item>
         <item name="android:textSize">13sp</item>
     </style>

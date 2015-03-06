@@ -85,10 +85,10 @@ public class SettingsFragment extends BaseMainFragment {
                 mNewSettings.setTestsReminder(babyGeneralResponse.getTestReminder());
                 mNewSettings.setNewsletter(babyGeneralResponse.isNewsletter());
 
-                notifications.setChecked(babyGeneralResponse.isWeeklyTips());
+                notifications.slideToChecked(babyGeneralResponse.isWeeklyTips());
                 boolean isOnceADay = babyGeneralResponse.getTestReminder() > 0;
-                reminders.setChecked(isOnceADay);
-                newsletter.setChecked(babyGeneralResponse.isNewsletter());
+                reminders.slideToChecked(isOnceADay);
+                newsletter.slideToChecked(babyGeneralResponse.isNewsletter());
 
                 mOnceADay.setSelected(isOnceADay);
                 mOnceTime.setSelected(!isOnceADay);

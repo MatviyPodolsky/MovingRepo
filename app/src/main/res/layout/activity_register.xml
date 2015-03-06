@@ -98,6 +98,7 @@
             android:layout_below="@+id/name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
             android:background="@drawable/btn_blue"
             android:text="@string/sign_up"
             android:textSize="13sp" />
@@ -113,19 +114,30 @@
             android:layout_marginTop="52dp"
             fb:login_text="Facebook تسجيل الدخول" />
 
-        <Switch
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/auth_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="68dp"
-            android:background="@android:color/transparent"
-            android:checked="true"
-            android:switchPadding="10sp"
-            android:text="@string/agree_to_newsletter"
-            android:textColor="@color/primary"
-            android:textOff=""
-            android:textOn="" />
+            android:gravity="center"
+            android:layout_marginTop="68dp">
+
+            <TextView
+                style="@style/AppTheme.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/agree_to_newsletter" />
+
+            <com.sdex.webteb.view.switchbutton.SwitchButton
+                style="@style/AppTheme.SwitchButton.Material"
+                android:id="@+id/newsletters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:layout_marginLeft="15dp" />
+
+            </LinearLayout>
 
         <TextView
             android:id="@+id/error_field"

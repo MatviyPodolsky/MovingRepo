@@ -1,7 +1,8 @@
 <resources>
+
     <string name="app_name">WebTeb</string>
-    
-    
+
+    <string name="facebook_app_id" translatable="false">326836307523571</string>
 
     <!--login & registration-->
     <string name="login">Login</string>
@@ -62,8 +63,8 @@
     <string name="reminder">Reminder</string>
 
     <!--settings-->
-    <string name="settings_title_1">Settings</string>
-    <string name="settings_title_2">Settings</string>
+    <string name="settings_title_1">Settings title 1</string>
+    <string name="settings_title_2">Settings title 2</string>
     <string name="weekly_tips_notifications">Weekly tips notifications</string>
     <string name="tests_reminders">Tests reminders</string>
     <string name="once_a_day">Once a day</string>
@@ -74,7 +75,6 @@
     <string name="reset_data">Reset data</string>
     <string name="reset">Reset</string>
     <string name="logout">Logout</string>
-    <string name="save">Save</string>
 
     <!--search doctor-->
     <string name="country">Country</string>
@@ -141,29 +141,28 @@
     <string name="welcome_text">Test text to test data display on the screen of the mobile device</string>
     <string name="welcome_subtext">Test subtext to test data display on the screen of the mobile device</string>
 
-    <!--requests-->
+    <!--errors-->
     <string name="error_loading_data">Error loading data</string>
     <string name="empty_loaded_data">Empty loaded data</string>
 
-    <!--photo-->
+    <!--album-->
     <string name="take_photo">Take photo</string>
     <string name="select_photo">Select photo</string>
     <string name="cancel">Cancel</string>
-
-    <string name="test_text">Text text text text text text text text text text text text text
-    text text text text text text text text text text text text text text text text text text
-    text text text text text text text text text text text text text text text text text text </string>
-    <string name="facebook_app_id">326836307523571</string>
-
-    <!--album-->
     <string name="album_title">My album</string>
     <string name="album_empty_text">Album is empty</string>
     <string name="take_photo_button_title">photo</string>
     <string name="album_save_photo">Save photo</string>
+    <string name="save">Save</string>
 
     <!--about-->
     <string name="about_app_version">1.1.0 application version</string>
     <string name="logo_text">logo text</string>
     <string name="about_text">long about text with app description or other stuff</string>
+
+    <!--debug text-->
+    <string name="test_text" translatable="false">Text text text text text text text text text text text text text
+    text text text text text text text text text text text text text text text text text text
+    text text text text text text text text text text text text text text text text text text </string>
 
 </resources>
