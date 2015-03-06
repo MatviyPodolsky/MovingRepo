@@ -24,8 +24,10 @@ public abstract class PhotoFragment extends BaseFragment {
 
     public static final int REQUEST_DIALOG = 2;
 
-    public static final int PHOTO_TAKEN = 6001;
-    public static final int PHOTO_SELECTED = 6002;
+    public static final int PHOTO_TAKEN_ALBUM = 6001;
+    public static final int PHOTO_TAKEN_PROFILE = 6002;
+    public static final int PHOTO_SELECTED_ALBUM = 7001;
+    public static final int PHOTO_SELECTED_PROFILE = 7002;
 
     public static final String PHOTO_PATH = "PHOTO_PATH";
 
@@ -110,7 +112,7 @@ public abstract class PhotoFragment extends BaseFragment {
         getActivity().sendBroadcast(mediaScanIntent);
     }
 
-    private File createImageFile() throws IOException {
+    private File createAlbumImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
@@ -119,14 +121,26 @@ public abstract class PhotoFragment extends BaseFragment {
         return imageF;
     }
 
-    public void dispatchTakePictureIntent() {
+    private File createProfileImageFile() throws IOException {
+        // Create an image file name
+        String imageFileName = "profile";
+        File albumF = getAlbumDir("WebTeb");
+        File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
+        return imageF;
+    }
+
+    public void dispatchTakePictureIntent(int requestCode) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = createImageFile();
+                if (requestCode == PHOTO_TAKEN_ALBUM) {
+                    photoFile = createAlbumImageFile();
+                } else {
+                    photoFile = createProfileImageFile();
+                }
             } catch (IOException ex) {
                 // Error occurred while creating the File
             }
@@ -137,17 +151,17 @@ public abstract class PhotoFragment extends BaseFragment {
                 databaseHelper.setTmpPhoto(uri);
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                getActivity().startActivityForResult(takePictureIntent, PHOTO_TAKEN);
+                getActivity().startActivityForResult(takePictureIntent, requestCode);
             }
         }
     }
 
-    public void dispatchGetGalleryPictureIntent() {
+    public void dispatchGetGalleryPictureIntent(int requestCode) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         getActivity().startActivityForResult(Intent.createChooser(intent, "Select Photo"),
-                PHOTO_SELECTED);
+                requestCode);
     }
 
 }

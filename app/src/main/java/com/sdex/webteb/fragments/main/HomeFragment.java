@@ -75,7 +75,8 @@ public class HomeFragment extends PhotoFragment {
     TextView mUserName;
     @InjectView(R.id.textView5)
     TextView mText;
-
+    @InjectView(R.id.avatar)
+    ImageView mProfilePhoto;
     @InjectView(R.id.recyclerview)
     CenteredRecyclerView mTimeNavigationRecyclerView;
     @InjectView(R.id.sliding_layout)
@@ -267,9 +268,18 @@ public class HomeFragment extends PhotoFragment {
         }
     }
 
+    @OnClick(R.id.avatar)
+    public void takeProfilePhoto() {
+        DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_PROFILE,
+                PhotoFragment.PHOTO_SELECTED_PROFILE);
+        dialog.setTargetFragment(this, REQUEST_DIALOG);
+        dialog.show(getFragmentManager(), null);
+    }
+
     @OnClick(R.id.btn_take_photo)
-    public void takePhoto(final View v) {
-        DialogFragment dialog = new PhotoDialog();
+    public void takePhoto() {
+        DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_ALBUM,
+                PhotoFragment.PHOTO_SELECTED_ALBUM);
         dialog.setTargetFragment(this, REQUEST_DIALOG);
         dialog.show(getFragmentManager(), null);
     }

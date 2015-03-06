@@ -92,7 +92,8 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
 
     @OnClick(R.id.btn_take_photo)
     void takePhoto() {
-        DialogFragment dialog = new PhotoDialog();
+        DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_ALBUM,
+                PhotoFragment.PHOTO_SELECTED_ALBUM);
         dialog.setTargetFragment(this, REQUEST_DIALOG);
         dialog.show(getFragmentManager(), null);
     }

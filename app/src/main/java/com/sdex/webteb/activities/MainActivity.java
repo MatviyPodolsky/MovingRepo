@@ -217,10 +217,10 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
-                case PhotoFragment.PHOTO_TAKEN:
+                case PhotoFragment.PHOTO_TAKEN_ALBUM:
                     EventBus.getDefault().postSticky(new TakenPhotoEvent());
                     break;
-                case PhotoFragment.PHOTO_SELECTED:
+                case PhotoFragment.PHOTO_SELECTED_ALBUM:
                     Uri selectedImage = data.getData();
                     EventBus.getDefault().postSticky(new SelectedPhotoEvent(selectedImage));
                     break;
