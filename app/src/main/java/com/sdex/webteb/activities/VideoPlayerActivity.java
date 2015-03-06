@@ -10,8 +10,8 @@ import android.widget.GridView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.VideoListAdapter;
-import com.sdex.webteb.fragments.main.VideoThumbnailFragmentSummary;
-import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.fragments.main.VideoThumbnailFragment;
+import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.view.VideoView;
 
 import org.parceler.Parcels;
@@ -30,7 +30,7 @@ public class VideoPlayerActivity extends BaseActivity {
     @InjectView(R.id.video_list)
     GridView mVideoList;
 
-    List<BabyHomeResponse.Video> data;
+    List<ContentLink> data;
     int currentVideoPosition;
 
     @Override
@@ -39,8 +39,8 @@ public class VideoPlayerActivity extends BaseActivity {
 
         showLoading();
 
-        final Parcelable wrapped = getIntent().getExtras().getParcelable(VideoThumbnailFragmentSummary.ALL_VIDEO);
-        currentVideoPosition = getIntent().getExtras().getInt(VideoThumbnailFragmentSummary.CURRENT_VIDEO_POSITION);
+        final Parcelable wrapped = getIntent().getExtras().getParcelable(VideoThumbnailFragment.ALL_VIDEO);
+        currentVideoPosition = getIntent().getExtras().getInt(VideoThumbnailFragment.CURRENT_VIDEO_POSITION);
         data = Parcels.unwrap(wrapped);
 
         VideoListAdapter adapter = new VideoListAdapter(this, data);
@@ -52,7 +52,7 @@ public class VideoPlayerActivity extends BaseActivity {
                 if (mVideoView.isPlaying()) {
                     mVideoView.stopPlayback();
                 }
-                BabyHomeResponse.Video video = data.get(position);
+                ContentLink video = data.get(position);
                 mVideoView.setVideoPath(video.getUrl());
                 mVideoView.start();
             }
@@ -62,7 +62,7 @@ public class VideoPlayerActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        BabyHomeResponse.Video video = data.get(currentVideoPosition);
+        ContentLink video = data.get(currentVideoPosition);
         mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {

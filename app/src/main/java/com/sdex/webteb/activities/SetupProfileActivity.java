@@ -14,6 +14,7 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyProfileRequest;
+import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserInfoResponse;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.viewpagerindicator.CirclePageIndicator;
@@ -32,6 +33,11 @@ import retrofit.client.Response;
  */
 public class SetupProfileActivity extends BaseActivity implements PageIndicator {
 
+    public static final String FAMILY_RELATION = "FAMILY_RELATION";
+    public static final String DATE_TYPE = "DATE_TYPE";
+    public static final String DATE = "DATE";
+    public static final String CHILDREN = "CHILDREN";
+
     private ProfilePageAdapter mAdapter;
     @InjectView(R.id.pager)
     ViewPager mPager;
@@ -41,19 +47,38 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
     View profileCard;
     private BabyProfileRequest request = new BabyProfileRequest();
 
+    private RestCallback<BabyProfileResponse> getBabyProfileCallback;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new ProfilePageAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mAdapter);
-        mIndicator.setViewPager(mPager);
-        mPager.setOnPageChangeListener(this);
-        mPager.setOffscreenPageLimit(3);
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         String dt = outFormat.format(date);
         request.setDateType(1);
         request.setDate(dt);
+        profileCard.findViewById(R.id.photo_container).setVisibility(View.GONE);
+
+        getBabyProfileCallback = new RestCallback<BabyProfileResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), null);
+                mPager.setAdapter(mAdapter);
+                mIndicator.setViewPager(mPager);
+                mPager.setOnPageChangeListener(SetupProfileActivity.this);
+                mPager.setOffscreenPageLimit(3);
+            }
+
+            @Override
+            public void success(BabyProfileResponse babyProfileResponse, Response response) {
+                mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), babyProfileResponse);
+                mPager.setAdapter(mAdapter);
+                mIndicator.setViewPager(mPager);
+                mPager.setOnPageChangeListener(SetupProfileActivity.this);
+                mPager.setOffscreenPageLimit(3);
+            }
+        };
+        RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
 
         RestClient.getApiService().getUserInfo(new RestCallback<UserInfoResponse>() {
             @Override

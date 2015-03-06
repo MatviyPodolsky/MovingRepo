@@ -3,9 +3,18 @@ package com.sdex.webteb.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by MPODOLSKY on 03.02.2015.
  */
+
+@Getter
+@Setter
+@Parcel
 public class Child {
     @SerializedName("Name")
     @Expose
@@ -15,22 +24,6 @@ public class Child {
     private int gender;
 
     public Child() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getGender() {
-        return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
     }
 
 }

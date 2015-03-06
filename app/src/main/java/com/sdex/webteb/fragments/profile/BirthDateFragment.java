@@ -15,6 +15,7 @@ import com.sdex.webteb.fragments.BaseFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import butterknife.InjectView;
@@ -45,6 +46,25 @@ public class BirthDateFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle data = getArguments();
+        if(data != null) {
+            int dateType = data.getInt(SetupProfileActivity.DATE_TYPE, LAST_PERIOD);
+            String dateStr = data.getString(SetupProfileActivity.DATE);
+            selectCategory(dateType);
+            if(dateStr != null){
+                SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+                Date date = null;
+                try {
+                    date = inFormat.parse(dateStr);
+                    SimpleDateFormat outFormat = new SimpleDateFormat("mm/dd/yyyy");
+                    dateStr = outFormat.format(date);
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+            mDate.setText(dateStr);
+            ((SetupProfileActivity) getActivity()).setBirthDate(dateStr, dateType);
+        }
     }
 
     @Override
@@ -88,29 +108,18 @@ public class BirthDateFragment extends BaseFragment {
 
     @OnClick(R.id.category_1)
     public void selectFirstCategory(TextView v) {
-        clearCategories();
-        v.setTextColor(getResources().getColor(R.color.selected_text));
-        v.setBackgroundColor(getResources().getColor(R.color.primary));
-        mDescription.setText("category 1");
-        mDateType = LAST_PERIOD;
+        selectCategory(LAST_PERIOD);
     }
 
     @OnClick(R.id.category_2)
     public void selectSecondCategory(TextView v) {
-        clearCategories();
-        v.setTextColor(getResources().getColor(R.color.selected_text));
-        v.setBackgroundColor(getResources().getColor(R.color.primary));
-        mDescription.setText("category 2");
-        mDateType = DUE_TO;
+        selectCategory(DUE_TO);
     }
 
     @OnClick(R.id.category_3)
     public void selectThirdCategory(TextView v) {
-        clearCategories();
-        v.setTextColor(getResources().getColor(R.color.selected_text));
-        v.setBackgroundColor(getResources().getColor(R.color.primary));
-        mDescription.setText("category 3");
-        mDateType = BIRTH_DATE;
+        selectCategory(BIRTH_DATE);
+
     }
 
     public void clearCategories(){
@@ -120,5 +129,33 @@ public class BirthDateFragment extends BaseFragment {
         mFirstCategory.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mSecondCategory.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mThirdCategory.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+    }
+
+    private void selectCategory(int category){
+        switch (category){
+            case LAST_PERIOD:
+                clearCategories();
+                mFirstCategory.setTextColor(getResources().getColor(R.color.selected_text));
+                mFirstCategory.setBackgroundColor(getResources().getColor(R.color.primary));
+                mDescription.setText("category 1");
+                mDateType = LAST_PERIOD;
+                break;
+            case DUE_TO:
+                clearCategories();
+                mSecondCategory.setTextColor(getResources().getColor(R.color.selected_text));
+                mSecondCategory.setBackgroundColor(getResources().getColor(R.color.primary));
+                mDescription.setText("category 2");
+                mDateType = DUE_TO;
+                break;
+            case BIRTH_DATE:
+                clearCategories();
+                mThirdCategory.setTextColor(getResources().getColor(R.color.selected_text));
+                mThirdCategory.setBackgroundColor(getResources().getColor(R.color.primary));
+                mDescription.setText("category 3");
+                mDateType = BIRTH_DATE;
+                break;
+            default:
+                break;
+        }
     }
 }

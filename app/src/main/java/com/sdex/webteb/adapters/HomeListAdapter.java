@@ -11,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.model.ContentLink;
+import com.sdex.webteb.model.ContentPreview;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.IconPageIndicator;
@@ -33,15 +34,15 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Context context;
     private FragmentManager fragmentManager;
-    private List<BabyHomeResponse.Preview> previews;
-    private List<BabyHomeResponse.Video> videos;
-    private List<BabyHomeResponse.AdditionalContent> additionalContent;
+    private List<ContentPreview> previews;
+    private List<ContentLink> videos;
+    private List<ContentLink> additionalContent;
 
     public HomeListAdapter(Context context,
                            FragmentManager fragmentManager,
-                           List<BabyHomeResponse.Preview> previews,
-                           List<BabyHomeResponse.Video> videos,
-                           List<BabyHomeResponse.AdditionalContent> additionalContent) {
+                           List<ContentPreview> previews,
+                           List<ContentLink> videos,
+                           List<ContentLink> additionalContent) {
         this.context = context;
         this.fragmentManager = fragmentManager;
 
@@ -82,7 +83,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof PreviewViewHolder) {
-            final BabyHomeResponse.Preview preview = (BabyHomeResponse.Preview) getItem(position);
+            final ContentPreview preview = (ContentPreview) getItem(position);
             final PreviewViewHolder viewHolder = (PreviewViewHolder) holder;
             viewHolder.title.setText(preview.getTitle());
             viewHolder.text.setText(preview.getDescription());
@@ -138,7 +139,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemViewType(int position) {
         // Note that unlike in ListView adapters, types don't have to be contiguous
         Object item = getItem(position);
-        if (item instanceof BabyHomeResponse.Preview) {
+        if (item instanceof ContentPreview) {
             return TYPE_PREVIEW;
         } else if (item instanceof VideoWrapper) {
             return TYPE_VIDEO;
@@ -195,9 +196,9 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     static class VideoWrapper {
 
-        List<BabyHomeResponse.Video> videos;
+        List<ContentLink> videos;
 
-        VideoWrapper(List<BabyHomeResponse.Video> videos) {
+        VideoWrapper(List<ContentLink> videos) {
             this.videos = videos;
         }
 

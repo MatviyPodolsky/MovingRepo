@@ -36,6 +36,15 @@ public class FamilyRelationFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle data = getArguments();
+        if(data != null && data.containsKey(SetupProfileActivity.FAMILY_RELATION)) {
+            String[] relations = getResources().getStringArray(R.array.relations);
+            int relationPosition = data.getInt(SetupProfileActivity.FAMILY_RELATION, 0);
+            relation.setText(relations[relationPosition]);
+            ((SetupProfileActivity) getActivity()).setFamilyRelation(
+                    relationPosition);
+        }
+
     }
 
     @Override

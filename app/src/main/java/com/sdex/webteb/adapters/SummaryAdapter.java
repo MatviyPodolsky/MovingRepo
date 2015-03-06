@@ -119,8 +119,8 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .into(viewHolder.icon);
         } else if (holder instanceof VideoViewHolder) {
             final VideoViewHolder viewHolder = (VideoViewHolder) holder;
-            VideoThumbnailAdapterSummary videoThumbnailAdapter =
-                    new VideoThumbnailAdapterSummary(fragmentManager, videos);
+            VideoThumbnailAdapter videoThumbnailAdapter =
+                    new VideoThumbnailAdapter(fragmentManager, videos);
             viewHolder.viewPager.setAdapter(videoThumbnailAdapter);
             viewHolder.mIndicator.setViewPager(viewHolder.viewPager);
             viewHolder.viewPager.setOffscreenPageLimit(3);

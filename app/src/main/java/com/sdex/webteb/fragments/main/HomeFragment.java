@@ -150,11 +150,11 @@ public class HomeFragment extends PhotoFragment {
         });
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        final LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager summaryLayoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
+        summaryLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mSummaryList.setLayoutManager(layoutManager1);
+        mSummaryList.setLayoutManager(summaryLayoutManager);
         mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
                 getActivity(), R.drawable.divider_home_list));
         mSummaryList.addItemDecoration(new SimpleDividerItemDecoration(
@@ -191,9 +191,9 @@ public class HomeFragment extends PhotoFragment {
                 mUserName.setText(babyHomeResponse.getCard().getName());
                 mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
 
-                List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
-                List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
-                List<BabyHomeResponse.AdditionalContent> additionalContent = babyHomeResponse.getAdditionalContent();
+                List<ContentPreview> previews = babyHomeResponse.getPreviews();
+                List<ContentLink> videos = babyHomeResponse.getVideos();
+                List<ContentLink> additionalContent = babyHomeResponse.getAdditionalContent();
 
                 HomeListAdapter adapter = new HomeListAdapter(getActivity(),
                         getChildFragmentManager(),

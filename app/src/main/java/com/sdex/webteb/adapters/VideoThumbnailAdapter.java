@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.fragments.main.VideoThumbnailFragment;
-import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.model.ContentLink;
 import com.viewpagerindicator.IconPagerAdapter;
 
 import java.util.List;
@@ -16,9 +16,9 @@ import java.util.List;
  */
 public class VideoThumbnailAdapter extends FragmentStatePagerAdapter implements IconPagerAdapter {
 
-    private List<BabyHomeResponse.Video> data;
+    private List<ContentLink> data;
 
-    public VideoThumbnailAdapter(FragmentManager fm, List<BabyHomeResponse.Video> data) {
+    public VideoThumbnailAdapter(FragmentManager fm, List<ContentLink> data) {
         super(fm);
         this.data = data;
     }

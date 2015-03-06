@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.model.ContentLink;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -15,18 +16,16 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import static com.sdex.webteb.rest.response.BabyHomeResponse.Video;
-
 /**
  * Created by Yuriy Mysochenko on 26.02.2015.
  */
-public class VideoListAdapter extends ArrayAdapter<Video> {
+public class VideoListAdapter extends ArrayAdapter<ContentLink> {
 
     private static final int RESOURCE = R.layout.item_video_list;
 
     private LayoutInflater inflater;
 
-    public VideoListAdapter(Context context, List<Video> objects) {
+    public VideoListAdapter(Context context, List<ContentLink> objects) {
         super(context, RESOURCE, objects);
         this.inflater = LayoutInflater.from(context);
     }
@@ -42,7 +41,7 @@ public class VideoListAdapter extends ArrayAdapter<Video> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        final Video item = getItem(position);
+        final ContentLink item = getItem(position);
 
         Picasso.with(getContext())
                 .load(item.getImageUrl())

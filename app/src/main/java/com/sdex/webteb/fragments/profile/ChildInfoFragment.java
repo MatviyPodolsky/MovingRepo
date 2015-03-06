@@ -1,6 +1,7 @@
 package com.sdex.webteb.fragments.profile;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ListView;
@@ -11,7 +12,10 @@ import com.sdex.webteb.adapters.ChildrenAdapter;
 import com.sdex.webteb.fragments.BaseFragment;
 import com.sdex.webteb.model.Child;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -24,12 +28,21 @@ public class ChildInfoFragment extends BaseFragment {
     private ChildrenAdapter mAdapter;
     @InjectView(R.id.childs_list)
     ListView mList;
+    private List<Child> mChildren;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mChildren = new ArrayList<>();
+        final Bundle args = getArguments();
+        if(args != null) {
+            final Parcelable children = args.getParcelable(SetupProfileActivity.CHILDREN);
+            mChildren = Parcels.unwrap(children);
+        }
+
         mAdapter = new ChildrenAdapter(getActivity());
-        mAdapter.setItems(new ArrayList<Child>());
+        mAdapter.setItems(mChildren);
         mList.setAdapter(mAdapter);
     }
 
