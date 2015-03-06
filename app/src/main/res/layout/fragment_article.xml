@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
-    android:background="@color/button_text">
+    android:background="@color/button_text"
+    android:clickable="true">
 
 
     <RelativeLayout
@@ -35,51 +35,12 @@
             android:textSize="@dimen/extra_large_text" />
     </RelativeLayout>
 
-    <ScrollView
+    <WebView
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_below="@+id/relativeLayout">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_alignParentTop="true"
-                android:src="@mipmap/ic_launcher" />
-
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/image"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:gravity="right"
-                android:text="10 hours ago"
-                android:textColor="@color/date_text"
-                android:textSize="@dimen/extra_small_text" />
-
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/date"
-                android:gravity="right"
-                android:text="text"
-                android:textColor="@color/black_text"
-                android:textSize="@dimen/article_text_size" />
-
-        </RelativeLayout>
-
-    </ScrollView>
+    </WebView>
 
 </RelativeLayout>

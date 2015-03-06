@@ -35,7 +35,7 @@ public class RegisterActivity extends BaseActivity {
 
     @InjectView(R.id.email) TextView mEmail;
     @InjectView(R.id.password) TextView mPassword;
-    @InjectView(R.id.confirm_password) TextView mConfirmPassword;
+//    @InjectView(R.id.confirm_password) TextView mConfirmPassword;
     @InjectView(R.id.name) TextView mName;
     @InjectView(R.id.auth_button) LoginButton loginButton;
     private UiLifecycleHelper uiHelper;
@@ -111,7 +111,8 @@ public class RegisterActivity extends BaseActivity {
         RegisterAccountRequest request = new RegisterAccountRequest();
         request.email = mEmail.getText().toString();
         request.password = mPassword.getText().toString();
-        request.confirmPassword = mConfirmPassword.getText().toString();
+        request.confirmPassword = mPassword.getText().toString();
+//        request.confirmPassword = mConfirmPassword.getText().toString();
         request.name = mName.getText().toString();
 
         RestClient.getApiService().register(request, new RestCallback<String>() {
@@ -140,12 +141,12 @@ public class RegisterActivity extends BaseActivity {
 
     private boolean isValidData(){
         boolean isValid = true;
-        if (mConfirmPassword.getText().length() < 4) {
-            isValid = false;
-            mConfirmPassword.setError(getString(R.string.password_must_contain_at_least_4_characters));
-        } else {
-            mConfirmPassword.setError(null);
-        }
+//        if (mConfirmPassword.getText().length() < 4) {
+//            isValid = false;
+//            mConfirmPassword.setError(getString(R.string.password_must_contain_at_least_4_characters));
+//        } else {
+//            mConfirmPassword.setError(null);
+//        }
         if (mPassword.getText().length() == 0) {
             isValid = false;
             mPassword.setError(getString(R.string.please_enter_email));
