@@ -13,6 +13,15 @@
         <item name="vpiIconPageIndicatorStyle">@style/CustomIconIndicator</item>
 
         <item name="android:textViewStyle">@style/AppTheme.TextView</item>
+        <item name="android:editTextStyle">@style/AppTheme.EditText</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="@android:style/Widget.Button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@drawable/btn_blue</item>
     </style>
 
     <style name="AppTheme.ButtonTextAppearance" parent="@style/Base.TextAppearance.AppCompat.Button">
