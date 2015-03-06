@@ -22,6 +22,7 @@ import com.sdex.webteb.rest.request.FacebookLoginRequest;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.view.switchbutton.SwitchButton;
 
 import java.util.Arrays;
 
@@ -33,11 +34,18 @@ public class RegisterActivity extends BaseActivity {
 
     private static final String TAG = "RegisterActivity";
 
-    @InjectView(R.id.email) TextView mEmail;
-    @InjectView(R.id.password) TextView mPassword;
-//    @InjectView(R.id.confirm_password) TextView mConfirmPassword;
-    @InjectView(R.id.name) TextView mName;
-    @InjectView(R.id.auth_button) LoginButton loginButton;
+    @InjectView(R.id.email)
+    TextView mEmail;
+    @InjectView(R.id.password)
+    TextView mPassword;
+//    @InjectView(R.id.confirm_password)
+//    TextView mConfirmPassword;
+    @InjectView(R.id.name)
+    TextView mName;
+    @InjectView(R.id.auth_button)
+    LoginButton loginButton;
+    @InjectView(R.id.newsletters)
+    SwitchButton mNewslettersSwitch;
     private UiLifecycleHelper uiHelper;
 
     @Override
@@ -52,6 +60,8 @@ public class RegisterActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
+
+        mNewslettersSwitch.setChecked(true);
     }
 
     @Override
@@ -120,7 +130,7 @@ public class RegisterActivity extends BaseActivity {
             public void failure(RestError restError) {
                 v.setEnabled(true);
                 String text = "failure :(";
-                if(restError != null){
+                if (restError != null) {
                     text = "Error:" + restError.getStrMessage();
                 }
                 Toast.makeText(RegisterActivity.this, text, Toast.LENGTH_SHORT).show();
@@ -139,7 +149,7 @@ public class RegisterActivity extends BaseActivity {
 //        launchMainActivity();
     }
 
-    private boolean isValidData(){
+    private boolean isValidData() {
         boolean isValid = true;
 //        if (mConfirmPassword.getText().length() < 4) {
 //            isValid = false;

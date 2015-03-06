@@ -88,6 +88,9 @@ public interface ApiService {
     @POST("/baby/settings/general")
     public void setBabyGeneral(@Body BabyGeneralRequest body, Callback<String> callback);
 
+    @POST("/baby/settings/general")
+    public String setBabyGeneral(@Body BabyGeneralRequest body);
+
     @GET("/baby/settings/general")
     public void getBabyGeneral(Callback<BabyGeneralResponse> callback);
 

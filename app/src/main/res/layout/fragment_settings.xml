@@ -42,7 +42,7 @@
                 android:checked="false" />
 
             <TextView
-                style="@style/AppTheme.Settings.TextView"
+                style="@style/AppTheme.TextView.Settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -73,7 +73,7 @@
                 android:layout_centerVertical="true" />
 
             <TextView
-                style="@style/AppTheme.Settings.TextView"
+                style="@style/AppTheme.TextView.Settings"
                 android:id="@+id/reminders_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,25 +92,27 @@
                 android:layout_toLeftOf="@+id/reminders_text">
 
                 <TextView
-                    style="@style/AppTheme.Settings.TextView"
+                    style="@style/AppTheme.TextView.Settings"
+                    android:textColor="@color/settings_text_selector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/once_time_only"
-                    android:id="@+id/textView13" />
+                    android:id="@+id/once_time" />
 
                 <TextView
-                    style="@style/AppTheme.Settings.TextView"
+                    style="@style/AppTheme.TextView.Settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="/"
                     android:id="@+id/textView14" />
 
                 <TextView
-                    style="@style/AppTheme.Settings.TextView"
+                    style="@style/AppTheme.TextView.Settings"
+                    android:textColor="@color/settings_text_selector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/once_a_day"
-                    android:id="@+id/textView15" />
+                    android:id="@+id/once_a_day" />
             </LinearLayout>
 
 
@@ -136,7 +138,7 @@
                 android:layout_centerVertical="true" />
 
             <TextView
-                style="@style/AppTheme.Settings.TextView"
+                style="@style/AppTheme.TextView.Settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -185,7 +187,7 @@
                 android:text="@string/edit" />
 
             <TextView
-                style="@style/AppTheme.Settings.TextView"
+                style="@style/AppTheme.TextView.Settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -219,7 +221,7 @@
                 android:text="@string/reset" />
 
             <TextView
-                style="@style/AppTheme.Settings.TextView"
+                style="@style/AppTheme.TextView.Settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -253,7 +255,7 @@
                 android:text="@string/logout" />
 
             <TextView
-                style="@style/AppTheme.Settings.TextView"
+                style="@style/AppTheme.TextView.Settings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -264,17 +266,6 @@
                 android:text="@string/logout" />
 
         </RelativeLayout>
-
-        <Button
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/btn_blue_normal"
-            android:text="@string/save" />
 
     </RelativeLayout>
 

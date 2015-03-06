@@ -34,7 +34,6 @@
 
         <EditText
             android:id="@+id/username"
-            style="@style/AppTheme.EditText"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_alignParentTop="true"
@@ -48,7 +47,6 @@
 
         <EditText
             android:id="@+id/password"
-            style="@style/AppTheme.EditText"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_below="@+id/username"
@@ -62,22 +60,18 @@
             android:textSize="@dimen/default_text_size" />
 
         <Button
+            style="@style/AppTheme.Button"
             android:id="@+id/login"
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
             android:layout_below="@+id/password"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
-            android:background="@drawable/btn_blue"
-            android:text="@string/login"
-            android:textColor="@color/button_text"
-            android:textSize="13sp" />
+            android:text="@string/login" />
 
         <com.facebook.widget.LoginButton xmlns:fb="http://schemas.android.com/apk/res-auto"
             android:id="@+id/auth_button"
             style="@style/FacebookLoginButton"
             android:layout_width="match_parent"
-            android:layout_height="39dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/login"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
