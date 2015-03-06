@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
@@ -38,6 +39,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<ContentLink> videos;
     private List<ContentLink> additionalContent;
 
+    private OnItemClickCallback mCallback;
+
+    public interface OnItemClickCallback {
+        void onItemClick(ContentLink content);
+    }
+
     public HomeListAdapter(Context context,
                            FragmentManager fragmentManager,
                            List<ContentPreview> previews,
@@ -61,6 +68,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.additionalContent = additionalContent;
     }
 
+    public void setCallback(OnItemClickCallback callback) {
+        this.mCallback = callback;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -81,7 +92,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof PreviewViewHolder) {
             final ContentPreview preview = (ContentPreview) getItem(position);
             final PreviewViewHolder viewHolder = (PreviewViewHolder) holder;
@@ -122,6 +133,38 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     viewHolder.mIndicator.notifyDataSetChanged();
                 }
             });
+        } else if (holder instanceof AdditionalContentViewHolder) {
+            final ContentLink content = (ContentLink) getItem(position);
+            final AdditionalContentViewHolder viewHolder = (AdditionalContentViewHolder) holder;
+            viewHolder.title.setText(content.getTitle());
+            viewHolder.text.setText(content.getDescription());
+            if (content.getImageUrl() != null) {
+                Picasso.with(context)
+                        .load(content.getImageUrl())
+                        .noPlaceholder()
+                        .into(viewHolder.image, new Callback.EmptyCallback() {
+                            @Override
+                            public void onSuccess() {
+//                                FlowTextHelper.tryFlowText(context, preview.getDescription(),
+//                                        viewHolder.image,
+//                                        viewHolder.text,
+//                                        DisplayUtil.dpToPx(10));
+                            }
+                        });
+            } else {
+                viewHolder.image.setVisibility(View.GONE);
+            }
+
+            viewHolder.rootLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mCallback != null) {
+                        mCallback.onItemClick(content);
+                    }
+                }
+            });
+
+
         }
     }
 
@@ -188,8 +231,18 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     static class AdditionalContentViewHolder extends RecyclerView.ViewHolder {
 
+        @InjectView(R.id.root)
+        RelativeLayout rootLayout;
+        @InjectView(R.id.title)
+        TextView title;
+        @InjectView(R.id.text)
+        TextView text;
+        @InjectView(R.id.image)
+        ImageView image;
+
         public AdditionalContentViewHolder(View view) {
             super(view);
+            ButterKnife.inject(this, view);
         }
 
     }
