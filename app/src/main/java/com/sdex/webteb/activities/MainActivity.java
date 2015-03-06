@@ -68,6 +68,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     private UiLifecycleHelper uiHelper;
 
+    private EventBus BUS = EventBus.getDefault();
+
     private static final String contentFragment = "content_fragment";
 
     @Override
@@ -142,6 +144,18 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     public void onDestroy() {
         super.onDestroy();
         uiHelper.onDestroy();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        BUS.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        BUS.unregister(this);
+        super.onStop();
     }
 
     @OnClick(R.id.toggle_drawer)
@@ -238,7 +252,6 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     }
 
     private void setMenuItem(final int position) {
-        closeDrawer();
         mOpenMenuItemTask = new Runnable() {
             @Override
             public void run() {
@@ -254,6 +267,11 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 }
             }
         };
+        if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
+            closeDrawer();
+        } else {
+            setCurrentMenuItem();
+        }
     }
 
     private void setCurrentMenuItem() {

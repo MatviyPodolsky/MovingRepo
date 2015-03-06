@@ -135,7 +135,17 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         holder.readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (mCallback != null) {
+                    mCallback.onReadMoreBtnClick();
+                }
+            }
+        });
+        holder.searchDoctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCallback != null) {
+                    mCallback.onSearchDoctorBtnClick();
+                }
             }
         });
         holder.addReminder.setTag(data.get(groupPosition));

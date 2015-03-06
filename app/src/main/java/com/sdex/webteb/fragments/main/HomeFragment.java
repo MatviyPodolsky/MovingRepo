@@ -106,6 +106,9 @@ public class HomeFragment extends PhotoFragment {
                 mTimeNavigationRecyclerView.smoothScrollToView(view);
                 timeNavAdapter.setSelectedItem(position);
                 RestClient.getApiService().getWeek(timeNavAdapter.getItemCount() - position, getWeekCallback);
+                if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                }
             }
         });
         mTimeNavigationRecyclerView.setAdapter(timeNavAdapter);
