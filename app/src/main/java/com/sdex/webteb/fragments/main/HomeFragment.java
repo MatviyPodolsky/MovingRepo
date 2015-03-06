@@ -100,7 +100,7 @@ public class HomeFragment extends PhotoFragment {
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mTimeNavigationRecyclerView.setLayoutManager(timeNavControllerLayoutManager);
         final SimpleAdapter timeNavAdapter = new SimpleAdapter();
-        timeNavAdapter.setItemCount(30);
+        timeNavAdapter.setItemCount(40);
         timeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -113,12 +113,6 @@ public class HomeFragment extends PhotoFragment {
             }
         });
         mTimeNavigationRecyclerView.setAdapter(timeNavAdapter);
-
-        int currentWeek = 30 - 6;
-
-        int offset = getTimeNavigationControllerItemOffset();
-        timeNavControllerLayoutManager.scrollToPositionWithOffset(currentWeek, offset);
-        timeNavAdapter.setSelectedItem(currentWeek);
 
         mSlidingUpPanelLayout.setOverlayed(true);
         mSlidingUpPanelLayout.setCoveredFadeColor(0x00000000);
@@ -188,6 +182,16 @@ public class HomeFragment extends PhotoFragment {
                 if (getActivity() == null) {
                     return;
                 }
+
+                int currentWeekIndex = 40 - babyHomeResponse.getCard().getCurrentWeek();
+
+                if (currentWeekIndex > 0 && currentWeekIndex < 40) {
+                    int offset = getTimeNavigationControllerItemOffset();
+                    timeNavControllerLayoutManager.scrollToPositionWithOffset(currentWeekIndex, offset);
+                    timeNavAdapter.setSelectedItem(currentWeekIndex);
+                }
+
+                mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
                 mUserName.setText(babyHomeResponse.getCard().getName());
                 mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));

@@ -52,7 +52,7 @@ public class ArticlesAdapter extends ArrayAdapter<ContentLink> {
         if (url != null && !url.equals("")) {
             Picasso.with(getContext())
                     .load(url)
-                    .noPlaceholder()
+                    .placeholder(R.drawable.ic_transparent_placeholder)
                     .into(holder.image);
         } else {
             holder.image.setVisibility(View.GONE);
