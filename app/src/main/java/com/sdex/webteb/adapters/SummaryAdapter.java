@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
@@ -40,6 +41,12 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<ContentLink> additionalContent;
     private List<ContentLink> videos;
 
+    private OnItemClickCallback mCallback;
+
+    public interface OnItemClickCallback {
+        void onItemClick(ContentLink content);
+    }
+
     public SummaryAdapter(Context context,
                           FragmentManager fragmentManager,
                           List<ContentPreview> tests,
@@ -66,6 +73,10 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.previews = previews;
         this.videos = videos;
         this.additionalContent = additionalContent;
+    }
+
+    public void setCallback(OnItemClickCallback callback) {
+        this.mCallback = callback;
     }
 
     @Override
@@ -182,6 +193,15 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 viewHolder.image.setVisibility(View.GONE);
             }
+
+            viewHolder.rootLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mCallback != null) {
+                        mCallback.onItemClick(content);
+                    }
+                }
+            });
         }
     }
 
@@ -269,6 +289,8 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     static class AdditionalContentViewHolder extends RecyclerView.ViewHolder {
 
+        @InjectView(R.id.root)
+        RelativeLayout rootLayout;
         @InjectView(R.id.title)
         TextView title;
         @InjectView(R.id.text)
