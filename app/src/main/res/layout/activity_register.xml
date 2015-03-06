@@ -34,11 +34,25 @@
         android:padding="9dp">
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/name"
             style="@style/AppTheme.EditText"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="@string/username"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:textSize="13sp" />
+
+        <EditText
+            android:id="@+id/email"
+            style="@style/AppTheme.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="4dp"
             android:hint="@string/email"
@@ -56,51 +70,36 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:hint="@string/password"
-            android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:textSize="13sp" />
-
-        <EditText
-            android:id="@+id/confirm_password"
-            style="@style/AppTheme.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_below="@+id/password"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="@string/confirm_password"
-            android:imeOptions="actionNext"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:textSize="13sp" />
-
-        <EditText
-            android:id="@+id/name"
-            style="@style/AppTheme.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_below="@+id/confirm_password"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="@string/username"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:singleLine="true"
             android:textSize="13sp" />
 
+        <!--<EditText-->
+            <!--android:id="@+id/confirm_password"-->
+            <!--style="@style/AppTheme.EditText"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_below="@+id/password"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="@string/confirm_password"-->
+            <!--android:imeOptions="actionNext"-->
+            <!--android:inputType="textPassword"-->
+            <!--android:singleLine="true"-->
+            <!--android:textSize="13sp" />-->
+
         <Button
             android:id="@+id/register"
             android:layout_width="match_parent"
             android:layout_height="39dp"
-            android:layout_below="@+id/name"
-            android:textColor="@android:color/white"
+            android:layout_below="@+id/password"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_blue"
             android:text="@string/sign_up"
+            android:textColor="@android:color/white"
             android:textSize="13sp" />
 
         <com.facebook.widget.LoginButton xmlns:fb="http://schemas.android.com/apk/res-auto"
@@ -115,29 +114,29 @@
             fb:login_text="Facebook تسجيل الدخول" />
 
         <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/auth_button"
-        android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/auth_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="68dp"
             android:gravity="center"
-                    android:layout_marginTop="68dp">
-        
-                    <TextView
-                        style="@style/AppTheme.TextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/agree_to_newsletter" />
-        
-                    <com.sdex.webteb.view.switchbutton.SwitchButton
-                        style="@style/AppTheme.SwitchButton.Material"
-                        android:id="@+id/newsletters"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="false"
-                        android:layout_marginLeft="15dp" />
-        
-                    </LinearLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/AppTheme.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/agree_to_newsletter" />
+
+            <com.sdex.webteb.view.switchbutton.SwitchButton
+                android:id="@+id/newsletters"
+                style="@style/AppTheme.SwitchButton.Material"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:checked="false" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/error_field"
