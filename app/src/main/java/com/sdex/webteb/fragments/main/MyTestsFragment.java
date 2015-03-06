@@ -26,6 +26,9 @@ import retrofit.client.Response;
  */
 public class MyTestsFragment extends BaseMainFragment {
 
+    public static final int MORE_ARTICLES_FRAGMENT = 4;
+    public static final int SEARCH_DOCTOR_FRAGMENT = 3;
+
     private MyTestsAdapter mAdapter;
     @InjectView(R.id.list)
     ExpandableListView mList;
@@ -44,15 +47,15 @@ public class MyTestsFragment extends BaseMainFragment {
             @Override
             public void onReadMoreBtnClick() {
                 SelectMenuItemEvent event = new SelectMenuItemEvent();
-                event.setPosition(4);
-//                BUS.post(event);
+                event.setPosition(MORE_ARTICLES_FRAGMENT);
+                BUS.post(event);
             }
 
             @Override
             public void onSearchDoctorBtnClick() {
                 SelectMenuItemEvent event = new SelectMenuItemEvent();
-                event.setPosition(3);
-//                BUS.post(event);
+                event.setPosition(SEARCH_DOCTOR_FRAGMENT);
+                BUS.post(event);
             }
 
             @Override
@@ -89,17 +92,5 @@ public class MyTestsFragment extends BaseMainFragment {
     public int getLayoutResource() {
         return R.layout.fragment_my_tests;
     }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        BUS.register(this);
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        BUS.unregister(this);
-//        super.onStop();
-//    }
 
 }
