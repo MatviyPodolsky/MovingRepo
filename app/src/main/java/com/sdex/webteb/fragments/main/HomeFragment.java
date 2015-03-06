@@ -237,6 +237,21 @@ public class HomeFragment extends PhotoFragment {
                     SummaryAdapter adapter = new SummaryAdapter(getActivity(),
                             getChildFragmentManager(),
                             tests, previews, additionalContent, videos);
+                    adapter.setCallback(new SummaryAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClick(ContentLink content) {
+                            Fragment fragment = new ArticleFragment();
+                            Bundle args = new Bundle();
+                            args.putString(ArticleFragment.ARTICLE_TITLE, content.getTitle());
+                            args.putString(ArticleFragment.ARTICLE_URL, content.getUrl());
+                            fragment.setArguments(args);
+                            FragmentManager fragmentManager = getChildFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.fragment_container, fragment, "content_fragment")
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+                    });
                     mSummaryList.setAdapter(adapter);
                 } else {
                     //TODO show no data

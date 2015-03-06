@@ -19,6 +19,7 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.FacebookLoginRequest;
+import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.utils.PreferencesManager;
 
@@ -26,6 +27,8 @@ import java.util.Arrays;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
@@ -110,7 +113,21 @@ public class LoginActivity extends BaseActivity {
                     public void success(UserLoginResponse s, Response response) {
                         final PreferencesManager preferencesManager = PreferencesManager.getInstance();
                         preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
-                        launchMainActivity();
+                        RestClient.getApiService().getBabyProfile(new Callback<BabyProfileResponse>() {
+                            @Override
+                            public void success(BabyProfileResponse babyProfileResponse, Response response) {
+                                if(babyProfileResponse != null){
+                                    PreferencesManager.getInstance().setCompleteSetup(true);
+                                }
+                                launchMainActivity();
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                launchMainActivity();
+                            }
+                        });
+//                        launchMainActivity();
                     }
                 });
 

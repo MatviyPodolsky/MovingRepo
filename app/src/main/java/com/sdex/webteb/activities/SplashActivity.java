@@ -5,7 +5,13 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.utils.PreferencesManager;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class SplashActivity extends BaseActivity {
 
@@ -51,18 +57,35 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void invokeMainActivity() {
-        Intent intent;
+        final Intent intent;
         if (!isLoggedIn) {
             intent = new Intent(this, WelcomeActivity.class);
         } else {
-            if(!completeSetup) {
-                intent = new Intent(this, SetupProfileActivity.class);
-            } else {
-                intent = new Intent(this, MainActivity.class);
-            }
+            RestClient.getApiService().getBabyProfile(new Callback<BabyProfileResponse>() {
+                @Override
+                public void success(BabyProfileResponse babyProfileResponse, Response response) {
+                    if(babyProfileResponse != null){
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        SplashActivity.this.finish();
+                    } else {
+                        startActivity(new Intent(SplashActivity.this, SetupProfileActivity.class));
+                        SplashActivity.this.finish();
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+
+                }
+            });
+//            if(!completeSetup) {
+//                intent = new Intent(this, SetupProfileActivity.class);
+//            } else {
+//                intent = new Intent(this, MainActivity.class);
+//            }
         }
-        finish();
-        startActivity(intent);
+//        startActivity(intent);
+//        finish();
     }
 
 }
