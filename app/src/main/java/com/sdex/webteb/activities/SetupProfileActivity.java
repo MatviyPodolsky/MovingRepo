@@ -1,14 +1,21 @@
 package com.sdex.webteb.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ProfilePageAdapter;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbUser;
+import com.sdex.webteb.dialogs.PhotoDialog;
+import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.model.Child;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -17,15 +24,18 @@ import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserInfoResponse;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit.client.Response;
 
 /**
@@ -45,19 +55,36 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
     CirclePageIndicator mIndicator;
     @InjectView(R.id.profile_card)
     View profileCard;
-    private BabyProfileRequest request = new BabyProfileRequest();
+    @InjectView(R.id.avatar)
+    ImageView mProfilePhoto;
 
+    private DatabaseHelper databaseHelper;
+
+    private BabyProfileRequest request = new BabyProfileRequest();
     private RestCallback<BabyProfileResponse> getBabyProfileCallback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        databaseHelper = DatabaseHelper.getInstance(this);
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         String dt = outFormat.format(date);
         request.setDateType(1);
         request.setDate(dt);
         profileCard.findViewById(R.id.photo_container).setVisibility(View.GONE);
+
+        final String username = PreferencesManager.getInstance().getUsername();
+        DbUser user = databaseHelper.getUser(username);
+        final String photoPath = user.getPhotoPath();
+        if (photoPath != null) {
+            Picasso.with(this)
+                    .load(PhotoFragment.FILE_PREFIX + photoPath)
+                    .placeholder(R.drawable.ic_photo)
+                    .fit()
+                    .centerCrop()
+                    .into(mProfilePhoto);
+        }
 
         getBabyProfileCallback = new RestCallback<BabyProfileResponse>() {
             @Override
@@ -95,6 +122,42 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_setup_profile;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            final String username = PreferencesManager.getInstance().getUsername();
+            DbUser user = databaseHelper.getUser(username);
+            switch (requestCode) {
+                case PhotoFragment.PHOTO_TAKEN_PROFILE:
+                    File albumDir = PhotoFragment.getAlbumDir();
+                    File profileImage = new File(albumDir.getAbsolutePath() + "/profile"
+                            + PhotoFragment.JPEG_FILE_SUFFIX);
+                    user.setPhotoPath(profileImage.getAbsolutePath());
+                    databaseHelper.updateUser(user);
+                    Picasso.with(this)
+                            .load(PhotoFragment.FILE_PREFIX + profileImage)
+                            .placeholder(R.drawable.ic_photo)
+                            .fit()
+                            .centerCrop()
+                            .into(mProfilePhoto);
+                    break;
+                case PhotoFragment.PHOTO_SELECTED_PROFILE:
+                    Uri galleryPhotoUri = PhotoFragment.getGalleryPhotoUri(this, data.getData());
+                    user.setPhotoPath(galleryPhotoUri.getPath());
+                    databaseHelper.updateUser(user);
+                    Picasso.with(this)
+                            .load(PhotoFragment.FILE_PREFIX + galleryPhotoUri)
+                            .placeholder(R.drawable.ic_photo)
+                            .fit()
+                            .centerCrop()
+                            .into(mProfilePhoto);
+                    break;
+            }
+        }
     }
 
     @Override
@@ -179,4 +242,12 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
             }
         });
     }
+
+    @OnClick(R.id.avatar)
+    public void takeProfilePhoto() {
+        DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_PROFILE,
+                PhotoFragment.PHOTO_SELECTED_PROFILE);
+        dialog.show(getSupportFragmentManager(), null);
+    }
+
 }

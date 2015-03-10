@@ -55,13 +55,13 @@ public class PhotoDialog extends BaseDialogFragment {
 
     @OnClick(R.id.take_photo)
     public void takePhoto(final View v) {
-        ((PhotoFragment) getTargetFragment()).dispatchTakePictureIntent(mRequestCodeTakePhoto);
+        PhotoFragment.dispatchTakePictureIntent(getActivity(), mRequestCodeTakePhoto);
         this.dismiss();
     }
 
     @OnClick(R.id.select_photo)
     public void selectPhoto(final View v) {
-        ((PhotoFragment) getTargetFragment()).dispatchGetGalleryPictureIntent(mRequestCodeSelectPhoto);
+        PhotoFragment.dispatchGetGalleryPictureIntent(getActivity(), mRequestCodeSelectPhoto);
         this.dismiss();
     }
 

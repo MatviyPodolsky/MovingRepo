@@ -14,6 +14,8 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -93,7 +95,7 @@ public class LoginActivity extends BaseActivity {
         }
         v.setEnabled(false);
 
-        String username = mUsername.getText().toString();
+        final String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();
 
         RestClient.getApiService().login("password",
@@ -113,6 +115,14 @@ public class LoginActivity extends BaseActivity {
                     public void success(UserLoginResponse s, Response response) {
                         final PreferencesManager preferencesManager = PreferencesManager.getInstance();
                         preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
+                        preferencesManager.setUsername(username);
+                        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
+                        DbUser user = databaseHelper.getUser(username);
+                        if (user == null) {
+                            user = new DbUser();
+                            user.setEmail(username);
+                            databaseHelper.addUser(user);
+                        }
                         RestClient.getApiService().getBabyProfile(new Callback<BabyProfileResponse>() {
                             @Override
                             public void success(BabyProfileResponse babyProfileResponse, Response response) {

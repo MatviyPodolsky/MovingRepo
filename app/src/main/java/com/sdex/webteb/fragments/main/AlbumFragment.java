@@ -94,7 +94,6 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     void takePhoto() {
         DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_ALBUM,
                 PhotoFragment.PHOTO_SELECTED_ALBUM);
-        dialog.setTargetFragment(this, REQUEST_DIALOG);
         dialog.show(getFragmentManager(), null);
     }
 
@@ -133,7 +132,7 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     }
 
     public void onEvent(SelectedPhotoEvent event) {
-        Uri galleryPhotoUri = getGalleryPhotoUri(event.getSelectedImage());
+        Uri galleryPhotoUri = getGalleryPhotoUri(getActivity(), event.getSelectedImage());
         showPhotoPreview(galleryPhotoUri.getPath());
 //        BUS.removeStickyEvent(event);
     }
