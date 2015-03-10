@@ -7,8 +7,10 @@
 
     <!-- Changing the attribute must be reflected in the TypefaceManager -->
     <attr name="typeface" format="enum">
-        <enum name="capture_it" value="0" />
-        <enum name="post_rock" value="1" />
+        <enum name="DINNextLTArabicBlack" value="0" />
+        <enum name="DINNextLTArabicBold" value="1" />
+        <enum name="DINNextLTArabicLight" value="2" />
+        <enum name="DINNextLTArabicRegular" value="3" />
     </attr>
 
     <declare-styleable name="SwitchButton">

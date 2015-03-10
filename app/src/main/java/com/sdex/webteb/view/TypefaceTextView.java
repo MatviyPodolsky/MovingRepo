@@ -35,7 +35,7 @@ public class TypefaceTextView extends TextView {
             return;
         }
 
-        int typefaceValue = TypefaceManager.CAPTURE_IT;
+        int typefaceValue = TypefaceManager.DIN_NEXT_LT_ARABIC_REGULAR;
         if (attrs != null) {
             TypedArray values = context.obtainStyledAttributes(attrs, R.styleable.TypefaceTextView, defStyle, 0);
             if (values != null) {

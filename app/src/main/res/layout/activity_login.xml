@@ -14,7 +14,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <TextView
+        <com.sdex.webteb.view.TypefaceTextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             fb:login_text="Facebook تسجيل الدخول" />
 
 
-        <TextView
+        <com.sdex.webteb.view.TypefaceTextView
             android:id="@+id/forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true">
 
-            <TextView
+            <com.sdex.webteb.view.TypefaceTextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 android:layout_centerHorizontal="true"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.sdex.webteb.view.TypefaceTextView
                     android:id="@+id/link1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                     android:textColor="@color/link"
                     android:textSize="@dimen/small_text" />
 
-                <TextView
+                <com.sdex.webteb.view.TypefaceTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -129,7 +129,7 @@
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/small_text" />
 
-                <TextView
+                <com.sdex.webteb.view.TypefaceTextView
                     android:id="@+id/link2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

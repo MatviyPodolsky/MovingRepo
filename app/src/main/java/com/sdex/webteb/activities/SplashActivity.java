@@ -57,9 +57,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void invokeMainActivity() {
-        final Intent intent;
         if (!isLoggedIn) {
-            intent = new Intent(this, WelcomeActivity.class);
+            startActivity(new Intent(this, WelcomeActivity.class));
         } else {
             RestClient.getApiService().getBabyProfile(new Callback<BabyProfileResponse>() {
                 @Override

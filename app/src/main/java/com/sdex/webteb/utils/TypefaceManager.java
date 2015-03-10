@@ -9,12 +9,14 @@ import android.util.SparseArray;
  */
 public class TypefaceManager {
 
-    public final static int CAPTURE_IT = 0;
-    public final static int POST_ROCK = 1;
+    public final static int DIN_NEXT_LT_ARABIC_BLACK = 0;
+    public final static int DIN_NEXT_LT_ARABIC_BOLD = 1;
+    public final static int DIN_NEXT_LT_ARABIC_LIGHT = 2;
+    public final static int DIN_NEXT_LT_ARABIC_REGULAR = 3;
     /**
      * Array of created typefaces for later reused.
      */
-    private final static SparseArray<Typeface> mTypefaces = new SparseArray<Typeface>(20);
+    private final static SparseArray<Typeface> mTypefaces = new SparseArray<>(20);
 
     /**
      * Obtain typeface.
@@ -45,11 +47,17 @@ public class TypefaceManager {
     private static Typeface createTypeface(Context context, int typefaceValue) throws IllegalArgumentException {
         Typeface typeface;
         switch (typefaceValue) {
-            case CAPTURE_IT:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/Capture_it.ttf");
+            case DIN_NEXT_LT_ARABIC_BLACK:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/DINNextLTArabic-Black.ttf");
                 break;
-            case POST_ROCK:
-                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/post rock.ttf");
+            case DIN_NEXT_LT_ARABIC_BOLD:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/DINNextLTArabic-Bold.ttf");
+                break;
+            case DIN_NEXT_LT_ARABIC_LIGHT:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/DINNextLTArabic-Light.ttf");
+                break;
+            case DIN_NEXT_LT_ARABIC_REGULAR:
+                typeface = Typeface.createFromAsset(context.getAssets(), "fonts/DINNextLTArabic-Regular.ttf");
                 break;
             default:
                 throw new IllegalArgumentException("Unknown `typeface` attribute value " + typefaceValue);
