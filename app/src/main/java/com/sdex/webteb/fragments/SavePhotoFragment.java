@@ -82,12 +82,17 @@ public class SavePhotoFragment extends BaseFragment {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mDescription.getWindowToken(), 0);
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        String username = preferencesManager.getUsername();
+        String currentWeek = preferencesManager.getCurrentWeek();
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
         DbPhoto photo = new DbPhoto();
         photo.setPath(currentPhoto.getPath());
         photo.setTimestamp(System.currentTimeMillis());
         photo.setDescription(mDescription.getText().toString());
         photo.setTags(adapter.getTags());
+        photo.setOwner(username);
+        photo.setDate(currentWeek);
         databaseHelper.addPhoto(photo);
         EventBus.getDefault().post(new SavedPhotoEvent(photo));
         getActivity().onBackPressed();

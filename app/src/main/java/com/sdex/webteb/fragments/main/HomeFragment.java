@@ -194,8 +194,13 @@ public class HomeFragment extends PhotoFragment {
                 if (getActivity() == null) {
                     return;
                 }
+                PreferencesManager preferencesManager = PreferencesManager.getInstance();
+                String username = babyHomeResponse.getCard().getName();
+                int currentWeek = babyHomeResponse.getCard().getCurrentWeek();
+                preferencesManager.setUsername(username);
+                preferencesManager.setCurrentWeek(String.valueOf(currentWeek));
 
-                int currentWeekIndex = 40 - babyHomeResponse.getCard().getCurrentWeek();
+                int currentWeekIndex = 40 - currentWeek;
 
                 if (currentWeekIndex > 0 && currentWeekIndex < 40) {
                     int offset = getTimeNavigationControllerItemOffset();
@@ -205,12 +210,8 @@ public class HomeFragment extends PhotoFragment {
 
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
-                String username = babyHomeResponse.getCard().getName();
-
-                PreferencesManager.getInstance().setUsername(username);
-
                 mUserName.setText(username);
-                mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
+                mText.setText(String.valueOf(currentWeek));
 
                 List<ContentPreview> previews = babyHomeResponse.getPreviews();
                 List<ContentLink> videos = babyHomeResponse.getVideos();

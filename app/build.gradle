@@ -3,8 +3,8 @@ apply plugin: 'com.android.application'
 def APK_NAME = "WebTeb"
 def versionMajor = 0
 def versionMinor = 0
-def versionPatch = 6
-def versionBuild = 4
+def versionPatch = 7
+def versionBuild = 1
 
 def VERSION_CODE = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
 def VERSION_NAME = "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"

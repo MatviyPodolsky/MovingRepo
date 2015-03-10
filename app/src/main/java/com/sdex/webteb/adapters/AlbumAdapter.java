@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersSimpleAdapter;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Yuriy Mysochenko on 03.02.2015.
@@ -38,9 +37,7 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
     @Override
     public long getHeaderId(int position) {
         DbPhoto item = getItem(position);
-        // group by date
-        long hours = TimeUnit.MILLISECONDS.toMinutes(item.getTimestamp());
-        return hours;
+        return item.getDate().hashCode();
     }
 
     @Override
@@ -54,7 +51,7 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
         if (convertView == null) {
             convertView = mInflater.inflate(mHeaderResId, parent, false);
             holder = new HeaderViewHolder();
-            holder.number = (TextView) convertView.findViewById(R.id.number);
+            holder.counter = (TextView) convertView.findViewById(R.id.photo_counter);
             holder.title = (TextView) convertView.findViewById(R.id.title);
             convertView.setTag(holder);
         } else {
@@ -63,8 +60,11 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
 
         DbPhoto item = getItem(position);
 
-        holder.number.setText(String.valueOf(item.getTimestamp()));
-//        holder.title.setText(item.text);
+        long headerId = getHeaderId(position);
+
+
+        //holder.counter.setText();
+        holder.title.setText(item.getDate() + " month");
 
         return convertView;
     }
@@ -109,7 +109,7 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
     }
 
     protected class HeaderViewHolder {
-        public TextView number;
+        public TextView counter;
         public TextView title;
     }
 

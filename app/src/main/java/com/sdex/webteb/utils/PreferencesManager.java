@@ -16,6 +16,7 @@ public class PreferencesManager {
     public static final String TOKEN_TYPE = "token_type";
     public static final String USERNAME = "username";
     public static final String COMPLETE_SETUP = "complete_setup";
+    public static final String CURRENT_WEEK = "current_week";
 
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;
@@ -100,4 +101,15 @@ public class PreferencesManager {
     public boolean isCompleteSetup() {
         return mPref.getBoolean(COMPLETE_SETUP, false);
     }
+
+    public void setCurrentWeek(String week) {
+        mPref.edit()
+                .putString(CURRENT_WEEK, week)
+                .commit();
+    }
+
+    public String getCurrentWeek() {
+        return mPref.getString(CURRENT_WEEK, null);
+    }
+
 }
