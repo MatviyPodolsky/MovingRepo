@@ -1,13 +1,11 @@
 package com.sdex.webteb.dialogs;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.fragments.PhotoFragment;
-import com.sdex.webteb.fragments.main.HomeFragment;
 
 import butterknife.OnClick;
 
@@ -69,7 +67,7 @@ public class PhotoDialog extends BaseDialogFragment {
 
     @OnClick(R.id.cancel)
     public void cancel(final View v) {
-        getTargetFragment().onActivityResult(HomeFragment.REQUEST_DIALOG, Activity.RESULT_CANCELED, null);
+        //getTargetFragment().onActivityResult(HomeFragment.REQUEST_DIALOG, Activity.RESULT_CANCELED, null);
         this.dismiss();
     }
 

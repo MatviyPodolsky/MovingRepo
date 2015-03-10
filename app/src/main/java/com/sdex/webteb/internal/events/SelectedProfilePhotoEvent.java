@@ -7,7 +7,18 @@ import android.net.Uri;
  */
 public class SelectedProfilePhotoEvent {
 
+    private Uri selectedProfileImage;
+
     public SelectedProfilePhotoEvent(Uri selectedProfileImage) {
+        this.selectedProfileImage = selectedProfileImage;
+    }
+
+    public Uri getSelectedProfileImage() {
+        return selectedProfileImage;
+    }
+
+    public void setSelectedProfileImage(Uri selectedProfileImage) {
+        this.selectedProfileImage = selectedProfileImage;
     }
 
 }
