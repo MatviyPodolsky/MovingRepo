@@ -1,5 +1,6 @@
 package com.sdex.webteb.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -21,8 +22,6 @@ import de.greenrobot.event.EventBus;
  * Created by Yuriy Mysochenko on 03.03.2015.
  */
 public abstract class PhotoFragment extends BaseFragment {
-
-    public static final int REQUEST_DIALOG = 2;
 
     public static final int PHOTO_TAKEN_ALBUM = 6001;
     public static final int PHOTO_TAKEN_PROFILE = 6002;
@@ -61,13 +60,13 @@ public abstract class PhotoFragment extends BaseFragment {
     }
 
 
-    protected Uri getGalleryPhotoUri(Uri selectedImage) {
+    public static Uri getGalleryPhotoUri(Activity activity, Uri selectedImage) {
         Cursor cursor = null;
         String filePath = null;
         try {
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            cursor = getActivity().getContentResolver().query(
+            cursor = activity.getContentResolver().query(
                     selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
 
@@ -115,7 +114,7 @@ public abstract class PhotoFragment extends BaseFragment {
         getActivity().sendBroadcast(mediaScanIntent);
     }
 
-    private File createAlbumImageFile() throws IOException {
+    private static File createAlbumImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
@@ -124,7 +123,7 @@ public abstract class PhotoFragment extends BaseFragment {
         return imageF;
     }
 
-    private File createProfileImageFile() throws IOException {
+    private static File createProfileImageFile() throws IOException {
         // Create an image file name
         String imageFileName = "/profile";
         File albumF = getAlbumDir();
@@ -135,10 +134,10 @@ public abstract class PhotoFragment extends BaseFragment {
         return imageF;
     }
 
-    public void dispatchTakePictureIntent(int requestCode) {
+    public static void dispatchTakePictureIntent(Activity activity, int requestCode) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(activity.getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
             try {
@@ -153,20 +152,20 @@ public abstract class PhotoFragment extends BaseFragment {
             if (photoFile != null) {
                 Uri uri = Uri.fromFile(photoFile);
 
-                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(activity);
                 databaseHelper.setTmpPhoto(uri);
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                getActivity().startActivityForResult(takePictureIntent, requestCode);
+                activity.startActivityForResult(takePictureIntent, requestCode);
             }
         }
     }
 
-    public void dispatchGetGalleryPictureIntent(int requestCode) {
+    public static void dispatchGetGalleryPictureIntent(Activity activity, int requestCode) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        getActivity().startActivityForResult(Intent.createChooser(intent, "Select Photo"),
+        activity.startActivityForResult(Intent.createChooser(intent, "Select Photo"),
                 requestCode);
     }
 

@@ -40,15 +40,10 @@ public class LoginActivity extends BaseActivity {
     @InjectView(R.id.forgot_password) TextView mForgotPassword;
     @InjectView(R.id.auth_button) LoginButton loginButton;
     private UiLifecycleHelper uiHelper;
-    private String mUser;
-
-    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        databaseHelper = DatabaseHelper.getInstance(this);
 
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
@@ -97,11 +92,11 @@ public class LoginActivity extends BaseActivity {
         }
         v.setEnabled(false);
 
-        mUser = mUsername.getText().toString();
+        final String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();
 
         RestClient.getApiService().login("password",
-                mUser, password,
+                username, password,
                 new RestCallback<UserLoginResponse>() {
                     @Override
                     public void failure(RestError restError) {
@@ -117,10 +112,12 @@ public class LoginActivity extends BaseActivity {
                     public void success(UserLoginResponse s, Response response) {
                         final PreferencesManager preferencesManager = PreferencesManager.getInstance();
                         preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
-                        DbUser user = databaseHelper.getUser(mUser);
+                        preferencesManager.setUsername(username);
+                        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
+                        DbUser user = databaseHelper.getUser(username);
                         if (user == null) {
                             DbUser newUser = new DbUser();
-                            newUser.setEmail(mUser);
+                            newUser.setEmail(username);
                             databaseHelper.addUser(newUser);
                             launchMainActivity(false);
                         } else {
@@ -130,21 +127,6 @@ public class LoginActivity extends BaseActivity {
                                 launchMainActivity(false);
                             }
                         }
-//                        RestClient.getApiService().getBabyProfile(new Callback<BabyProfileResponse>() {
-//                            @Override
-//                            public void success(BabyProfileResponse babyProfileResponse, Response response) {
-//                                if(babyProfileResponse != null){
-//                                    PreferencesManager.getInstance().setCompleteSetup(true);
-//                                }
-//                                launchMainActivity(babyProfileResponse != null);
-//                            }
-//
-//                            @Override
-//                            public void failure(RetrofitError error) {
-//                                launchMainActivity(false);
-//                            }
-//                        });
-//                        launchMainActivity();
                     }
                 });
 

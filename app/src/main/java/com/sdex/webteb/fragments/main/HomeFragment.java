@@ -106,6 +106,7 @@ public class HomeFragment extends PhotoFragment {
         super.onViewCreated(view, savedInstanceState);
 
         databaseHelper = DatabaseHelper.getInstance(getActivity());
+        setProfilePhoto();
 
         final LinearLayoutManager timeNavControllerLayoutManager =
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -211,8 +212,6 @@ public class HomeFragment extends PhotoFragment {
                 mUserName.setText(username);
                 mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
 
-                setProfilePhoto(babyHomeResponse.getCard().getName());
-
                 List<ContentPreview> previews = babyHomeResponse.getPreviews();
                 List<ContentLink> videos = babyHomeResponse.getVideos();
                 List<ContentLink> additionalContent = babyHomeResponse.getAdditionalContent();
@@ -311,22 +310,17 @@ public class HomeFragment extends PhotoFragment {
         };
     }
 
-    private void setProfilePhoto(String name) {
-        DbUser user = databaseHelper.getUser(name);
-        if (user == null) {
-            DbUser newUser = new DbUser();
-            newUser.setEmail(name);
-            databaseHelper.addUser(newUser);
-        } else {
-            final String photoPath = user.getPhotoPath();
-            if (photoPath != null) {
-                Picasso.with(getActivity())
-                        .load(PhotoFragment.FILE_PREFIX + photoPath)
-                        .placeholder(R.drawable.ic_photo)
-                        .fit()
-                        .centerCrop()
-                        .into(mProfilePhoto);
-            }
+    private void setProfilePhoto() {
+        final String username = PreferencesManager.getInstance().getUsername();
+        DbUser user = databaseHelper.getUser(username);
+        final String photoPath = user.getPhotoPath();
+        if (photoPath != null) {
+            Picasso.with(getActivity())
+                    .load(PhotoFragment.FILE_PREFIX + photoPath)
+                    .placeholder(R.drawable.ic_photo)
+                    .fit()
+                    .centerCrop()
+                    .into(mProfilePhoto);
         }
     }
 
@@ -373,7 +367,6 @@ public class HomeFragment extends PhotoFragment {
     public void takeProfilePhoto() {
         DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_PROFILE,
                 PhotoFragment.PHOTO_SELECTED_PROFILE);
-        dialog.setTargetFragment(this, REQUEST_DIALOG);
         dialog.show(getFragmentManager(), null);
     }
 
@@ -381,7 +374,6 @@ public class HomeFragment extends PhotoFragment {
     public void takePhoto() {
         DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_ALBUM,
                 PhotoFragment.PHOTO_SELECTED_ALBUM);
-        dialog.setTargetFragment(this, REQUEST_DIALOG);
         dialog.show(getFragmentManager(), null);
     }
 
@@ -419,7 +411,7 @@ public class HomeFragment extends PhotoFragment {
     }
 
     public void onEventMainThread(SelectedPhotoEvent event) {
-        Uri galleryPhotoUri = getGalleryPhotoUri(event.getSelectedImage());
+        Uri galleryPhotoUri = getGalleryPhotoUri(getActivity(), event.getSelectedImage());
         showPhotoPreview(galleryPhotoUri.getPath());
     }
 
@@ -443,7 +435,7 @@ public class HomeFragment extends PhotoFragment {
     public void onEventMainThread(SelectedProfilePhotoEvent event) {
         final String username = PreferencesManager.getInstance().getUsername();
         DbUser user = databaseHelper.getUser(username);
-        Uri galleryPhotoUri = getGalleryPhotoUri(event.getSelectedProfileImage());
+        Uri galleryPhotoUri = getGalleryPhotoUri(getActivity(), event.getSelectedProfileImage());
         user.setPhotoPath(galleryPhotoUri.getPath());
         databaseHelper.updateUser(user);
         Picasso.with(getActivity())
