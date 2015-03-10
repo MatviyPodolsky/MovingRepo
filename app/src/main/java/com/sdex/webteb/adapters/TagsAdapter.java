@@ -24,9 +24,9 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         mTags = new ArrayList();
     }
 
-    public void setItemCount(int count) {
+    public void setChildren(String children) {
         mTags.clear();
-        mTags.addAll(generateDummyData(count));
+        mTags.addAll(generateChildren(children));
 
         notifyDataSetChanged();
     }
@@ -62,13 +62,15 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         }
     }
 
-    public static List<Item> generateDummyData(int count) {
+    public static List<Item> generateChildren(String children) {
         ArrayList<Item> items = new ArrayList<>();
         Item me = new Item("Me");
         items.add(me);
 
-        for (int i = 0; i < count; i++) {
-            items.add(new TagsAdapter.Item("test" + String.valueOf(i)));
+        String[] kids = children.split("/");
+
+        for (int i = 0; i < kids.length; i++) {
+            items.add(new TagsAdapter.Item(kids[i]));
         }
 
         return items;
@@ -139,7 +141,11 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         String tags = "";
         for (Item tag : mTags) {
             if(tag.isSelected){
-                tags = tags + "/" + tag.getChild().getName();
+                if(tags.equals("")){
+                    tags = tags + tag.getChild().getName();
+                } else {
+                    tags = tags + "/" + tag.getChild().getName();
+                }
             }
         }
         return tags;

@@ -1,11 +1,13 @@
 package com.sdex.webteb.fragments;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,8 +16,11 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TagsAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
+import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.fragments.main.HomeFragment;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
+import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.view.WrapLinearLayoutManager;
 import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
@@ -47,11 +52,17 @@ public class SavePhotoFragment extends BaseFragment {
                 .fit()
                 .centerCrop()
                 .into(mPhotoView);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),
+        final WrapLinearLayoutManager layoutManager = new WrapLinearLayoutManager(getActivity(),
                 LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         adapter = new TagsAdapter();
-        adapter.setItemCount(10);
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
+        final PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        DbUser user = databaseHelper.getUser(preferencesManager.getUsername());
+        String children = user.getChildren();
+        if(children != null && !children.equals("")) {
+            adapter.setChildren(children);
+        }
         adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -68,6 +79,9 @@ public class SavePhotoFragment extends BaseFragment {
 
     @OnClick(R.id.save)
     void save() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mDescription.getWindowToken(), 0);
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
         DbPhoto photo = new DbPhoto();
         photo.setPath(currentPhoto.getPath());

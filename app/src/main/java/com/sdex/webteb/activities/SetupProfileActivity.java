@@ -3,6 +3,7 @@ package com.sdex.webteb.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ProfilePageAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
+import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.model.Child;
 import com.sdex.webteb.rest.RestCallback;
@@ -33,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit.client.Response;
 
 /**
