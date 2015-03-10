@@ -59,6 +59,7 @@ public class SplashActivity extends BaseActivity {
     private void invokeMainActivity() {
         if (!isLoggedIn) {
             startActivity(new Intent(this, WelcomeActivity.class));
+            finish();
         } else {
             RestClient.getApiService().getBabyProfile(new Callback<BabyProfileResponse>() {
                 @Override
@@ -77,14 +78,7 @@ public class SplashActivity extends BaseActivity {
 
                 }
             });
-//            if(!completeSetup) {
-//                intent = new Intent(this, SetupProfileActivity.class);
-//            } else {
-//                intent = new Intent(this, MainActivity.class);
-//            }
         }
-//        startActivity(intent);
-//        finish();
     }
 
 }
