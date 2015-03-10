@@ -13,23 +13,19 @@
         android:gravity="center">
 
         <Button
+            style="@style/AppTheme.Button"
             android:id="@+id/read_more"
             android:layout_width="146dp"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:background="@drawable/btn_blue_normal"
-            android:text="@string/read_more"
-            android:textSize="13dp" />
+            android:text="@string/read_more"/>
 
         <Button
+            style="@style/AppTheme.Button"
             android:id="@+id/search_doctor"
             android:layout_width="146dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/read_more"
-            android:textColor="@android:color/white"
-            android:background="@drawable/btn_blue_normal"
             android:text="@string/search_doctor"
-            android:textSize="13dp"
             android:layout_marginTop="8dp" />
 
         <Button
@@ -40,7 +36,7 @@
             android:textColor="@android:color/white"
             android:background="@drawable/btn_facebook_normal"
             android:text="@string/add_reminder"
-            android:textSize="13dp"
+            android:textSize="@dimen/default_text_size"
             android:layout_marginTop="8dp" />
 
         <!--<Button-->
@@ -69,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Done"
+            android:textSize="@dimen/default_text_size"
             android:id="@+id/textView12" />
 
         <CheckBox

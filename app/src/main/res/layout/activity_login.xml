@@ -87,6 +87,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="118dp"
             android:text="@string/forgot_password"
+            android:textSize="@dimen/default_text_size"
             android:textColor="@android:color/black" />
 
         <RelativeLayout

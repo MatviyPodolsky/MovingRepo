@@ -13,6 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="10dp"
         android:gravity="center_vertical|right"
+        android:textSize="@dimen/large_text"
         tools:text="New Text" />
 
     <ImageView
@@ -38,6 +39,7 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/image"
         android:gravity="start"
+        android:textSize="@dimen/default_text_size"
         tools:text="New Text" />
 
 </RelativeLayout>

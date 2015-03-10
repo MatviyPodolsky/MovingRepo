@@ -58,7 +58,7 @@
                 android:text="@string/album_empty_text"
                 android:id="@+id/textView3"
                 android:textColor="#8c8c8c"
-                android:textSize="15sp" />
+                android:textSize="@dimen/large_text" />
 
             <ImageView
                 android:layout_width="wrap_content"

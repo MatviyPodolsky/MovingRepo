@@ -52,14 +52,12 @@
 
 
     <Button
+        style="@style/AppTheme.Button"
         android:id="@+id/done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/large_text"
-        android:background="@drawable/btn_light_blue_normal"
-        android:textColor="@color/button_text"
         android:text="@string/done" />
 
 </RelativeLayout>

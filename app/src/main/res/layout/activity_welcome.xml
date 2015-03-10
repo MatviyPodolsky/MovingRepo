@@ -112,7 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/primary"
-        android:textSize="20sp"/>
+        android:textSize="@dimen/extra_large_text"/>
 
     <!--app:fillColor="#000000"-->
     <!--app:pageColor="#FFFFFF"-->

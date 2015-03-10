@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             tools:text="New Text"
             android:id="@+id/title"
+            android:textSize="@dimen/large_text"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp" />
 
@@ -50,6 +51,7 @@
         tools:text="New Text"
         android:id="@+id/text"
         android:gravity="start"
+        android:textSize="@dimen/default_text_size"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"

@@ -22,7 +22,7 @@
             android:background="@null"
             android:text="@string/create_your_profile"
             android:textColor="@color/action_bar_text_color"
-            android:textSize="22sp" />
+            android:textSize="@dimen/extra_extra_large_text" />
 
     </android.support.v7.widget.Toolbar>
 

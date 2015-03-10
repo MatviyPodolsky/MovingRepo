@@ -18,7 +18,7 @@
             android:text="@string/settings_title_1"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="@dimen/large_text"
             android:background="@drawable/mb_solid_yellow"
             android:layout_marginBottom="12dp" />
 
@@ -160,7 +160,7 @@
             android:text="@string/settings_title_2"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="@dimen/large_text"
             android:background="@drawable/mb_solid_yellow"
             android:layout_marginBottom="12dp"
             android:layout_marginTop="12dp" />
@@ -175,15 +175,14 @@
             android:paddingRight="10dp">
 
             <Button
+                style="@style/AppTheme.Button"
                 android:id="@+id/my_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:textColor="@android:color/white"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/btn_blue_normal"
                 android:text="@string/edit" />
 
             <TextView
@@ -209,15 +208,14 @@
             android:paddingRight="10dp">
 
             <Button
+                style="@style/AppTheme.Button"
                 android:id="@+id/reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:textColor="@android:color/white"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/btn_blue_normal"
                 android:text="@string/reset" />
 
             <TextView
@@ -243,15 +241,14 @@
             android:paddingRight="10dp">
 
             <Button
+                style="@style/AppTheme.Button"
                 android:id="@+id/logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:textColor="@android:color/white"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/btn_blue_normal"
                 android:text="@string/logout" />
 
             <TextView

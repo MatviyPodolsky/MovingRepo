@@ -23,6 +23,7 @@
         android:layout_alignBottom="@+id/icon"
         android:layout_alignTop="@+id/icon"
         android:gravity="center_vertical"
+        android:textSize="@dimen/large_text"
         android:layout_marginRight="10dp" />
 
     <ImageView
@@ -43,6 +44,7 @@
         tools:text="New Text"
         android:id="@+id/text"
         android:gravity="start"
+        android:textSize="@dimen/default_text_size"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
