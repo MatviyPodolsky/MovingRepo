@@ -42,7 +42,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private OnItemClickCallback mCallback;
 
     public interface OnItemClickCallback {
-        void onItemClick(ContentLink content);
+        void onAdditionalContentClick(ContentLink content);
+        void onPreviewClick(ContentPreview content);
     }
 
     public HomeListAdapter(Context context,
@@ -118,6 +119,15 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .load(preview.getSectionIconUrl())
                     .noPlaceholder()
                     .into(viewHolder.icon);
+
+            viewHolder.rootLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mCallback != null) {
+                        mCallback.onPreviewClick(preview);
+                    }
+                }
+            });
         } else if (holder instanceof VideoViewHolder) {
             final VideoViewHolder viewHolder = (VideoViewHolder) holder;
             VideoThumbnailAdapter videoThumbnailAdapter =
@@ -159,7 +169,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View v) {
                     if (mCallback != null) {
-                        mCallback.onItemClick(content);
+                        mCallback.onAdditionalContentClick(content);
                     }
                 }
             });
@@ -199,6 +209,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     static class PreviewViewHolder extends RecyclerView.ViewHolder {
 
+        @InjectView(R.id.root)
+        RelativeLayout rootLayout;
         @InjectView(R.id.title)
         TextView title;
         @InjectView(R.id.text)

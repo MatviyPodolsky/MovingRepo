@@ -18,6 +18,7 @@ import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.rest.response.CityResponse;
+import com.sdex.webteb.rest.response.EntityResponse;
 import com.sdex.webteb.rest.response.MonthResponse;
 import com.sdex.webteb.rest.response.PromotedAppsResponse;
 import com.sdex.webteb.rest.response.SearchDoctorResponse;
@@ -144,5 +145,11 @@ public interface ApiService {
 
     @GET("/baby/month")
     public void getMonth(@Query("ageInMonths") int ageInMonths, Callback<MonthResponse> callback);
+
+    @GET("/GetEntity")
+    public void getEntity(@Query("ID") int id,
+                         @Query("Type") String type,
+                         @Query("FieldName") String fieldName,
+                         Callback<EntityResponse> callback);
 
 }

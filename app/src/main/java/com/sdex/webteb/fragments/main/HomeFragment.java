@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -38,10 +39,12 @@ import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.model.ContentPreview;
+import com.sdex.webteb.model.EntityKey;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.rest.response.EntityResponse;
 import com.sdex.webteb.rest.response.WeekResponse;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
@@ -49,6 +52,8 @@ import com.sdex.webteb.view.CenteredRecyclerView;
 import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -88,6 +93,7 @@ public class HomeFragment extends PhotoFragment {
     List<ImageView> mPhotoViews;
 
     private RestCallback<WeekResponse> getWeekCallback;
+    private RestCallback<EntityResponse> getEntityCallback;
 
     private DatabaseHelper databaseHelper;
 
@@ -208,7 +214,7 @@ public class HomeFragment extends PhotoFragment {
                         previews, videos, additionalContent);
                 adapter.setCallback(new HomeListAdapter.OnItemClickCallback() {
                     @Override
-                    public void onItemClick(ContentLink content) {
+                    public void onAdditionalContentClick(ContentLink content) {
                         Fragment fragment = new ArticleFragment();
                         Bundle args = new Bundle();
                         args.putString(ArticleFragment.ARTICLE_TITLE, content.getTitle());
@@ -220,12 +226,41 @@ public class HomeFragment extends PhotoFragment {
                                 .addToBackStack(null)
                                 .commit();
                     }
+
+                    @Override
+                    public void onPreviewClick(ContentPreview content) {
+                        EntityKey key = content.getKey();
+                        RestClient.getApiService().getEntity(key.getId(), key.getType(), key.getFieldName(), getEntityCallback);
+                    }
                 });
 
 
                 mRecyclerView.setAdapter(adapter);
             }
         });
+
+        getEntityCallback = new RestCallback<EntityResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                //TODO show error loading
+                Toast.makeText(getActivity(), "Failure :(", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void success(EntityResponse entityResponse, Response response) {
+                //TODO
+                Fragment fragment = new PreviewFragment();
+                Bundle args = new Bundle();
+                Parcelable entity = Parcels.wrap(entityResponse);
+                args.putParcelable(PreviewFragment.ENTITY, entity);
+                fragment.setArguments(args);
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, fragment, "content_fragment")
+                        .addToBackStack(null)
+                        .commit();
+            }
+        };
 
         getWeekCallback = new RestCallback<WeekResponse>() {
             @Override
