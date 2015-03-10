@@ -14,7 +14,7 @@ public class PreferencesManager {
 
     public static final String TOKEN = "token";
     public static final String TOKEN_TYPE = "token_type";
-
+    public static final String USERNAME = "username";
     public static final String COMPLETE_SETUP = "complete_setup";
 
     private static PreferencesManager sInstance;
@@ -79,6 +79,16 @@ public class PreferencesManager {
 
     public String getAccessTokenType() {
         return mPref.getString(TOKEN_TYPE, null);
+    }
+
+    public void setUsername(String username) {
+        mPref.edit()
+                .putString(USERNAME, username)
+                .commit();
+    }
+
+    public String getUsername() {
+        return mPref.getString(USERNAME, null);
     }
 
     public void setCompleteSetup(boolean isComplete){

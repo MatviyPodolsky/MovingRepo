@@ -102,7 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void updateUser(DbUser user) {
         ContentValues values = cupboard().withEntity(DbUser.class).toContentValues(user);
-        cupboard().withDatabase(getWritableDatabase()).update(DbPhoto.class, values);
+        cupboard().withDatabase(getWritableDatabase()).update(DbUser.class, values);
     }
 
 }

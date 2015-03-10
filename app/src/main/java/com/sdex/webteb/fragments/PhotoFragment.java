@@ -32,10 +32,13 @@ public abstract class PhotoFragment extends BaseFragment {
     public static final String PHOTO_PATH = "PHOTO_PATH";
 
     private static final String CAMERA_DIR = "/dcim/";
-    private static final String JPEG_FILE_PREFIX = "IMG_";
-    private static final String JPEG_FILE_SUFFIX = ".jpg";
+
+    public static final String JPEG_FILE_PREFIX = "IMG_";
+    public static final String JPEG_FILE_SUFFIX = ".jpg";
 
     public static final String FILE_PREFIX = "file:///";
+
+    private static final String ALBUM_NAME = "WebTeb";
 
     protected EventBus BUS = EventBus.getDefault();
 
@@ -78,18 +81,18 @@ public abstract class PhotoFragment extends BaseFragment {
         return Uri.parse(filePath);
     }
 
-    private File getAlbumStorageDir(String albumName) {
+    private static File getAlbumStorageDir() {
         return new File(
                 Environment.getExternalStorageDirectory()
                         + CAMERA_DIR
-                        + albumName
+                        + ALBUM_NAME
         );
     }
 
-    private File getAlbumDir(String albumName) {
+    public static File getAlbumDir() {
         File storageDir = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            storageDir = getAlbumStorageDir(albumName);
+            storageDir = getAlbumStorageDir();
             if (storageDir != null) {
                 if (!storageDir.mkdirs()) {
                     if (!storageDir.exists()) {
@@ -116,16 +119,19 @@ public abstract class PhotoFragment extends BaseFragment {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
-        File albumF = getAlbumDir("WebTeb");
+        File albumF = getAlbumDir();
         File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
         return imageF;
     }
 
     private File createProfileImageFile() throws IOException {
         // Create an image file name
-        String imageFileName = "profile";
-        File albumF = getAlbumDir("WebTeb");
-        File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
+        String imageFileName = "/profile";
+        File albumF = getAlbumDir();
+        //File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
+        File imageF = new File(albumF.getAbsolutePath() + imageFileName + JPEG_FILE_SUFFIX);
+        imageF.getParentFile().mkdirs();
+        imageF.createNewFile();
         return imageF;
     }
 

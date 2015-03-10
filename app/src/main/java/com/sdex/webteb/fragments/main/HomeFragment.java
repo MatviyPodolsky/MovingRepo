@@ -35,7 +35,9 @@ import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
+import com.sdex.webteb.internal.events.SelectedProfilePhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
+import com.sdex.webteb.internal.events.TakenProfilePhotoEvent;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.rest.RestCallback;
@@ -45,11 +47,13 @@ import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.WeekResponse;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
+import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.CenteredRecyclerView;
 import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -194,7 +198,11 @@ public class HomeFragment extends PhotoFragment {
 
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
-                mUserName.setText(babyHomeResponse.getCard().getName());
+                String username = babyHomeResponse.getCard().getName();
+
+                PreferencesManager.getInstance().setUsername(username);
+
+                mUserName.setText(username);
                 mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
 
                 setProfilePhoto(babyHomeResponse.getCard().getName());
@@ -280,6 +288,8 @@ public class HomeFragment extends PhotoFragment {
                 Picasso.with(getActivity())
                         .load(PhotoFragment.FILE_PREFIX + photoPath)
                         .placeholder(R.drawable.ic_photo)
+                        .fit()
+                        .centerCrop()
                         .into(mProfilePhoto);
             }
         }
@@ -376,6 +386,37 @@ public class HomeFragment extends PhotoFragment {
     public void onEventMainThread(SelectedPhotoEvent event) {
         Uri galleryPhotoUri = getGalleryPhotoUri(event.getSelectedImage());
         showPhotoPreview(galleryPhotoUri.getPath());
+    }
+
+    public void onEventMainThread(TakenProfilePhotoEvent event) {
+        File albumDir = PhotoFragment.getAlbumDir();
+        File profileImage = new File(albumDir.getAbsolutePath() + "/profile"
+                + PhotoFragment.JPEG_FILE_SUFFIX);
+
+        final String username = PreferencesManager.getInstance().getUsername();
+        DbUser user = databaseHelper.getUser(username);
+        user.setPhotoPath(profileImage.getAbsolutePath());
+        databaseHelper.updateUser(user);
+        Picasso.with(getActivity())
+                .load(PhotoFragment.FILE_PREFIX + profileImage)
+                .placeholder(R.drawable.ic_photo)
+                .fit()
+                .centerCrop()
+                .into(mProfilePhoto);
+    }
+
+    public void onEventMainThread(SelectedProfilePhotoEvent event) {
+        final String username = PreferencesManager.getInstance().getUsername();
+        DbUser user = databaseHelper.getUser(username);
+        Uri galleryPhotoUri = getGalleryPhotoUri(event.getSelectedProfileImage());
+        user.setPhotoPath(galleryPhotoUri.getPath());
+        databaseHelper.updateUser(user);
+        Picasso.with(getActivity())
+                .load(PhotoFragment.FILE_PREFIX + galleryPhotoUri)
+                .placeholder(R.drawable.ic_photo)
+                .fit()
+                .centerCrop()
+                .into(mProfilePhoto);
     }
 
 }
