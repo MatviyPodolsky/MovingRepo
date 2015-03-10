@@ -24,6 +24,6 @@
         android:layout_toLeftOf="@+id/icon"
         android:layout_toStartOf="@+id/icon"
         android:textColor="#ffffff"
-        android:textSize="16sp" />
+        android:textSize="@dimen/large_text" />
 
 </RelativeLayout>

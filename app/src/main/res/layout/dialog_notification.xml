@@ -33,7 +33,7 @@
             android:gravity="right"
             android:textColor="@color/primary"
             android:textIsSelectable="false"
-            android:textSize="15sp"
+            android:textSize="@dimen/default_text_size"
             android:textStyle="bold"
             android:text="title" />
 
@@ -45,7 +45,7 @@
             android:layout_below="@+id/title"
             android:gravity="right"
             android:textColor="@color/primary"
-            android:textSize="15sp"
+            android:textSize="@dimen/default_text_size"
             android:text="@string/test_text" />
 
         </RelativeLayout>

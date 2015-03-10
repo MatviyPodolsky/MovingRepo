@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="birth date"
+        android:textSize="@dimen/default_text_size"
         android:textColor="@color/secondary_text" />
 
     <LinearLayout
@@ -130,14 +131,12 @@
 
 
     <Button
+        style="@style/AppTheme.Button"
         android:id="@+id/next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/large_text"
-        android:background="@drawable/btn_light_blue_normal"
-        android:textColor="@color/button_text"
         android:text="@string/next" />
 
 </RelativeLayout>

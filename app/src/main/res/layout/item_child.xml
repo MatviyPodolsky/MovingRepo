@@ -32,7 +32,7 @@
         
         <TextView
             android:id="@+id/text_female"
-            android:layout_width="38dp"
+            android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="-10dp"
             android:text="@string/female"
@@ -67,7 +67,7 @@
 
         <TextView
             android:id="@+id/text_male"
-            android:layout_width="28dp"
+            android:layout_width="38dp"
             android:layout_height="wrap_content"
             android:text="@string/male"
             android:textSize="@dimen/small_text"
@@ -101,7 +101,7 @@
 
         <TextView
             android:id="@+id/text_unknown"
-            android:layout_width="28dp"
+            android:layout_width="38dp"
             android:layout_height="wrap_content"
             android:text="@string/none"
             android:textSize="@dimen/small_text"
