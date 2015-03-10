@@ -13,6 +13,7 @@ public class DbPhoto {
     public String path;
     public String description;
     public String owner;
+    public String tags;
 
     public DbPhoto() {
     }
@@ -47,5 +48,13 @@ public class DbPhoto {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }

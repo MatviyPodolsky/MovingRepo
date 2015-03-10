@@ -11,6 +11,8 @@ public class DbUser {
     public Long _id;
     public String email;
     public String photoPath;
+    public String children;
+    public boolean completedProfile;
 
     public DbUser() {
     }
@@ -29,5 +31,21 @@ public class DbUser {
 
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
+    }
+
+    public boolean isCompletedProfile() {
+        return completedProfile;
+    }
+
+    public void setCompletedProfile(boolean completedProfile) {
+        this.completedProfile = completedProfile;
+    }
+
+    public String getChildren() {
+        return children;
+    }
+
+    public void setChildren(String children) {
+        this.children = children;
     }
 }

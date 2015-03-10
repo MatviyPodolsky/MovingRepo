@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ProfilePageAdapter;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.model.Child;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -16,7 +18,6 @@ import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserInfoResponse;
-import com.sdex.webteb.utils.PreferencesManager;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
@@ -45,13 +46,18 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
     CirclePageIndicator mIndicator;
     @InjectView(R.id.profile_card)
     View profileCard;
+    private String mEmail;
     private BabyProfileRequest request = new BabyProfileRequest();
-
     private RestCallback<BabyProfileResponse> getBabyProfileCallback;
+
+    private DatabaseHelper databaseHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        databaseHelper = DatabaseHelper.getInstance(this);
+
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         String dt = outFormat.format(date);
@@ -88,6 +94,7 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
             @Override
             public void success(UserInfoResponse userInfoResponse, Response response) {
                 ((TextView)profileCard.findViewById(R.id.username)).setText(userInfoResponse.getEmail());
+                mEmail = userInfoResponse.getEmail();
             }
         });
     }
@@ -172,7 +179,34 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
 
             @Override
             public void success(String s, Response response) {
-                PreferencesManager.getInstance().setCompleteSetup(true);
+                DbUser user = databaseHelper.getUser(mEmail);
+                if (user == null) {
+                    DbUser newUser = new DbUser();
+                    newUser.setEmail(mEmail);
+                    newUser.setCompletedProfile(true);
+                    String children = "";
+                    for (Child child : request.getChildren()){
+                        if(children.equals("")) {
+                            children = children + child.getName();
+                        } else {
+                            children = children + "/" + child.getName();
+                        }
+                    }
+                    newUser.setChildren(children);
+                    databaseHelper.addUser(newUser);
+                } else {
+                    user.setCompletedProfile(true);
+                    String children = "";
+                    for (Child child : request.getChildren()){
+                        if(children.equals("")) {
+                            children = children + child.getName();
+                        } else {
+                            children = children + "/" + child.getName();
+                        }
+                    }
+                    user.setChildren(children);
+                    databaseHelper.updateUser(user);
+                }
                 Intent intent = new Intent(SetupProfileActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

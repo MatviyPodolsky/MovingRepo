@@ -35,6 +35,7 @@ public class SavePhotoFragment extends BaseFragment {
     RecyclerView mRecyclerView;
 
     private Uri currentPhoto;
+    private TagsAdapter adapter;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class SavePhotoFragment extends BaseFragment {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        final TagsAdapter adapter = new TagsAdapter();
+        adapter = new TagsAdapter();
         adapter.setItemCount(10);
         adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -72,6 +73,7 @@ public class SavePhotoFragment extends BaseFragment {
         photo.setPath(currentPhoto.getPath());
         photo.setTimestamp(System.currentTimeMillis());
         photo.setDescription(mDescription.getText().toString());
+        photo.setTags(adapter.getTags());
         databaseHelper.addPhoto(photo);
         EventBus.getDefault().post(new SavedPhotoEvent(photo));
         getActivity().onBackPressed();

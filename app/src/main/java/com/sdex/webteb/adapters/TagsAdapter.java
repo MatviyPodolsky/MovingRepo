@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.model.Child;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
     @Override
     public void onBindViewHolder(VerticalItemHolder itemHolder, int position) {
         Item item = mTags.get(position);
-        itemHolder.setValue(item.value);
+        itemHolder.setValue(item.child.getName());
         itemHolder.setSelected(item.isSelected);
     }
 
@@ -63,6 +64,8 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
 
     public static List<Item> generateDummyData(int count) {
         ArrayList<Item> items = new ArrayList<>();
+        Item me = new Item("Me");
+        items.add(me);
 
         for (int i = 0; i < count; i++) {
             items.add(new TagsAdapter.Item("test" + String.valueOf(i)));
@@ -73,13 +76,18 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
 
     public static class Item {
 
-        public String value;
+        public Child child;
         public boolean isSelected;
 
-        public Item(String value) {
-            this.value = value;
+        public Item(String name) {
+            Child kid = new Child();
+            kid.setName(name);
+            this.child = kid;
         }
 
+        public Child getChild() {
+            return child;
+        }
     }
 
     public static class VerticalItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -125,6 +133,16 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         curItem.isSelected = !curItem.isSelected;
         mTags.set(selectedItem, curItem);
         notifyDataSetChanged();
+    }
+
+    public String getTags(){
+        String tags = "";
+        for (Item tag : mTags) {
+            if(tag.isSelected){
+                tags = tags + "/" + tag.getChild().getName();
+            }
+        }
+        return tags;
     }
 
 }

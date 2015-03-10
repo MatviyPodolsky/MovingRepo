@@ -5,13 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.rest.RestClient;
-import com.sdex.webteb.rest.response.BabyProfileResponse;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.utils.PreferencesManager;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class SplashActivity extends BaseActivity {
 
@@ -24,14 +20,16 @@ public class SplashActivity extends BaseActivity {
 
     private Handler mHandler;
     private Runnable mInvokeMainActivityTask;
-    private boolean isLoggedIn, completeSetup;
+    private boolean isLoggedIn;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        databaseHelper = DatabaseHelper.getInstance(this);
+
         isLoggedIn = (PreferencesManager.getInstance().getAccessToken() != null);
-        completeSetup = PreferencesManager.getInstance().isCompleteSetup();
 
         mHandler = new Handler();
 
@@ -60,31 +58,15 @@ public class SplashActivity extends BaseActivity {
         if (!isLoggedIn) {
             startActivity(new Intent(this, WelcomeActivity.class));
         } else {
-            RestClient.getApiService().getBabyProfile(new Callback<BabyProfileResponse>() {
-                @Override
-                public void success(BabyProfileResponse babyProfileResponse, Response response) {
-                    if(babyProfileResponse != null){
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                        SplashActivity.this.finish();
-                    } else {
-                        startActivity(new Intent(SplashActivity.this, SetupProfileActivity.class));
-                        SplashActivity.this.finish();
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-
-                }
-            });
-//            if(!completeSetup) {
-//                intent = new Intent(this, SetupProfileActivity.class);
-//            } else {
-//                intent = new Intent(this, MainActivity.class);
-//            }
+            DbUser user = databaseHelper.getUser(PreferencesManager.getInstance().getUsername());
+            if (user != null && user.isCompletedProfile()){
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                SplashActivity.this.finish();
+            } else {
+                startActivity(new Intent(SplashActivity.this, SetupProfileActivity.class));
+                SplashActivity.this.finish();
+            }
         }
-//        startActivity(intent);
-//        finish();
     }
 
 }
