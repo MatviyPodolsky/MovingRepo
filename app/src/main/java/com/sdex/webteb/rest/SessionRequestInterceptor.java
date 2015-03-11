@@ -23,7 +23,7 @@ public class SessionRequestInterceptor implements RequestInterceptor {
             String authHeaderValue = accessTokenType + " " + accessToken;
             request.addHeader("Authorization", authHeaderValue);
         }
-//        request.addHeader("BasicAuthorization", "basic YmFieXVzZXI6cnRpZmxkQDNeZA==");
+        request.addHeader("BasicAuthorization", "basic YmFieXVzZXI6cnRpZmxkQDNeZA==");
         request.addHeader("ApplicationVersion", BuildConfig.VERSION_NAME);
         request.addHeader("DeviceType", Utils.getDeviceName());
         request.addHeader("ApplicationName", "baby");
