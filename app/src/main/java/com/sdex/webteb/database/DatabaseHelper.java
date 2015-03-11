@@ -64,15 +64,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<DbPhoto> getPhotos() {
         return cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
                 .withSelection("timestamp > ?", "0")
-                .orderBy("timestamp DESC")
+                .orderBy("timestamp"/* + " DESC"*/) // show newer on the top
                 .list();
-    }
-
-    public void getPhotosCount(String date) {
-        cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
-                .withSelection("timestamp > ? AND date = ?", "0", date)
-                .list()
-                .size();
     }
 
     public List<DbPhoto> getPhotos(int limit) {

@@ -29,6 +29,10 @@ public class AlbumViewFragment extends BaseMainFragment {
     ViewPager mViewPager;
     @InjectView(R.id.description)
     TextView mDescription;
+    @InjectView(R.id.current_photo)
+    TextView mCurrentPhoto;
+    @InjectView(R.id.all_photo)
+    TextView mAllPhoto;
     private PhotoPagerAdapter mAdapter;
     private List<DbPhoto> data;
 
@@ -45,6 +49,7 @@ public class AlbumViewFragment extends BaseMainFragment {
         super.onViewCreated(view, savedInstanceState);
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
         data = databaseHelper.getPhotos();
+        mAllPhoto.setText(String.valueOf(data.size()));
         mAdapter = new PhotoPagerAdapter(getChildFragmentManager(), data);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(2);
@@ -81,6 +86,11 @@ public class AlbumViewFragment extends BaseMainFragment {
     private void setDescription(int position) {
         DbPhoto photo = data.get(position);
         mDescription.setText(photo.getDescription());
+        setCurrentPhotoIndex(position);
+    }
+
+    private void setCurrentPhotoIndex(int position) {
+        mCurrentPhoto.setText(String.valueOf(position + 1));
     }
 
     public void onEvent(IntentDeletePhotoEvent event) {
@@ -94,6 +104,7 @@ public class AlbumViewFragment extends BaseMainFragment {
         data.remove(currentItem);
         mAdapter.notifyDataSetChanged();
         setDescription(mViewPager.getCurrentItem());
+        mAllPhoto.setText(String.valueOf(data.size()));
     }
 
     public void onEvent(SavedPhotoEvent event) {

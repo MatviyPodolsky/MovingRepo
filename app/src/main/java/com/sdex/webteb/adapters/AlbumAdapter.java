@@ -59,12 +59,9 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
         }
 
         DbPhoto item = getItem(position);
-
-        long headerId = getHeaderId(position);
-
-
-        //holder.counter.setText();
-        holder.title.setText(item.getDate() + " month");
+        int count = getPhotoCount(item.getDate());
+        holder.counter.setText(String.valueOf(count));
+        holder.title.setText(item.getDate() + " week");
 
         return convertView;
     }
@@ -108,12 +105,22 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
         return convertView;
     }
 
-    protected class HeaderViewHolder {
+    private int getPhotoCount(String date) {
+        int count = 0;
+        for (DbPhoto dbPhoto : data) {
+            if (dbPhoto.getDate().equals(date)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    static class HeaderViewHolder {
         public TextView counter;
         public TextView title;
     }
 
-    protected class ViewHolder {
+    static class ViewHolder {
         public ImageView imageView;
     }
 
