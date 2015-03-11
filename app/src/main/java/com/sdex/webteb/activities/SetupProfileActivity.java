@@ -74,7 +74,7 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
         request.setDate(dt);
         profileCard.findViewById(R.id.photo_container).setVisibility(View.GONE);
 
-        username = PreferencesManager.getInstance().getUsername();
+        username = PreferencesManager.getInstance().getEmail();
         DbUser user = databaseHelper.getUser(username);
         final String photoPath = user.getPhotoPath();
         if (photoPath != null) {
@@ -129,7 +129,7 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            final String username = PreferencesManager.getInstance().getUsername();
+            final String username = PreferencesManager.getInstance().getEmail();
             DbUser user = databaseHelper.getUser(username);
             switch (requestCode) {
                 case PhotoFragment.PHOTO_TAKEN_PROFILE:

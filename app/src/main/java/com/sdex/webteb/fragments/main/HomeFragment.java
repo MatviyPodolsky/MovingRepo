@@ -312,7 +312,7 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void setProfilePhoto() {
-        final String username = PreferencesManager.getInstance().getUsername();
+        final String username = PreferencesManager.getInstance().getEmail();
         DbUser user = databaseHelper.getUser(username);
         final String photoPath = user.getPhotoPath();
         if (photoPath != null) {
@@ -421,7 +421,7 @@ public class HomeFragment extends PhotoFragment {
         File profileImage = new File(albumDir.getAbsolutePath() + "/profile"
                 + PhotoFragment.JPEG_FILE_SUFFIX);
 
-        final String username = PreferencesManager.getInstance().getUsername();
+        final String username = PreferencesManager.getInstance().getEmail();
         DbUser user = databaseHelper.getUser(username);
         user.setPhotoPath(profileImage.getAbsolutePath());
         databaseHelper.updateUser(user);
@@ -434,7 +434,7 @@ public class HomeFragment extends PhotoFragment {
     }
 
     public void onEventMainThread(SelectedProfilePhotoEvent event) {
-        final String username = PreferencesManager.getInstance().getUsername();
+        final String username = PreferencesManager.getInstance().getEmail();
         DbUser user = databaseHelper.getUser(username);
         Uri galleryPhotoUri = getGalleryPhotoUri(getActivity(), event.getSelectedProfileImage());
         user.setPhotoPath(galleryPhotoUri.getPath());

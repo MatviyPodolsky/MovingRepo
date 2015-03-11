@@ -67,10 +67,12 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         Item me = new Item("Me");
         items.add(me);
 
-        String[] kids = children.split("/");
+        if(children != null && !children.equals("")) {
+            String[] kids = children.split("/");
 
-        for (int i = 0; i < kids.length; i++) {
-            items.add(new TagsAdapter.Item(kids[i]));
+            for (int i = 0; i < kids.length; i++) {
+                items.add(new TagsAdapter.Item(kids[i]));
+            }
         }
 
         return items;

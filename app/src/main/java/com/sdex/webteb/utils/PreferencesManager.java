@@ -14,6 +14,7 @@ public class PreferencesManager {
 
     public static final String TOKEN = "token";
     public static final String TOKEN_TYPE = "token_type";
+    public static final String EMAIL = "email";
     public static final String USERNAME = "username";
     public static final String COMPLETE_SETUP = "complete_setup";
     public static final String CURRENT_WEEK = "current_week";
@@ -80,6 +81,16 @@ public class PreferencesManager {
 
     public String getAccessTokenType() {
         return mPref.getString(TOKEN_TYPE, null);
+    }
+
+    public void setEmail(String email) {
+        mPref.edit()
+                .putString(EMAIL, email)
+                .commit();
+    }
+
+    public String getEmail() {
+        return mPref.getString(EMAIL, null);
     }
 
     public void setUsername(String username) {

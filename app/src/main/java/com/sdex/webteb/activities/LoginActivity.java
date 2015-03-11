@@ -112,7 +112,7 @@ public class LoginActivity extends BaseActivity {
                     public void success(UserLoginResponse s, Response response) {
                         final PreferencesManager preferencesManager = PreferencesManager.getInstance();
                         preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
-                        preferencesManager.setUsername(username);
+                        preferencesManager.setEmail(username);
                         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
                         DbUser user = databaseHelper.getUser(username);
                         if (user == null) {

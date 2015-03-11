@@ -58,11 +58,9 @@ public class SavePhotoFragment extends BaseFragment {
         adapter = new TagsAdapter();
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
         final PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        DbUser user = databaseHelper.getUser(preferencesManager.getUsername());
+        DbUser user = databaseHelper.getUser(preferencesManager.getEmail());
         String children = user.getChildren();
-        if(children != null && !children.equals("")) {
-            adapter.setChildren(children);
-        }
+        adapter.setChildren(children);
         adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -83,7 +81,7 @@ public class SavePhotoFragment extends BaseFragment {
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mDescription.getWindowToken(), 0);
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        String username = preferencesManager.getUsername();
+        String username = preferencesManager.getEmail();
         String currentWeek = preferencesManager.getCurrentWeek();
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
         DbPhoto photo = new DbPhoto();
