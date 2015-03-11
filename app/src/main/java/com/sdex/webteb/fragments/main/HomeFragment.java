@@ -45,7 +45,6 @@ import com.sdex.webteb.model.EntityKey;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
-import com.sdex.webteb.rest.request.PushtokenRequest;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.EntityResponse;
 import com.sdex.webteb.rest.response.WeekResponse;

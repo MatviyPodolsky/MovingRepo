@@ -53,8 +53,12 @@ public class SearchDoctorFragment extends BaseMainFragment {
     public static final long MIN_TIME_BW_UPDATES = 10;
     public static final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 10f;
     private boolean canGetLocation;
-    String[] citiesList = {"Any city"};
-    String[] specialtiesList = {"Any speciality"};
+    private String[] citiesList = {"Any city"};
+    private String[] specialtiesList = {"Any speciality"};
+    private String[] countriesList;
+    private int[] countryIds;
+    private String[] countryCodes;
+    private int currentCountry = 3;//Jordan
 
     @InjectView(R.id.search)
     EditText search;
@@ -71,8 +75,12 @@ public class SearchDoctorFragment extends BaseMainFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setCurrentLocation();
+        countriesList = getActivity().getResources().getStringArray(R.array.countries);
+        countryIds = getActivity().getResources().getIntArray(R.array.country_ids);
+        countryCodes = getActivity().getResources().getStringArray(R.array.iso_codes);
+        setCurrentCountry(currentCountry);
         setSpecialties();
+        setCurrentLocation();
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -120,6 +128,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
                 case REQUEST_GET_COUNTRY:
                     if (data != null) {
                         country.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
+                        currentCountry = data.getIntExtra(SearchFilterDialog.EXTRA_POSITION, 3);
+                        setCurrentCountry(currentCountry);
                     }
                     break;
                 case REQUEST_GET_CITY:
@@ -170,6 +180,21 @@ public class SearchDoctorFragment extends BaseMainFragment {
         dialog.setArguments(args);
         dialog.setTargetFragment(this, REQUEST_GET_SPECIALITY);
         dialog.show(ft, "dialog");
+    }
+
+    private void setCurrentCountry(int currentCountry){
+        this.currentCountry = currentCountry;
+        country.setText(countriesList[currentCountry]);
+        setCities(countryCodes[currentCountry]);
+        city.setText("Any city");
+    }
+
+    private void checkoutCountry(String isoCode){
+        for (int i = 0; i < countryCodes.length; i++) {
+            if(countryCodes[i].equals(isoCode)){
+                setCurrentCountry(i);
+            }
+        }
     }
 
     private void setCurrentLocation(){
@@ -229,9 +254,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
                         }
                     }
                 addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                setCities(addresses.get(0).getCountryCode());
-                this.country.setText(addresses.get(0).getCountryName());
-                this.city.setText(addresses.get(0).getLocality());
+                checkoutCountry(addresses.get(0).getCountryCode());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -280,7 +303,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
                 }
             }
         };
-        RestClient.getApiService().getCities("JO", getCitiesCallback);
+        RestClient.getApiService().getCities(isoCode, getCitiesCallback);
     }
 
     private void setSpecialties(){
