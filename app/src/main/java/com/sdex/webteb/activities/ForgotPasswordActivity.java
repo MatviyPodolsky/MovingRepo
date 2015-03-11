@@ -1,16 +1,14 @@
 package com.sdex.webteb.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
-import com.sdex.webteb.rest.request.RestorePasswordRequest;
-import com.sdex.webteb.rest.response.MonthResponse;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -36,30 +34,16 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     @OnClick(R.id.restore)
     public void restore(View v){
-        RestorePasswordRequest request = new RestorePasswordRequest();
-        request.email = mEmail.getText().toString();
-
-//        RestClient.getApiService().restorePassword(request, new RestCallback<String>() {
-//            @Override
-//            public void failure(RestError restError) {
-//            }
-//
-//            @Override
-//            public void success(String s, Response response) {
-//                //TODO
-//            }
-//        });
-
-        RestClient.getApiService().getMonth(5, new RestCallback<MonthResponse>() {
+        RestClient.getApiService().restorePassword(mEmail.getText().toString(), new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
-                Log.d("test", "failure");
+                Toast.makeText(ForgotPasswordActivity.this, "Error:" + restError.getStrMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void success(MonthResponse month, Response response) {
+            public void success(String s, Response response) {
+                Toast.makeText(ForgotPasswordActivity.this, "Letter with password sent to your Email", Toast.LENGTH_SHORT).show();
                 //TODO
-                Log.d("test", "success");
             }
         });
     }

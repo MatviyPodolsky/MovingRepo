@@ -8,9 +8,10 @@ import com.sdex.webteb.rest.request.BabyReminderRequest;
 import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.request.ChangePasswordRequest;
 import com.sdex.webteb.rest.request.FacebookLoginRequest;
+import com.sdex.webteb.rest.request.NotificationRequest;
+import com.sdex.webteb.rest.request.PushtokenRequest;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.request.RegisterUserRequest;
-import com.sdex.webteb.rest.request.RestorePasswordRequest;
 import com.sdex.webteb.rest.request.SetPasswordRequest;
 import com.sdex.webteb.rest.response.ArticlesResponse;
 import com.sdex.webteb.rest.response.BabyGeneralResponse;
@@ -20,6 +21,7 @@ import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.rest.response.CityResponse;
 import com.sdex.webteb.rest.response.EntityResponse;
 import com.sdex.webteb.rest.response.MonthResponse;
+import com.sdex.webteb.rest.response.NotificationsResponse;
 import com.sdex.webteb.rest.response.PromotedAppsResponse;
 import com.sdex.webteb.rest.response.SearchDoctorResponse;
 import com.sdex.webteb.rest.response.SpecialtiesResponse;
@@ -59,8 +61,8 @@ public interface ApiService {
     @POST("/Account/Register")
     public void register(@Body RegisterAccountRequest body, Callback<String> callback);
 
-    @POST("/Account/RegisterExternal")
-    public void restorePassword(@Body RestorePasswordRequest body, Callback<String> callback);
+    @POST("/Account/ForgotPassword")
+    public void restorePassword(@Query("email") String email, Callback<String> callback);
 
     @POST("/Account/ChangePassword")
     public void changePassword(@Body ChangePasswordRequest body, Callback<String> callback);
@@ -151,5 +153,14 @@ public interface ApiService {
                          @Query("Type") String type,
                          @Query("FieldName") String fieldName,
                          Callback<EntityResponse> callback);
+
+    @GET("/baby/notifications")
+    public void getNotifications(Callback<NotificationsResponse> callback);
+
+    @POST("/baby/notifications/tapped")
+    public void postNotification(@Body NotificationRequest body, Callback<String> callback);
+
+    @POST("/baby/settings/pushtoken")
+    public void postPushtoken(@Body PushtokenRequest body, Callback<String> callback);
 
 }
