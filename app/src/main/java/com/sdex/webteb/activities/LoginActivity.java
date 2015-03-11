@@ -170,12 +170,11 @@ public class LoginActivity extends BaseActivity {
     private void launchMainActivity(boolean completedProfile) {
         Intent intent;
         if(completedProfile) {
-            intent = new Intent(LoginActivity.this, MainActivity.class);
+            MainActivity.launch(LoginActivity.this);
         } else {
             intent = new Intent(LoginActivity.this, SetupProfileActivity.class);
+            startActivity(intent);
         }
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
         finish();
     }
 

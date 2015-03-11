@@ -247,8 +247,7 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
                     }
                     user.setChildren(children);
                     databaseHelper.updateUser(user);
-                Intent intent = new Intent(SetupProfileActivity.this, MainActivity.class);
-                startActivity(intent);
+                MainActivity.launch(SetupProfileActivity.this);
                 finish();
             }
         });
