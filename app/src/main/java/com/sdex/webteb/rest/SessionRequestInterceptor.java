@@ -4,6 +4,7 @@ import android.os.Build;
 
 import com.sdex.webteb.BuildConfig;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.Utils;
 
 import retrofit.RequestInterceptor;
 
@@ -22,8 +23,9 @@ public class SessionRequestInterceptor implements RequestInterceptor {
             String authHeaderValue = accessTokenType + " " + accessToken;
             request.addHeader("Authorization", authHeaderValue);
         }
+//        request.addHeader("BasicAuthorization", "basic YmFieXVzZXI6cnRpZmxkQDNeZA==");
         request.addHeader("ApplicationVersion", BuildConfig.VERSION_NAME);
-        request.addHeader("DeviceType", "DeviceType");
+        request.addHeader("DeviceType", Utils.getDeviceName());
         request.addHeader("ApplicationName", "baby");
         request.addHeader("OS", "Android");
         request.addHeader("OSVersion", Build.VERSION.RELEASE);
