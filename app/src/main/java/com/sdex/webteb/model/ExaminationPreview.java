@@ -3,29 +3,31 @@ package com.sdex.webteb.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * Created by MPODOLSKY on 04.02.2015.
  */
-
+@Parcel
 @Getter
 @Setter
 public class ExaminationPreview {
 
     @SerializedName("EnglishName")
     @Expose
-    private String englishName;
+    public String englishName;
     @SerializedName("Description")
     @Expose
-    private String description;
+    public String description;
     @SerializedName("Name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("ID")
     @Expose
-    private int id;
+    public int id;
 
     public ExaminationPreview() {
     }

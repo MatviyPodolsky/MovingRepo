@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sdex.webteb.BuildConfig;
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
@@ -70,6 +71,7 @@ import java.util.List;
 import butterknife.InjectView;
 import butterknife.InjectViews;
 import butterknife.OnClick;
+import butterknife.Optional;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -105,6 +107,10 @@ public class HomeFragment extends PhotoFragment {
     List<ImageView> mPhotoViews;
     @InjectView(R.id.notifications_container)
     RelativeLayout mNotificationsContainer;
+    @InjectView(R.id.amount_of_notifications)
+    TextView mNotificationsAmount;
+    @InjectView(R.id.first_notification_title)
+    TextView mNotificationsTitle;
 
     private RestCallback<WeekResponse> getWeekCallback;
     private RestCallback<EntityResponse> getEntityCallback;
@@ -323,16 +329,26 @@ public class HomeFragment extends PhotoFragment {
                 }
             }
         };
-
-        RestClient.getApiService().getNotifications(new Callback<NotificationsResponse>() {
+        boolean ignoreSettings = BuildConfig.DEBUG;
+        RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
             @Override
             public void success(NotificationsResponse notificationsResponse, Response response) {
                 List<ExaminationPreview> tests = notificationsResponse.getTests();
                 List<TipContent> tips = notificationsResponse.getTips();
-                if ((tests != null && !tests.isEmpty() ||
-                        (tips != null && !tips.isEmpty()))) {
-                    showNotification();
+                int amount = tests.size() + tips.size();
+                mNotificationsAmount.setText("1/" + amount);
+
+                if (!tests.isEmpty()) {
+                    ExaminationPreview examinationPreview = tests.get(0);
+                    String name = examinationPreview.getName();
+                    mNotificationsTitle.setText(name);
+                } else if (!tips.isEmpty()) {
+                    TipContent tipContent = tips.get(0);
+                    String text = tipContent.getText();
+                    mNotificationsTitle.setText(text);
                 }
+
+                showNotification(notificationsResponse);
             }
 
             @Override
@@ -342,7 +358,7 @@ public class HomeFragment extends PhotoFragment {
         });
     }
 
-    private void showNotification() {
+    private void showNotification(final NotificationsResponse notificationsResponse) {
         ValueAnimator va = ValueAnimator.ofInt(0, DisplayUtil.dpToPx(80));
         va.setDuration(500);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -354,15 +370,20 @@ public class HomeFragment extends PhotoFragment {
         });
         va.start();
 
-        mNotificationsContainer.postDelayed(new Runnable() {
+        mNotificationsContainer.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
+            public void onClick(View v) {
+                NotificationDialog notificationDialog =
+                        NotificationDialog.newInstance(notificationsResponse);
+                notificationDialog.show(getChildFragmentManager(), "notificationDialog");
                 hideNotification();
             }
-        }, 3000);
+        });
     }
 
-    private void hideNotification() {
+    @Optional
+    @OnClick(R.id.cancel_in_app_notification)
+    void hideNotification() {
         ValueAnimator va = ValueAnimator.ofInt(DisplayUtil.dpToPx(80), 0);
         va.setDuration(500);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

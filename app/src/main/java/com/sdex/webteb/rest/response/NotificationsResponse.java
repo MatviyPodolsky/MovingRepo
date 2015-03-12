@@ -6,20 +6,23 @@ import com.sdex.webteb.model.ExaminationPreview;
 import com.sdex.webteb.model.TipContent;
 import com.sdex.webteb.rest.model.ApiResponse;
 
+import org.parceler.Parcel;
+
 import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
 
+@Parcel
 @Getter
 @Setter
 public class NotificationsResponse extends ApiResponse {
 
     @SerializedName("Tests")
     @Expose
-    private List<ExaminationPreview> tests;
+    public List<ExaminationPreview> tests;
     @SerializedName("Tips")
     @Expose
-    private List<TipContent> tips;
+    public List<TipContent> tips;
 
 }

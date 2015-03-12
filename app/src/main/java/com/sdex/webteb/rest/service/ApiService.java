@@ -122,10 +122,12 @@ public interface ApiService {
     public void retrieveUser(@Path("userId") String userId, Callback<UserRetrieveResponse> callback);
 
     @GET("/Users/UnreadEntities?userId={userId}")
-    public void getUnreadEntities(@Path("userId") String userId, Callback<List<UnreadEntitiesResponse>> callback);
+    public void getUnreadEntities(@Path("userId") String userId,
+                                  Callback<List<UnreadEntitiesResponse>> callback);
 
     @GET("/Users/GetUrl?EntityType={EntityType}&EntityID={EntityID}")
-    public void getUnreadEntities(@Path("EntityType") String entityType, @Path("EntityID") String entityID, Callback<String> callback);
+    public void getUnreadEntities(@Path("EntityType") String entityType,
+                                  @Path("EntityID") String entityID, Callback<String> callback);
 
     @GET("/GetPromotedApps")
     public void getPromotedApps(Callback<PromotedAppsResponse> callback);
@@ -137,10 +139,12 @@ public interface ApiService {
     public void getCities(@Query("isoCode") String isoCode, Callback<List<CityResponse>> callback);
 
     @GET("/SearchDoctors")
-    public void searchDoctor(@QueryMap Map<String, String> options, RestCallback<SearchDoctorResponse> callback);
+    public void searchDoctor(@QueryMap Map<String, String> options,
+                             RestCallback<SearchDoctorResponse> callback);
 
     @GET("/baby/articles/latest")
-    public void getArticles(@Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize, Callback<ArticlesResponse> callback);
+    public void getArticles(@Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize,
+                            Callback<ArticlesResponse> callback);
 
     @GET("/baby/week")
     public void getWeek(@Query("weekNumber") int weekNumber, Callback<WeekResponse> callback);
@@ -149,13 +153,12 @@ public interface ApiService {
     public void getMonth(@Query("ageInMonths") int ageInMonths, Callback<MonthResponse> callback);
 
     @GET("/GetEntity")
-    public void getEntity(@Query("ID") int id,
-                         @Query("Type") String type,
-                         @Query("FieldName") String fieldName,
-                         Callback<EntityResponse> callback);
+    public void getEntity(@Query("ID") int id, @Query("Type") String type,
+                         @Query("FieldName") String fieldName, Callback<EntityResponse> callback);
 
     @GET("/baby/notifications")
-    public void getNotifications(Callback<NotificationsResponse> callback);
+    public void getNotifications(@Query("ignoreSettings") boolean ignoreSettings,
+                                 Callback<NotificationsResponse> callback);
 
     @POST("/baby/notifications/tapped")
     public void postNotification(@Body NotificationRequest body, Callback<String> callback);

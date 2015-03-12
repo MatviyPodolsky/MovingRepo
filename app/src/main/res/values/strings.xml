@@ -63,6 +63,9 @@
     <string name="none">None</string>
 
     <!--home-->
+    <string name="in_app_notification_btn_back">back</string>
+    <string name="in_app_notification_btn_next">next</string>
+
     <!--menu-->
     <string name="title_home">Home</string>
     <string-array name="menu_item_titles">

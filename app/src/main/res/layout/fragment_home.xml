@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,11 +23,60 @@
                 android:id="@+id/notifications_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:background="#03A9F5"
                 android:animateLayoutChanges="true"
                 android:layout_alignParentTop="true">
 
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/cancel_in_app_notification"
+                    android:src="@drawable/ic_notfication_cancel"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:scaleType="center" />
 
-                </RelativeLayout>
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:id="@+id/imageView7"
+                    android:src="@drawable/ic_large_notification"
+                    android:background="#2469A7"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:padding="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="1/2"
+                    android:id="@+id/amount_of_notifications"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/imageView7"
+                    android:layout_toStartOf="@+id/imageView7"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="11dp"
+                    android:layout_marginLeft="11dp"
+                    android:textColor="#7acdf3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="New Text\nttcddb"
+                    android:gravity="right"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:id="@+id/first_notification_title"
+                    android:layout_below="@+id/amount_of_notifications"
+                    android:layout_alignRight="@+id/amount_of_notifications"
+                    android:layout_alignEnd="@+id/amount_of_notifications"
+                    android:layout_toRightOf="@+id/cancel_in_app_notification"
+                    android:layout_toEndOf="@+id/cancel_in_app_notification"
+                    android:textColor="@android:color/white" />
+
+            </RelativeLayout>
 
             <include
                 android:id="@+id/profile_card"
@@ -91,12 +140,11 @@
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true" />
 
-                </RelativeLayout>
+            </RelativeLayout>
 
         </FrameLayout>
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-
 
 
 </FrameLayout>
