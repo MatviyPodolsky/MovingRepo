@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.model.ExaminationPreview;
+import com.sdex.webteb.model.TipContent;
 import com.sdex.webteb.rest.response.NotificationsResponse;
 
 import org.parceler.Parcels;
@@ -27,8 +28,13 @@ public class NotificationDialog extends DialogFragment {
 
     @InjectView(R.id.content_view)
     WebView mContentView;
+    @InjectView(R.id.content_tip)
+    TextView mTipText;
     @InjectView(R.id.title)
     TextView mTitle;
+    private int currentNotification;
+    private int notificationsNumber;
+    private NotificationsResponse data;
 
     public static NotificationDialog newInstance(NotificationsResponse notificationsResponse) {
         NotificationDialog dialog = new NotificationDialog();
@@ -50,12 +56,10 @@ public class NotificationDialog extends DialogFragment {
         //Only disabled the horizontal scrolling
         mContentView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
-        NotificationsResponse data = Parcels.unwrap(getArguments().getParcelable(ARG_DATA));
+        data = Parcels.unwrap(getArguments().getParcelable(ARG_DATA));
 
-        ExaminationPreview examinationPreview = data.getTests().get(0);
-        String name = examinationPreview.getName();
-        mTitle.setText(name);
-        mContentView.loadData(examinationPreview.getDescription(), "text/html; charset=UTF-8", null);
+        notificationsNumber = data.getTests().size() + data.getTips().size();
+        setCurrentNotification(currentNotification);
         return v;
     }
 
@@ -72,10 +76,34 @@ public class NotificationDialog extends DialogFragment {
 
     @OnClick(R.id.back)
     public void back() {
+        if(currentNotification > 0) {
+            setCurrentNotification(--currentNotification);
+        }
     }
 
     @OnClick(R.id.next)
     public void next() {
+        if(currentNotification < notificationsNumber - 1) {
+            setCurrentNotification(++currentNotification);
+        }
+    }
+
+    private void setCurrentNotification(int position){
+        String name;
+        if(position < data.getTests().size()) {
+            ExaminationPreview examinationPreview = data.getTests().get(position);
+            name = examinationPreview.getName();
+            mTitle.setText(name);
+            mContentView.loadData(examinationPreview.getDescription(), "text/html; charset=UTF-8", null);
+            mTipText.setVisibility(View.GONE);
+            mContentView.setVisibility(View.VISIBLE);
+        } else {
+            TipContent tipContent = data.getTips().get(position - data.getTests().size());
+            mTitle.setText("Tip");
+            mTipText.setText(tipContent.getText());
+            mTipText.setVisibility(View.VISIBLE);
+            mContentView.setVisibility(View.GONE);
+        }
     }
 
 }
