@@ -25,6 +25,6 @@ public class BabyTestResponse extends ApiRequest {
     private UserTest userTest;
     @SerializedName("RelatedPeriods")
     @Expose
-    private List<Range> relatedPeriods = new ArrayList();
+    private List<Range> relatedPeriods = new ArrayList<>();
 
 }

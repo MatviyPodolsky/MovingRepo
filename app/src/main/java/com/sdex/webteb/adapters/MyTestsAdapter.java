@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.model.Range;
 import com.sdex.webteb.model.UserTest;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -114,6 +115,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         BabyTestResponse item = (BabyTestResponse) getGroup(groupPosition);
         holder.title.setText(item.getContentPreview().getTitle());
         holder.text.setText(item.getContentPreview().getDescription());
+        holder.range.setText(parseRange(item.getRelatedPeriods()));
         refreshStatus(data.get(groupPosition).getUserTest(), holder);
 
         return convertView;
@@ -293,6 +295,22 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         }
     }
 
+    private static String parseRange(List<Range> ranges) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Range range : ranges) {
+            if (range.getFrom() == range.getTo()) {
+                stringBuilder.append(range.getFrom());
+            } else {
+                stringBuilder.append(range.getFrom());
+                stringBuilder.append("-");
+                stringBuilder.append(range.getTo());
+            }
+            stringBuilder.append(",");
+        }
+        stringBuilder.setLength(stringBuilder.length() - 1);
+        return stringBuilder.toString();
+    }
+
     static class ViewHolderGroup {
         @InjectView(R.id.title)
         TextView title;
@@ -302,6 +320,8 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         TextView reminder;
         @InjectView(R.id.done)
         TextView done;
+        @InjectView(R.id.range)
+        TextView range;
 
         public ViewHolderGroup(View view) {
             ButterKnife.inject(this, view);

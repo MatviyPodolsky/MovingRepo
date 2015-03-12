@@ -74,7 +74,7 @@
         android:text="17"
         android:textColor="@android:color/white"
         android:background="@drawable/bg_test_page_numbers"
-        android:id="@+id/textView11"
+        android:id="@+id/range"
         android:layout_above="@+id/text"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
