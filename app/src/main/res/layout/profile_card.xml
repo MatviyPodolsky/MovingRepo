@@ -18,15 +18,28 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/hello"
+        android:textColor="@android:color/white"
+        android:id="@+id/hello"
+        android:textStyle="bold"
+        android:gravity="right"
+        android:textSize="@dimen/large_text"
+        android:layout_marginTop="12dp"
+        android:layout_alignRight="@+id/textView5"
+        android:layout_toRightOf="@+id/photo_container" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/username"
         tools:text="username"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/hello"
         android:textSize="@dimen/large_text"
         android:gravity="right"
         android:textColor="@android:color/white"
         android:layout_toLeftOf="@+id/avatar"
-        android:layout_toRightOf="@+id/photo_container"
-        android:layout_marginTop="12dp" />
+        android:layout_toRightOf="@+id/photo_container"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,19 +51,6 @@
         android:layout_below="@+id/username"
         android:gravity="right"
         android:layout_alignRight="@+id/username"
-        android:layout_toRightOf="@+id/photo_container" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="text"
-        android:textColor="@android:color/white"
-        android:id="@+id/textView6"
-        android:layout_below="@+id/textView5"
-        android:textStyle="bold"
-        android:gravity="right"
-        android:textSize="@dimen/large_text"
-        android:layout_alignRight="@+id/textView5"
         android:layout_toRightOf="@+id/photo_container" />
 
     <LinearLayout

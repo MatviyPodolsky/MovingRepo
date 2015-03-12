@@ -206,8 +206,9 @@ public class HomeFragment extends PhotoFragment {
                     return;
                 }
                 PreferencesManager preferencesManager = PreferencesManager.getInstance();
-                String username = babyHomeResponse.getCard().getName();
-                int currentWeek = babyHomeResponse.getCard().getCurrentWeek();
+                BabyHomeResponse.Card card = babyHomeResponse.getCard();
+                String username = card.getName();
+                int currentWeek = card.getCurrentWeek();
                 preferencesManager.setUsername(username);
                 preferencesManager.setCurrentWeek(String.valueOf(currentWeek));
 
@@ -225,7 +226,11 @@ public class HomeFragment extends PhotoFragment {
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
                 mUserName.setText(username);
-                mText.setText(String.valueOf(currentWeek));
+                if(card.isGaveBirth()){
+                    mText.setVisibility(View.GONE);
+                } else {
+                    mText.setText(String.valueOf(currentWeek));
+                }
 
                 List<ContentPreview> previews = babyHomeResponse.getPreviews();
                 List<ContentLink> videos = babyHomeResponse.getVideos();

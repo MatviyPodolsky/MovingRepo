@@ -38,6 +38,7 @@
     <string name="security_agreement"><u>الاتفاقية الأمنية</u></string>
 
     <!--profile card-->
+    <string name="hello">Hello,</string>
     <string name="next">Next</string>
     <string name="done">Done</string>
     <string name="family_relation">Family relation</string>
@@ -113,6 +114,7 @@
     <string name="specialty">Any speciality</string>
     <string name="doctor_name">Doctor name</string>
     <string name="search">Search</string>
+    <string name="turn_location_options">Please, turn on location options if you want to select your current place as default for search</string>
     <string-array name="countries">
         <item>المملكة العربية السعودية</item>
         <item>مصر</item>
