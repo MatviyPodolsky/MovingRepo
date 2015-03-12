@@ -61,16 +61,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cupboard().withDatabase(getWritableDatabase()).delete(photo);
     }
 
-    public List<DbPhoto> getPhotos() {
+    public List<DbPhoto> getPhotos(String owner) {
         return cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
-                .withSelection("timestamp > ?", "0")
+                .withSelection("timestamp > ? AND owner = ?", "0", owner)
                 .orderBy("timestamp"/* + " DESC"*/) // show newer on the top
                 .list();
     }
 
-    public List<DbPhoto> getPhotos(int limit) {
+    public List<DbPhoto> getPhotos(int limit, String owner) {
         return cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
-                .withSelection("timestamp > ?", "0")
+                .withSelection("timestamp > ? AND owner = ?", "0", owner)
                 .orderBy("timestamp DESC")
                 .limit(limit)
                 .list();

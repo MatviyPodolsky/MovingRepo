@@ -13,6 +13,7 @@ import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.internal.events.DeletePhotoEvent;
 import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
+import com.sdex.webteb.utils.PreferencesManager;
 
 import java.util.List;
 
@@ -48,7 +49,8 @@ public class AlbumViewFragment extends BaseMainFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
-        data = databaseHelper.getPhotos();
+        String username = PreferencesManager.getInstance().getUsername();
+        data = databaseHelper.getPhotos(username);
         mAllPhoto.setText(String.valueOf(data.size()));
         mAdapter = new PhotoPagerAdapter(getChildFragmentManager(), data);
         mViewPager.setAdapter(mAdapter);

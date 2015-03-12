@@ -339,7 +339,27 @@ public class HomeFragment extends PhotoFragment {
 
     private void showNotification() {
         ValueAnimator va = ValueAnimator.ofInt(0, DisplayUtil.dpToPx(80));
-        va.setDuration(700);
+        va.setDuration(500);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                mNotificationsContainer.getLayoutParams().height = value;
+                mNotificationsContainer.requestLayout();
+            }
+        });
+        va.start();
+
+        mNotificationsContainer.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideNotification();
+            }
+        }, 3000);
+    }
+
+    private void hideNotification() {
+        ValueAnimator va = ValueAnimator.ofInt(DisplayUtil.dpToPx(80), 0);
+        va.setDuration(500);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
                 Integer value = (Integer) animation.getAnimatedValue();
@@ -370,7 +390,8 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void showLastPhoto() {
-        final List<DbPhoto> photos = databaseHelper.getPhotos(3);
+        String username = PreferencesManager.getInstance().getUsername();
+        final List<DbPhoto> photos = databaseHelper.getPhotos(3, username);
         for (int i = 0; i < photos.size(); i++) {
             Picasso.with(getActivity())
                     .load(PhotoFragment.FILE_PREFIX + photos.get(i).getPath())

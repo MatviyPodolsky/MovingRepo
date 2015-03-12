@@ -22,6 +22,7 @@ import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
+import com.sdex.webteb.utils.PreferencesManager;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
 import java.util.List;
@@ -55,7 +56,8 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         databaseHelper = DatabaseHelper.getInstance(getActivity());
-        data = databaseHelper.getPhotos();
+        String username = PreferencesManager.getInstance().getUsername();
+        data = databaseHelper.getPhotos(username);
 
         showOrHideEmptyView();
 

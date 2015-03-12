@@ -88,4 +88,5 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'uk.co.deanwild:flowtextview:2.0.2@aar'
     compile 'nl.qbusict:cupboard:2.1.1'
+    compile 'com.google.android.gms:play-services-base:6.5.87'
 }
