@@ -115,7 +115,6 @@ public class HomeFragment extends PhotoFragment {
         super.onViewCreated(view, savedInstanceState);
 
         databaseHelper = DatabaseHelper.getInstance(getActivity());
-        setProfilePhoto();
 
         final LinearLayoutManager timeNavControllerLayoutManager =
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -177,7 +176,6 @@ public class HomeFragment extends PhotoFragment {
                 getActivity(), R.drawable.divider_home_list));
 
         photoContainer.setVisibility(View.VISIBLE);
-        showLastPhoto();
 
         // debug
 //        BabyHomeResponse babyHomeResponse = MockData.getMockHome(getActivity());
@@ -208,6 +206,9 @@ public class HomeFragment extends PhotoFragment {
                 int currentWeek = babyHomeResponse.getCard().getCurrentWeek();
                 preferencesManager.setUsername(username);
                 preferencesManager.setCurrentWeek(String.valueOf(currentWeek));
+
+                setProfilePhoto();
+                showLastPhoto();
 
                 int currentWeekIndex = 40 - currentWeek;
 
