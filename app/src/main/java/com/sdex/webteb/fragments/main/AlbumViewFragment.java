@@ -49,8 +49,8 @@ public class AlbumViewFragment extends BaseMainFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
-        String username = PreferencesManager.getInstance().getUsername();
-        data = databaseHelper.getPhotos(username);
+        String email = PreferencesManager.getInstance().getEmail();
+        data = databaseHelper.getPhotos(email);
         mAllPhoto.setText(String.valueOf(data.size()));
         mAdapter = new PhotoPagerAdapter(getChildFragmentManager(), data);
         mViewPager.setAdapter(mAdapter);

@@ -376,8 +376,8 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void setProfilePhoto() {
-        final String username = PreferencesManager.getInstance().getEmail();
-        DbUser user = databaseHelper.getUser(username);
+        final String email = PreferencesManager.getInstance().getEmail();
+        DbUser user = databaseHelper.getUser(email);
         final String photoPath = user.getPhotoPath();
         if (photoPath != null) {
             Picasso.with(getActivity())
@@ -395,8 +395,8 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void showLastPhoto() {
-        String username = PreferencesManager.getInstance().getUsername();
-        final List<DbPhoto> photos = databaseHelper.getPhotos(3, username);
+        String email = PreferencesManager.getInstance().getEmail();
+        final List<DbPhoto> photos = databaseHelper.getPhotos(3, email);
         for (int i = 0; i < photos.size(); i++) {
             Picasso.with(getActivity())
                     .load(PhotoFragment.FILE_PREFIX + photos.get(i).getPath())

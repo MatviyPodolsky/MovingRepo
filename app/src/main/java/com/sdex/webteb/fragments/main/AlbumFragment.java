@@ -56,8 +56,8 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         databaseHelper = DatabaseHelper.getInstance(getActivity());
-        String username = PreferencesManager.getInstance().getUsername();
-        data = databaseHelper.getPhotos(username);
+        String email = PreferencesManager.getInstance().getEmail();
+        data = databaseHelper.getPhotos(email);
 
         showOrHideEmptyView();
 
