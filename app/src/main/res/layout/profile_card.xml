@@ -34,6 +34,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/username"
         tools:text="username"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:layout_below="@+id/hello"
         android:textSize="@dimen/large_text"
         android:gravity="right"
