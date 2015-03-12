@@ -12,9 +12,15 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.request.PushTokenRequest;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Yuriy Mysochenko on 04.09.2014.
@@ -35,6 +41,10 @@ public class GcmHelper {
 
     public GcmHelper(WeakReference<? extends Activity> weakReference) {
         this.weakReference = weakReference;
+    }
+
+    public GcmHelper(Activity activity) {
+        this.weakReference = new WeakReference<>(activity);
     }
 
     public void register() {
@@ -232,9 +242,19 @@ public class GcmHelper {
      * to a server that echoes back the message using the 'from' address in the message.
      */
     private void sendRegistrationIdToBackend() {
-        // Your implementation here.
-        // regId
-        // TODO store id
+        PushTokenRequest request = new PushTokenRequest();
+        request.setToken(mRegistrationId);
+        RestClient.getApiService().postPushToken(request, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 
 }

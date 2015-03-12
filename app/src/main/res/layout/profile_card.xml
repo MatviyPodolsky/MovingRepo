@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/profile_height"
-    android:background="@android:color/black" >
+    android:background="@drawable/bg_photo_top" >
 
     <com.sdex.webteb.view.SquareImageView
         android:layout_width="74dp"
