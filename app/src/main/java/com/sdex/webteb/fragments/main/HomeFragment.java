@@ -1,5 +1,6 @@
 package com.sdex.webteb.fragments.main;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,11 +44,14 @@ import com.sdex.webteb.internal.events.TakenProfilePhotoEvent;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.model.EntityKey;
+import com.sdex.webteb.model.ExaminationPreview;
+import com.sdex.webteb.model.TipContent;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.EntityResponse;
+import com.sdex.webteb.rest.response.NotificationsResponse;
 import com.sdex.webteb.rest.response.WeekResponse;
 import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DisplayUtil;
@@ -64,6 +69,8 @@ import java.util.List;
 import butterknife.InjectView;
 import butterknife.InjectViews;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
@@ -95,6 +102,8 @@ public class HomeFragment extends PhotoFragment {
     FrameLayout mDragView;
     @InjectViews({R.id.photo_1, R.id.photo_2, R.id.photo_3})
     List<ImageView> mPhotoViews;
+    @InjectView(R.id.notifications_container)
+    RelativeLayout mNotificationsContainer;
 
     private RestCallback<WeekResponse> getWeekCallback;
     private RestCallback<EntityResponse> getEntityCallback;
@@ -309,6 +318,36 @@ public class HomeFragment extends PhotoFragment {
                 }
             }
         };
+
+        RestClient.getApiService().getNotifications(new Callback<NotificationsResponse>() {
+            @Override
+            public void success(NotificationsResponse notificationsResponse, Response response) {
+                List<ExaminationPreview> tests = notificationsResponse.getTests();
+                List<TipContent> tips = notificationsResponse.getTips();
+                if ((tests != null && !tests.isEmpty() ||
+                        (tips != null && !tips.isEmpty()))) {
+                    showNotification();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+    }
+
+    private void showNotification() {
+        ValueAnimator va = ValueAnimator.ofInt(0, DisplayUtil.dpToPx(80));
+        va.setDuration(700);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                mNotificationsContainer.getLayoutParams().height = value;
+                mNotificationsContainer.requestLayout();
+            }
+        });
+        va.start();
     }
 
     private void setProfilePhoto() {

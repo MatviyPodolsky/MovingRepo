@@ -19,8 +19,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <RelativeLayout
+                android:id="@+id/notifications_container"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:animateLayoutChanges="true"
+                android:layout_alignParentTop="true">
+
+
+                </RelativeLayout>
+
             <include
                 android:id="@+id/profile_card"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/profile_height"
+                android:layout_below="@+id/notifications_container"
                 layout="@layout/profile_card" />
 
             <Button
