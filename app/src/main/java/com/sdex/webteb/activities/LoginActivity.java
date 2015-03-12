@@ -41,6 +41,8 @@ public class LoginActivity extends BaseActivity {
     @InjectView(R.id.auth_button) LoginButton loginButton;
     private UiLifecycleHelper uiHelper;
 
+    private RestCallback<UserLoginResponse> loginCallback;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,40 @@ public class LoginActivity extends BaseActivity {
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
         loginButton.setReadPermissions(Arrays.asList("email"));
+
+        loginCallback = new RestCallback<UserLoginResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                findViewById(R.id.login).setEnabled(true);
+                String text = "failure :(";
+                if(restError != null){
+                    text = "Error:" + restError.getStrMessage();
+                }
+                Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void success(UserLoginResponse s, Response response) {
+                final PreferencesManager preferencesManager = PreferencesManager.getInstance();
+                preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
+                String userName = s.getUserName();
+                preferencesManager.setEmail(userName);
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
+                DbUser user = databaseHelper.getUser(userName);
+                if (user == null) {
+                    DbUser newUser = new DbUser();
+                    newUser.setEmail(userName);
+                    databaseHelper.addUser(newUser);
+                    launchMainActivity(false);
+                } else {
+                    if (user.isCompletedProfile()){
+                        launchMainActivity(true);
+                    } else {
+                        launchMainActivity(false);
+                    }
+                }
+            }
+        };
     }
 
     @Override
@@ -92,43 +128,12 @@ public class LoginActivity extends BaseActivity {
         }
         v.setEnabled(false);
 
-        final String username = mUsername.getText().toString();
+        String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();
 
         RestClient.getApiService().login("password",
                 username, password,
-                new RestCallback<UserLoginResponse>() {
-                    @Override
-                    public void failure(RestError restError) {
-                        v.setEnabled(true);
-                        String text = "failure :(";
-                        if(restError != null){
-                            text = "Error:" + restError.getStrMessage();
-                        }
-                        Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void success(UserLoginResponse s, Response response) {
-                        final PreferencesManager preferencesManager = PreferencesManager.getInstance();
-                        preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
-                        preferencesManager.setEmail(username);
-                        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
-                        DbUser user = databaseHelper.getUser(username);
-                        if (user == null) {
-                            DbUser newUser = new DbUser();
-                            newUser.setEmail(username);
-                            databaseHelper.addUser(newUser);
-                            launchMainActivity(false);
-                        } else {
-                            if (user.isCompletedProfile()){
-                                launchMainActivity(true);
-                            } else {
-                                launchMainActivity(false);
-                            }
-                        }
-                    }
-                });
+                loginCallback);
 
     }
 

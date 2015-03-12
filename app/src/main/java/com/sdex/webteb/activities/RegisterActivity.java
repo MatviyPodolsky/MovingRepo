@@ -14,6 +14,8 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -47,6 +49,11 @@ public class RegisterActivity extends BaseActivity {
     @InjectView(R.id.newsletters)
     SwitchButton mNewslettersSwitch;
     private UiLifecycleHelper uiHelper;
+    private String email;
+    private String password;
+
+    private RestCallback<UserLoginResponse> loginCallback;
+    private RestCallback<String> registerCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +69,59 @@ public class RegisterActivity extends BaseActivity {
         }
 
         mNewslettersSwitch.setChecked(true);
+
+        loginCallback = new RestCallback<UserLoginResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                String text = "failure :(";
+                if(restError != null){
+                    text = "Error:" + restError.getStrMessage();
+                }
+                Toast.makeText(RegisterActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void success(UserLoginResponse s, Response response) {
+                final PreferencesManager preferencesManager = PreferencesManager.getInstance();
+                preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
+                String userName = s.getUserName();
+                preferencesManager.setEmail(userName);
+                DatabaseHelper databaseHelper = DatabaseHelper.getInstance(RegisterActivity.this);
+                DbUser user = databaseHelper.getUser(userName);
+                if (user == null) {
+                    DbUser newUser = new DbUser();
+                    newUser.setEmail(userName);
+                    databaseHelper.addUser(newUser);
+                    launchMainActivity(false);
+                } else {
+                    if (user.isCompletedProfile()){
+                        launchMainActivity(true);
+                    } else {
+                        launchMainActivity(false);
+                    }
+                }
+            }
+        };
+
+        registerCallback = new RestCallback<String>() {
+            @Override
+            public void failure(RestError restError) {
+                findViewById(R.id.register).setEnabled(true);
+                String text = "register fail :(";
+                if (restError != null) {
+                    text = "Error:" + restError.getStrMessage();
+                }
+                Toast.makeText(RegisterActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void success(String s, Response response) {
+                Toast.makeText(RegisterActivity.this, "Register successful. Login...", Toast.LENGTH_SHORT).show();
+                RestClient.getApiService().login("password",
+                        email, password,
+                        loginCallback);
+            }
+        };
     }
 
     @Override
@@ -119,34 +179,26 @@ public class RegisterActivity extends BaseActivity {
         v.setEnabled(false);
 
         RegisterAccountRequest request = new RegisterAccountRequest();
-        request.email = mEmail.getText().toString();
-        request.password = mPassword.getText().toString();
+        email = mEmail.getText().toString();
+        password = mPassword.getText().toString();
+        request.email = email;
+        request.password = password;
         request.confirmPassword = mPassword.getText().toString();
 //        request.confirmPassword = mConfirmPassword.getText().toString();
         request.name = mName.getText().toString();
 
-        RestClient.getApiService().register(request, new RestCallback<String>() {
-            @Override
-            public void failure(RestError restError) {
-                v.setEnabled(true);
-                String text = "failure :(";
-                if (restError != null) {
-                    text = "Error:" + restError.getStrMessage();
-                }
-                Toast.makeText(RegisterActivity.this, text, Toast.LENGTH_SHORT).show();
-            }
+        RestClient.getApiService().register(request, registerCallback);
+    }
 
-            @Override
-            public void success(String s, Response response) {
-                Toast.makeText(RegisterActivity.this, "Register successful", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-//        v.setEnabled(false);
-//        launchMainActivity();
+    private void launchMainActivity(boolean completedProfile) {
+        Intent intent;
+        if(completedProfile) {
+            MainActivity.launch(RegisterActivity.this);
+        } else {
+            intent = new Intent(RegisterActivity.this, SetupProfileActivity.class);
+            startActivity(intent);
+        }
+        finish();
     }
 
     private boolean isValidData() {

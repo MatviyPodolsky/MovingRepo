@@ -154,12 +154,18 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         holder.addReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mCallback != null) {
+                    mCallback.onAddReminderBtnClick();
+                }
                 changeReminder(data.get(groupPosition), holder, groupPosition);
             }
         });
         holder.checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mCallback != null) {
+                    mCallback.onTestDoneClick();
+                }
                 changeTestStatus(data.get(groupPosition), holder, groupPosition);
             }
         });
