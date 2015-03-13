@@ -19,6 +19,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,16 +83,15 @@ import retrofit.client.Response;
  */
 public class HomeFragment extends PhotoFragment {
 
-    public static final int REQUEST_GET_NOTIFICATION = 10;
+    public static final String ARTICLES_LIST = "ARTICLES_LIST";
 
+    public static final int REQUEST_GET_NOTIFICATION = 10;
     public static final int MORE_ARTICLES_FRAGMENT = 4;
     public static final int SEARCH_DOCTOR_FRAGMENT = 3;
     public static final int ALBUM_FRAGMENT = 2;
 
     @InjectView(R.id.fragment_container)
     FrameLayout mRootView;
-//    @InjectView(R.id.summary_list)
-//    RecyclerView mSummaryList;
 
     //summary
     @InjectView(R.id.summary_image)
@@ -100,12 +100,12 @@ public class HomeFragment extends PhotoFragment {
     TextView articlesCount;
     @InjectView(R.id.summary_test_title)
     TextView testTitle;
-    @InjectView(R.id.summary_image1)
-    ImageView summaryImage1;
-    @InjectView(R.id.summary_image2)
-    ImageView summaryImage2;
-    @InjectView(R.id.summary_image3)
-    ImageView summaryImage3;
+    @InjectViews({ R.id.summary_image1, R.id.summary_image2, R.id.summary_image3 })
+    List<ImageView> summaryPhotos;
+    @InjectView(R.id.no_photos)
+    TextView noPhotos;
+    @InjectView(R.id.summary_photos_container)
+    LinearLayout sumPhotoContainer;
 
     @InjectView(R.id.photo_container)
     View photoContainer;
@@ -134,6 +134,8 @@ public class HomeFragment extends PhotoFragment {
 
     private RestCallback<WeekResponse> getWeekCallback;
     private RestCallback<EntityResponse> getEntityCallback;
+
+    private List<ContentLink> contentLinks;
 
     private DatabaseHelper databaseHelper;
 
@@ -330,6 +332,7 @@ public class HomeFragment extends PhotoFragment {
                     List<ContentPreview> tests = weekResponse.getTests();
                     List<ContentPreview> previews = weekResponse.getPreviews();
                     List<ContentLink> additionalContent = weekResponse.getAdditionalContent();
+                    contentLinks = weekResponse.getAdditionalContent();
                     List<ContentLink> videos = weekResponse.getVideos();
 
                     Picasso.with(getActivity())
@@ -338,18 +341,30 @@ public class HomeFragment extends PhotoFragment {
                             .fit()
                             .centerCrop()
                             .into(summaryImage);
-                    articlesCount.setText("Articles count " + previews.size());
+                    articlesCount.setText("Articles count " + additionalContent.size());
                     if (tests != null && tests.size() > 0) {
                         testTitle.setText(tests.get(0).getTitle());
                     } else {
                         testTitle.setText("No tests");
                     }
                     String email = PreferencesManager.getInstance().getEmail();
-                    List<DbPhoto> data = databaseHelper.getPhotos(email);
-//                    summaryImage1;
-//                    summaryImage2;
-//                    summaryImage3;
-
+                    List<DbPhoto> data = databaseHelper.getPhotos(3, email, String.valueOf(weekResponse.getWeekNumber()));
+                    int size = data.size();
+                    if(size == 0){
+                        sumPhotoContainer.setVisibility(View.GONE);
+                        noPhotos.setVisibility(View.VISIBLE);
+                    } else {
+                        sumPhotoContainer.setVisibility(View.VISIBLE);
+                        noPhotos.setVisibility(View.GONE);
+                        for (int i = 0; i < size; i++) {
+                            Picasso.with(getActivity())
+                                    .load(PhotoFragment.FILE_PREFIX + data.get(i).getPath())
+                                    .placeholder(R.drawable.ic_transparent_placeholder)
+                                    .fit()
+                                    .centerCrop()
+                                    .into(summaryPhotos.get(i));
+                        }
+                    }
 //                    SummaryAdapter adapter = new SummaryAdapter(getActivity(),
 //                            getChildFragmentManager(),
 //                            tests, previews, additionalContent, videos);
@@ -413,10 +428,20 @@ public class HomeFragment extends PhotoFragment {
     }
 
     @OnClick(R.id.summary_articles)
-    public void moreArticles() {
-        SelectMenuItemEvent event = new SelectMenuItemEvent();
-        event.setPosition(MORE_ARTICLES_FRAGMENT);
-        BUS.post(event);
+    public void showArticles() {
+        if(contentLinks != null) {
+            Fragment fragment = new AdditionalContentFragment();
+            Bundle args = new Bundle();
+            args.putParcelable(ARTICLES_LIST, Parcels.wrap(contentLinks));
+            fragment.setArguments(args);
+            FragmentManager fragmentManager = getChildFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, fragment, "content_fragment")
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            Toast.makeText(getActivity(), "No articles", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick(R.id.summary_photos)

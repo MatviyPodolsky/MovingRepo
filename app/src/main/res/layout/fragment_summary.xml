@@ -3,169 +3,184 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/image"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/recyclerview">
 
-    <RelativeLayout
-        android:id="@+id/search_doctor_container"
-        android:layout_below="@+id/image"
-        android:layout_width="match_parent"
-        android:padding="5dp"
-        android:layout_height="70dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <Button
-            style="@style/AppTheme.Button"
-            android:id="@+id/search_doctor"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/search_doctor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        
-        <TextView
-            android:id="@+id/search_title"
-            android:gravity="center_vertical"
-            android:layout_alignParentRight="true"
-            android:text="text"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:id="@+id/search_center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/search_title"
-            android:layout_toRightOf="@+id/search_doctor">
-
-            <TextView
+            <ImageView
+                android:id="@+id/summary_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="text"
-                android:gravity="center"/>
+                android:layout_height="162dp" />
 
-            </LinearLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/articles_container"
-        android:layout_below="@+id/search_doctor_container"
-        android:layout_width="match_parent"
-        android:padding="5dp"
-        android:layout_height="70dp">
-
-        <Button
-            style="@style/AppTheme.Button"
-            android:id="@+id/articles"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/more_articles_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/articles_title"
-            android:gravity="center_vertical"
-            android:layout_alignParentRight="true"
-            android:text="Content"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/articles_center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/articles_title"
-            android:layout_toRightOf="@+id/articles">
-
-            <TextView
-                android:id="@+id/articles_count"
+            <RelativeLayout
+                android:id="@+id/summary_search_doctor_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="articles: "
-                android:gravity="center"/>
+                android:layout_height="57dp"
+                android:layout_below="@+id/summary_image"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/content_count"
+                <Button
+                    android:id="@+id/summary_search_doctor"
+                    style="@style/AppTheme.Button"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/search_doctor" />
+
+                <TextView
+                    android:id="@+id/summary_test_text"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical|right"
+                    android:text="Tests"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/summary_tests_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/summary_test_text"
+                    android:layout_toRightOf="@+id/summary_search_doctor"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/summary_test_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="No tests" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/summary_articles_container"
                 android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/summary_search_doctor_container"
+                android:padding="5dp">
+
+                <Button
+                    android:id="@+id/summary_articles"
+                    style="@style/AppTheme.Button"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Read" />
+
+                <TextView
+                    android:id="@+id/summary_articles_text"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical|right"
+                    android:text="Content"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/summary_articles_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/summary_articles_text"
+                    android:layout_toRightOf="@+id/summary_articles"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/summary_articles_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="No articles" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/summary_album_container"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@+id/summary_articles_container"
+                android:padding="5dp">
+
+                <Button
+                    android:id="@+id/summary_photos"
+                    style="@style/AppTheme.Button"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="Go to Album" />
+
+                <TextView
+                    android:id="@+id/summary_photos_title"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical|right"
+                    android:text="Album"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/summary_photos_center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/summary_photos_title"
+                    android:layout_toRightOf="@+id/summary_photos">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <view
+                            android:id="@+id/summary_image1"
+                            class="com.sdex.webteb.view.SquareImageView"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp" />
+
+                        <view
+                            android:id="@+id/summary_image2"
+                            class="com.sdex.webteb.view.SquareImageView"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp" />
+
+                        <view
+                            android:id="@+id/summary_image3"
+                            class="com.sdex.webteb.view.SquareImageView"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/summary_close"
+                style="@style/AppTheme.Button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="content: "
-                android:gravity="center"/>
+                android:layout_below="@+id/summary_album_container"
+                android:layout_centerHorizontal="true"
+                android:text="Close" />
 
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/photo_container"
-        android:layout_below="@+id/articles_container"
-        android:layout_width="match_parent"
-        android:padding="5dp"
-        android:layout_height="70dp">
-
-        <Button
-            style="@style/AppTheme.Button"
-            android:id="@+id/photos"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/album_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/photos_title"
-            android:gravity="center_vertical"
-            android:layout_alignParentRight="true"
-            android:text="Photos"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:id="@+id/photos_center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_toLeftOf="@+id/photos_title"
-            android:layout_toRightOf="@+id/photos">
-
-            <view
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                class="com.sdex.webteb.view.SquareImageView"
-                android:id="@+id/image1" />
-            <view
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                class="com.sdex.webteb.view.SquareImageView"
-                android:id="@+id/image2" />
-            <view
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                class="com.sdex.webteb.view.SquareImageView"
-                android:id="@+id/image3" />
-
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <Button
-        style="@style/AppTheme.Button"
-        android:id="@+id/ok_button"
-        android:layout_below="@+id/photo_container"
-        android:layout_centerHorizontal="true"
-        android:text="ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

@@ -76,6 +76,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 .list();
     }
 
+    public List<DbPhoto> getPhotos(int limit, String owner, String week) {
+        return cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
+                .withSelection("timestamp > ? AND owner = ? AND date = ?", "0", owner, week)
+                .orderBy("timestamp DESC")
+                .limit(limit)
+                .list();
+    }
+
     public DbPhoto getTmpPhoto() {
         return cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
                 .withSelection("timestamp = ?", "0")

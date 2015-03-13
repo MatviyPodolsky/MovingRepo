@@ -239,7 +239,7 @@
                         </RelativeLayout>
 
                         <RelativeLayout
-                            android:id="@+id/summary_photo_container"
+                            android:id="@+id/summary_album_container"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
                             android:layout_below="@+id/summary_articles_container"
@@ -272,26 +272,33 @@
                                 android:layout_toLeftOf="@+id/summary_photos_title"
                                 android:layout_toRightOf="@+id/summary_photos">
 
-                                <LinearLayout
+                                <TextView
+                                    android:id="@+id/no_photos"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:layout_centerInParent="true"
+                                    android:text="No photos"/>
+
+                                <LinearLayout
+                                    android:id="@+id/summary_photos_container"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
                                     android:orientation="horizontal">
 
-                                    <view
+                                    <ImageView
                                         android:id="@+id/summary_image1"
-                                        class="com.sdex.webteb.view.SquareImageView"
                                         android:layout_width="50dp"
                                         android:layout_height="50dp" />
 
-                                    <view
+                                    <ImageView
                                         android:id="@+id/summary_image2"
-                                        class="com.sdex.webteb.view.SquareImageView"
                                         android:layout_width="50dp"
                                         android:layout_height="50dp" />
 
-                                    <view
+                                    <ImageView
                                         android:id="@+id/summary_image3"
-                                        class="com.sdex.webteb.view.SquareImageView"
                                         android:layout_width="50dp"
                                         android:layout_height="50dp" />
 
@@ -307,7 +314,7 @@
                             style="@style/AppTheme.Button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/summary_photo_container"
+                            android:layout_below="@+id/summary_album_container"
                             android:layout_centerHorizontal="true"
                             android:text="Close" />
 
