@@ -23,6 +23,8 @@ import com.facebook.model.GraphObject;
 import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TutorialPageAdapter;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -207,7 +209,21 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
                     //TODO
                     final PreferencesManager preferencesManager = PreferencesManager.getInstance();
                     preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
-                    launchMainActivity();
+                    preferencesManager.setEmail(s.getUserName());
+                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(WelcomeActivity.this);
+                    DbUser user = databaseHelper.getUser(s.getUserName());
+                    if (user == null) {
+                        DbUser newUser = new DbUser();
+                        newUser.setEmail(s.getUserName());
+                        databaseHelper.addUser(newUser);
+                        launchMainActivity(false);
+                    } else {
+                        if (user.isCompletedProfile()){
+                            launchMainActivity(true);
+                        } else {
+                            launchMainActivity(false);
+                        }
+                    }
                 }
             });
 //            session.getAccessToken();
@@ -251,15 +267,14 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
         return null;
     }
 
-    private void launchMainActivity() {
+    private void launchMainActivity(boolean completedProfile) {
         Intent intent;
-        if(PreferencesManager.getInstance().isCompleteSetup()) {
-            intent = new Intent(WelcomeActivity.this, MainActivity.class);
+        if(completedProfile) {
+            MainActivity.launch(WelcomeActivity.this);
         } else {
             intent = new Intent(WelcomeActivity.this, SetupProfileActivity.class);
+            startActivity(intent);
         }
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
         finish();
     }
 

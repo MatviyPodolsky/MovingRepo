@@ -199,7 +199,21 @@ public class LoginActivity extends BaseActivity {
                     //TODO
                     final PreferencesManager preferencesManager = PreferencesManager.getInstance();
                     preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
-                    launchMainActivity(false);
+                    preferencesManager.setEmail(s.getUserName());
+                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
+                    DbUser user = databaseHelper.getUser(s.getUserName());
+                    if (user == null) {
+                        DbUser newUser = new DbUser();
+                        newUser.setEmail(s.getUserName());
+                        databaseHelper.addUser(newUser);
+                        launchMainActivity(false);
+                    } else {
+                        if (user.isCompletedProfile()){
+                            launchMainActivity(true);
+                        } else {
+                            launchMainActivity(false);
+                        }
+                    }
                 }
             });
         } else if (state.isClosed()) {
