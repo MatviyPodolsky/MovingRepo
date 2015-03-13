@@ -4,7 +4,7 @@ def APK_NAME = "WebTeb"
 def versionMajor = 0
 def versionMinor = 0
 def versionPatch = 8
-def versionBuild = 0
+def versionBuild = 1
 
 def VERSION_CODE = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
 def VERSION_NAME = "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"

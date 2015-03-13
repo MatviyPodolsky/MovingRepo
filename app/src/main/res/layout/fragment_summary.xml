@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <RelativeLayout
+        android:id="@+id/search_doctor_container"
+        android:layout_below="@+id/image"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="70dp">
+
+        <Button
+            style="@style/AppTheme.Button"
+            android:id="@+id/search_doctor"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/search_doctor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            android:id="@+id/search_title"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:text="text"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/search_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/search_title"
+            android:layout_toRightOf="@+id/search_doctor">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="text"
+                android:gravity="center"/>
+
+            </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/articles_container"
+        android:layout_below="@+id/search_doctor_container"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="70dp">
+
+        <Button
+            style="@style/AppTheme.Button"
+            android:id="@+id/articles"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/more_articles_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/articles_title"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:text="Content"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/articles_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/articles_title"
+            android:layout_toRightOf="@+id/articles">
+
+            <TextView
+                android:id="@+id/articles_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="articles: "
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/content_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="content: "
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/photo_container"
+        android:layout_below="@+id/articles_container"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="70dp">
+
+        <Button
+            style="@style/AppTheme.Button"
+            android:id="@+id/photos"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/album_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/photos_title"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:text="Photos"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/photos_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_toLeftOf="@+id/photos_title"
+            android:layout_toRightOf="@+id/photos">
+
+            <view
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                class="com.sdex.webteb.view.SquareImageView"
+                android:id="@+id/image1" />
+            <view
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                class="com.sdex.webteb.view.SquareImageView"
+                android:id="@+id/image2" />
+            <view
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                class="com.sdex.webteb.view.SquareImageView"
+                android:id="@+id/image3" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <Button
+        style="@style/AppTheme.Button"
+        android:id="@+id/ok_button"
+        android:layout_below="@+id/photo_container"
+        android:layout_centerHorizontal="true"
+        android:text="ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

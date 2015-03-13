@@ -30,5 +30,8 @@ public class WeekResponse extends ApiResponse {
     @SerializedName("Videos")
     @Expose
     private List<ContentLink> videos;
+    @SerializedName("ImageUrl")
+    @Expose
+    private String imageUrl;
 
 }

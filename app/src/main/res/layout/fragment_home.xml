@@ -10,10 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
+        sothree:umanoDragView="@+id/drag_view"
         sothree:umanoPanelHeight="@dimen/time_navigation_controller_size"
-        sothree:umanoShadowHeight="2dp"
         sothree:umanoParalaxOffset="0dp"
-        sothree:umanoDragView="@+id/drag_view">
+        sothree:umanoShadowHeight="2dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,67 +23,67 @@
                 android:id="@+id/notifications_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="#03A9F5"
+                android:layout_alignParentTop="true"
                 android:animateLayoutChanges="true"
-                android:layout_alignParentTop="true">
+                android:background="#03A9F5">
 
                 <ImageView
+                    android:id="@+id/cancel_in_app_notification"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:id="@+id/cancel_in_app_notification"
-                    android:src="@drawable/ic_notfication_cancel"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:scaleType="center" />
+                    android:layout_centerVertical="true"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_notfication_cancel" />
 
                 <ImageView
+                    android:id="@+id/imageView7"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:id="@+id/imageView7"
-                    android:src="@drawable/ic_large_notification"
-                    android:background="#2469A7"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:padding="10dp" />
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="#2469A7"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_large_notification" />
 
                 <TextView
+                    android:id="@+id/amount_of_notifications"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="1/2"
-                    android:id="@+id/amount_of_notifications"
                     android:layout_alignParentTop="true"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="11dp"
+                    android:layout_marginTop="11dp"
                     android:layout_toLeftOf="@+id/imageView7"
                     android:layout_toStartOf="@+id/imageView7"
-                    android:layout_marginTop="11dp"
-                    android:layout_marginRight="11dp"
-                    android:layout_marginLeft="11dp"
-                    android:textColor="#7acdf3" />
+                    android:textColor="#7acdf3"
+                    tools:text="1/2" />
 
                 <TextView
+                    android:id="@+id/first_notification_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="New Text\nttcddb"
+                    android:layout_alignEnd="@+id/amount_of_notifications"
+                    android:layout_alignRight="@+id/amount_of_notifications"
+                    android:layout_below="@+id/amount_of_notifications"
+                    android:layout_toEndOf="@+id/cancel_in_app_notification"
+                    android:layout_toRightOf="@+id/cancel_in_app_notification"
+                    android:ellipsize="end"
                     android:gravity="right"
                     android:maxLines="2"
-                    android:ellipsize="end"
-                    android:id="@+id/first_notification_title"
-                    android:layout_below="@+id/amount_of_notifications"
-                    android:layout_alignRight="@+id/amount_of_notifications"
-                    android:layout_alignEnd="@+id/amount_of_notifications"
-                    android:layout_toRightOf="@+id/cancel_in_app_notification"
-                    android:layout_toEndOf="@+id/cancel_in_app_notification"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    tools:text="New Text\nttcddb" />
 
             </RelativeLayout>
 
             <include
                 android:id="@+id/profile_card"
+                layout="@layout/profile_card"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/profile_height"
-                android:layout_below="@+id/notifications_container"
-                layout="@layout/profile_card" />
+                android:layout_below="@+id/notifications_container" />
 
             <Button
                 android:id="@+id/notification"
@@ -102,43 +102,217 @@
                 android:visibility="invisible" />
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/content_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/content_list"
+                android:layout_alignParentBottom="true"
                 android:layout_below="@+id/profile_card"
-                android:clipToPadding="false"
-                android:paddingBottom="@dimen/time_navigation_controller_size"
                 android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true" />
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/time_navigation_controller_size" />
 
         </RelativeLayout>
 
+
+        <!--slide-->
         <FrameLayout
             android:id="@+id/drag_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/default_background"
             android:layout_marginTop="120dp"
-            android:alpha="0.5">
+            android:alpha="0.5"
+            android:background="@color/default_background">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <com.sdex.webteb.view.CenteredRecyclerView
-                    android:visibility="invisible"
+                    android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/time_navigation_controller_size"
-                    android:id="@+id/recyclerview"
-                    android:layout_gravity="top" />
+                    android:layout_gravity="top"
+                    android:visibility="invisible" />
 
-                <android.support.v7.widget.RecyclerView
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/summary_list"
-                    android:layout_below="@+id/recyclerview"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true" />
+                    android:layout_below="@+id/recyclerview">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/summary_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="162dp" />
+
+                        <RelativeLayout
+                            android:id="@+id/summary_search_doctor_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="57dp"
+                            android:layout_below="@+id/summary_image"
+                            android:padding="5dp">
+
+                            <Button
+                                android:id="@+id/summary_search_doctor"
+                                style="@style/AppTheme.Button"
+                                android:layout_width="130dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/search_doctor" />
+
+                            <TextView
+                                android:id="@+id/summary_test_text"
+                                android:layout_width="90dp"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:gravity="center_vertical|right"
+                                android:text="Tests"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:id="@+id/summary_tests_center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/summary_test_text"
+                                android:layout_toRightOf="@+id/summary_search_doctor"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/summary_test_title"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="No tests" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/summary_articles_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_below="@+id/summary_search_doctor_container"
+                            android:padding="5dp">
+
+                            <Button
+                                android:id="@+id/summary_articles"
+                                style="@style/AppTheme.Button"
+                                android:layout_width="130dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:text="Read" />
+
+                            <TextView
+                                android:id="@+id/summary_articles_text"
+                                android:layout_width="90dp"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:gravity="center_vertical|right"
+                                android:text="Content"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:id="@+id/summary_articles_center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/summary_articles_text"
+                                android:layout_toRightOf="@+id/summary_articles"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/summary_articles_count"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="No articles" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/summary_photo_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_below="@+id/summary_articles_container"
+                            android:padding="5dp">
+
+                            <Button
+                                android:id="@+id/summary_photos"
+                                style="@style/AppTheme.Button"
+                                android:layout_width="130dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:text="Go to Album" />
+
+                            <TextView
+                                android:id="@+id/summary_photos_title"
+                                android:layout_width="90dp"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:gravity="center_vertical|right"
+                                android:text="Album"
+                                android:textStyle="bold" />
+
+                            <RelativeLayout
+                                android:id="@+id/summary_photos_center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@+id/summary_photos_title"
+                                android:layout_toRightOf="@+id/summary_photos">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <view
+                                        android:id="@+id/summary_image1"
+                                        class="com.sdex.webteb.view.SquareImageView"
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp" />
+
+                                    <view
+                                        android:id="@+id/summary_image2"
+                                        class="com.sdex.webteb.view.SquareImageView"
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp" />
+
+                                    <view
+                                        android:id="@+id/summary_image3"
+                                        class="com.sdex.webteb.view.SquareImageView"
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp" />
+
+                                </LinearLayout>
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <Button
+                            android:id="@+id/summary_close"
+                            style="@style/AppTheme.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/summary_photo_container"
+                            android:layout_centerHorizontal="true"
+                            android:text="Close" />
+
+                    </RelativeLayout>
+                </ScrollView>
 
             </RelativeLayout>
 

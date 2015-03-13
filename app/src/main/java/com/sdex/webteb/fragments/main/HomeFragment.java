@@ -28,7 +28,6 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.SimpleAdapter;
-import com.sdex.webteb.adapters.SummaryAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
@@ -39,6 +38,7 @@ import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.gcm.GcmHelper;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
+import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedProfilePhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
@@ -72,6 +72,7 @@ import butterknife.InjectView;
 import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.Optional;
+import de.greenrobot.event.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -83,10 +84,29 @@ public class HomeFragment extends PhotoFragment {
 
     public static final int REQUEST_GET_NOTIFICATION = 10;
 
+    public static final int MORE_ARTICLES_FRAGMENT = 4;
+    public static final int SEARCH_DOCTOR_FRAGMENT = 3;
+    public static final int ALBUM_FRAGMENT = 2;
+
     @InjectView(R.id.fragment_container)
     FrameLayout mRootView;
-    @InjectView(R.id.summary_list)
-    RecyclerView mSummaryList;
+//    @InjectView(R.id.summary_list)
+//    RecyclerView mSummaryList;
+
+    //summary
+    @InjectView(R.id.summary_image)
+    ImageView summaryImage;
+    @InjectView(R.id.summary_articles_count)
+    TextView articlesCount;
+    @InjectView(R.id.summary_test_title)
+    TextView testTitle;
+    @InjectView(R.id.summary_image1)
+    ImageView summaryImage1;
+    @InjectView(R.id.summary_image2)
+    ImageView summaryImage2;
+    @InjectView(R.id.summary_image3)
+    ImageView summaryImage3;
+
     @InjectView(R.id.photo_container)
     View photoContainer;
     @InjectView(R.id.content_list)
@@ -116,6 +136,8 @@ public class HomeFragment extends PhotoFragment {
     private RestCallback<EntityResponse> getEntityCallback;
 
     private DatabaseHelper databaseHelper;
+
+    protected EventBus BUS = EventBus.getDefault();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -179,11 +201,11 @@ public class HomeFragment extends PhotoFragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         summaryLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mSummaryList.setLayoutManager(summaryLayoutManager);
+//        mSummaryList.setLayoutManager(summaryLayoutManager);
         mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
                 getActivity(), R.drawable.divider_home_list));
-        mSummaryList.addItemDecoration(new SimpleDividerItemDecoration(
-                getActivity(), R.drawable.divider_home_list));
+//        mSummaryList.addItemDecoration(new SimpleDividerItemDecoration(
+//                getActivity(), R.drawable.divider_home_list));
 
         photoContainer.setVisibility(View.VISIBLE);
 
@@ -232,7 +254,7 @@ public class HomeFragment extends PhotoFragment {
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
                 mUserName.setText(username);
-                if(card.isGaveBirth()){
+                if (card.isGaveBirth()) {
                     mText.setVisibility(View.GONE);
                 } else {
                     mText.setText(String.valueOf(currentWeek));
@@ -310,25 +332,43 @@ public class HomeFragment extends PhotoFragment {
                     List<ContentLink> additionalContent = weekResponse.getAdditionalContent();
                     List<ContentLink> videos = weekResponse.getVideos();
 
-                    SummaryAdapter adapter = new SummaryAdapter(getActivity(),
-                            getChildFragmentManager(),
-                            tests, previews, additionalContent, videos);
-                    adapter.setCallback(new SummaryAdapter.OnItemClickCallback() {
-                        @Override
-                        public void onItemClick(ContentLink content) {
-                            Fragment fragment = new ArticleFragment();
-                            Bundle args = new Bundle();
-                            args.putString(ArticleFragment.ARTICLE_TITLE, content.getTitle());
-                            args.putString(ArticleFragment.ARTICLE_URL, content.getUrl());
-                            fragment.setArguments(args);
-                            FragmentManager fragmentManager = getChildFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .add(R.id.fragment_container, fragment, "content_fragment")
-                                    .addToBackStack(null)
-                                    .commit();
-                        }
-                    });
-                    mSummaryList.setAdapter(adapter);
+                    Picasso.with(getActivity())
+                            .load(weekResponse.getImageUrl())
+                            .placeholder(R.drawable.ic_transparent_placeholder)
+                            .fit()
+                            .centerCrop()
+                            .into(summaryImage);
+                    articlesCount.setText("Articles count " + previews.size());
+                    if (tests != null && tests.size() > 0) {
+                        testTitle.setText(tests.get(0).getTitle());
+                    } else {
+                        testTitle.setText("No tests");
+                    }
+                    String email = PreferencesManager.getInstance().getEmail();
+                    List<DbPhoto> data = databaseHelper.getPhotos(email);
+//                    summaryImage1;
+//                    summaryImage2;
+//                    summaryImage3;
+
+//                    SummaryAdapter adapter = new SummaryAdapter(getActivity(),
+//                            getChildFragmentManager(),
+//                            tests, previews, additionalContent, videos);
+//                    adapter.setCallback(new SummaryAdapter.OnItemClickCallback() {
+//                        @Override
+//                        public void onItemClick(ContentLink content) {
+//                            Fragment fragment = new ArticleFragment();
+//                            Bundle args = new Bundle();
+//                            args.putString(ArticleFragment.ARTICLE_TITLE, content.getTitle());
+//                            args.putString(ArticleFragment.ARTICLE_URL, content.getUrl());
+//                            fragment.setArguments(args);
+//                            FragmentManager fragmentManager = getChildFragmentManager();
+//                            fragmentManager.beginTransaction()
+//                                    .add(R.id.fragment_container, fragment, "content_fragment")
+//                                    .addToBackStack(null)
+//                                    .commit();
+//                        }
+//                    });
+//                    mSummaryList.setAdapter(adapter);
                 } else {
                     //TODO show no data
                 }
@@ -361,6 +401,36 @@ public class HomeFragment extends PhotoFragment {
 
             }
         });
+
+        RestClient.getApiService().getWeek(35, getWeekCallback);
+    }
+
+    @OnClick(R.id.summary_search_doctor)
+    public void searchDoctor() {
+        SelectMenuItemEvent event = new SelectMenuItemEvent();
+        event.setPosition(SEARCH_DOCTOR_FRAGMENT);
+        BUS.post(event);
+    }
+
+    @OnClick(R.id.summary_articles)
+    public void moreArticles() {
+        SelectMenuItemEvent event = new SelectMenuItemEvent();
+        event.setPosition(MORE_ARTICLES_FRAGMENT);
+        BUS.post(event);
+    }
+
+    @OnClick(R.id.summary_photos)
+    public void showAlbum() {
+        SelectMenuItemEvent event = new SelectMenuItemEvent();
+        event.setPosition(ALBUM_FRAGMENT);
+        BUS.post(event);
+    }
+
+    @OnClick(R.id.summary_close)
+    public void closeSummary(){
+        if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        }
     }
 
     private void showNotification(final NotificationsResponse notificationsResponse) {
