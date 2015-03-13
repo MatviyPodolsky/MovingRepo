@@ -341,11 +341,11 @@ public class HomeFragment extends PhotoFragment {
                             .fit()
                             .centerCrop()
                             .into(summaryImage);
-                    articlesCount.setText("Articles count " + additionalContent.size());
+                    articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + additionalContent.size());
                     if (tests != null && tests.size() > 0) {
                         testTitle.setText(tests.get(0).getTitle());
                     } else {
-                        testTitle.setText("No tests");
+                        testTitle.setText(getActivity().getString(R.string.no_tests));
                     }
                     String email = PreferencesManager.getInstance().getEmail();
                     List<DbPhoto> data = databaseHelper.getPhotos(3, email, String.valueOf(weekResponse.getWeekNumber()));
@@ -365,25 +365,6 @@ public class HomeFragment extends PhotoFragment {
                                     .into(summaryPhotos.get(i));
                         }
                     }
-//                    SummaryAdapter adapter = new SummaryAdapter(getActivity(),
-//                            getChildFragmentManager(),
-//                            tests, previews, additionalContent, videos);
-//                    adapter.setCallback(new SummaryAdapter.OnItemClickCallback() {
-//                        @Override
-//                        public void onItemClick(ContentLink content) {
-//                            Fragment fragment = new ArticleFragment();
-//                            Bundle args = new Bundle();
-//                            args.putString(ArticleFragment.ARTICLE_TITLE, content.getTitle());
-//                            args.putString(ArticleFragment.ARTICLE_URL, content.getUrl());
-//                            fragment.setArguments(args);
-//                            FragmentManager fragmentManager = getChildFragmentManager();
-//                            fragmentManager.beginTransaction()
-//                                    .add(R.id.fragment_container, fragment, "content_fragment")
-//                                    .addToBackStack(null)
-//                                    .commit();
-//                        }
-//                    });
-//                    mSummaryList.setAdapter(adapter);
                 } else {
                     //TODO show no data
                 }
@@ -417,7 +398,9 @@ public class HomeFragment extends PhotoFragment {
             }
         });
 
-        RestClient.getApiService().getWeek(35, getWeekCallback);
+        int week = Integer.valueOf(PreferencesManager.getInstance().getCurrentWeek() != null ? PreferencesManager.getInstance().getCurrentWeek() : "0");
+
+        RestClient.getApiService().getWeek(week, getWeekCallback);
     }
 
     @OnClick(R.id.summary_search_doctor)

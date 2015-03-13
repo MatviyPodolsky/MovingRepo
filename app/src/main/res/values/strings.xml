@@ -67,6 +67,18 @@
     <string name="in_app_notification_btn_back">back</string>
     <string name="in_app_notification_btn_next">next</string>
 
+    <!--summary-->
+    <string name="tests">Tests</string>
+    <string name="read">Read</string>
+    <string name="articles_count">Articles count</string>
+    <string name="articles">Articles</string>
+    <string name="album">Album</string>
+    <string name="go_to_album">Go to album</string>
+    <string name="no_photos">No photos</string>
+    <string name="no_tests">No tests</string>
+    <string name="no_articles">No articles</string>
+    <string name="close">Close</string>
+
     <!--menu-->
     <string name="title_home">Home</string>
     <string-array name="menu_item_titles">

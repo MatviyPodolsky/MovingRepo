@@ -8,29 +8,36 @@
         android:id="@+id/close"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/btn_close_notification"
-        android:textColor="@android:color/white"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"/>
+        android:background="@drawable/btn_close_notification"
+        android:textColor="@android:color/white" />
 
     <RelativeLayout
         android:id="@+id/content"
-        android:layout_below="@+id/close"
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:layout_below="@+id/close"
         android:padding="12dp">
 
         <WebView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/content_view" />
-
-        <TextView
-            android:id="@+id/content_tip"
-            android:textSize="@dimen/default_text_size"
-            android:visibility="gone"
+            android:id="@+id/content_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/content_tip"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/default_text_size"
+                android:visibility="gone" />
+
+        </ScrollView>
+
     </RelativeLayout>
 
 
@@ -38,44 +45,44 @@
         android:id="@+id/nav_buttons_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/content">
+        android:layout_below="@+id/content"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/in_app_notification_btn_back"
-            android:background="@drawable/btn_grey_notification"/>
+            android:background="@drawable/btn_grey_notification"
+            android:text="@string/in_app_notification_btn_back" />
 
         <Button
             android:id="@+id/next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/in_app_notification_btn_next"
-            android:background="@drawable/btn_grey_notification"/>
+            android:background="@drawable/btn_grey_notification"
+            android:text="@string/in_app_notification_btn_next" />
 
-        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/close"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="12dp"
+        android:layout_toEndOf="@+id/close"
+        android:layout_toRightOf="@+id/close"
+        android:ellipsize="end"
         android:gravity="right|center_vertical"
+        android:singleLine="true"
+        android:text="title"
         android:textColor="@color/black"
         android:textIsSelectable="false"
         android:textSize="18dp"
-        android:textStyle="bold"
-        android:text="title"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/close"
-        android:layout_toEndOf="@+id/close"
-        android:layout_alignBottom="@+id/close"
-        android:layout_marginRight="12dp" />
+        android:textStyle="bold" />
 
 </RelativeLayout>
 

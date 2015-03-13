@@ -29,7 +29,7 @@ public class NotificationDialog extends DialogFragment {
     @InjectView(R.id.content_view)
     WebView mContentView;
     @InjectView(R.id.content_tip)
-    TextView mTipText;
+    TextView mText;
     @InjectView(R.id.title)
     TextView mTitle;
     private int currentNotification;
@@ -94,14 +94,15 @@ public class NotificationDialog extends DialogFragment {
             ExaminationPreview examinationPreview = data.getTests().get(position);
             name = examinationPreview.getName();
             mTitle.setText(name);
-            mContentView.loadData(examinationPreview.getDescription(), "text/html; charset=UTF-8", null);
-            mTipText.setVisibility(View.GONE);
-            mContentView.setVisibility(View.VISIBLE);
+            mText.setText(examinationPreview.getDescription());
+//            mContentView.loadData(examinationPreview.getDescription(), "text/html; charset=UTF-8", null);
+            mText.setVisibility(View.VISIBLE);
+            mContentView.setVisibility(View.GONE);
         } else {
             TipContent tipContent = data.getTips().get(position - data.getTests().size());
             mTitle.setText("Tip");
-            mTipText.setText(tipContent.getText());
-            mTipText.setVisibility(View.VISIBLE);
+            mText.setText(tipContent.getText());
+            mText.setVisibility(View.VISIBLE);
             mContentView.setVisibility(View.GONE);
         }
     }
