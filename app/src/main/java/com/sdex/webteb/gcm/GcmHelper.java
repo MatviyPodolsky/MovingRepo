@@ -32,7 +32,7 @@ public class GcmHelper {
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-    private static final String [] SENDER_IDS = {"1049571768532"};
+    private static final String [] SENDER_IDS = {"1049571768532", "501856262592"};
     private static final String TAG = "GCM";
 
     private GoogleCloudMessaging mGcm;

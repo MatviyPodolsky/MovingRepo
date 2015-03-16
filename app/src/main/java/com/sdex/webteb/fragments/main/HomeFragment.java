@@ -203,18 +203,6 @@ public class HomeFragment extends PhotoFragment {
 
         photoContainer.setVisibility(View.VISIBLE);
 
-        // debug
-//        BabyHomeResponse babyHomeResponse = MockData.getMockHome(getActivity());
-//        List<BabyHomeResponse.Preview> previews = babyHomeResponse.getPreviews();
-//        List<BabyHomeResponse.Video> videos = babyHomeResponse.getVideos();
-//        List<BabyHomeResponse.AdditionalContent> additionalContent = babyHomeResponse.getAdditionalContent();
-//        HomeListAdapter adapter = new HomeListAdapter(getActivity(),
-//                getChildFragmentManager(),
-//                previews, videos, additionalContent);
-//        mRecyclerView.setAdapter(adapter);
-//        mUserName.setText(babyHomeResponse.getCard().getName());
-//        mText.setText(String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
-
         RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
             @Override
             public void failure(RestError restError) {
@@ -297,6 +285,11 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(EntityResponse entityResponse, Response response) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
                 //TODO
                 Fragment fragment = new PreviewFragment();
                 Bundle args = new Bundle();
@@ -319,6 +312,11 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(WeekResponse weekResponse, Response response) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
                 //TODO
                 if (weekResponse != null) {
                     List<ContentPreview> tests = weekResponse.getTests();
@@ -366,6 +364,11 @@ public class HomeFragment extends PhotoFragment {
         RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
             @Override
             public void success(NotificationsResponse notificationsResponse, Response response) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
                 List<ExaminationPreview> tests = notificationsResponse.getTests();
                 List<TipContent> tips = notificationsResponse.getTips();
                 int amount = tests.size() + tips.size();

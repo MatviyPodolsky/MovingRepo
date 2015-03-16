@@ -27,6 +27,7 @@ import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.WebDialog;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MenuAdapter;
+import com.sdex.webteb.dialogs.PushNotificationDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.main.AboutFragment;
 import com.sdex.webteb.fragments.main.AlbumFragment;
@@ -431,11 +432,14 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     public void onEventMainThread(NotificationEvent event) {
         Bundle extras = event.getExtras();
-        handlePushNotification(extras);
+        //handlePushNotification(extras);
+        PushNotificationDialog pushNotificationDialog = PushNotificationDialog.newInstance();
+        pushNotificationDialog.setArguments(extras);
+        pushNotificationDialog.show(getSupportFragmentManager(), "dialog");
     }
 
     private void handlePushNotification(Bundle extras) {
-        String type = extras.getString("type").trim();
+        String type = extras.getString(NOTIFICATION_TYPE).trim();
         switch (type) {
             case "1": // 1 – test reminder
                 break;
@@ -458,5 +462,10 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
     }
+
+    public static final String NOTIFICATION_ID = "NotificaitonId";
+    public static final String NOTIFICATION_TYPE = "type";
+    public static final String NOTIFICATION_TITLE = "title";
+    public static final String NOTIFICATION_CONTENT = "content";
 
 }
