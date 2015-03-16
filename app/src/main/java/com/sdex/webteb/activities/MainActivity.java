@@ -36,6 +36,7 @@ import com.sdex.webteb.fragments.main.MoreArticlesFragment;
 import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
+import com.sdex.webteb.gcm.GcmHelper;
 import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedProfilePhotoEvent;
@@ -78,6 +79,9 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        GcmHelper gcmHelper = new GcmHelper(this);
+        gcmHelper.register();
 
         uiHelper = new UiLifecycleHelper(this, null);
         uiHelper.onCreate(savedInstanceState);
