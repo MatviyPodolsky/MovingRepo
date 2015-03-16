@@ -17,7 +17,6 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
-import com.sdex.webteb.R;
 import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.internal.events.NotificationEvent;
 
@@ -79,15 +78,16 @@ public class GcmIntentService extends IntentService {
         Log.d("GCM", extras.toString());
 
         extras.getString("type");
-        extras.getString("title");
+        String title = extras.getString("title");
         extras.getString("content");
 
         if (eventBus.hasSubscriberForEvent(NotificationEvent.class)) {
-            NotificationEvent event = new NotificationEvent();
+            NotificationEvent event = new NotificationEvent(extras);
             eventBus.post(event);
         } else {
             Intent i = new Intent(this, MainActivity.class);
-            showNotification(i, "", "");
+            i.putExtras(extras);
+            showNotification(i, title, "");
         }
     }
 
@@ -102,7 +102,7 @@ public class GcmIntentService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        //.setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle(title)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                         .setContentText(message)

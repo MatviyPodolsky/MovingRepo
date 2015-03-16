@@ -37,6 +37,7 @@ import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
 import com.sdex.webteb.gcm.GcmHelper;
+import com.sdex.webteb.internal.events.NotificationEvent;
 import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedProfilePhotoEvent;
@@ -417,6 +418,36 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             return true;
         } catch (PackageManager.NameNotFoundException e) {
             return false;
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            handlePushNotification(extras);
+        }
+    }
+
+    public void onEventMainThread(NotificationEvent event) {
+        Bundle extras = event.getExtras();
+        handlePushNotification(extras);
+    }
+
+    private void handlePushNotification(Bundle extras) {
+        String type = extras.getString("type").trim();
+        switch (type) {
+            case "1": // 1 – test reminder
+                break;
+            case "2": // 2 – weekly tips
+                break;
+            case "3": // 3 – inactive user
+                break;
+            case "4": // 4 – week 38 push
+                break;
+            case "5": // 5 – week 40 push
+                break;
         }
     }
 
