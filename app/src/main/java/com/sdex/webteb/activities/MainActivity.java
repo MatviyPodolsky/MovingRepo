@@ -91,7 +91,6 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             mCurrentFragmentIndex = savedInstanceState.getInt(CURRENT_FRAGMENT_INDEX);
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         initSideMenu();
     }
 
