@@ -17,6 +17,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
+import com.sdex.webteb.R;
 import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.internal.events.NotificationEvent;
 
@@ -102,7 +103,7 @@ public class GcmIntentService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        //.setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle(title)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                         .setContentText(message)
