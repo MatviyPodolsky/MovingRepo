@@ -16,6 +16,7 @@ import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
+import com.sdex.webteb.fragments.main.SettingsFragment;
 import com.sdex.webteb.model.Child;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -29,9 +30,6 @@ import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -59,6 +57,7 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
     ImageView mProfilePhoto;
     private String username;
     private DatabaseHelper databaseHelper;
+    private boolean isInEditMode;
 
     private BabyProfileRequest request = new BabyProfileRequest();
     private RestCallback<BabyProfileResponse> getBabyProfileCallback;
@@ -66,12 +65,14 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isInEditMode = getIntent().getBooleanExtra(SettingsFragment.EDIT_PROFILE, false);
+
         databaseHelper = DatabaseHelper.getInstance(this);
-        Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        String dt = outFormat.format(date);
-        request.setDateType(1);
-        request.setDate(dt);
+//        Date date = Calendar.getInstance().getTime();
+//        SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+//        String dt = outFormat.format(date);
+//        request.setDateType(1);
+//        request.setDate(dt);
         profileCard.findViewById(R.id.photo_container).setVisibility(View.GONE);
 
         username = PreferencesManager.getInstance().getEmail();
@@ -98,7 +99,11 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
 
             @Override
             public void success(BabyProfileResponse babyProfileResponse, Response response) {
-                mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), babyProfileResponse);
+                if(isInEditMode) {
+                    mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), babyProfileResponse);
+                } else {
+                    mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), null);
+                }
                 mPager.setAdapter(mAdapter);
                 mIndicator.setViewPager(mPager);
                 mPager.setOnPageChangeListener(SetupProfileActivity.this);
@@ -208,8 +213,10 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
     }
 
     public void launchMainActivity() {
-        Intent intent = new Intent(SetupProfileActivity.this, MainActivity.class);
-        startActivity(intent);
+        if(!isInEditMode) {
+            Intent intent = new Intent(SetupProfileActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
         finish();
     }
 
@@ -227,6 +234,15 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
     }
 
     public void sendRequest(){
+        if(request.getDate() == null){
+            Toast.makeText(this, "Please, select date", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(request.getFamilyRelation() == -1){
+            Toast.makeText(this, "Please, select family relation", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         RestClient.getApiService().setBabyProfile(request, new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {

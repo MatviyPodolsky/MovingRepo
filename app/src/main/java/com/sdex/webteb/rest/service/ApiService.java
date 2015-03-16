@@ -156,6 +156,7 @@ public interface ApiService {
     public void getEntity(@Query("ID") int id, @Query("Type") String type,
                          @Query("FieldName") String fieldName, Callback<EntityResponse> callback);
 
+//    notifications
     @GET("/baby/notifications")
     public void getNotifications(@Query("ignoreSettings") boolean ignoreSettings,
                                  Callback<NotificationsResponse> callback);
@@ -165,5 +166,20 @@ public interface ApiService {
 
     @POST("/baby/settings/pushtoken")
     public void postPushToken(@Body PushTokenRequest body, Callback<String> callback);
+
+    @POST("/baby/pushtests/test")
+    public void pushTest(Callback<String> callback);
+
+    @POST("/baby/pushtests/tip")
+    public void pushTip(Callback<String> callback);
+
+    @POST("/baby/pushtests/enactiveuser")
+    public void pushEnactiveUser(Callback<String> callback);
+
+    @POST("/baby/pushtests/week38")
+    public void pushWeek38(Callback<String> callback);
+
+    @POST("/baby/pushtests/week40")
+    public void pushWeek40(Callback<String> callback);
 
 }

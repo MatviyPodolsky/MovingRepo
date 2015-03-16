@@ -31,6 +31,8 @@ import retrofit.client.Response;
  */
 public class SettingsFragment extends BaseMainFragment {
 
+    public static final String EDIT_PROFILE = "EDIT_PROFILE";
+
     @InjectView(R.id.notifications)
     SwitchButton notifications;
     @InjectView(R.id.reminders)
@@ -147,6 +149,7 @@ public class SettingsFragment extends BaseMainFragment {
     @OnClick(R.id.my_profile)
     public void editProfile() {
         Intent intent = new Intent(getActivity(), SetupProfileActivity.class);
+        intent.putExtra(EDIT_PROFILE, true);
         startActivity(intent);
     }
 

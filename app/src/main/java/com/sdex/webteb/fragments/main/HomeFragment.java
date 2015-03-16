@@ -300,7 +300,9 @@ public class HomeFragment extends PhotoFragment {
             @Override
             public void failure(RestError restError) {
                 //TODO show error loading
-                Toast.makeText(getActivity(), "Failure :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),
+                        restError != null ? "Error: " + restError.getStrMessage() : "Unknown error",
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override

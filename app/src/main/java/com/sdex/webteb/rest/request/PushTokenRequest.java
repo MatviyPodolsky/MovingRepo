@@ -16,6 +16,6 @@ public class PushTokenRequest extends ApiRequest {
     private String token;
     @SerializedName("OperationSystem")
     @Expose
-    private int operationSystem = 1;
+    private int operationSystem = 0;
 
 }
