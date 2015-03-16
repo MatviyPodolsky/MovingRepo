@@ -10,10 +10,9 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.model.ContentLink;
+import com.sdex.webteb.utils.DateUtil;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -45,8 +44,8 @@ public class ArticlesAdapter extends ArrayAdapter<ContentLink> {
 
         holder.title.setText(item.getTitle());
         holder.text.setText(item.getDescription());
-        //convert date to
-        holder.date.setText(convertDate(item.getPublishedDate()));
+        //convert date to needed format
+        holder.date.setText(DateUtil.formatDate(DateUtil.parseDate(item.getPublishedDate()), "mm/dd/yyyy"));
         String url = item.getImageUrl();
 
         if (url != null && !url.equals("")) {
@@ -60,22 +59,6 @@ public class ArticlesAdapter extends ArrayAdapter<ContentLink> {
 
 
         return convertView;
-    }
-
-    private String convertDate(String publishedDate){
-        if(publishedDate != null){
-            SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-            Date date = null;
-            try {
-                date = inFormat.parse(publishedDate);
-                SimpleDateFormat outFormat = new SimpleDateFormat("mm/dd/yyyy");
-                publishedDate = outFormat.format(date);
-            }catch(Exception ex){
-                ex.printStackTrace();
-            }
-
-        }
-        return publishedDate;
     }
 
     static class ViewHolder {

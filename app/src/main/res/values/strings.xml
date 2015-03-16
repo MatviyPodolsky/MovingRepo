@@ -224,6 +224,8 @@
 
     <!--more articles-->
     <string name="more_articles_title">More articles</string>
+    <string name="we_found">We found</string>
+    <string name="article">articles</string>
 
     <!--settings-->
     <string name="settings_title_1">Settings title 1</string>

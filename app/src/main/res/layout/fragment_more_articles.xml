@@ -9,19 +9,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/more_articles_title"
-            android:textColor="#03a9f5"
-            android:textSize="@dimen/default_text_size"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp" />
+        <RelativeLayout
+            android:id="@+id/title_container"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:background="@color/link">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more_articles_title"
+                android:textColor="@color/button_text"
+                android:textSize="@dimen/default_text_size"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp" />
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/list"
@@ -30,7 +37,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:visibility="gone"
-            android:layout_below="@+id/title" />
+            android:layout_below="@+id/title_container" />
 
         <ProgressBar
             android:id="@+id/progress"
