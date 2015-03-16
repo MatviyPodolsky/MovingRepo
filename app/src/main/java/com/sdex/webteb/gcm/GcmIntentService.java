@@ -13,6 +13,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
@@ -75,16 +76,19 @@ public class GcmIntentService extends IntentService {
 
     private void parseNotification(Bundle extras) {
 
+        Log.d("GCM", extras.toString());
+
         extras.getString("type");
-        extras.getString("title");
+        String title = extras.getString("title");
         extras.getString("content");
 
         if (eventBus.hasSubscriberForEvent(NotificationEvent.class)) {
-            NotificationEvent event = new NotificationEvent();
+            NotificationEvent event = new NotificationEvent(extras);
             eventBus.post(event);
         } else {
             Intent i = new Intent(this, MainActivity.class);
-            showNotification(i, "", "");
+            i.putExtras(extras);
+            showNotification(i, title, "");
         }
     }
 

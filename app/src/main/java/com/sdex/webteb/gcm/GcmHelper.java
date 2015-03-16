@@ -55,6 +55,8 @@ public class GcmHelper {
 
             if (mRegistrationId.isEmpty()) {
                 registerInBackground();
+            } else {
+                Log.d("GCM", "Already registered. id = " + mRegistrationId);
             }
         } else {
             Log.i(TAG, "No valid Google Play Services APK found.");
@@ -193,6 +195,7 @@ public class GcmHelper {
 
             @Override
             protected void onPostExecute(String msg) {
+                Log.d("GCM", msg);
 
 //                if (mActivity.isFinishing()) {
 //                    return;

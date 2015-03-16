@@ -13,7 +13,7 @@
         sothree:umanoDragView="@+id/drag_view"
         sothree:umanoPanelHeight="@dimen/time_navigation_controller_size"
         sothree:umanoParalaxOffset="0dp"
-        sothree:umanoShadowHeight="2dp">
+        sothree:umanoShadowHeight="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -121,7 +121,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="120dp"
             android:alpha="0.5"
-            android:background="@color/default_background">
+            android:background="@android:color/transparent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -137,6 +137,7 @@
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/default_background"
                     android:layout_below="@+id/recyclerview">
 
                     <RelativeLayout
@@ -198,7 +199,7 @@
                             android:layout_below="@+id/summary_search_doctor_container"
                             android:layout_width="match_parent"
                             android:background="@android:color/holo_blue_light"
-                            android:layout_height="1dp"></View>
+                            android:layout_height="1dp" />
 
                         <RelativeLayout
                             android:id="@+id/summary_articles_container"
@@ -250,7 +251,7 @@
                             android:layout_below="@+id/summary_articles_container"
                             android:layout_width="match_parent"
                             android:background="@android:color/holo_blue_light"
-                            android:layout_height="1dp"></View>
+                            android:layout_height="1dp" />
 
                         <RelativeLayout
                             android:id="@+id/summary_album_container"
@@ -292,7 +293,7 @@
                                     android:layout_height="wrap_content"
                                     android:visibility="gone"
                                     android:layout_centerInParent="true"
-                                    android:text="@string/no_photos"/>
+                                    android:text="@string/no_photos" />
 
                                 <LinearLayout
                                     android:id="@+id/summary_photos_container"
@@ -328,7 +329,7 @@
                             android:layout_below="@+id/summary_album_container"
                             android:layout_width="match_parent"
                             android:background="@android:color/holo_blue_light"
-                            android:layout_height="1dp"></View>
+                            android:layout_height="1dp" />
 
                         <Button
                             android:id="@+id/summary_close"

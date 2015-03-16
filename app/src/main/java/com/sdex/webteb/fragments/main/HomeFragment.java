@@ -37,7 +37,6 @@ import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.extras.SimpleDividerItemDecoration;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
-import com.sdex.webteb.gcm.GcmHelper;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
@@ -148,9 +147,6 @@ public class HomeFragment extends PhotoFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        GcmHelper gcmHelper = new GcmHelper(getActivity());
-        gcmHelper.register();
-
         databaseHelper = DatabaseHelper.getInstance(getActivity());
 
         final LinearLayoutManager timeNavControllerLayoutManager =
@@ -167,10 +163,6 @@ public class HomeFragment extends PhotoFragment {
                 mDragView.setAlpha(alpha);
             }
         });
-
-//        if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
-//            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-//        }
 
         mRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override

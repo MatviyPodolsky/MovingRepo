@@ -30,7 +30,7 @@ public abstract class BaseActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setTitle(null);
         }
     }
