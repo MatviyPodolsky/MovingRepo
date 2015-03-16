@@ -53,6 +53,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.EntityResponse;
+import com.sdex.webteb.rest.response.MonthResponse;
 import com.sdex.webteb.rest.response.NotificationsResponse;
 import com.sdex.webteb.rest.response.WeekResponse;
 import com.sdex.webteb.utils.CompatibilityUtil;
@@ -132,7 +133,9 @@ public class HomeFragment extends PhotoFragment {
     TextView mNotificationsTitle;
 
     private RestCallback<WeekResponse> getWeekCallback;
+    private RestCallback<MonthResponse> getMonthCallback;
     private RestCallback<EntityResponse> getEntityCallback;
+    private boolean gaveBirth;
 
     private List<ContentLink> contentLinks;
 
@@ -149,20 +152,6 @@ public class HomeFragment extends PhotoFragment {
         final LinearLayoutManager timeNavControllerLayoutManager =
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mTimeNavigationRecyclerView.setLayoutManager(timeNavControllerLayoutManager);
-        final SimpleAdapter timeNavAdapter = new SimpleAdapter();
-        timeNavAdapter.setItemCount(40);
-        timeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mTimeNavigationRecyclerView.smoothScrollToView(view);
-                timeNavAdapter.setSelectedItem(position);
-                RestClient.getApiService().getWeek(timeNavAdapter.getItemCount() - position, getWeekCallback);
-                if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                }
-            }
-        });
-        mTimeNavigationRecyclerView.setAdapter(timeNavAdapter);
 
         mSlidingUpPanelLayout.setOverlayed(true);
         mSlidingUpPanelLayout.setCoveredFadeColor(0x00000000);
@@ -191,22 +180,21 @@ public class HomeFragment extends PhotoFragment {
         });
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        final LinearLayoutManager summaryLayoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        summaryLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-//        mSummaryList.setLayoutManager(summaryLayoutManager);
         mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
                 getActivity(), R.drawable.divider_home_list));
-//        mSummaryList.addItemDecoration(new SimpleDividerItemDecoration(
-//                getActivity(), R.drawable.divider_home_list));
-
         photoContainer.setVisibility(View.VISIBLE);
 
         RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
             @Override
             public void failure(RestError restError) {
                 Log.d("", "");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                super.failure(error);
             }
 
             @Override
@@ -221,13 +209,34 @@ public class HomeFragment extends PhotoFragment {
                 int currentWeek = card.getCurrentWeek();
                 preferencesManager.setUsername(username);
                 preferencesManager.setCurrentWeek(String.valueOf(currentWeek));
+                gaveBirth = card.isGaveBirth();
 
                 setProfilePhoto();
                 showLastPhoto();
 
-                int currentWeekIndex = 40 - currentWeek;
+                final SimpleAdapter timeNavAdapter = new SimpleAdapter();
+                int navItemCount = gaveBirth ? 24 : 40;
+                timeNavAdapter.setItemCount(navItemCount);
+                timeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        mTimeNavigationRecyclerView.smoothScrollToView(view);
+                        timeNavAdapter.setSelectedItem(position);
+                        if(gaveBirth) {
+                            RestClient.getApiService().getMonth(timeNavAdapter.getItemCount() - position, getMonthCallback);
+                        } else {
+                            RestClient.getApiService().getWeek(timeNavAdapter.getItemCount() - position, getWeekCallback);
+                        }
+                        if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                        }
+                    }
+                });
+                mTimeNavigationRecyclerView.setAdapter(timeNavAdapter);
 
-                if (currentWeekIndex > 0 && currentWeekIndex < 40) {
+                int currentWeekIndex = navItemCount - currentWeek;
+
+                if (currentWeekIndex > 0 && currentWeekIndex < navItemCount) {
                     int offset = getTimeNavigationControllerItemOffset();
                     timeNavControllerLayoutManager.scrollToPositionWithOffset(currentWeekIndex, offset);
                     timeNavAdapter.setSelectedItem(currentWeekIndex);
@@ -236,7 +245,7 @@ public class HomeFragment extends PhotoFragment {
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
                 mUserName.setText(username);
-                if (card.isGaveBirth()) {
+                if (gaveBirth) {
                     mText.setVisibility(View.GONE);
                 } else {
                     mText.setText(String.valueOf(currentWeek));
@@ -280,7 +289,9 @@ public class HomeFragment extends PhotoFragment {
             @Override
             public void failure(RestError restError) {
                 //TODO show error loading
-                Toast.makeText(getActivity(), "Failure :(", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),
+                        restError != null ? "Error: " + restError.getStrMessage() : "Unknown error",
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -325,12 +336,15 @@ public class HomeFragment extends PhotoFragment {
                     contentLinks = weekResponse.getAdditionalContent();
                     List<ContentLink> videos = weekResponse.getVideos();
 
-                    Picasso.with(getActivity())
-                            .load(weekResponse.getImageUrl())
-                            .placeholder(R.drawable.ic_transparent_placeholder)
-                            .fit()
-                            .centerCrop()
-                            .into(summaryImage);
+                    String imageUrl = weekResponse.getImageUrl();
+                    if(imageUrl != null && !imageUrl.equals("")) {
+                        Picasso.with(getActivity())
+                                .load(imageUrl)
+                                .placeholder(R.drawable.ic_transparent_placeholder)
+                                .fit()
+                                .centerCrop()
+                                .into(summaryImage);
+                    }
                     articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + additionalContent.size());
                     if (tests != null && tests.size() > 0) {
                         testTitle.setText(tests.get(0).getTitle());
@@ -360,6 +374,62 @@ public class HomeFragment extends PhotoFragment {
                 }
             }
         };
+
+        getMonthCallback = new RestCallback<MonthResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                //TODO show error loading
+            }
+
+            @Override
+            public void success(MonthResponse monthResponse, Response response) {
+                //TODO
+                if (monthResponse != null) {
+                    List<ContentPreview> tests = monthResponse.getTests();
+                    List<ContentPreview> previews = monthResponse.getPreviews();
+                    List<ContentLink> additionalContent = monthResponse.getAdditionalContent();
+                    contentLinks = monthResponse.getAdditionalContent();
+                    List<ContentLink> videos = monthResponse.getVideos();
+
+                    String imageUrl = monthResponse.getImageUrl();
+                    if(imageUrl != null && !imageUrl.equals("")) {
+                        Picasso.with(getActivity())
+                                .load(imageUrl)
+                                .placeholder(R.drawable.ic_transparent_placeholder)
+                                .fit()
+                                .centerCrop()
+                                .into(summaryImage);
+                    }
+                    articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + additionalContent.size());
+                    if (tests != null && tests.size() > 0) {
+                        testTitle.setText(tests.get(0).getTitle());
+                    } else {
+                        testTitle.setText(getActivity().getString(R.string.no_tests));
+                    }
+                    String email = PreferencesManager.getInstance().getEmail();
+                    List<DbPhoto> data = databaseHelper.getPhotos(3, email, String.valueOf(monthResponse.getAgeInMonths()));
+                    int size = data.size();
+                    if(size == 0){
+                        sumPhotoContainer.setVisibility(View.GONE);
+                        noPhotos.setVisibility(View.VISIBLE);
+                    } else {
+                        sumPhotoContainer.setVisibility(View.VISIBLE);
+                        noPhotos.setVisibility(View.GONE);
+                        for (int i = 0; i < size; i++) {
+                            Picasso.with(getActivity())
+                                    .load(PhotoFragment.FILE_PREFIX + data.get(i).getPath())
+                                    .placeholder(R.drawable.ic_transparent_placeholder)
+                                    .fit()
+                                    .centerCrop()
+                                    .into(summaryPhotos.get(i));
+                        }
+                    }
+                } else {
+                    //TODO show no data
+                }
+            }
+        };
+
         boolean ignoreSettings = BuildConfig.DEBUG;
         RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
             @Override

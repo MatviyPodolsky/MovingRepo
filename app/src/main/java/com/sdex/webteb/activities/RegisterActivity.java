@@ -67,11 +67,11 @@ public class RegisterActivity extends BaseActivity {
         loginCallback = new RestCallback<UserLoginResponse>() {
             @Override
             public void failure(RestError restError) {
-                String text = "failure :(";
+                String error = "failure :(";
                 if(restError != null){
-                    text = "Error:" + restError.getStrMessage();
+                    error = "Error:" + restError.getStrMessage();
                 }
-                Toast.makeText(RegisterActivity.this, text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -17,7 +17,7 @@ public class BabyProfileRequest extends ApiRequest {
 
     @SerializedName("FamilyRelation")
     @Expose
-    private int familyRelation;
+    private int familyRelation = -1;
     @SerializedName("DateType")
     @Expose
     private int dateType;
