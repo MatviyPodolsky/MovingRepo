@@ -32,16 +32,12 @@ public class GcmHelper {
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-    private static final String SENDER_ID = "1049571768532";
+    private static final String [] SENDER_IDS = {"1049571768532", "501856262592"};
     private static final String TAG = "GCM";
 
     private GoogleCloudMessaging mGcm;
     private WeakReference<? extends Activity> weakReference;
     private String mRegistrationId;
-
-    public GcmHelper(WeakReference<? extends Activity> weakReference) {
-        this.weakReference = weakReference;
-    }
 
     public GcmHelper(Activity activity) {
         this.weakReference = new WeakReference<>(activity);
@@ -63,35 +59,6 @@ public class GcmHelper {
         }
     }
 
-    public String registerInCurrentThread() {
-        if (weakReference.get() != null ) {
-            if (checkPlayServices()) {
-                mGcm = GoogleCloudMessaging.getInstance(weakReference.get().getApplicationContext());
-                mRegistrationId = getRegistrationId(weakReference.get());
-
-                if (mRegistrationId.isEmpty()) {
-                    try {
-                        if (mGcm == null) {
-                            mGcm = GoogleCloudMessaging.getInstance(weakReference.get().getApplicationContext());
-                        }
-                        mRegistrationId = mGcm.register(SENDER_ID);
-                        storeRegistrationId(weakReference.get().getApplicationContext(), mRegistrationId);
-                        return mRegistrationId;
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                } else {
-                    return mRegistrationId;
-                }
-            } else {
-                Log.i(TAG, "No valid Google Play Services APK found.");
-                Log.i(TAG, "Use random id.");
-                storeRegistrationId(weakReference.get().getApplicationContext(), java.util.UUID.randomUUID().toString());
-            }
-        }
-        return null;
-    }
-
     /**
      * Check the device to make sure it has the Google Play Services APK. If
      * it doesn't, display a dialog that allows users to download the APK from
@@ -101,8 +68,8 @@ public class GcmHelper {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(weakReference.get().getApplicationContext());
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-//                GooglePlayServicesUtil.getErrorDialog(resultCode, mActivity,
-//                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+                GooglePlayServicesUtil.getErrorDialog(resultCode, weakReference.get(),
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
                 Log.i(TAG, "This device is not supported.");
 //                finish();
@@ -171,7 +138,7 @@ public class GcmHelper {
                     if (mGcm == null) {
                         mGcm = GoogleCloudMessaging.getInstance(weakReference.get().getApplicationContext());
                     }
-                    mRegistrationId = mGcm.register(SENDER_ID);
+                    mRegistrationId = mGcm.register(SENDER_IDS);
                     msg = "Device registered, registration ID: \n\n" + mRegistrationId;
 
                     // You should send the registration ID to your server over HTTP, so it

@@ -78,9 +78,7 @@ public class GcmIntentService extends IntentService {
 
         Log.d("GCM", extras.toString());
 
-        extras.getString("type");
-        String title = extras.getString("title");
-        extras.getString("content");
+        String title = extras.getString(MainActivity.NOTIFICATION_TITLE);
 
         if (eventBus.hasSubscriberForEvent(NotificationEvent.class)) {
             NotificationEvent event = new NotificationEvent(extras);
