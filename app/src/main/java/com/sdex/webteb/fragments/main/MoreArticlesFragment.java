@@ -98,12 +98,22 @@ public class MoreArticlesFragment extends BaseMainFragment {
         getArticles = new RestCallback<ArticlesResponse>() {
             @Override
             public void failure(RestError restError) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
                 progress.setVisibility(View.GONE);
                 error.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void success(ArticlesResponse articlesResponse, Response response) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
                 List<ContentLink> articles = articlesResponse.getArticles();
                 lastPage++;
                 totalPages = articlesResponse.getTotalItems();

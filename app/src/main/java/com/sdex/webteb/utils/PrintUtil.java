@@ -19,7 +19,7 @@ import java.io.FileNotFoundException;
 public class PrintUtil {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    public static void printHTML(Context context, String jobName, WebView webView) {
+    public static void printText(Context context, String jobName, WebView webView) {
         PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
         PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter();
         PrintJob printJob = printManager.print(jobName, printAdapter,

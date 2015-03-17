@@ -251,6 +251,11 @@
     <string name="contact_us_text_hint">text hint</string>
     <string name="contact_us_btn_send">Send</string>
 
+    <!--sharing-->
+    <string name="choose_email_client">Choose email client</string>
+    <string name="no_email_client_error">There are no email clients installed.</string>
+    <string name="not_support_printing_error">Your device does not support printing</string>
+
     <!--errors-->
     <string name="error_loading_data">Error loading data</string>
     <string name="empty_loaded_data">Empty loaded data</string>
@@ -260,5 +265,6 @@
     <string name="test_text" translatable="false">Text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text </string>
+
 
 </resources>

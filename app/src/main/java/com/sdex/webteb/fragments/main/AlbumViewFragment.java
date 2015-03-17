@@ -2,6 +2,7 @@ package com.sdex.webteb.fragments.main;
 
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.print.PrintHelper;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.PhotoPagerAdapter;
@@ -21,9 +23,11 @@ import com.sdex.webteb.internal.events.DeletePhotoEvent;
 import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.utils.DisplayUtil;
+import com.sdex.webteb.utils.EmailUtil;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.utils.PrintUtil;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -112,6 +116,8 @@ public class AlbumViewFragment extends BaseMainFragment {
         contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DbPhoto dbPhoto = data.get(mViewPager.getCurrentItem());
+                EmailUtil.sharePhoto(getActivity(), dbPhoto.getPath());
                 pw.dismiss();
             }
         });
@@ -120,10 +126,15 @@ public class AlbumViewFragment extends BaseMainFragment {
             public void onClick(View v) {
                 if (PrintHelper.systemSupportsPrint()) {
                     try {
-                        PrintUtil.printPhoto(getActivity(), null, null);
+                        DbPhoto dbPhoto = data.get(mViewPager.getCurrentItem());
+                        PrintUtil.printPhoto(getActivity(), dbPhoto.getDescription(),
+                                Uri.fromFile(new File(dbPhoto.getPath())));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.not_support_printing_error),
+                            Toast.LENGTH_SHORT).show();
                 }
                 pw.dismiss();
             }

@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.utils.EmailUtil;
 import com.sdex.webteb.utils.PrintUtil;
 
 import butterknife.InjectView;
@@ -61,6 +63,7 @@ public class ArticleFragment extends BaseMainFragment {
         contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EmailUtil.shareText(getActivity(), url);
                 pw.dismiss();
             }
         });
@@ -68,7 +71,10 @@ public class ArticleFragment extends BaseMainFragment {
             @Override
             public void onClick(View v) {
                 if (PrintHelper.systemSupportsPrint()) {
-                    PrintUtil.printHTML(getActivity(), titleValue, mContentView);
+                    PrintUtil.printText(getActivity(), titleValue, mContentView);
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.not_support_printing_error),
+                            Toast.LENGTH_SHORT).show();
                 }
                 pw.dismiss();
             }
