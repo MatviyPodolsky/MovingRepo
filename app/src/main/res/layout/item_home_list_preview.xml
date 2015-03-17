@@ -24,7 +24,8 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/icon"
         android:gravity="center_vertical"
-        android:textSize="@dimen/large_text"
+        android:textSize="20sp"
+        android:textColor="@color/link"
         tools:text="New Text" />
 
     <ImageView
