@@ -6,14 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.AlbumAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
+import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
@@ -41,6 +44,8 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     ImageButton mDeletePhoto;
     @InjectView(R.id.empty_view)
     View mEmptyView;
+    @InjectView(R.id.title)
+    TextView mTitle;
 
     private AlbumAdapter mAdapter;
     private List<DbPhoto> data;
@@ -79,6 +84,14 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
                         .commit();
             }
         });
+
+        String title = getString(R.string.album_title);
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        DbUser user = databaseHelper.getUser(preferencesManager.getEmail());
+        String children = user.getChildren();
+        String childNames = children.replaceAll("/", ", ");
+        String formattedTitle = String.format(title, childNames);
+        mTitle.setText(Html.fromHtml(formattedTitle));
     }
 
     @Override
