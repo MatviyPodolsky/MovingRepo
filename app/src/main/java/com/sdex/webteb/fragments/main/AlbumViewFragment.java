@@ -1,9 +1,16 @@
 package com.sdex.webteb.fragments.main;
 
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.print.PrintHelper;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
@@ -13,11 +20,15 @@ import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.internal.events.DeletePhotoEvent;
 import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
+import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.PrintUtil;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -83,6 +94,46 @@ public class AlbumViewFragment extends BaseMainFragment {
     public void onStop() {
         super.onStop();
         mEventBus.unregister(this);
+    }
+
+    @OnClick(R.id.btn_share)
+    void share(View v) {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final View contentView = inflater.inflate(R.layout.pop_up_share, null);
+        final PopupWindow pw = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pw.dismiss();
+            }
+        });
+        contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pw.dismiss();
+            }
+        });
+        contentView.findViewById(R.id.print).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PrintHelper.systemSupportsPrint()) {
+                    try {
+                        PrintUtil.printPhoto(getActivity(), null, null);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                pw.dismiss();
+            }
+        });
+        pw.setBackgroundDrawable(new ColorDrawable());
+        pw.setOutsideTouchable(true);
+        contentView.measure(0,0);
+        Rect location = DisplayUtil.locateView(v);
+        pw.showAtLocation(v, Gravity.TOP | Gravity.START,
+                location.left, location.top - contentView.getMeasuredHeight());
     }
 
     private void setDescription(int position) {

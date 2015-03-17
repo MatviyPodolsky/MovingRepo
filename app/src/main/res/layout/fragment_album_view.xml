@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Share"
-        android:id="@+id/button"
+        android:id="@+id/btn_share"
         android:textSize="@dimen/default_text_size"
         android:textColor="@android:color/white"
         android:background="@drawable/btn_red_normal"
