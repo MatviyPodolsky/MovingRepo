@@ -13,33 +13,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.utils.EmailUtil;
+import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.PrintUtil;
+
+import org.parceler.Parcels;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class ArticleFragment extends BaseMainFragment {
 
-    public static final String ARTICLE_URL = "ARTICLE_URL";
-    public static final String ARTICLE_TITLE = "ARTICLE_TITLE";
+    public static final String ARTICLE = "ARTICLE";
 
     @InjectView(R.id.content)
     WebView mContentView;
     @InjectView(R.id.title)
     TextView title;
 
-    private String url;
-    private String titleValue;
+    private ContentLink article;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle args = getArguments();
-        url = args.getString(ARTICLE_URL);
-        titleValue = args.getString(ARTICLE_TITLE);
-        title.setText(titleValue);
-        mContentView.loadUrl(url);
+        article = Parcels.unwrap(args.getParcelable(ARTICLE));
+        title.setText(article.getTitle());
+        mContentView.loadUrl(article.getUrl());
     }
 
     @Override
@@ -57,13 +58,14 @@ public class ArticleFragment extends BaseMainFragment {
         contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FacebookUtil.publishArticle(getActivity(), article);
                 pw.dismiss();
             }
         });
         contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EmailUtil.shareText(getActivity(), url);
+                EmailUtil.shareText(getActivity(), article.getUrl());
                 pw.dismiss();
             }
         });
@@ -71,7 +73,7 @@ public class ArticleFragment extends BaseMainFragment {
             @Override
             public void onClick(View v) {
                 if (PrintHelper.systemSupportsPrint()) {
-                    PrintUtil.printText(getActivity(), titleValue, mContentView);
+                    PrintUtil.printText(getActivity(), article.getTitle(), mContentView);
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.not_support_printing_error),
                             Toast.LENGTH_SHORT).show();

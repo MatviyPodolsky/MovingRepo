@@ -263,8 +263,7 @@ public class HomeFragment extends PhotoFragment {
                     public void onAdditionalContentClick(ContentLink content) {
                         Fragment fragment = new ArticleFragment();
                         Bundle args = new Bundle();
-                        args.putString(ArticleFragment.ARTICLE_TITLE, content.getTitle());
-                        args.putString(ArticleFragment.ARTICLE_URL, content.getUrl());
+                        args.putParcelable(ArticleFragment.ARTICLE, Parcels.wrap(content));
                         fragment.setArguments(args);
                         FragmentManager fragmentManager = getChildFragmentManager();
                         fragmentManager.beginTransaction()

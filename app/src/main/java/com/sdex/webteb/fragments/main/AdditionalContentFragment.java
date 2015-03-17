@@ -51,8 +51,7 @@ public class AdditionalContentFragment extends BaseMainFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fragment = new ArticleFragment();
                 Bundle args = new Bundle();
-                args.putString(ArticleFragment.ARTICLE_URL, mAdapter.getItem(position).getUrl());
-                args.putString(ArticleFragment.ARTICLE_TITLE, mAdapter.getItem(position).getTitle());
+                args.putParcelable(ArticleFragment.ARTICLE, Parcels.wrap(mAdapter.getItem(position)));
                 fragment.setArguments(args);
                 FragmentManager fragmentManager = getChildFragmentManager();
                 fragmentManager.beginTransaction()
