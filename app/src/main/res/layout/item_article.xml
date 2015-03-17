@@ -13,9 +13,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        tools:src="@mipmap/ic_launcher" />
+        tools:src="@drawable/ic_launcher" />
 
-    <TextView
+    <com.sdex.webteb.view.TypefaceTextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         android:textSize="@dimen/extra_large_text"
         android:textStyle="bold" />
 
-    <TextView
+    <com.sdex.webteb.view.TypefaceTextView
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         android:layout_toRightOf="@+id/image"
         android:layout_toEndOf="@+id/image" />
 
-    <TextView
+    <com.sdex.webteb.view.TypefaceTextView
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

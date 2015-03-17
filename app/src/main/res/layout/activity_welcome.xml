@@ -18,7 +18,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
-        <TextView
+        <com.sdex.webteb.view.TypefaceTextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,24 +76,23 @@
 
         <Button
             style="@style/AppTheme.Button"
+            android:id="@+id/register"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/register" />
+
+        <Button
+            style="@style/AppTheme.Button"
             android:id="@+id/login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/login" />
 
-        <Button
-            style="@style/AppTheme.Button"
-            android:id="@+id/register"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/register"/>
-
     </LinearLayout>
 
-    <com.facebook.widget.LoginButton
-        xmlns:fb="http://schemas.android.com/apk/res-auto"
+    <com.facebook.widget.LoginButton xmlns:fb="http://schemas.android.com/apk/res-auto"
         android:id="@+id/auth_button"
         android:layout_above="@+id/ll_buttons"
         android:layout_centerHorizontal="true"
@@ -104,7 +103,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginBottom="10dp"
-        fb:login_text="Facebook تسجيل الدخول"/>
+        fb:login_text="Facebook تسجيل الدخول" />
 
     <TextView
         android:id="@+id/info"
@@ -112,7 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/primary"
-        android:textSize="@dimen/extra_large_text"/>
+        android:textSize="@dimen/extra_large_text" />
 
     <!--app:fillColor="#000000"-->
     <!--app:pageColor="#FFFFFF"-->
