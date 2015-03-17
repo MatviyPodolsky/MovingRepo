@@ -14,7 +14,6 @@ import com.sdex.webteb.dialogs.DatePickerFragmentDialog;
 import com.sdex.webteb.fragments.BaseFragment;
 import com.sdex.webteb.utils.DateUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -56,16 +55,8 @@ public class BirthDateFragment extends BaseFragment {
             if(dateStr != null){
                 Date date = DateUtil.parseDate(dateStr);
                 if(date != null){
-                    dateStr = DateUtil.formatDate(date);
+                    dateStr = DateUtil.formatDate(date, "MMM dd, yyyy");
                 }
-//                SimpleDateFormat inFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-//                try {
-//                    date = inFormat.parse(dateStr);
-//                    SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                    dateStr = outFormat.format(date);
-//                }catch(Exception ex){
-//                    ex.printStackTrace();
-//                }
             }
             mDate.setText(dateStr);
         }
@@ -85,11 +76,13 @@ public class BirthDateFragment extends BaseFragment {
                     int month = data.getIntExtra(DatePickerFragmentDialog.EXTRA_MONTH, -1);
                     int day = data.getIntExtra(DatePickerFragmentDialog.EXTRA_DAY, -1);
                     if(year >=0 && month>=0 && day>=0) {
-                        Calendar date = new GregorianCalendar(year,month,day);
-                        mDate.setText(DateUtil.formatDate(date.getTime()));
-                        SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-                        String dt = outFormat.format(date.getTime());
-                        ((SetupProfileActivity)getActivity()).setBirthDate(dt, mDateType);
+                        //set time to 12:00:00 to show that day begins
+                        Calendar date = new GregorianCalendar(year,month,day, 12, 0);
+                        Date time = date.getTime();
+                        String requestDate = DateUtil.formatDate(time, "yyyy-MM-dd'T'HH:mm:ssZ");
+                        String textDate = DateUtil.formatDate(time, "MMM dd, yyyy");
+                        ((SetupProfileActivity)getActivity()).setBirthDate(requestDate, mDateType);
+                        mDate.setText(textDate);
                     }
                     break;
             }
