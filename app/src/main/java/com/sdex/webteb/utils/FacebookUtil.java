@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.facebook.FacebookException;
 import com.facebook.FacebookOperationCanceledException;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.widget.FacebookDialog;
@@ -26,6 +28,9 @@ import java.util.List;
 */
 public class FacebookUtil {
 
+    public static final String PERMISSION = "publish_actions";
+    public static boolean isPostingPhoto;
+
     public static void publishArticle(Activity activity, ContentLink article){
         if(isFacebookInstalled(activity)){
             publishFeedFromApp(activity, null, article.getTitle(), article.getDescription(),
@@ -40,7 +45,7 @@ public class FacebookUtil {
         if(isFacebookInstalled(activity)){
             publishPhotoFromApp(activity, path);
         } else {
-//            publishPhotoFromWeb(activity, path);
+            publishPhotoFromWeb(activity, path);
         }
     }
 
@@ -110,15 +115,16 @@ public class FacebookUtil {
 
     private static void publishPhotoFromApp(Activity activity, String path) {
 
-        FacebookDialog.PhotoShareDialogBuilder builder = new FacebookDialog.PhotoShareDialogBuilder(activity);
-        File photoFile = new File(path);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        List<File> photos = new ArrayList<>();
-        photos.add(photoFile);
-        builder.addPhotoFiles(photos);
-        FacebookDialog photoDialog = builder.build();
-        ((MainActivity)activity).getUiHelper().trackPendingDialogCall(photoDialog.present());
+        if (FacebookDialog.canPresentShareDialog (activity.getApplicationContext(),
+                FacebookDialog.ShareDialogFeature.PHOTOS)) {
+            FacebookDialog.PhotoShareDialogBuilder builder = new FacebookDialog.PhotoShareDialogBuilder(activity);
+            File photoFile = new File(path);
+            List<File> photos = new ArrayList<>();
+            photos.add(photoFile);
+            builder.addPhotoFiles(photos);
+            FacebookDialog photoDialog = builder.build();
+            ((MainActivity) activity).getUiHelper().trackPendingDialogCall(photoDialog.present());
+        }
     }
 
     private static void publishFeedDialog(final Activity activity, String appName, String caption, String description, String link, String picture) {
@@ -172,17 +178,59 @@ public class FacebookUtil {
         feedDialog.show();
     }
 
-    private static void publishPhotoFromWeb(Activity activity, String path) {
+    private static void publishPhotoDialog(final Activity activity, String path){
+        if (!isPostingPhoto) {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap image = BitmapFactory.decodeFile(path, options);
 
-        FacebookDialog.PhotoShareDialogBuilder builder = new FacebookDialog.PhotoShareDialogBuilder(activity);
-        File photoFile = new File(path);
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        List<File> photos = new ArrayList<>();
-        photos.add(photoFile);
-        builder.addPhotoFiles(photos);
-        FacebookDialog photoDialog = builder.build();
-        ((MainActivity)activity).getUiHelper().trackPendingDialogCall(photoDialog.present());
+            Request request = Request.newUploadPhotoRequest(Session.getActiveSession(), image, new Request.Callback() {
+                @Override
+                public void onCompleted(Response response) {
+                    if (response.getError() == null) {
+                        Toast.makeText(activity, "Photo posted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(activity, "Error posting photo", Toast.LENGTH_SHORT).show();
+                    }
+                    isPostingPhoto = false;
+                }
+            });
+            request.executeAsync();
+            Toast.makeText(activity, "Posting...", Toast.LENGTH_SHORT).show();
+            isPostingPhoto = true;
+        } else {
+            Toast.makeText(activity, "Please, wait while previous photo will post on Facebook", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private static void publishPhotoFromWeb(Activity activity, String path) {
+        Session currentSession = Session.getActiveSession();
+        if (currentSession == null || currentSession.getState().isClosed()) {
+            Session session = new Session.Builder(activity).build();
+            Session.setActiveSession(session);
+            currentSession = session;
+        }
+
+        if (currentSession.isOpened()) {
+            publishPhotoDialog(activity, path);
+        } else if (!currentSession.isOpened()) {
+            // Ask for username and password
+            Session.OpenRequest op = new Session.OpenRequest(activity);
+
+            op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+            op.setCallback(null);
+
+            List<String> permissions = new ArrayList<String>();
+            permissions.add("publish_stream");
+            permissions.add("user_likes");
+            permissions.add("email");
+            permissions.add("user_birthday");
+            op.setPermissions(permissions);
+
+            Session session = new Session.Builder(activity).build();
+            Session.setActiveSession(session);
+            session.openForPublish(op);
+        }
     }
 
     private static boolean isFacebookInstalled(Activity activity) {
@@ -195,4 +243,8 @@ public class FacebookUtil {
         }
     }
 
+    private static boolean hasPublishPermission() {
+        Session session = Session.getActiveSession();
+        return session != null && session.getPermissions().contains("publish_actions");
+    }
 }
