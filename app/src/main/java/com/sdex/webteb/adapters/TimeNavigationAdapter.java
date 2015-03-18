@@ -16,14 +16,14 @@ import java.util.List;
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalItemHolder> {
+public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAdapter.VerticalItemHolder> {
 
     private ArrayList<Item> mItems;
     private int selectedItem;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
-    public SimpleAdapter() {
+    public TimeNavigationAdapter() {
         mItems = new ArrayList<>();
     }
 
@@ -97,7 +97,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
         public int color;
         public String value;
-        public boolean hasLabel;
+        public String label;
 
         public Item(String value) {
             this.value = value;
@@ -110,9 +110,9 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
         private TextView mValue, mLabel;
         private View mView;
 
-        private SimpleAdapter mAdapter;
+        private TimeNavigationAdapter mAdapter;
 
-        public VerticalItemHolder(View itemView, SimpleAdapter adapter) {
+        public VerticalItemHolder(View itemView, TimeNavigationAdapter adapter) {
             super(itemView);
             itemView.setOnClickListener(this);
 
@@ -130,8 +130,9 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
         public void bindView(Item item) {
             mValue.setText(item.value);
-            if (item.hasLabel) {
+            if (item.label != null) {
                 mLabel.setVisibility(View.VISIBLE);
+                mLabel.setText(item.label);
             } else {
                 mLabel.setVisibility(View.GONE);
             }
@@ -152,25 +153,17 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
 
     public static List<Item> generateDummyData(int count) {
         ArrayList<Item> items = new ArrayList<>();
-
+        int sectionColor = 0;
+        int currentSection = 0;
+        int sectionCount = count / 4;
         for (int i = count; i > 0; i--) {
             Item item = new Item(String.valueOf(i));
-            if (i % 4 == 0) {
-                item.hasLabel = true;
+            if (i % 4 == 0) { // start section
+                item.label = "month " + (sectionCount - currentSection);
+                sectionColor = Color.parseColor(colors[currentSection % colors.length]);
+                currentSection++;
             }
-
-            if (i <= 4) {
-                item.color = Color.parseColor("#EC1561");
-            } else if (i > 4 && i <= 8) {
-                item.color = Color.parseColor("#EA2E83");
-            } else if (i > 8 && i <= 12) {
-                item.color = Color.parseColor("#E84C8F");
-            } else if (i > 12 && i <= 16) {
-                item.color = Color.parseColor("#E52987");
-            } else {
-                item.color = Color.parseColor("#E21490");
-            }
-
+            item.color = sectionColor;
             items.add(item);
         }
 
@@ -181,5 +174,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.VerticalIt
         this.selectedItem = selectedItem;
         notifyDataSetChanged();
     }
+
+    private static final String[] colors = {"#EC1561", "#EA2E83", "#E84C8F", "#E52987"};
 
 }

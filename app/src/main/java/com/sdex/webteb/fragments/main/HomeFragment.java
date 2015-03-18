@@ -28,7 +28,7 @@ import com.sdex.webteb.BuildConfig;
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
-import com.sdex.webteb.adapters.SimpleAdapter;
+import com.sdex.webteb.adapters.TimeNavigationAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
@@ -214,7 +214,7 @@ public class HomeFragment extends PhotoFragment {
                 setProfilePhoto();
                 showLastPhoto();
 
-                final SimpleAdapter timeNavAdapter = new SimpleAdapter();
+                final TimeNavigationAdapter timeNavAdapter = new TimeNavigationAdapter();
                 int navItemCount = gaveBirth ? 24 : 40;
                 timeNavAdapter.setItemCount(navItemCount);
                 timeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -577,7 +577,8 @@ public class HomeFragment extends PhotoFragment {
 
     private int getSlidingPanelHeight() {
         int windowHeight = mRootView.getMeasuredHeight();
-        int profileHeight = getResources().getDimensionPixelSize(R.dimen.profile_height);
+        int profileHeight = getResources().getDimensionPixelSize(R.dimen.profile_height) -
+                getResources().getDimensionPixelSize(R.dimen.time_navigation_controller_month_line_height);
         return windowHeight - profileHeight;
     }
 
