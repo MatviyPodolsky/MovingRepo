@@ -559,7 +559,6 @@ public class HomeFragment extends PhotoFragment {
                     .load(PhotoFragment.FILE_PREFIX + photoPath)
                     .placeholder(R.drawable.ic_photo)
                     .fit()
-                    .centerCrop()
                     .into(mProfilePhoto);
         }
     }
@@ -666,7 +665,6 @@ public class HomeFragment extends PhotoFragment {
                 .load(PhotoFragment.FILE_PREFIX + profileImage)
                 .placeholder(R.drawable.ic_photo)
                 .fit()
-                .centerCrop()
                 .into(mProfilePhoto);
     }
 
@@ -680,7 +678,6 @@ public class HomeFragment extends PhotoFragment {
                 .load(PhotoFragment.FILE_PREFIX + galleryPhotoUri)
                 .placeholder(R.drawable.ic_photo)
                 .fit()
-                .centerCrop()
                 .into(mProfilePhoto);
     }
 
