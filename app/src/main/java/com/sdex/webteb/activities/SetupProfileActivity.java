@@ -235,8 +235,9 @@ public class SetupProfileActivity extends BaseActivity {
         if (currentItem > 0) {
             mPager.setCurrentItem(--currentItem, true);
         } else {
-            // TODO if not from registration
-            super.onBackPressed();
+            if (isInEditMode) {
+                super.onBackPressed();
+            }
         }
     }
 
