@@ -17,6 +17,8 @@ import com.sdex.webteb.adapters.AlbumAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
+import com.sdex.webteb.dialogs.ConfirmDialog;
+import com.sdex.webteb.dialogs.DialogCallback;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
@@ -114,8 +116,15 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
 
     @OnClick(R.id.btn_delete_photo)
     void deletePhoto() {
-        IntentDeletePhotoEvent event = new IntentDeletePhotoEvent();
-        BUS.post(event);
+        ConfirmDialog dialog = new ConfirmDialog();
+        dialog.setCallback(new DialogCallback.EmptyCallback() {
+            @Override
+            public void confirm() {
+                IntentDeletePhotoEvent event = new IntentDeletePhotoEvent();
+                BUS.post(event);
+            }
+        });
+        dialog.show(getChildFragmentManager(), "dialog");
     }
 
     public void onEvent(DeletePhotoEvent event) {

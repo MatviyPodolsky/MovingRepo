@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
 import com.sdex.webteb.activities.WelcomeActivity;
+import com.sdex.webteb.dialogs.ConfirmDialog;
+import com.sdex.webteb.dialogs.DialogCallback;
 import com.sdex.webteb.internal.model.Settings;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -131,6 +133,17 @@ public class SettingsFragment extends BaseMainFragment {
 
     @OnClick(R.id.logout)
     public void logout(View v) {
+        ConfirmDialog dialog = new ConfirmDialog();
+        dialog.setCallback(new DialogCallback.EmptyCallback() {
+            @Override
+            public void confirm() {
+                logout();
+            }
+        });
+        dialog.show(getChildFragmentManager(), "dialog");
+    }
+
+    private void logout() {
         RestClient.getApiService().logout(new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
@@ -148,16 +161,30 @@ public class SettingsFragment extends BaseMainFragment {
 
     @OnClick(R.id.my_profile)
     public void editProfile() {
-        Intent intent = new Intent(getActivity(), SetupProfileActivity.class);
-        intent.putExtra(EDIT_PROFILE, true);
-        startActivity(intent);
+        ConfirmDialog dialog = new ConfirmDialog();
+        dialog.setCallback(new DialogCallback.EmptyCallback() {
+            @Override
+            public void confirm() {
+                Intent intent = new Intent(getActivity(), SetupProfileActivity.class);
+                intent.putExtra(EDIT_PROFILE, true);
+                startActivity(intent);
+            }
+        });
+        dialog.show(getChildFragmentManager(), "dialog");
     }
 
     @OnClick(R.id.reset)
     public void reset() {
-        notifications.setChecked(true);
-        reminders.setChecked(true);
-        newsletter.setChecked(true);
+        ConfirmDialog dialog = new ConfirmDialog();
+        dialog.setCallback(new DialogCallback.EmptyCallback() {
+            @Override
+            public void confirm() {
+                notifications.setChecked(true);
+                reminders.setChecked(true);
+                newsletter.setChecked(true);
+            }
+        });
+        dialog.show(getChildFragmentManager(), "dialog");
     }
 
 }
