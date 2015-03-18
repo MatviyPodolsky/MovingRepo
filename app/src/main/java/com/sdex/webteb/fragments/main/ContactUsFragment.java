@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.utils.KeyboardUtils;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -34,7 +35,8 @@ public class ContactUsFragment extends BaseMainFragment {
     }
 
     @OnClick(R.id.send)
-    void send() {
+    void send(View v) {
+        KeyboardUtils.hideKeyboard(v);
         final String title = mTitle.getText().toString();
         final String text = mText.getText().toString();
     }
