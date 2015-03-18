@@ -20,6 +20,8 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.ArticlesResponse;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,16 +59,17 @@ public class MoreArticlesFragment extends BaseMainFragment {
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = new ArticleFragment();
-                Bundle args = new Bundle();
-                args.putString(ArticleFragment.ARTICLE_URL, mAdapter.getItem(position).getUrl());
-                args.putString(ArticleFragment.ARTICLE_TITLE, mAdapter.getItem(position).getTitle());
-                fragment.setArguments(args);
-                FragmentManager fragmentManager = getChildFragmentManager();
-                fragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, fragment, "content_fragment")
-                        .addToBackStack(null)
-                        .commit();
+                if (mAdapter.getItem(position) != null) {
+                    Fragment fragment = new ArticleFragment();
+                    Bundle args = new Bundle();
+                    args.putParcelable(ArticleFragment.ARTICLE, Parcels.wrap(mAdapter.getItem(position)));
+                    fragment.setArguments(args);
+                    FragmentManager fragmentManager = getChildFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .add(R.id.fragment_container, fragment, "content_fragment")
+                            .addToBackStack(null)
+                            .commit();
+                }
             }
         });
 

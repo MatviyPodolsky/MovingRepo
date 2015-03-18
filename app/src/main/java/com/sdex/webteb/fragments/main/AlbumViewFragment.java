@@ -24,6 +24,7 @@ import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.EmailUtil;
+import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.utils.PrintUtil;
 
@@ -110,6 +111,8 @@ public class AlbumViewFragment extends BaseMainFragment {
         contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DbPhoto photo = data.get(mViewPager.getCurrentItem());
+                FacebookUtil.publishPhoto(getActivity(), photo.getPath());
                 pw.dismiss();
             }
         });

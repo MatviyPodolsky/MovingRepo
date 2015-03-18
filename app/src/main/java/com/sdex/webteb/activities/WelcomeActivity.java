@@ -195,7 +195,7 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
                     userInfoTextView.setText(s);
                 }
             }));
-            requestBatch.executeAsync();
+//            requestBatch.executeAsync();
             FacebookLoginRequest request = new FacebookLoginRequest();
             request.setToken(session.getAccessToken());
 

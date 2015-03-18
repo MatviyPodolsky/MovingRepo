@@ -45,6 +45,7 @@ import com.sdex.webteb.internal.events.SelectedProfilePhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.internal.events.TakenProfilePhotoEvent;
 import com.sdex.webteb.model.SideMenuItem;
+import com.sdex.webteb.utils.FacebookUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -243,22 +244,35 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         }
 
 //        use only for webViewDialog
-        if (Session.getActiveSession() != null) {
-            Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-        }
+        if (!isFacebookInstalled()) {
+            if (Session.getActiveSession() != null) {
+                Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+            }
 
-        Session currentSession = Session.getActiveSession();
-        if (currentSession == null || currentSession.getState().isClosed()) {
-            Session session = new Session.Builder(MainActivity.this).build();
-            Session.setActiveSession(session);
-            currentSession = session;
-        }
+            Session currentSession = Session.getActiveSession();
+            if (currentSession == null || currentSession.getState().isClosed()) {
+                Session session = new Session.Builder(MainActivity.this).build();
+                Session.setActiveSession(session);
+                currentSession = session;
+            }
 
-//        if (!isFacebookInstalled()) {
-        if (currentSession.isOpened()) {
-            publishFeedDialog("appName", "caption", "description", "link", "picture");
+            if (currentSession.isOpened()) {
+                FacebookUtil.publishFacebook(this, "WebTeb", "capt", "desc", "link", "pic");
+                publishFeedDialog("appName", "caption", "description", "link", "picture");
+            }
+        } else {
+            uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+                @Override
+                public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+                    int a = 0;
+                }
+
+                @Override
+                public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+                    int a = 0;
+                }
+            });
         }
-//        }
 //        use only for webViewDialog
     }
 
@@ -452,6 +466,10 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             case "5": // 5 – week 40 push
                 break;
         }
+    }
+
+    public UiLifecycleHelper getUiHelper() {
+        return uiHelper;
     }
 
     public static void launch(Context context) {
