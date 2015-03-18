@@ -13,8 +13,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -46,6 +49,7 @@ import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.internal.events.TakenProfilePhotoEvent;
 import com.sdex.webteb.model.SideMenuItem;
 import com.sdex.webteb.utils.FacebookUtil;
+import com.sdex.webteb.utils.KeyboardUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +72,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     DrawerLayout mDrawerLayout;
     @InjectView(R.id.drawer_list)
     ListView mDrawerList;
+    @InjectView(R.id.root_layout)
+    LinearLayout mRootLayout;
 
     Handler mHandler = new Handler();
     Runnable mOpenMenuItemTask;
@@ -78,6 +84,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     private EventBus BUS = EventBus.getDefault();
 
     private static final String contentFragment = "content_fragment";
+
+    private boolean isKeyboardVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +102,19 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         }
 
         initSideMenu();
+
+        mRootLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightDiff = mRootLayout.getRootView().getHeight() - mRootLayout.getHeight();
+                if (heightDiff > 100) {
+                    isKeyboardVisible = true;
+                } else {
+                    isKeyboardVisible = false;
+                }
+                Log.d("Keyboard", "visible = " + isKeyboardVisible);
+            }
+        });
     }
 
     private void initSideMenu() {
@@ -214,6 +235,9 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     @Override
     public void onDrawerClosed(View drawerView) {
+        if (isKeyboardVisible) {
+            KeyboardUtils.hideKeyboard(mRootLayout);
+        }
         setCurrentMenuItem();
     }
 
