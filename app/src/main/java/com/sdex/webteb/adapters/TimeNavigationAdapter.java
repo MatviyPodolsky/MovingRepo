@@ -155,13 +155,14 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
         ArrayList<Item> items = new ArrayList<>();
         int sectionColor = 0;
         int currentSection = 0;
-        int sectionCount = count / 4;
+        int sectionCount = count / 4 + 1;
         for (int i = count; i > 0; i--) {
             Item item = new Item(String.valueOf(i));
-            if (i % 4 == 0) { // start section
-                item.label = "month " + (sectionCount - currentSection);
+            if (i % 4 == 0) {
                 sectionColor = Color.parseColor(colors[currentSection % colors.length]);
                 currentSection++;
+            } else if (i % 4 == 1) {
+                item.label = "month " + (sectionCount - currentSection);
             }
             item.color = sectionColor;
             items.add(item);
