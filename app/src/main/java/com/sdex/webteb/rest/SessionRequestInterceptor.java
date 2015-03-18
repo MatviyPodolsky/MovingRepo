@@ -29,6 +29,7 @@ public class SessionRequestInterceptor implements RequestInterceptor {
         request.addHeader("ApplicationName", "baby");
         request.addHeader("OS", "Android");
         request.addHeader("OSVersion", Build.VERSION.RELEASE);
+        request.addHeader("User-Agent", "WebTeb android client");
     }
 
 }
