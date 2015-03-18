@@ -201,22 +201,11 @@
         <RelativeLayout
             android:id="@+id/reset_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@+id/profile_container"
             android:layout_marginBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
-
-            <Button
-                style="@style/AppTheme.Button"
-                android:id="@+id/reset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:text="@string/reset" />
 
             <TextView
                 style="@style/AppTheme.TextView.Settings"
@@ -225,7 +214,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/reset"
                 android:gravity="right"
                 android:text="@string/reset_data" />
 
@@ -234,22 +222,11 @@
         <RelativeLayout
             android:id="@+id/logout_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@+id/reset_container"
             android:layout_marginBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
-
-            <Button
-                style="@style/AppTheme.Button"
-                android:id="@+id/logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:text="@string/logout" />
 
             <TextView
                 style="@style/AppTheme.TextView.Settings"
@@ -258,7 +235,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/logout"
                 android:gravity="right"
                 android:text="@string/logout" />
 

@@ -132,7 +132,7 @@ public class SettingsFragment extends BaseMainFragment {
         }
     }
 
-    @OnClick(R.id.logout)
+    @OnClick(R.id.logout_container)
     public void logout(View v) {
         ConfirmDialog dialog = new ConfirmDialog();
         dialog.setCallback(new DialogCallback.EmptyCallback() {
@@ -178,7 +178,7 @@ public class SettingsFragment extends BaseMainFragment {
         dialog.show(getChildFragmentManager(), "dialog");
     }
 
-    @OnClick(R.id.reset)
+    @OnClick(R.id.reset_container)
     public void reset() {
         ConfirmDialog dialog = new ConfirmDialog();
         dialog.setCallback(new DialogCallback.EmptyCallback() {
