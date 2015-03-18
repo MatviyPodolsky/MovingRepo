@@ -34,6 +34,8 @@ public class SearchResultsFragment extends BaseMainFragment {
     ProgressBar progress;
     @InjectView(R.id.error)
     TextView error;
+    @InjectView(R.id.titleResults)
+    TextView titleResults;
     private RestCallback<SearchDoctorResponse> getDoctorsCallback;
 
     @Override
@@ -73,6 +75,7 @@ public class SearchResultsFragment extends BaseMainFragment {
                     } else {
                         mAdapter = new SearchResultsAdapter(getActivity(), docs);
                         mList.setAdapter(mAdapter);
+                        titleResults.setText("Found " + String.valueOf(docs.size()));
                         showData();
                     }
                 } else {

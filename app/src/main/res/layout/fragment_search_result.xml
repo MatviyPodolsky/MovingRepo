@@ -2,17 +2,55 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_background"
-    android:padding="20dp">
+    android:background="@color/default_background">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:id="@+id/relativeLayoutTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_header_line_blue">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:text="@string/search_doctor"
+                    android:textColor="@color/button_text"
+                    android:textSize="@dimen/extra_large_text" />
+
+                <TextView
+                    android:id="@+id/titleResults"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:textColor="@color/button_text"
+                    android:textSize="@dimen/extra_small_text" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/relativeLayoutTitle"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp"
             android:divider="@color/divider"
             android:dividerHeight="2dp">
 
