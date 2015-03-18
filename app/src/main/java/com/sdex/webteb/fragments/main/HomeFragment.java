@@ -159,7 +159,7 @@ public class HomeFragment extends PhotoFragment {
         mSlidingUpPanelLayout.setPanelSlideListener(new SlideListenerAdapter() {
             @Override
             public void onPanelSlide(View view, float slideOffset) {
-                float alpha = 0.5f + slideOffset / 2;
+                float alpha = (float) (0.86f + slideOffset / 0.0714);
                 mDragView.setAlpha(alpha);
             }
         });
@@ -462,7 +462,8 @@ public class HomeFragment extends PhotoFragment {
             }
         });
 
-        int week = Integer.valueOf(PreferencesManager.getInstance().getCurrentWeek() != null ? PreferencesManager.getInstance().getCurrentWeek() : "0");
+        int week = Integer.valueOf(PreferencesManager.getInstance().getCurrentWeek() != null ?
+                PreferencesManager.getInstance().getCurrentWeek() : "0");
 
         RestClient.getApiService().getWeek(week, getWeekCallback);
     }
