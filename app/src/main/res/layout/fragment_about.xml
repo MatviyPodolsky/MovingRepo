@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/webteb_pregnancy_about">
@@ -15,8 +16,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_app_version"
-        android:id="@+id/textView8"
+        tools:text="@string/about_app_version"
+        android:id="@+id/textAppVersion"
         android:textColor="@android:color/white"
         android:textSize="@dimen/small_text"
         android:layout_below="@+id/imageView3"
@@ -51,12 +52,12 @@
             android:layout_marginRight="3dp" />
     </LinearLayout>
 
-    <TextView
+     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/about_text"
         android:id="@+id/textView10"
-        android:layout_below="@+id/textView8"
+        android:layout_below="@+id/textAppVersion"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/linearLayout"
         android:textColor="@android:color/white"

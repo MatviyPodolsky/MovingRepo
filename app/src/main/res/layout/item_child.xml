@@ -13,6 +13,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textSize="@dimen/default_text_size"
+        android:inputType="textCapSentences"
         android:imeOptions="actionDone"
         android:background="@drawable/edit_text_without_border"
         android:singleLine="true"
