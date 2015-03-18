@@ -9,11 +9,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:id="@+id/relativeLayoutTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bg_header_line_blue">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingRight="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:text="@string/search_doctor"
+                    android:textColor="@color/button_text"
+                    android:textSize="@dimen/extra_large_text" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/scrollView"
-            android:layout_alignParentTop="true">
+            android:layout_below="@+id/relativeLayoutTitle"
+            android:id="@+id/scrollView">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -49,7 +75,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_dwn"/>
+                        android:src="@drawable/ic_dwn" />
 
 
                     <TextView
@@ -76,7 +102,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_dwn"/>
+                        android:src="@drawable/ic_dwn" />
 
 
                     <TextView
@@ -96,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/text"
                     android:layout_margin="5dp"
-                    android:id="@+id/textView2"/>
+                    android:id="@+id/textView2" />
 
                 <LinearLayout
                     android:id="@+id/specialty"
@@ -110,7 +136,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_dwn"/>
+                        android:src="@drawable/ic_dwn" />
 
 
                     <TextView
