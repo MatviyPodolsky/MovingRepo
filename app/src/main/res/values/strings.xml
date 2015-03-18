@@ -120,7 +120,6 @@
     <string name="album_title"><![CDATA[My <b>%1$s</b> album]]></string>
     <string name="album_empty_text">Album is empty</string>
     <string name="take_photo_button_title">photo</string>
-    <string name="album_save_photo">Save photo</string>
     <string name="save">Save</string>
 
     <!--search doctor-->
