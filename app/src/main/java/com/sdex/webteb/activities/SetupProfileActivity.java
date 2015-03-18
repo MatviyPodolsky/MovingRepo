@@ -25,9 +25,9 @@ import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserInfoResponse;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.view.pageindicator.PageIndicatorAdapter;
 import com.squareup.picasso.Picasso;
 import com.viewpagerindicator.CirclePageIndicator;
-import com.viewpagerindicator.PageIndicator;
 
 import java.io.File;
 import java.util.List;
@@ -39,7 +39,7 @@ import retrofit.client.Response;
 /**
  * Created by MPODOLSKY on 02.02.2015.
  */
-public class SetupProfileActivity extends BaseActivity implements PageIndicator {
+public class SetupProfileActivity extends BaseActivity {
 
     public static final String FAMILY_RELATION = "FAMILY_RELATION";
     public static final String DATE_TYPE = "DATE_TYPE";
@@ -91,10 +91,7 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
             @Override
             public void failure(RestError restError) {
                 mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), null);
-                mPager.setAdapter(mAdapter);
-                mIndicator.setViewPager(mPager);
-                mPager.setOnPageChangeListener(SetupProfileActivity.this);
-                mPager.setOffscreenPageLimit(3);
+                initViewPager();
             }
 
             @Override
@@ -104,10 +101,7 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
                 } else {
                     mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), null);
                 }
-                mPager.setAdapter(mAdapter);
-                mIndicator.setViewPager(mPager);
-                mPager.setOnPageChangeListener(SetupProfileActivity.this);
-                mPager.setOffscreenPageLimit(3);
+                initViewPager();
             }
         };
         RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
@@ -122,6 +116,13 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
                 ((TextView)profileCard.findViewById(R.id.username)).setText(userInfoResponse.getEmail());
             }
         });
+    }
+
+    private void initViewPager() {
+        mPager.setAdapter(mAdapter);
+        mIndicator.setViewPager(mPager);
+        mPager.setOnPageChangeListener(pageIndicatorAdapter);
+        mPager.setOffscreenPageLimit(3);
     }
 
     @Override
@@ -163,47 +164,6 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
                     break;
             }
         }
-    }
-
-    @Override
-    public void setViewPager(ViewPager viewPager) {
-
-    }
-
-    @Override
-    public void setViewPager(ViewPager viewPager, int i) {
-
-    }
-
-    @Override
-    public void setCurrentItem(int i) {
-
-    }
-
-    @Override
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener onPageChangeListener) {
-
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        mIndicator.setCurrentItem(position);
-        mIndicator.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
     }
 
     public void scrollToNextPage(){
@@ -269,11 +229,32 @@ public class SetupProfileActivity extends BaseActivity implements PageIndicator 
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        int currentItem = mPager.getCurrentItem();
+        if (currentItem > 0) {
+            mPager.setCurrentItem(--currentItem, true);
+        } else {
+            // TODO if not from registration
+            super.onBackPressed();
+        }
+    }
+
     @OnClick(R.id.avatar)
     public void takeProfilePhoto() {
         DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_PROFILE,
                 PhotoFragment.PHOTO_SELECTED_PROFILE);
         dialog.show(getSupportFragmentManager(), null);
     }
+
+    private PageIndicatorAdapter pageIndicatorAdapter = new PageIndicatorAdapter() {
+
+        @Override
+        public void onPageSelected(int position) {
+            mIndicator.setCurrentItem(position);
+            mIndicator.notifyDataSetChanged();
+        }
+
+    };
 
 }
