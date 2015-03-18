@@ -468,6 +468,12 @@ public class HomeFragment extends PhotoFragment {
         RestClient.getApiService().getWeek(week, getWeekCallback);
     }
 
+    @Override
+    public int getLayoutResource() {
+        return R.layout.fragment_home;
+    }
+
+
     @OnClick(R.id.summary_search_doctor)
     public void searchDoctor() {
         SelectMenuItemEvent event = new SelectMenuItemEvent();
@@ -556,11 +562,6 @@ public class HomeFragment extends PhotoFragment {
                     .centerCrop()
                     .into(mProfilePhoto);
         }
-    }
-
-    @Override
-    public int getLayoutResource() {
-        return R.layout.fragment_home;
     }
 
     private void showLastPhoto() {

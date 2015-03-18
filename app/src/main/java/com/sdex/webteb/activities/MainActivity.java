@@ -100,6 +100,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         setItem(mCurrentFragmentIndex);
         setCurrentMenuItem();
 
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
         final LayoutInflater inflater = LayoutInflater.from(this);
         View menuHeader = inflater.inflate(R.layout.menu_list_header, mDrawerList, false);
         mDrawerList.addHeaderView(menuHeader, null, true);
