@@ -598,12 +598,13 @@ public class HomeFragment extends PhotoFragment {
         }
     }
 
-    @OnClick(R.id.avatar)
-    public void takeProfilePhoto() {
-        DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_PROFILE,
-                PhotoFragment.PHOTO_SELECTED_PROFILE);
-        dialog.show(getFragmentManager(), null);
-    }
+    // change profile photo from home
+//    @OnClick(R.id.avatar)
+//    public void takeProfilePhoto() {
+//        DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_PROFILE,
+//                PhotoFragment.PHOTO_SELECTED_PROFILE);
+//        dialog.show(getFragmentManager(), null);
+//    }
 
     @OnClick(R.id.btn_take_photo)
     public void takePhoto() {
