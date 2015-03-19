@@ -27,9 +27,7 @@ import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserInfoResponse;
 import com.sdex.webteb.utils.PreferencesManager;
-import com.sdex.webteb.view.pageindicator.PageIndicatorAdapter;
 import com.squareup.picasso.Picasso;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import java.io.File;
 import java.util.List;
@@ -51,8 +49,6 @@ public class SetupProfileActivity extends BaseActivity {
     private ProfilePageAdapter mAdapter;
     @InjectView(R.id.pager)
     ViewPager mPager;
-    @InjectView(R.id.indicator)
-    CirclePageIndicator mIndicator;
     @InjectView(R.id.profile_card)
     View profileCard;
     @InjectView(R.id.avatar)
@@ -122,8 +118,6 @@ public class SetupProfileActivity extends BaseActivity {
 
     private void initViewPager() {
         mPager.setAdapter(mAdapter);
-        mIndicator.setViewPager(mPager);
-        mPager.setOnPageChangeListener(pageIndicatorAdapter);
         mPager.setOffscreenPageLimit(3);
     }
 
@@ -270,15 +264,5 @@ public class SetupProfileActivity extends BaseActivity {
                 PhotoFragment.PHOTO_SELECTED_PROFILE);
         dialog.show(getSupportFragmentManager(), null);
     }
-
-    private PageIndicatorAdapter pageIndicatorAdapter = new PageIndicatorAdapter() {
-
-        @Override
-        public void onPageSelected(int position) {
-            mIndicator.setCurrentItem(position);
-            mIndicator.notifyDataSetChanged();
-        }
-
-    };
 
 }

@@ -33,26 +33,10 @@
         android:layout_height="@dimen/profile_height"
         android:layout_below="@+id/toolbar" />
 
-    <com.viewpagerindicator.CirclePageIndicator
-        android:id="@+id/indicator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:background="#00000000"
-        android:padding="12dp"
-        app:fillColor="#000000"
-        app:pageColor="#FFFFFF"
-        app:radius="5dp"
-        app:strokeColor="#000000"
-        app:strokeWidth="1dp" />
-
     <com.sdex.webteb.view.NonSwipeableViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/indicator"
         android:layout_below="@+id/profile_card" />
 
 </RelativeLayout>
