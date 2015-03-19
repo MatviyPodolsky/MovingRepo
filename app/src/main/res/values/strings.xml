@@ -276,6 +276,10 @@
     <string name="dialog_edit_profile_confirm">Update</string>
     <string name="dialog_edit_profile_cancel">Cancel</string>
 
+    <!--save_photo-->
+    <string name="hint_comment">Comment</string>
+
+
     <!--debug text-->
     <string name="test_text" translatable="false">Text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text
