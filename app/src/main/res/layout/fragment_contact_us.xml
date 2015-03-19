@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="9dp">
+    android:paddingTop="9dp"
+    android:background="@color/default_background">
 
     <EditText
         android:id="@+id/title"
