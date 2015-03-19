@@ -53,8 +53,6 @@ public class SavePhotoFragment extends BaseFragment {
         Picasso.with(getActivity())
                 .load(PhotoFragment.FILE_PREFIX + currentPhoto)
                 .noPlaceholder()
-                .fit()
-                .centerCrop()
                 .into(mPhotoView);
         final WrapLinearLayoutManager layoutManager = new WrapLinearLayoutManager(getActivity(),
                 LinearLayoutManager.HORIZONTAL, false);
