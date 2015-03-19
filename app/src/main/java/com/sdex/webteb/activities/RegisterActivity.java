@@ -80,6 +80,7 @@ public class RegisterActivity extends BaseActivity {
                 preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
                 String userName = s.getUserName();
                 preferencesManager.setEmail(userName);
+                preferencesManager.setUsername(mName.getText().toString());
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(RegisterActivity.this);
                 DbUser user = databaseHelper.getUser(userName);
                 if (user == null) {
