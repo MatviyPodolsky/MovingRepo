@@ -103,7 +103,7 @@ public class BirthDateFragment extends BaseFragment {
                 ((SetupProfileActivity) getActivity()).scrollToNextPage();
             }
         } else {
-            Toast.makeText(getActivity(), "Please, select date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getActivity().getString(R.string.please_select_date), Toast.LENGTH_SHORT).show();
         }
     }
 
