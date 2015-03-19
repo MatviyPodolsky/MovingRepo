@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/more_articles_title"
                 android:textColor="@color/button_text"
-                android:textSize="@dimen/default_text_size"
+                android:textSize="@dimen/large_text"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"

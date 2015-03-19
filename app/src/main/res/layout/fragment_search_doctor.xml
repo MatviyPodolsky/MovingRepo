@@ -30,7 +30,7 @@
                     android:gravity="right"
                     android:text="@string/search_doctor"
                     android:textColor="@color/button_text"
-                    android:textSize="@dimen/extra_large_text" />
+                    android:textSize="@dimen/large_text" />
 
             </LinearLayout>
         </RelativeLayout>
