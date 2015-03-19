@@ -52,7 +52,8 @@ public class BirthDateFragment extends BaseFragment {
             int dateType = data.getInt(SetupProfileActivity.DATE_TYPE, LAST_PERIOD);
             String dateStr = data.getString(SetupProfileActivity.DATE);
             selectCategory(dateType);
-            ((SetupProfileActivity) getActivity()).setBirthDate(dateStr, dateType);
+            ((SetupProfileActivity) getActivity()).setBirthDate(dateStr);
+            ((SetupProfileActivity) getActivity()).setDateType(dateType);
             if(dateStr != null){
                 Date date = DateUtil.parseDate(dateStr);
                 if(date != null){
@@ -83,7 +84,7 @@ public class BirthDateFragment extends BaseFragment {
                         Date time = date.getTime();
                         String requestDate = DateUtil.formatDate(time, "yyyy-MM-dd'T'HH:mm:ssZ");
                         String textDate = DateUtil.formatDate(time, "MMM dd, yyyy");
-                        ((SetupProfileActivity)getActivity()).setBirthDate(requestDate, mDateType);
+                        ((SetupProfileActivity)getActivity()).setBirthDate(requestDate);
                         mDate.setText(textDate);
                     }
                     break;
@@ -141,22 +142,25 @@ public class BirthDateFragment extends BaseFragment {
                 clearCategories();
                 mFirstCategory.setTextColor(getResources().getColor(R.color.selected_text));
                 mFirstCategory.setBackgroundColor(getResources().getColor(R.color.primary));
-                mDescription.setText("category 1");
+                mDescription.setText(getString(R.string.last_period_description));
                 mDateType = LAST_PERIOD;
+                ((SetupProfileActivity)getActivity()).setDateType(mDateType);
                 break;
             case DUE_TO:
                 clearCategories();
                 mSecondCategory.setTextColor(getResources().getColor(R.color.selected_text));
                 mSecondCategory.setBackgroundColor(getResources().getColor(R.color.primary));
-                mDescription.setText("category 2");
+                mDescription.setText(getString(R.string.expected_birth_date_description));
                 mDateType = DUE_TO;
+                ((SetupProfileActivity)getActivity()).setDateType(mDateType);
                 break;
             case BIRTH_DATE:
                 clearCategories();
                 mThirdCategory.setTextColor(getResources().getColor(R.color.selected_text));
                 mThirdCategory.setBackgroundColor(getResources().getColor(R.color.primary));
-                mDescription.setText("category 3");
+                mDescription.setText(getString(R.string.birth_date_description));
                 mDateType = BIRTH_DATE;
+                ((SetupProfileActivity)getActivity()).setDateType(mDateType);
                 break;
             default:
                 break;
