@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="4dp"
         android:hint="@string/contact_us_title_hint"
-        android:imeOptions="actionNext"
+        android:imeOptions="flagNavigateNext"
         android:singleLine="true"
         android:textSize="@dimen/default_text_size" />
 
