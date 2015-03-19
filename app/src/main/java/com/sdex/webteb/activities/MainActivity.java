@@ -65,6 +65,8 @@ import de.greenrobot.event.EventBus;
 public class MainActivity extends BaseActivity implements DrawerLayout.DrawerListener {
 
     private static final int RIGHT_DRAWER_GRAVITY = GravityCompat.END;
+    private static final int FACEBOOK_APP_REQUEST_CODE = 64207;
+    private static final int FACEBOOK_WEB_REQUEST_CODE = 64206;
 
     private static final String CURRENT_FRAGMENT_INDEX = "CURRENT_FRAGMENT_INDEX";
 
@@ -269,37 +271,35 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             }
         }
 
-//        use only for webViewDialog
-        if (!isFacebookInstalled()) {
-            if (Session.getActiveSession() != null) {
-                Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-            }
-
-            Session currentSession = Session.getActiveSession();
-            if (currentSession == null || currentSession.getState().isClosed()) {
-                Session session = new Session.Builder(MainActivity.this).build();
-                Session.setActiveSession(session);
-                currentSession = session;
-            }
-
-            if (currentSession.isOpened()) {
-                FacebookUtil.publishFacebook(this, "WebTeb", "capt", "desc", "link", "pic");
-                publishFeedDialog("appName", "caption", "description", "link", "picture");
-            }
-        } else {
-            uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
-                @Override
-                public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-                    int a = 0;
+        if(requestCode == FACEBOOK_APP_REQUEST_CODE || requestCode == FACEBOOK_WEB_REQUEST_CODE) {
+            if (!isFacebookInstalled()) {
+                if (Session.getActiveSession() != null) {
+                    Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
                 }
 
-                @Override
-                public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
-                    int a = 0;
+                Session currentSession = Session.getActiveSession();
+                if (currentSession == null || currentSession.getState().isClosed()) {
+                    Session session = new Session.Builder(MainActivity.this).build();
+                    Session.setActiveSession(session);
+                    currentSession = session;
                 }
-            });
+
+                if (currentSession.isOpened()) {
+                    FacebookUtil.publishFacebook(this, "WebTeb", "capt", "desc", "link", "pic");
+                    publishFeedDialog("appName", "caption", "description", "link", "picture");
+                }
+            } else {
+                uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+                    @Override
+                    public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+                    }
+
+                    @Override
+                    public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+                    }
+                });
+            }
         }
-//        use only for webViewDialog
     }
 
     public void onEvent(SelectMenuItemEvent event) {
