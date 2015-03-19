@@ -162,7 +162,7 @@ public interface ApiService {
                                  Callback<NotificationsResponse> callback);
 
     @POST("/baby/notifications/tapped")
-    public void postNotification(@Body NotificationRequest body, Callback<String> callback);
+    public void postNotificationTapped(@Body NotificationRequest body, Callback<String> callback);
 
     @POST("/baby/settings/pushtoken")
     public void postPushToken(@Body PushTokenRequest body, Callback<String> callback);

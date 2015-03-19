@@ -61,6 +61,18 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     private static final String CURRENT_FRAGMENT_INDEX = "CURRENT_FRAGMENT_INDEX";
 
+    public static final String NOTIFICATION_TYPE_TEST_SINGLE = "1";
+    public static final String NOTIFICATION_TYPE_TIP = "2";
+    public static final String NOTIFICATION_TYPE_INACTIVE_USER = "3";
+    public static final String NOTIFICATION_TYPE_WEEK_38 = "4";
+    public static final String NOTIFICATION_TYPE_WEEK_40 = "5";
+
+    public static final String NOTIFICATION_ID = "NotificaitonId";
+    public static final String NOTIFICATION_TYPE = "type";
+    public static final String NOTIFICATION_TITLE = "title";
+    public static final String NOTIFICATION_CONTENT = "content";
+    public static final String NOTIFICATION_TYPE_TEST_MULTIPLE = "6";
+
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @InjectView(R.id.drawer_list)
@@ -367,18 +379,36 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     private void handlePushNotification(Bundle extras) {
         String type = extras.getString(NOTIFICATION_TYPE).trim();
+        String notificationId = extras.getString(NOTIFICATION_ID);
         switch (type) {
-            case "1": // 1 – test reminder
+            case NOTIFICATION_TYPE_TEST_SINGLE:
+                // open the test page in the app
                 break;
-            case "2": // 2 – weekly tips
+            case NOTIFICATION_TYPE_TEST_MULTIPLE:
+                // open “My Tests” page
+                setMenuItem(1);
                 break;
-            case "3": // 3 – inactive user
+            case NOTIFICATION_TYPE_TIP:
+                // open the home page
                 break;
-            case "4": // 4 – week 38 push
+            case NOTIFICATION_TYPE_INACTIVE_USER:
+                // open the home page
                 break;
-            case "5": // 5 – week 40 push
+            case NOTIFICATION_TYPE_WEEK_38:
+                // open the home page
+                break;
+            case NOTIFICATION_TYPE_WEEK_40:
+                // open the home page
                 break;
         }
+//        RestClient.getApiService().postNotificationTapped(null, new Callback<String>() {
+//            @Override
+//            public void success(String s, Response response) {
+//            }
+//            @Override
+//            public void failure(RetrofitError error) {
+//            }
+//        });
     }
 
     public UiLifecycleHelper getUiHelper() {
@@ -393,10 +423,5 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(i);
     }
-
-    public static final String NOTIFICATION_ID = "NotificaitonId";
-    public static final String NOTIFICATION_TYPE = "type";
-    public static final String NOTIFICATION_TITLE = "title";
-    public static final String NOTIFICATION_CONTENT = "content";
 
 }
