@@ -68,7 +68,7 @@ public class FamilyRelationFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.family_relation)
+    @OnClick(R.id.linearFamilyRelation)
     public void selectFamilyRelation() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         DialogFragment dialog = new FamilyRelationDialog();
