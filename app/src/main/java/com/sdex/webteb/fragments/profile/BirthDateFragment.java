@@ -42,6 +42,7 @@ public class BirthDateFragment extends BaseFragment {
     @InjectView(R.id.select_date)
     TextView mDate;
     private int mDateType = LAST_PERIOD;
+    private String dateString;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class BirthDateFragment extends BaseFragment {
                 }
             }
             mDate.setText(dateStr);
+            dateString = dateStr;
         }
     }
 
@@ -96,13 +98,11 @@ public class BirthDateFragment extends BaseFragment {
         }
     }
 
-    @OnClick(R.id.select_date)
+    @OnClick(R.id.container_select_date)
     public void selectDate() {
         DialogFragment dialog = new DatePickerFragmentDialog();
         dialog.setTargetFragment(this, REQUEST_GET_DATE);
-        String dateString = mDate.getText().toString();
-        if(dateString != null && !dateString.isEmpty() &&
-                !dateString.equals(getResources().getString(R.string.click_to_select_date))) {
+        if(dateString != null) {
             Bundle args = new Bundle();
             args.putString(DatePickerFragmentDialog.EXTRA_DATE, dateString);
             dialog.setArguments(args);

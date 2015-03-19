@@ -32,7 +32,7 @@ public class DatePickerFragmentDialog extends DialogFragment
 
         if (args != null) {
             String dateString = args.getString(EXTRA_DATE);
-            if (dateString != null && !dateString.isEmpty()) {
+            if (dateString != null) {
                 c.setTime(DateUtil.parseDate(dateString));
             }
         }
