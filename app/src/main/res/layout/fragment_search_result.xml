@@ -51,6 +51,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingBottom="20dp"
+            android:listSelector="@drawable/doctors_list_selector"
             android:divider="@color/divider"
             android:dividerHeight="2dp">
 

@@ -13,8 +13,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.facebook.Session;
 import com.facebook.UiLifecycleHelper;
@@ -66,12 +68,12 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     public static final String NOTIFICATION_TYPE_INACTIVE_USER = "3";
     public static final String NOTIFICATION_TYPE_WEEK_38 = "4";
     public static final String NOTIFICATION_TYPE_WEEK_40 = "5";
+    public static final String NOTIFICATION_TYPE_TEST_MULTIPLE = "6";
 
-    public static final String NOTIFICATION_ID = "NotificaitonId";
+    public static final String NOTIFICATION_ID = "notificationId";
     public static final String NOTIFICATION_TYPE = "type";
     public static final String NOTIFICATION_TITLE = "title";
-    public static final String NOTIFICATION_CONTENT = "content";
-    public static final String NOTIFICATION_TYPE_TEST_MULTIPLE = "6";
+    public static final String NOTIFICATION_CONTENT = "Content";
 
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
@@ -79,6 +81,11 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     ListView mDrawerList;
     @InjectView(R.id.root_layout)
     LinearLayout mRootLayout;
+
+    @InjectView(R.id.title)
+    TextView mTitle;
+    @InjectView(R.id.logo)
+    ImageView mLogo;
 
     Handler mHandler = new Handler();
     Runnable mOpenMenuItemTask;
@@ -338,23 +345,42 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         }
     }
 
-    private static Fragment getFragmentByPosition(int position) {
+    private Fragment getFragmentByPosition(int position) {
         switch (position) {
             case 0:
+                mLogo.setVisibility(View.VISIBLE);
+                mTitle.setVisibility(View.GONE);
                 return new HomeFragment();
             case 1:
+                mLogo.setVisibility(View.VISIBLE);
+                mTitle.setVisibility(View.GONE);
                 return new MyTestsFragment();
             case 2:
+                mLogo.setVisibility(View.VISIBLE);
+                mTitle.setVisibility(View.GONE);
                 return new AlbumFragment();
             case 3:
+                mLogo.setVisibility(View.VISIBLE);
+                mTitle.setVisibility(View.GONE);
                 return new SearchDoctorFragment();
             case 4:
+                mLogo.setVisibility(View.VISIBLE);
+                mTitle.setVisibility(View.GONE);
                 return new MoreArticlesFragment();
             case 5:
+                mLogo.setVisibility(View.GONE);
+                mTitle.setText(R.string.settings_title);
+                mTitle.setVisibility(View.VISIBLE);
                 return new SettingsFragment();
             case 6:
+                mLogo.setVisibility(View.GONE);
+                mTitle.setText(R.string.about_title);
+                mTitle.setVisibility(View.VISIBLE);
                 return new AboutFragment();
             case 7:
+                mLogo.setVisibility(View.GONE);
+                mTitle.setText(R.string.contact_us_title);
+                mTitle.setVisibility(View.VISIBLE);
                 return new ContactUsFragment();
         }
         return null;

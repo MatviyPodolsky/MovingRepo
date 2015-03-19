@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,12 +14,23 @@
         android:layout_width="match_parent"
         android:layout_height="56dp">
 
+        <com.sdex.webteb.view.TypefaceTextView
+            android:visibility="gone"
+            app:typeface="DINNextLTArabicBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Title"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center"
+            android:id="@+id/title" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/nb_logo_webteb"
-            android:id="@+id/imageView" />
+            android:id="@+id/logo" />
 
         <ImageButton
             android:layout_width="56dp"
