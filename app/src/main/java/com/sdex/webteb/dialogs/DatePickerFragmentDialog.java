@@ -31,7 +31,7 @@ public class DatePickerFragmentDialog extends DialogFragment
         Bundle args = getArguments();
 
         if (args != null) {
-            String dateString = (String) args.getSerializable(EXTRA_DATE);
+            String dateString = args.getString(EXTRA_DATE);
             if (dateString != null && !dateString.isEmpty()) {
                 c.setTime(DateUtil.parseDate(dateString));
             }

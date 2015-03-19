@@ -101,9 +101,10 @@ public class BirthDateFragment extends BaseFragment {
         DialogFragment dialog = new DatePickerFragmentDialog();
         dialog.setTargetFragment(this, REQUEST_GET_DATE);
         String dateString = mDate.getText().toString();
-        if(dateString != null && !dateString.isEmpty()) {
+        if(dateString != null && !dateString.isEmpty() &&
+                !dateString.equals(getResources().getString(R.string.click_to_select_date))) {
             Bundle args = new Bundle();
-            args.putSerializable(DatePickerFragmentDialog.EXTRA_DATE, dateString);
+            args.putString(DatePickerFragmentDialog.EXTRA_DATE, dateString);
             dialog.setArguments(args);
         }
         dialog.show(getFragmentManager(), null);
