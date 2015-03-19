@@ -28,10 +28,18 @@ import java.util.List;
 */
 public class FacebookUtil {
 
+    public static final int PUBLISH_ARTICLE = 0;
+    public static final int PUBLISH_PHOTO = 1;
+
     public static final String PERMISSION = "publish_actions";
     public static boolean isPostingPhoto;
+    private static ContentLink lastArticle;
+    private static String lastPhoto;
+    private static int lastContent;
 
     public static void publishArticle(Activity activity, ContentLink article){
+        lastArticle = article;
+        lastContent = PUBLISH_ARTICLE;
         if(isFacebookInstalled(activity)){
             publishFeedFromApp(activity, null, article.getTitle(), article.getDescription(),
                     article.getUrl(), article.getImageUrl());
@@ -42,6 +50,7 @@ public class FacebookUtil {
     }
 
     public static void publishPhoto(Activity activity, String path){
+        lastContent = PUBLISH_PHOTO;
         if(isFacebookInstalled(activity)){
             publishPhotoFromApp(activity, path);
         } else {
@@ -49,12 +58,16 @@ public class FacebookUtil {
         }
     }
 
-    public static void publishFacebook(Activity activity, String appName, String caption, String description, String link,
-                                String picture) {
-        if(isFacebookInstalled(activity)){
-            publishFeedFromApp(activity, appName, caption, description, link, picture);
-        } else {
-            publishFeedFromWeb(activity, appName, caption, description, link, picture);
+    public static void publishLastContent(Activity activity){
+        if(lastContent == PUBLISH_ARTICLE){
+            if(lastArticle != null) {
+                publishArticle(activity, lastArticle);
+            }
+        }
+        if(lastContent == PUBLISH_PHOTO){
+            if(lastPhoto != null && !lastPhoto.equals("")) {
+                publishPhoto(activity, lastPhoto);
+            }
         }
     }
 
@@ -180,6 +193,7 @@ public class FacebookUtil {
 
     private static void publishPhotoDialog(final Activity activity, String path){
         if (!isPostingPhoto) {
+            lastPhoto = path;
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             Bitmap image = BitmapFactory.decodeFile(path, options);
@@ -233,7 +247,7 @@ public class FacebookUtil {
         }
     }
 
-    private static boolean isFacebookInstalled(Activity activity) {
+    public static boolean isFacebookInstalled(Activity activity) {
         try {
             ApplicationInfo info = activity.getPackageManager().
                     getApplicationInfo("com.facebook.katana", 0);
@@ -246,5 +260,13 @@ public class FacebookUtil {
     private static boolean hasPublishPermission() {
         Session session = Session.getActiveSession();
         return session != null && session.getPermissions().contains("publish_actions");
+    }
+
+    private static String getLastPhoto(){
+        return lastPhoto;
+    }
+
+    private static ContentLink getLastArticle() {
+        return lastArticle;
     }
 }

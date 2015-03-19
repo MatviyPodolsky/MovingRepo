@@ -1,10 +1,7 @@
 package com.sdex.webteb.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,15 +16,10 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.facebook.FacebookException;
-import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Session;
-import com.facebook.SessionLoginBehavior;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
-import com.facebook.widget.WebDialog;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MenuAdapter;
 import com.sdex.webteb.dialogs.PushNotificationDialog;
@@ -271,8 +263,9 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             }
         }
 
-        if(requestCode == FACEBOOK_APP_REQUEST_CODE || requestCode == FACEBOOK_WEB_REQUEST_CODE) {
-            if (!isFacebookInstalled()) {
+        if((requestCode == FACEBOOK_APP_REQUEST_CODE || requestCode == FACEBOOK_WEB_REQUEST_CODE)
+                && resultCode == RESULT_OK) {
+            if (!FacebookUtil.isFacebookInstalled(this)) {
                 if (Session.getActiveSession() != null) {
                     Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
                 }
@@ -285,8 +278,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 }
 
                 if (currentSession.isOpened()) {
-                    FacebookUtil.publishFacebook(this, "WebTeb", "capt", "desc", "link", "pic");
-                    publishFeedDialog("appName", "caption", "description", "link", "picture");
+                    FacebookUtil.publishLastContent(this);
                 }
             } else {
                 uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
@@ -356,109 +348,6 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 return new ContactUsFragment();
         }
         return null;
-    }
-
-    public void publishFacebook(String appName, String caption, String description, String link,
-                                String picture) {
-//        if(isFacebookInstalled()){
-//            publishFromFacebookApp(appName, caption, description, link, picture);
-//        } else {
-        publishFromFacebookWeb(appName, caption, description, link, picture);
-//        }
-    }
-
-    private void publishFromFacebookApp(String appName, String caption, String description, String link,
-                                        String picture) {
-        FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(MainActivity.this)
-                .setName(appName)
-                .setCaption(caption)
-                .setDescription(description)
-                .setLink(link)
-                .setPicture(picture)
-                .build();
-        uiHelper.trackPendingDialogCall(shareDialog.present());
-    }
-
-    private void publishFromFacebookWeb(String appName, String caption, String description, String link,
-                                        String picture) {
-        Session currentSession = Session.getActiveSession();
-        if (currentSession == null || currentSession.getState().isClosed()) {
-            Session session = new Session.Builder(MainActivity.this).build();
-            Session.setActiveSession(session);
-            currentSession = session;
-        }
-
-        if (currentSession.isOpened()) {
-            publishFeedDialog(appName, caption, description, link, picture);
-        } else if (!currentSession.isOpened()) {
-            // Ask for username and password
-            Session.OpenRequest op = new Session.OpenRequest((Activity) MainActivity.this);
-
-            op.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
-            op.setCallback(null);
-
-            List<String> permissions = new ArrayList<String>();
-            permissions.add("publish_stream");
-            permissions.add("user_likes");
-            permissions.add("email");
-            permissions.add("user_birthday");
-            op.setPermissions(permissions);
-
-            Session session = new Session.Builder(MainActivity.this).build();
-            Session.setActiveSession(session);
-            session.openForPublish(op);
-        }
-    }
-
-    private void publishFeedDialog(String appName, String caption, String description, String link, String picture) {
-        Bundle params = new Bundle();
-        params.putString("name", appName);
-        params.putString("caption", caption);
-        params.putString("description", description);
-        params.putString("link", link);
-        params.putString("picture", picture);
-
-        WebDialog feedDialog = (new WebDialog.FeedDialogBuilder(MainActivity.this, Session.getActiveSession(), params))
-                .setOnCompleteListener(new WebDialog.OnCompleteListener() {
-
-                    @Override
-                    public void onComplete(Bundle values, FacebookException error) {
-                        if (error == null) {
-                            // When the story is posted, echo the success
-                            // and the post Id.
-                            final String postId = values.getString("post_id");
-                            if (postId != null) {
-                                Toast.makeText(MainActivity.this, "Posted story, id: " + postId,
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                // User clicked the Cancel button
-                                Toast.makeText(MainActivity.this.getApplicationContext(), "Publish cancelled",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        } else if (error instanceof FacebookOperationCanceledException) {
-                            // User clicked the "x" button
-                            Toast.makeText(MainActivity.this.getApplicationContext(), "Publish cancelled",
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Generic, ex: network error
-                            Toast.makeText(MainActivity.this.getApplicationContext(), "Error posting story",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                })
-                .build();
-        feedDialog.show();
-    }
-
-    private boolean isFacebookInstalled() {
-        try {
-            ApplicationInfo info = getPackageManager().
-                    getApplicationInfo("com.facebook.katana", 0);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
     }
 
     @Override

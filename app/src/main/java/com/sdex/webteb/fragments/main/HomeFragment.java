@@ -26,7 +26,6 @@ import android.widget.Toast;
 
 import com.sdex.webteb.BuildConfig;
 import com.sdex.webteb.R;
-import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.TimeNavigationAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
@@ -619,11 +618,6 @@ public class HomeFragment extends PhotoFragment {
         DialogFragment dialog = new NotificationDialog();
         dialog.setTargetFragment(this, REQUEST_GET_NOTIFICATION);
         dialog.show(getFragmentManager(), null);
-    }
-
-    @OnClick(R.id.share)
-    public void share(final View v) {
-        ((MainActivity) getActivity()).publishFacebook("asd", "dsa", "qwer", "http://www.google.com", "http://cs7061.vk.me/c7006/v7006596/40f5b/L3hqYSMgZCM.jpg");
     }
 
     private void showPhotoPreview(String path) {

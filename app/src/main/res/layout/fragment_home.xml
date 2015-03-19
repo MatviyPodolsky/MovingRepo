@@ -93,14 +93,6 @@
                 android:text="notification"
                 android:visibility="gone" />
 
-            <Button
-                android:id="@+id/share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/notification"
-                android:text="share"
-                android:visibility="invisible" />
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/content_list"
                 android:layout_width="match_parent"
