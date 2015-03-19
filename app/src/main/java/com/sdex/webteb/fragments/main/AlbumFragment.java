@@ -116,7 +116,9 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
 
     @OnClick(R.id.btn_delete_photo)
     void deletePhoto() {
-        ConfirmDialog dialog = new ConfirmDialog();
+        ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_delete_photo_title,
+                R.string.dialog_delete_photo_message, R.string.dialog_delete_photo_confirm,
+                R.string.dialog_delete_photo_cancel);
         dialog.setCallback(new DialogCallback.EmptyCallback() {
             @Override
             public void confirm() {

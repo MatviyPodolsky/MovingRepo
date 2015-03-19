@@ -14,6 +14,8 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ProfilePageAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
+import com.sdex.webteb.dialogs.ConfirmDialog;
+import com.sdex.webteb.dialogs.DialogCallback;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
@@ -178,6 +180,27 @@ public class SetupProfileActivity extends BaseActivity {
             startActivity(intent);
         }
         finish();
+    }
+
+    public void saveChanges() {
+        if (isInEditMode) {
+            ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_edit_profile_title,
+                    R.string.dialog_edit_profile_message, R.string.dialog_edit_profile_confirm,
+                    R.string.dialog_edit_profile_cancel);
+            dialog.setCallback(new DialogCallback.EmptyCallback() {
+                @Override
+                public void confirm() {
+                    save();
+                }
+            });
+            dialog.show(getSupportFragmentManager(), "dialog");
+        } else {
+            save();
+        }
+    }
+
+    private void save() {
+        sendRequest();
     }
 
     public void setFamilyRelation(int relation){

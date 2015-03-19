@@ -258,6 +258,24 @@
     <string name="empty_loaded_data">Empty loaded data</string>
     <string name="no_connection">No connection to the internet</string>
 
+    <!--confirm dialogs-->
+    <string name="dialog_delete_photo_title">Delete photo</string>
+    <string name="dialog_delete_photo_message">Are you sure?</string>
+    <string name="dialog_delete_photo_confirm">Delete</string>
+    <string name="dialog_delete_photo_cancel">Cancel</string>
+    <string name="dialog_logout_title">Logout</string>
+    <string name="dialog_logout_message">We hate to see you Go, are you sure you want to logout?</string>
+    <string name="dialog_logout_confirm">Logout</string>
+    <string name="dialog_logout_cancel">Cancel</string>
+    <string name="dialog_reset_title">Reset data</string>
+    <string name="dialog_reset_message">Do you want to reset the app data; this will erase all your content within the app?</string>
+    <string name="dialog_reset_confirm">Reset app</string>
+    <string name="dialog_reset_cancel">Cancel</string>
+    <string name="dialog_edit_profile_title">Save changes</string>
+    <string name="dialog_edit_profile_message">You have changed your profile information, are you sure you want to update it?</string>
+    <string name="dialog_edit_profile_confirm">Update</string>
+    <string name="dialog_edit_profile_cancel">Cancel</string>
+
     <!--debug text-->
     <string name="test_text" translatable="false">Text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text
