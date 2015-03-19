@@ -12,6 +12,7 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="username">Username</string>
+    <string name="title_forgot_password">Forgot password</string>
     <string name="confirm_username">Confirm username</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
