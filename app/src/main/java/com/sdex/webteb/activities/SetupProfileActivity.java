@@ -14,6 +14,8 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ProfilePageAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
+import com.sdex.webteb.dialogs.ConfirmDialog;
+import com.sdex.webteb.dialogs.DialogCallback;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
@@ -24,9 +26,7 @@ import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.utils.PreferencesManager;
-import com.sdex.webteb.view.pageindicator.PageIndicatorAdapter;
 import com.squareup.picasso.Picasso;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import java.io.File;
 import java.util.List;
@@ -48,8 +48,6 @@ public class SetupProfileActivity extends BaseActivity {
     private ProfilePageAdapter mAdapter;
     @InjectView(R.id.pager)
     ViewPager mPager;
-    @InjectView(R.id.indicator)
-    CirclePageIndicator mIndicator;
     @InjectView(R.id.profile_card)
     View profileCard;
     @InjectView(R.id.avatar)
@@ -116,8 +114,6 @@ public class SetupProfileActivity extends BaseActivity {
 
     private void initViewPager() {
         mPager.setAdapter(mAdapter);
-        mIndicator.setViewPager(mPager);
-        mPager.setOnPageChangeListener(pageIndicatorAdapter);
         mPager.setOffscreenPageLimit(3);
     }
 
@@ -174,6 +170,27 @@ public class SetupProfileActivity extends BaseActivity {
             startActivity(intent);
         }
         finish();
+    }
+
+    public void saveChanges() {
+        if (isInEditMode) {
+            ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_edit_profile_title,
+                    R.string.dialog_edit_profile_message, R.string.dialog_edit_profile_confirm,
+                    R.string.dialog_edit_profile_cancel);
+            dialog.setCallback(new DialogCallback.EmptyCallback() {
+                @Override
+                public void confirm() {
+                    save();
+                }
+            });
+            dialog.show(getSupportFragmentManager(), "dialog");
+        } else {
+            save();
+        }
+    }
+
+    private void save() {
+        sendRequest();
     }
 
     public void setFamilyRelation(int relation){
@@ -243,15 +260,5 @@ public class SetupProfileActivity extends BaseActivity {
                 PhotoFragment.PHOTO_SELECTED_PROFILE);
         dialog.show(getSupportFragmentManager(), null);
     }
-
-    private PageIndicatorAdapter pageIndicatorAdapter = new PageIndicatorAdapter() {
-
-        @Override
-        public void onPageSelected(int position) {
-            mIndicator.setCurrentItem(position);
-            mIndicator.notifyDataSetChanged();
-        }
-
-    };
 
 }

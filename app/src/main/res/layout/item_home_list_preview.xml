@@ -1,59 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right">
+
+        <com.sdex.webteb.view.TypefaceTextView
+            app:typeface="DINNextLTArabicBold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="@string/test_text"
+            android:id="@+id/title"
+            android:textSize="20sp"
+            android:textColor="@color/link"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/icon"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            tools:src="@drawable/ic_header_1"
+            android:layout_marginLeft="8dp" />
+
+    </LinearLayout>
+
 
     <ImageView
-        android:id="@+id/icon"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        tools:src="@drawable/ic_header_1" />
-
-    <com.sdex.webteb.view.TypefaceTextView
-        android:id="@+id/title"
-        app:typeface="DINNextLTArabicBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/icon"
-        android:layout_alignTop="@+id/icon"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/icon"
-        android:gravity="center_vertical"
-        android:textSize="20sp"
-        android:textColor="@color/link"
-        tools:text="New Text" />
-
-    <ImageView
         android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/text"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:adjustViewBounds="true"
         android:maxWidth="120dp"
-        tools:src="@drawable/ic_header_2" />
+        android:adjustViewBounds="true"
+        tools:src="@drawable/ic_header_2"
+        android:layout_below="@+id/title_container"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp" />
 
     <com.sdex.webteb.view.TypefaceTextView
-        android:id="@+id/text"
-        app:typeface="DINNextLTArabicLight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/icon"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/image"
+        tools:text="New Text"
+        app:typeface="DINNextLTArabicLight"
+        android:id="@+id/text"
         android:gravity="start"
         android:textSize="@dimen/default_text_size"
-        tools:text="New Text" />
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/title_container"
+        android:layout_toRightOf="@+id/image" />
 
 </RelativeLayout>

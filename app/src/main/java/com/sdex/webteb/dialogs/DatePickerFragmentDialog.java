@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
 import com.sdex.webteb.fragments.profile.BirthDateFragment;
+import com.sdex.webteb.utils.DateUtil;
 
 import java.util.Calendar;
 
@@ -18,14 +19,24 @@ import java.util.Calendar;
 public class DatePickerFragmentDialog extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
+    public static final String EXTRA_DATE = "com.sdex.webteb.dialogs.date";
     public static final String EXTRA_YEAR = "EXTRA_YEAR";
     public static final String EXTRA_MONTH = "EXTRA_MONTH";
     public static final String EXTRA_DAY = "EXTRA_DAY";
 
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current date as the default date in the picker
-        final Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance();
+        Bundle args = getArguments();
+
+        if (args != null) {
+            String dateString = (String) args.getSerializable(EXTRA_DATE);
+            if (dateString != null && !dateString.isEmpty()) {
+                c.setTime(DateUtil.parseDate(dateString));
+            }
+        }
+
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);

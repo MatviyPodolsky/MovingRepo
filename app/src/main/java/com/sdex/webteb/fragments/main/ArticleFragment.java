@@ -40,6 +40,10 @@ public class ArticleFragment extends BaseMainFragment {
         Bundle args = getArguments();
         article = Parcels.unwrap(args.getParcelable(ARTICLE));
         title.setText(article.getTitle());
+
+        mContentView.getSettings().setLoadWithOverviewMode(true);
+        mContentView.getSettings().setUseWideViewPort(true);
+
         mContentView.loadUrl(article.getUrl());
     }
 
