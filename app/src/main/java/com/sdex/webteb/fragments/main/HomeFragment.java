@@ -1,7 +1,6 @@
 package com.sdex.webteb.fragments.main;
 
 import android.animation.ValueAnimator;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -84,7 +83,6 @@ public class HomeFragment extends PhotoFragment {
 
     public static final String ARTICLES_LIST = "ARTICLES_LIST";
 
-    public static final int REQUEST_GET_NOTIFICATION = 10;
     public static final int MORE_ARTICLES_FRAGMENT = 4;
     public static final int SEARCH_DOCTOR_FRAGMENT = 3;
     public static final int ALBUM_FRAGMENT = 2;
@@ -512,7 +510,8 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void showNotification(final NotificationsResponse notificationsResponse) {
-        ValueAnimator va = ValueAnimator.ofInt(0, DisplayUtil.dpToPx(80));
+        int height = getResources().getDimensionPixelSize(R.dimen.notification_bar_height);
+        ValueAnimator va = ValueAnimator.ofInt(0, height);
         va.setDuration(500);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -537,7 +536,8 @@ public class HomeFragment extends PhotoFragment {
     @Optional
     @OnClick(R.id.cancel_in_app_notification)
     void hideNotification() {
-        ValueAnimator va = ValueAnimator.ofInt(DisplayUtil.dpToPx(80), 0);
+        int height = getResources().getDimensionPixelSize(R.dimen.notification_bar_height);
+        ValueAnimator va = ValueAnimator.ofInt(height, 0);
         va.setDuration(500);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -588,16 +588,6 @@ public class HomeFragment extends PhotoFragment {
         return (DisplayUtil.getScreenWidth(getActivity()) - (2 * itemPadding + itemSize)) / 2;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_GET_NOTIFICATION:
-                Toast.makeText(getActivity(), "Notification canceled", Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
-
     // change profile photo from home
 //    @OnClick(R.id.avatar)
 //    public void takeProfilePhoto() {
@@ -610,13 +600,6 @@ public class HomeFragment extends PhotoFragment {
     public void takePhoto() {
         DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_ALBUM,
                 PhotoFragment.PHOTO_SELECTED_ALBUM);
-        dialog.show(getFragmentManager(), null);
-    }
-
-    @OnClick(R.id.notification)
-    public void notification(final View v) {
-        DialogFragment dialog = new NotificationDialog();
-        dialog.setTargetFragment(this, REQUEST_GET_NOTIFICATION);
         dialog.show(getFragmentManager(), null);
     }
 

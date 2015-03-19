@@ -18,4 +18,6 @@
     <dimen name="profile_height">102dp</dimen>
     <dimen name="time_navigation_controller_month_line_height">12dp</dimen>
 
+    <dimen name="notification_bar_height">90dp</dimen>
+
 </resources>
