@@ -19,6 +19,11 @@ import lombok.Setter;
 @Setter
 public class BabyProfileResponse extends ApiResponse {
 
+    public static final int DATE_TYPE_NOT_SET = 0;
+    public static final int DATE_TYPE_LAST_PERIOD = 1;
+    public static final int DATE_TYPE_DUE_TO = 2;
+    public static final int DATE_TYPE_BIRTH_DATE = 3;
+
     @SerializedName("FamilyRelation")
     @Expose
     private int familyRelation;
