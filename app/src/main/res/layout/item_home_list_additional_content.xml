@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <com.sdex.webteb.view.TypefaceTextView
+        app:typeface="DINNextLTArabicBold"
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="10dp"
+        android:textSize="20sp"
+        android:textColor="@color/link"
         android:gravity="center_vertical|right"
-        android:textSize="@dimen/large_text"
         tools:text="New Text" />
 
     <ImageView
@@ -28,8 +31,9 @@
         android:maxWidth="120dp"
         tools:src="@drawable/ic_header_2" />
 
-    <TextView
+    <com.sdex.webteb.view.TypefaceTextView
         android:id="@+id/text"
+        app:typeface="DINNextLTArabicLight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
