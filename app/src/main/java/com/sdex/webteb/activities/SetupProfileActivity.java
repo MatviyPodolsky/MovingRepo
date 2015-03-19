@@ -65,11 +65,6 @@ public class SetupProfileActivity extends BaseActivity {
         isInEditMode = getIntent().getBooleanExtra(SettingsFragment.EDIT_PROFILE, false);
 
         databaseHelper = DatabaseHelper.getInstance(this);
-//        Date date = Calendar.getInstance().getTime();
-//        SimpleDateFormat outFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-//        String dt = outFormat.format(date);
-//        request.setDateType(1);
-//        request.setDate(dt);
         profileCard.findViewById(R.id.photo_container).setVisibility(View.GONE);
 
         username = PreferencesManager.getInstance().getEmail();
@@ -93,15 +88,18 @@ public class SetupProfileActivity extends BaseActivity {
 
             @Override
             public void success(BabyProfileResponse babyProfileResponse, Response response) {
-                if(isInEditMode) {
-                    mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), babyProfileResponse);
-                } else {
-                    mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), null);
-                }
+                mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), babyProfileResponse);
                 initViewPager();
             }
         };
-        RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
+
+        if (isInEditMode) {
+            RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
+        } else {
+            mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), null);
+            initViewPager();
+        }
+
 
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         String userName = preferencesManager.getUsername();
@@ -158,14 +156,14 @@ public class SetupProfileActivity extends BaseActivity {
         }
     }
 
-    public void scrollToNextPage(){
-        if(mPager.getCurrentItem()<mPager.getChildCount()-1){
-            mPager.setCurrentItem(mPager.getCurrentItem()+1, true);
+    public void scrollToNextPage() {
+        if (mPager.getCurrentItem() < mPager.getChildCount() - 1) {
+            mPager.setCurrentItem(mPager.getCurrentItem() + 1, true);
         }
     }
 
     public void launchMainActivity() {
-        if(!isInEditMode) {
+        if (!isInEditMode) {
             Intent intent = new Intent(SetupProfileActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -193,25 +191,25 @@ public class SetupProfileActivity extends BaseActivity {
         sendRequest();
     }
 
-    public void setFamilyRelation(int relation){
+    public void setFamilyRelation(int relation) {
         request.setFamilyRelation(relation);
     }
 
-    public void setBirthDate(String date, int dateType){
+    public void setBirthDate(String date, int dateType) {
         request.setDate(date);
         request.setDateType(dateType);
     }
 
-    public void setChildren(List<Child> children){
+    public void setChildren(List<Child> children) {
         request.setChildren(children);
     }
 
-    public void sendRequest(){
-        if(request.getDate() == null){
+    public void sendRequest() {
+        if (request.getDate() == null) {
             Toast.makeText(this, "Please, select date", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(request.getFamilyRelation() == -1){
+        if (request.getFamilyRelation() == -1) {
             Toast.makeText(this, "Please, select family relation", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -225,17 +223,17 @@ public class SetupProfileActivity extends BaseActivity {
             @Override
             public void success(String s, Response response) {
                 DbUser user = databaseHelper.getUser(username);
-                    user.setCompletedProfile(true);
-                    String children = "";
-                    for (Child child : request.getChildren()){
-                        if(children.equals("")) {
-                            children = children + child.getName();
-                        } else {
-                            children = children + "/" + child.getName();
-                        }
+                user.setCompletedProfile(true);
+                String children = "";
+                for (Child child : request.getChildren()) {
+                    if (children.equals("")) {
+                        children = children + child.getName();
+                    } else {
+                        children = children + "/" + child.getName();
                     }
-                    user.setChildren(children);
-                    databaseHelper.updateUser(user);
+                }
+                user.setChildren(children);
+                databaseHelper.updateUser(user);
                 MainActivity.launch(SetupProfileActivity.this);
                 finish();
             }

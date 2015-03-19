@@ -21,6 +21,7 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.FacebookLoginRequest;
+import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.utils.PreferencesManager;
 
@@ -42,6 +43,7 @@ public class LoginActivity extends BaseActivity {
     private UiLifecycleHelper uiHelper;
 
     private RestCallback<UserLoginResponse> loginCallback;
+    private RestCallback<BabyProfileResponse> getBabyProfileCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +76,31 @@ public class LoginActivity extends BaseActivity {
                     DbUser newUser = new DbUser();
                     newUser.setEmail(userName);
                     databaseHelper.addUser(newUser);
-                    launchMainActivity(false);
+
+                    RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
+
                 } else {
                     if (user.isCompletedProfile()){
                         launchMainActivity(true);
                     } else {
                         launchMainActivity(false);
                     }
+                }
+            }
+        };
+
+        getBabyProfileCallback = new RestCallback<BabyProfileResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                launchMainActivity(false);
+            }
+
+            @Override
+            public void success(BabyProfileResponse babyProfileResponse, Response response) {
+                if(babyProfileResponse != null && babyProfileResponse.getDateType() == BabyProfileResponse.DATE_TYPE_NOT_SET) {
+                    launchMainActivity(false);
+                } else {
+                    launchMainActivity(true);
                 }
             }
         };

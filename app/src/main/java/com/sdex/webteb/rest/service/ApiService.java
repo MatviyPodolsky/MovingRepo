@@ -8,7 +8,7 @@ import com.sdex.webteb.rest.request.BabyReminderRequest;
 import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.request.ChangePasswordRequest;
 import com.sdex.webteb.rest.request.FacebookLoginRequest;
-import com.sdex.webteb.rest.request.NotificationRequest;
+import com.sdex.webteb.rest.request.NotificationTappedRequest;
 import com.sdex.webteb.rest.request.PushTokenRequest;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.request.RegisterUserRequest;
@@ -162,7 +162,7 @@ public interface ApiService {
                                  Callback<NotificationsResponse> callback);
 
     @POST("/baby/notifications/tapped")
-    public void postNotificationTapped(@Body NotificationRequest body, Callback<String> callback);
+    public void postNotificationTapped(@Body NotificationTappedRequest body, Callback<String> callback);
 
     @POST("/baby/settings/pushtoken")
     public void postPushToken(@Body PushTokenRequest body, Callback<String> callback);
