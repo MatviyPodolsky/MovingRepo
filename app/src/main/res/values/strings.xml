@@ -226,7 +226,7 @@
 
     <!--settings-->
     <string name="settings_title_1">Settings title 1</string>
-    <string name="settings_title_2">Settings title 2</string>
+    <string name="profile_settings">Profile settings</string>
     <string name="weekly_tips_notifications">Weekly tips notifications</string>
     <string name="tests_reminders">Tests reminders</string>
     <string name="once_a_day">Once a day</string>

@@ -157,7 +157,7 @@
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/newsletter_container"
-            android:text="@string/settings_title_2"
+            android:text="@string/profile_settings"
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="@dimen/large_text"
