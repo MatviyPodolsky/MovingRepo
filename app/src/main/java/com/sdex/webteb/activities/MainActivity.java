@@ -68,12 +68,12 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     public static final String NOTIFICATION_TYPE_INACTIVE_USER = "3";
     public static final String NOTIFICATION_TYPE_WEEK_38 = "4";
     public static final String NOTIFICATION_TYPE_WEEK_40 = "5";
+    public static final String NOTIFICATION_TYPE_TEST_MULTIPLE = "6";
 
-    public static final String NOTIFICATION_ID = "NotificaitonId";
+    public static final String NOTIFICATION_ID = "notificationId";
     public static final String NOTIFICATION_TYPE = "type";
     public static final String NOTIFICATION_TITLE = "title";
-    public static final String NOTIFICATION_CONTENT = "content";
-    public static final String NOTIFICATION_TYPE_TEST_MULTIPLE = "6";
+    public static final String NOTIFICATION_CONTENT = "Content";
 
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
