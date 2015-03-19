@@ -205,14 +205,6 @@ public class SetupProfileActivity extends BaseActivity {
     }
 
     public void sendRequest() {
-        if (request.getDate() == null) {
-            Toast.makeText(this, "Please, select date", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (request.getFamilyRelation() == -1) {
-            Toast.makeText(this, "Please, select family relation", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         RestClient.getApiService().setBabyProfile(request, new RestCallback<String>() {
             @Override

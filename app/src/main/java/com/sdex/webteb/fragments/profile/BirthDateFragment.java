@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
@@ -43,6 +44,7 @@ public class BirthDateFragment extends BaseFragment {
     TextView mDate;
     private int mDateType = LAST_PERIOD;
     private String dateString;
+    private boolean isDateChecked;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class BirthDateFragment extends BaseFragment {
             int dateType = data.getInt(SetupProfileActivity.DATE_TYPE, LAST_PERIOD);
             String dateStr = data.getString(SetupProfileActivity.DATE);
             selectCategory(dateType);
+            setDateChecked(true);
             ((SetupProfileActivity) getActivity()).setBirthDate(dateStr, dateType);
             if(dateStr != null){
                 Date date = DateUtil.parseDate(dateStr);
@@ -74,6 +77,7 @@ public class BirthDateFragment extends BaseFragment {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_GET_DATE:
+                    setDateChecked(true);
                     int year = data.getIntExtra(DatePickerFragmentDialog.EXTRA_YEAR, -1);
                     int month = data.getIntExtra(DatePickerFragmentDialog.EXTRA_MONTH, -1);
                     int day = data.getIntExtra(DatePickerFragmentDialog.EXTRA_DAY, -1);
@@ -93,9 +97,14 @@ public class BirthDateFragment extends BaseFragment {
 
     @OnClick(R.id.next)
     public void scrollToNextPage() {
-        if(getActivity() instanceof SetupProfileActivity){
-            ((SetupProfileActivity) getActivity()).scrollToNextPage();
+        if (isDateChecked) {
+            if(getActivity() instanceof SetupProfileActivity){
+                ((SetupProfileActivity) getActivity()).scrollToNextPage();
+            }
+        } else {
+            Toast.makeText(getActivity(), "Please, select date", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @OnClick(R.id.container_select_date)
@@ -108,6 +117,10 @@ public class BirthDateFragment extends BaseFragment {
             dialog.setArguments(args);
         }
         dialog.show(getFragmentManager(), null);
+    }
+
+    private void setDateChecked(boolean isChecked) {
+        isDateChecked = isChecked;
     }
 
     @OnClick(R.id.category_1)
