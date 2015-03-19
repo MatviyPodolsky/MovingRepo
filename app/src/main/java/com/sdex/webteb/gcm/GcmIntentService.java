@@ -79,6 +79,7 @@ public class GcmIntentService extends IntentService {
         Log.d("GCM", extras.toString());
 
         String title = extras.getString(MainActivity.NOTIFICATION_TITLE);
+        String message = extras.getString(MainActivity.NOTIFICATION_CONTENT);
 
         if (eventBus.hasSubscriberForEvent(NotificationEvent.class)) {
             NotificationEvent event = new NotificationEvent(extras);
@@ -86,7 +87,7 @@ public class GcmIntentService extends IntentService {
         } else {
             Intent i = new Intent(this, MainActivity.class);
             i.putExtras(extras);
-            showNotification(i, title, "");
+            showNotification(i, title, message);
         }
     }
 
