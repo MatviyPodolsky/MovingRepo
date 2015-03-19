@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
@@ -25,6 +26,8 @@ public class FamilyRelationFragment extends BaseFragment {
     public static final int REQUEST_GET_RELATION = 0;
     public static final String RELATIONS_LIST = "RELATIONS_LIST";
 
+    private int relationPosition = -1;
+
     @InjectView(R.id.family_relation)
     TextView relation;
 
@@ -39,7 +42,7 @@ public class FamilyRelationFragment extends BaseFragment {
         Bundle data = getArguments();
         if(data != null && data.containsKey(SetupProfileActivity.FAMILY_RELATION)) {
             String[] relations = getResources().getStringArray(R.array.relations);
-            int relationPosition = data.getInt(SetupProfileActivity.FAMILY_RELATION, 0);
+            relationPosition = data.getInt(SetupProfileActivity.FAMILY_RELATION, 0);
             relation.setText(relations[relationPosition]);
             ((SetupProfileActivity) getActivity()).setFamilyRelation(
                     relationPosition);
@@ -54,8 +57,8 @@ public class FamilyRelationFragment extends BaseFragment {
                 case REQUEST_GET_RELATION:
                     String extra = data.getStringExtra(FamilyRelationDialog.EXTRA_RELATION);
                     relation.setText(extra);
-                    ((SetupProfileActivity)getActivity()).setFamilyRelation(
-                            data.getIntExtra(FamilyRelationDialog.EXTRA_POSITION, 0));
+                    relationPosition = data.getIntExtra(FamilyRelationDialog.EXTRA_POSITION, 0);
+                    ((SetupProfileActivity)getActivity()).setFamilyRelation(relationPosition);
                     break;
             }
         }
@@ -63,8 +66,12 @@ public class FamilyRelationFragment extends BaseFragment {
 
     @OnClick(R.id.next)
     public void scrollToNextPage() {
-        if(getActivity() instanceof SetupProfileActivity){
-            ((SetupProfileActivity) getActivity()).scrollToNextPage();
+        if (relationPosition != -1) {
+            if(getActivity() instanceof SetupProfileActivity){
+                ((SetupProfileActivity) getActivity()).scrollToNextPage();
+            }
+        } else {
+            Toast.makeText(getActivity(), "Please, select family relation", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -25,13 +25,10 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
-import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;

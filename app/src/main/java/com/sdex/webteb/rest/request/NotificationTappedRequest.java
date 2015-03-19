@@ -9,13 +9,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NotificationRequest extends ApiRequest {
+public class NotificationTappedRequest extends ApiRequest {
 
-    @SerializedName("NotificationContentType")
+    @SerializedName("NotificationId")
     @Expose
-    private int notificationContentType;
-    @SerializedName("ContentID")
-    @Expose
-    private int contentID;
+    private String notificationId;
+
+    public NotificationTappedRequest(String notificationId) {
+        this.notificationId = notificationId;
+    }
 
 }
