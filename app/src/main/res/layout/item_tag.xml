@@ -11,6 +11,8 @@
         android:gravity="center"
         android:id="@+id/value"
         android:textSize="@dimen/small_text"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:textColor="@android:color/white"
         android:background="@android:color/transparent" />
 
