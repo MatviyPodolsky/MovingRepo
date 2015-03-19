@@ -515,9 +515,11 @@ public class HomeFragment extends PhotoFragment {
         va.setDuration(500);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                mNotificationsContainer.getLayoutParams().height = value;
-                mNotificationsContainer.requestLayout();
+                if (mNotificationsContainer != null) {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    mNotificationsContainer.getLayoutParams().height = value;
+                    mNotificationsContainer.requestLayout();
+                }
             }
         });
         va.start();
@@ -541,9 +543,11 @@ public class HomeFragment extends PhotoFragment {
         va.setDuration(500);
         va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                mNotificationsContainer.getLayoutParams().height = value;
-                mNotificationsContainer.requestLayout();
+                if (mNotificationsContainer != null) {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    mNotificationsContainer.getLayoutParams().height = value;
+                    mNotificationsContainer.requestLayout();
+                }
             }
         });
         va.start();
