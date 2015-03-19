@@ -42,6 +42,9 @@ public class ChildInfoFragment extends BaseFragment {
         }
 
         mAdapter = new ChildrenAdapter(getActivity());
+        if(mChildren.isEmpty()){
+            mChildren.add(new Child());
+        }
         mAdapter.setItems(mChildren);
         mList.setAdapter(mAdapter);
     }
