@@ -62,7 +62,7 @@ public class ChildInfoFragment extends BaseFragment {
     public void done() {
         if(getActivity() instanceof SetupProfileActivity){
             ((SetupProfileActivity) getActivity()).setChildren(mAdapter.getChildren());
-            ((SetupProfileActivity) getActivity()).sendRequest();
+            ((SetupProfileActivity) getActivity()).saveChanges();
         }
     }
 }

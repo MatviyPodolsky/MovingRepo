@@ -134,7 +134,9 @@ public class SettingsFragment extends BaseMainFragment {
 
     @OnClick(R.id.logout_container)
     public void logout(View v) {
-        ConfirmDialog dialog = new ConfirmDialog();
+        ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_logout_title,
+                R.string.dialog_logout_message, R.string.dialog_logout_confirm,
+                R.string.dialog_logout_cancel);
         dialog.setCallback(new DialogCallback.EmptyCallback() {
             @Override
             public void confirm() {
@@ -166,21 +168,16 @@ public class SettingsFragment extends BaseMainFragment {
 
     @OnClick(R.id.my_profile)
     public void editProfile() {
-        ConfirmDialog dialog = new ConfirmDialog();
-        dialog.setCallback(new DialogCallback.EmptyCallback() {
-            @Override
-            public void confirm() {
-                Intent intent = new Intent(getActivity(), SetupProfileActivity.class);
-                intent.putExtra(EDIT_PROFILE, true);
-                startActivity(intent);
-            }
-        });
-        dialog.show(getChildFragmentManager(), "dialog");
+        Intent intent = new Intent(getActivity(), SetupProfileActivity.class);
+        intent.putExtra(EDIT_PROFILE, true);
+        startActivity(intent);
     }
 
     @OnClick(R.id.reset_container)
     public void reset() {
-        ConfirmDialog dialog = new ConfirmDialog();
+        ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_reset_title,
+                R.string.dialog_reset_message, R.string.dialog_reset_confirm,
+                R.string.dialog_reset_cancel);
         dialog.setCallback(new DialogCallback.EmptyCallback() {
             @Override
             public void confirm() {

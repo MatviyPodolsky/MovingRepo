@@ -3,36 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/webteb_pregnancy_about">
+    android:background="@drawable/webteb_pregnancy_about"
+    android:padding="25dp">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView3"
+        android:id="@+id/logoAbout"
         android:src="@drawable/logo_teb_about_page"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerInParent="true" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="@string/about_app_version"
-        android:id="@+id/textAppVersion"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/small_text"
-        android:layout_below="@+id/imageView3"
+        android:text="@string/about_text"
+        android:id="@+id/textAbout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp" />
+        android:layout_below="@+id/logoAbout"
+        android:gravity="right"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/small_text" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/textAppVersion"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="52dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/linearLayout">
 
         <ImageView
@@ -47,23 +48,21 @@
             android:text="@string/logo_text"
             android:textColor="@android:color/white"
             android:textSize="@dimen/small_text"
+            android:layout_gravity="center_vertical"
             android:id="@+id/textView9"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp" />
+
     </LinearLayout>
 
-     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/about_text"
-        android:id="@+id/textView10"
-        android:layout_below="@+id/textAppVersion"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/linearLayout"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/about_app_version"
+        android:id="@+id/textAppVersion"
         android:textColor="@android:color/white"
         android:textSize="@dimen/small_text"
-        android:layout_marginTop="75dp"
-        android:layout_marginLeft="34dp"
-        android:layout_marginRight="34dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
