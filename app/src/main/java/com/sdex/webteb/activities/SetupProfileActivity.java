@@ -25,7 +25,6 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
-import com.sdex.webteb.rest.response.UserInfoResponse;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.squareup.picasso.Picasso;
 
@@ -104,16 +103,13 @@ public class SetupProfileActivity extends BaseActivity {
         };
         RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
 
-        RestClient.getApiService().getUserInfo(new RestCallback<UserInfoResponse>() {
-            @Override
-            public void failure(RestError restError) {
-            }
-
-            @Override
-            public void success(UserInfoResponse userInfoResponse, Response response) {
-                ((TextView)profileCard.findViewById(R.id.username)).setText(userInfoResponse.getEmail());
-            }
-        });
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        String userName = preferencesManager.getUsername();
+        ((TextView) profileCard.findViewById(R.id.username)).setText(userName);
+        if (preferencesManager.getCurrentWeek() != null) {
+            String currentWeek = preferencesManager.getCurrentWeek();
+            ((TextView) profileCard.findViewById(R.id.textView5)).setText(currentWeek);
+        }
     }
 
     private void initViewPager() {
