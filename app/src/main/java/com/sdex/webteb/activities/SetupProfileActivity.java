@@ -226,7 +226,7 @@ public class SetupProfileActivity extends BaseActivity {
                 user.setCompletedProfile(true);
                 String children = "";
                 for (Child child : request.getChildren()) {
-                    if (children.equals("")) {
+                    if (children.isEmpty()) {
                         children = children + child.getName();
                     } else {
                         children = children + "/" + child.getName();
