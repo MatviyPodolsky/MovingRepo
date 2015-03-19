@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="9dp">
+    android:paddingTop="9dp"
+    android:background="@color/default_background">
 
     <EditText
         android:id="@+id/title"
@@ -14,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="4dp"
         android:hint="@string/contact_us_title_hint"
-        android:imeOptions="actionNext"
+        android:imeOptions="flagNavigateNext"
         android:singleLine="true"
         android:textSize="@dimen/default_text_size" />
 
