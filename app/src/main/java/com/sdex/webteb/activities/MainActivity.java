@@ -41,6 +41,8 @@ import com.sdex.webteb.internal.events.SelectedProfilePhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.internal.events.TakenProfilePhotoEvent;
 import com.sdex.webteb.model.SideMenuItem;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.request.NotificationTappedRequest;
 import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.KeyboardUtils;
 
@@ -51,6 +53,9 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import de.greenrobot.event.EventBus;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
@@ -427,14 +432,15 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 // open the home page
                 break;
         }
-//        RestClient.getApiService().postNotificationTapped(null, new Callback<String>() {
-//            @Override
-//            public void success(String s, Response response) {
-//            }
-//            @Override
-//            public void failure(RetrofitError error) {
-//            }
-//        });
+        NotificationTappedRequest request = new NotificationTappedRequest(notificationId);
+        RestClient.getApiService().postNotificationTapped(request, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+            }
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
     }
 
     public UiLifecycleHelper getUiHelper() {

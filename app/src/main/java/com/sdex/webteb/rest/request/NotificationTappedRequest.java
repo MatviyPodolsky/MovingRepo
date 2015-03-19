@@ -4,18 +4,17 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.sdex.webteb.rest.model.ApiRequest;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class NotificationRequest extends ApiRequest {
+@AllArgsConstructor
+public class NotificationTappedRequest extends ApiRequest {
 
-    @SerializedName("NotificationContentType")
+    @SerializedName("NotificaitonId")
     @Expose
-    private int notificationContentType;
-    @SerializedName("ContentID")
-    @Expose
-    private int contentID;
+    private String notificationId;
 
 }
