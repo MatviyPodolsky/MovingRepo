@@ -90,8 +90,12 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         if(url != null && !url.isEmpty()) {
             Picasso.with(getContext())
                     .load(url)
-                    .noPlaceholder()
+                    .placeholder(R.drawable.ic_transparent_placeholder)
+                    .fit()
+                    .centerCrop()
                     .into(holder.image);
+        } else {
+            holder.image.setImageBitmap(null);
         }
 
         return convertView;
