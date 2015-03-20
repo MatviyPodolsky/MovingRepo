@@ -57,7 +57,7 @@
         <item>Grandfather</item>
         <item>Friend</item>
     </string-array>
-    <string name="last_period_first_day">Last period first day</string>
+    <string name="last_period_first_day">Last period</string>
     <string name="expected_birth_date">Expected birth date</string>
     <string name="birth_date">Birth date</string>
     <string name="date">Date</string>

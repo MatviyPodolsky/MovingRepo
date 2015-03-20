@@ -42,7 +42,7 @@ public class DbUser {
     }
 
     public String getChildren() {
-        return children;
+        return children != null ? children : "";
     }
 
     public void setChildren(String children) {
