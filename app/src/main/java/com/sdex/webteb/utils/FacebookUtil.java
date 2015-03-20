@@ -105,11 +105,11 @@ public class FacebookUtil {
         }
 
         if (currentSession.isOpened()) {
-//            if(hasPublishPermission()) {
+            if(hasPublishPermission()) {
                 publishFeedDialog(activity, appName, caption, description, link, picture);
-//            } else {
-//                currentSession.requestNewPublishPermissions(new Session.NewPermissionsRequest(activity, PERMISSION));
-//            }
+            } else {
+                currentSession.requestNewPublishPermissions(new Session.NewPermissionsRequest(activity, PERMISSION));
+            }
         } else if (!currentSession.isOpened()) {
             // Ask for username and password
             Session.OpenRequest op = new Session.OpenRequest(activity);
@@ -118,11 +118,8 @@ public class FacebookUtil {
             op.setCallback(null);
 
             List<String> permissions = new ArrayList<String>();
-            permissions.add("publish_stream");
             permissions.add("publish_action");
-            permissions.add("user_likes");
             permissions.add("email");
-            permissions.add("user_birthday");
             op.setPermissions(permissions);
 
             Session session = new Session.Builder(activity).build();
@@ -231,11 +228,11 @@ public class FacebookUtil {
         }
 
         if (currentSession.isOpened()) {
-//            if(hasPublishPermission()) {
+            if(hasPublishPermission()) {
                 publishPhotoDialog(activity, path);
-//            } else {
-//                currentSession.requestNewPublishPermissions(new Session.NewPermissionsRequest(activity, PERMISSION));
-//            }
+            } else {
+                currentSession.requestNewPublishPermissions(new Session.NewPermissionsRequest(activity, PERMISSION));
+            }
         } else if (!currentSession.isOpened()) {
             // Ask for username and password
             Session.OpenRequest op = new Session.OpenRequest(activity);
@@ -244,11 +241,8 @@ public class FacebookUtil {
             op.setCallback(null);
 
             List<String> permissions = new ArrayList<String>();
-            permissions.add("publish_stream");
             permissions.add("publish_action");
-            permissions.add("user_likes");
             permissions.add("email");
-            permissions.add("user_birthday");
             op.setPermissions(permissions);
 
             Session session = new Session.Builder(activity).build();
