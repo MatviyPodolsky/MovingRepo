@@ -120,6 +120,7 @@
     <string name="album_empty_text">Album is empty</string>
     <string name="take_photo_button_title">photo</string>
     <string name="save">Save</string>
+    <string name="add_new_photo_title">Add image</string>
 
     <!--search doctor-->
     <string name="country">Country</string>

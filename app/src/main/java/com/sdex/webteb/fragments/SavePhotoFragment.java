@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TagsAdapter;
@@ -40,8 +38,6 @@ public class SavePhotoFragment extends BaseFragment {
     ImageView mPhotoView;
     @InjectView(R.id.tags)
     RecyclerView mRecyclerView;
-    @InjectView(R.id.title)
-    TextView mTitle;
 
     private Uri currentPhoto;
     private TagsAdapter adapter;
@@ -70,11 +66,6 @@ public class SavePhotoFragment extends BaseFragment {
             }
         });
         mRecyclerView.setAdapter(adapter);
-
-        String title = getString(R.string.album_title);
-        String childNames = children.replaceAll("/", ", ");
-        String formattedTitle = String.format(title, childNames);
-        mTitle.setText(Html.fromHtml(formattedTitle));
     }
 
     @Override
