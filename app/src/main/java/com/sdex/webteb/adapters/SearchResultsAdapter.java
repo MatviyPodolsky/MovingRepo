@@ -69,6 +69,8 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
             holder.saveContact.setVisibility(View.GONE);
         }
         if(item.getLatitude() != null && item.getLongitude() != null) {
+            holder.location.setVisibility(View.VISIBLE);
+            holder.locationText.setVisibility(View.VISIBLE);
             holder.location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
