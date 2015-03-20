@@ -43,6 +43,8 @@ import retrofit.client.Response;
  */
 public class SearchDoctorFragment extends BaseMainFragment {
 
+    public static final String NAME = SearchDoctorFragment.class.getSimpleName();
+
     public static final int REQUEST_GET_COUNTRY = 0;
     public static final int REQUEST_GET_CITY = 1;
     public static final int REQUEST_GET_SPECIALITY = 2;

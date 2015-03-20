@@ -199,7 +199,7 @@
             android:id="@+id/summary_close"
             style="@style/AppTheme.Button"
             android:background="@drawable/btn_blue_summ_normal"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider3"
             android:layout_centerHorizontal="true"

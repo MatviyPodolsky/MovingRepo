@@ -68,6 +68,7 @@
             android:dividerHeight="1dp"
             android:paddingRight="18dp"
             android:paddingLeft="18dp"
+            android:scrollbarStyle="outsideInset"
             android:choiceMode="singleChoice" />
 
     </android.support.v4.widget.DrawerLayout>

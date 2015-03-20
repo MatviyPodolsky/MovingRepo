@@ -59,6 +59,7 @@ public class SetupProfileActivity extends BaseActivity {
     private DatabaseHelper databaseHelper;
     private boolean isInEditMode;
 
+    private BabyProfileResponse oldProfile;
     private BabyProfileRequest request = new BabyProfileRequest();
     private RestCallback<BabyProfileResponse> getBabyProfileCallback;
 
@@ -91,6 +92,7 @@ public class SetupProfileActivity extends BaseActivity {
 
             @Override
             public void success(BabyProfileResponse babyProfileResponse, Response response) {
+                oldProfile = babyProfileResponse;
                 mAdapter = new ProfilePageAdapter(getSupportFragmentManager(), babyProfileResponse);
                 initViewPager();
             }
@@ -175,21 +177,38 @@ public class SetupProfileActivity extends BaseActivity {
 
     public void saveChanges() {
         if (isInEditMode) {
-            ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_edit_profile_title,
-                    R.string.dialog_edit_profile_message, R.string.dialog_edit_profile_confirm,
-                    R.string.dialog_edit_profile_cancel);
-            dialog.setCallback(new DialogCallback() {
-                @Override
-                public void confirm() {
-                    save();
+            boolean wasChanged = false;
+            if (oldProfile != null) {
+                if (oldProfile.getFamilyRelation() != request.getFamilyRelation()) {
+                    wasChanged = true;
                 }
+                if (!oldProfile.getDate().equals(request.getDate())) {
+                    wasChanged = true;
+                }
+                if (!oldProfile.getChildren().equals(request.getChildren())) {
+                    wasChanged = true;
+                }
+            }
 
-                @Override
-                public void cancel() {
-                    finish();
-                }
-            });
-            dialog.show(getSupportFragmentManager(), "dialog");
+            if (wasChanged) {
+                ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_edit_profile_title,
+                        R.string.dialog_edit_profile_message, R.string.dialog_edit_profile_confirm,
+                        R.string.dialog_edit_profile_cancel);
+                dialog.setCallback(new DialogCallback() {
+                    @Override
+                    public void confirm() {
+                        save();
+                    }
+
+                    @Override
+                    public void cancel() {
+                        finish();
+                    }
+                });
+                dialog.show(getSupportFragmentManager(), "dialog");
+            } else {
+                finish();
+            }
         } else {
             save();
         }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -40,12 +39,6 @@ public abstract class PhotoFragment extends BaseFragment {
     private static final String ALBUM_NAME = "WebTeb";
 
     protected EventBus BUS = EventBus.getDefault();
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }
 
     @Override
     public void onStart() {
