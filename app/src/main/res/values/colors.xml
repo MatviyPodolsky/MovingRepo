@@ -23,4 +23,7 @@
     <color name="menu_divider">#2A2A2A</color>
     <color name="black">#000</color>
 
+    <color name="test_remind_background">#FCDD83</color>
+    <color name="test_done_background">#4CD864</color>
+
 </resources>
