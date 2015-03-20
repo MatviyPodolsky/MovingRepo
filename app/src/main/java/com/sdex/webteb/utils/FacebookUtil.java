@@ -105,7 +105,11 @@ public class FacebookUtil {
         }
 
         if (currentSession.isOpened()) {
-            publishFeedDialog(activity, appName, caption, description, link, picture);
+//            if(hasPublishPermission()) {
+                publishFeedDialog(activity, appName, caption, description, link, picture);
+//            } else {
+//                currentSession.requestNewPublishPermissions(new Session.NewPermissionsRequest(activity, PERMISSION));
+//            }
         } else if (!currentSession.isOpened()) {
             // Ask for username and password
             Session.OpenRequest op = new Session.OpenRequest(activity);
@@ -115,6 +119,7 @@ public class FacebookUtil {
 
             List<String> permissions = new ArrayList<String>();
             permissions.add("publish_stream");
+            permissions.add("publish_action");
             permissions.add("user_likes");
             permissions.add("email");
             permissions.add("user_birthday");
@@ -226,7 +231,11 @@ public class FacebookUtil {
         }
 
         if (currentSession.isOpened()) {
-            publishPhotoDialog(activity, path);
+//            if(hasPublishPermission()) {
+                publishPhotoDialog(activity, path);
+//            } else {
+//                currentSession.requestNewPublishPermissions(new Session.NewPermissionsRequest(activity, PERMISSION));
+//            }
         } else if (!currentSession.isOpened()) {
             // Ask for username and password
             Session.OpenRequest op = new Session.OpenRequest(activity);
@@ -236,6 +245,7 @@ public class FacebookUtil {
 
             List<String> permissions = new ArrayList<String>();
             permissions.add("publish_stream");
+            permissions.add("publish_action");
             permissions.add("user_likes");
             permissions.add("email");
             permissions.add("user_birthday");
