@@ -40,7 +40,8 @@ public class FacebookUtil {
     public static void publishArticle(Activity activity, ContentLink article){
         lastArticle = article;
         lastContent = PUBLISH_ARTICLE;
-        if(isFacebookInstalled(activity)){
+        if(isFacebookInstalled(activity) && FacebookDialog.canPresentShareDialog(activity.getApplicationContext(),
+                FacebookDialog.ShareDialogFeature.SHARE_DIALOG) ){
             publishFeedFromApp(activity, null, article.getTitle(), article.getDescription(),
                     article.getUrl(), article.getImageUrl());
         } else {

@@ -49,11 +49,13 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
+import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.EntityResponse;
 import com.sdex.webteb.rest.response.MonthResponse;
 import com.sdex.webteb.rest.response.NotificationsResponse;
 import com.sdex.webteb.rest.response.WeekResponse;
 import com.sdex.webteb.utils.CompatibilityUtil;
+import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.CenteredRecyclerView;
@@ -64,6 +66,7 @@ import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -134,6 +137,7 @@ public class HomeFragment extends PhotoFragment {
     private RestCallback<WeekResponse> getWeekCallback;
     private RestCallback<MonthResponse> getMonthCallback;
     private RestCallback<EntityResponse> getEntityCallback;
+    private RestCallback<BabyProfileResponse> getProfileCallback;
     private boolean gaveBirth;
 
     private List<ContentLink> contentLinks;
@@ -258,7 +262,8 @@ public class HomeFragment extends PhotoFragment {
 
                 mUserName.setText(username);
                 if (gaveBirth) {
-                    mText.setVisibility(View.GONE);
+//                    mText.setVisibility(View.GONE);
+                    RestClient.getApiService().getBabyProfile(getProfileCallback);
                 } else {
                     mText.setText(String.valueOf(currentWeek));
                 }
@@ -478,6 +483,23 @@ public class HomeFragment extends PhotoFragment {
                 PreferencesManager.getInstance().getCurrentWeek() : "0");
 
         RestClient.getApiService().getWeek(week, getWeekCallback);
+
+//        if baby got birth, send request to get birth date
+        getProfileCallback = new RestCallback<BabyProfileResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                mText.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void success(BabyProfileResponse babyProfileResponse, Response response) {
+                long currentTime = Calendar.getInstance().getTime().getTime();
+                long birthDate = DateUtil.parseDate(babyProfileResponse.getDate()).getTime();
+                long diffTime = currentTime - birthDate;
+                float age = (float)diffTime / 1000 / 3600 / 24 / 365;
+                mText.setText(String.format("%.1f years", age));
+            }
+        };
     }
 
     @Override
