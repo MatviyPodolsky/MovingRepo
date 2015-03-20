@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import java.util.Arrays;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import retrofit.client.Response;
 
 public class RegisterActivity extends BaseActivity {
@@ -164,6 +167,14 @@ public class RegisterActivity extends BaseActivity {
     public void showTOS(final View v) {
         DialogFragment newFragment = TermsOfServiceDialog.newInstance();
         newFragment.show(getSupportFragmentManager(), null);
+    }
+
+    @OnEditorAction(R.id.password)
+    boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+        if(event == null && actionId ==  EditorInfo.IME_ACTION_DONE) {
+            register(textView);
+        }
+        return true;
     }
 
     @OnClick(R.id.register)
