@@ -56,7 +56,7 @@ public class AdditionalContentFragment extends BaseMainFragment {
                 Bundle args = new Bundle();
                 args.putParcelable(ArticleFragment.ARTICLE, Parcels.wrap(mAdapter.getItem(position)));
                 fragment.setArguments(args);
-                FragmentManager fragmentManager = getChildFragmentManager();
+                FragmentManager fragmentManager = getParentFragment().getChildFragmentManager();
                 fragmentManager.beginTransaction()
                         .add(R.id.fragment_container, fragment, "content_fragment")
                         .addToBackStack(null)
