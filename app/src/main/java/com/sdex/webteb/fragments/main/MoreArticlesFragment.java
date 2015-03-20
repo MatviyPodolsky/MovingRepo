@@ -1,6 +1,5 @@
 package com.sdex.webteb.fragments.main;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -125,8 +124,8 @@ public class MoreArticlesFragment extends BaseMainFragment {
                     mAdapter.notifyDataSetChanged();
                     progress.setVisibility(View.GONE);
                     mList.setVisibility(View.VISIBLE);
-                    Resources resources = getActivity().getResources();
-                    title.setText(resources.getString(R.string.we_found) + " (" + mAdapter.getCount() + ") " + resources.getString(R.string.article));
+                    String titleText = getString(R.string.we_found_n_articles);
+                    title.setText(String.format(titleText, mAdapter.getCount()));
                     isLoading = false;
                 }
             }
