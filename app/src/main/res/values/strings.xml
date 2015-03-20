@@ -236,8 +236,7 @@
 
     <!--more articles-->
     <string name="more_articles_title">More articles</string>
-    <string name="we_found">We found</string>
-    <string name="article">articles</string>
+    <string name="we_found_n_articles">We found (%1$d) articles</string>
 
     <!--settings-->
     <string name="settings_title">Settings</string>

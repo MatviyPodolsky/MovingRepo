@@ -1,6 +1,5 @@
 package com.sdex.webteb.fragments.main;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -46,9 +45,8 @@ public class AdditionalContentFragment extends BaseMainFragment {
 
         Bundle args = getArguments();
         List<ContentLink> articles = Parcels.unwrap(args.getParcelable(HomeFragment.ARTICLES_LIST));
-        Resources resources = getActivity().getResources();
-        title.setText(resources.getString(R.string.we_found) + " (" + articles.size() + ") "
-                + resources.getString(R.string.article));
+        String titleText = getString(R.string.we_found_n_articles);
+        title.setText(String.format(titleText, articles.size()));
         mAdapter = new ArticlesAdapter(getActivity(), articles);
         mList.setAdapter(mAdapter);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
