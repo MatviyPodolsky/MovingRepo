@@ -278,7 +278,7 @@
 
     <!--confirm dialogs-->
     <string name="dialog_delete_photo_title">Delete photo</string>
-    <string name="dialog_delete_photo_message">Are you sure?</string>
+    <string name="dialog_delete_photo_message">Are you sure you want to delete the photo?</string>
     <string name="dialog_delete_photo_confirm">Delete</string>
     <string name="dialog_delete_photo_cancel">Cancel</string>
     <string name="dialog_logout_title">Logout</string>
