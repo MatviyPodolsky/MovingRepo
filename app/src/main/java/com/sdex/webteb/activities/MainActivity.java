@@ -208,6 +208,9 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     @OnClick(R.id.toggle_drawer)
     void toggleDrawer() {
+        if (isKeyboardVisible) {
+            KeyboardUtils.hideKeyboard(mRootLayout);
+        }
         if (mDrawerLayout.isDrawerOpen(RIGHT_DRAWER_GRAVITY)) {
             closeDrawer();
         } else {
@@ -251,9 +254,6 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     @Override
     public void onDrawerClosed(View drawerView) {
-        if (isKeyboardVisible) {
-            KeyboardUtils.hideKeyboard(mRootLayout);
-        }
         setCurrentMenuItem();
     }
 
