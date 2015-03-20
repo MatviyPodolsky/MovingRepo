@@ -32,6 +32,10 @@
     <string name="link_text"><u>link text</u></string>
     <string name="text"> text </string>
 
+    <!--restore password-->
+    <string name="positive_restore_message">We sent your password to your email</string>
+    <string name="negative_restore_message">We couldn\'t identify your email</string>
+
     <!--terms of use-->
     <string name="in_the_registration_process_agree_on">في عملية التسجيل الاتفاق على</string>
     <string name="terms_of_use"><u>شروط الاستخدام</u></string>
