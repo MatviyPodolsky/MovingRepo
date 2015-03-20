@@ -81,9 +81,11 @@
         android:layout_height="50dp"
         android:layout_below="@+id/select_category"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_red_normal"
+        android:background="@color/primary"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <ImageView
             android:layout_width="25dp"

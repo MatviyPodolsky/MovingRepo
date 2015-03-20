@@ -25,23 +25,25 @@
 
             <TextView
                 android:id="@+id/done"
-                android:layout_width="45dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/done"
                 android:textSize="@dimen/large_text"
-                android:textColor="@color/done_test"
+                android:textColor="@color/black"
+                android:background="@color/test_done_background"
                 android:layout_gravity="left|top"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/reminder"
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reminder"
                 android:textSize="@dimen/large_text"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:textColor="@color/error"
+                android:textColor="@color/black"
+                android:background="@color/test_remind_background"
                 android:layout_gravity="left|top"
                 android:textStyle="bold" />
 

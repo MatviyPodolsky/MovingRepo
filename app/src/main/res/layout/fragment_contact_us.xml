@@ -1,42 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="9dp"
-    android:background="@color/default_background">
+    android:fillViewport="true"
+    android:transcriptMode="normal">
 
-    <EditText
-        android:id="@+id/title"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        android:hint="@string/contact_us_title_hint"
-        android:imeOptions="flagNavigateNext"
-        android:singleLine="true"
-        android:textSize="@dimen/default_text_size" />
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="9dp"
+        android:background="@color/default_background">
 
-    <EditText
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="145dp"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="9dp"
-        android:hint="@string/contact_us_text_hint"
-        android:imeOptions="actionDone"
-        android:textSize="@dimen/default_text_size"
-        android:gravity="top|right" />
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:hint="@string/contact_us_title_hint"
+            android:imeOptions="flagNavigateNext"
+            android:singleLine="true"
+            android:textSize="@dimen/default_text_size" />
 
-    <Button
-        style="@style/AppTheme.Button"
-        android:id="@+id/send"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/contact_us_btn_send"
-        android:layout_marginBottom="20dp" />
+        <EditText
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="145dp"
+            android:layout_below="@+id/title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="9dp"
+            android:hint="@string/contact_us_text_hint"
+            android:imeOptions="actionDone"
+            android:textSize="@dimen/default_text_size"
+            android:gravity="top|right" />
 
-</RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@+id/text"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/send"
+            android:layout_weight="1" />
+
+        <Button
+            style="@style/AppTheme.Button"
+            android:id="@+id/send"
+            android:text="@string/contact_us_btn_send"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
