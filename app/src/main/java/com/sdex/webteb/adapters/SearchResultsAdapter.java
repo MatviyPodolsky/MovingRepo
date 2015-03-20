@@ -85,7 +85,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         }
 
         String url = item.getImageUrl();
-        if(url != null && !url.equals("")) {
+        if(url != null && !url.isEmpty()) {
             Picasso.with(getContext())
                     .load(url)
                     .noPlaceholder()

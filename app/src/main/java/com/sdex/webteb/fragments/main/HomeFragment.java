@@ -333,7 +333,7 @@ public class HomeFragment extends PhotoFragment {
                     List<ContentLink> videos = weekResponse.getVideos();
 
                     String imageUrl = weekResponse.getImageUrl();
-                    if(imageUrl != null && !imageUrl.equals("")) {
+                    if(imageUrl != null && !imageUrl.isEmpty()) {
                         Picasso.with(getActivity())
                                 .load(imageUrl)
                                 .placeholder(R.drawable.ic_transparent_placeholder)
@@ -388,7 +388,7 @@ public class HomeFragment extends PhotoFragment {
                     List<ContentLink> videos = monthResponse.getVideos();
 
                     String imageUrl = monthResponse.getImageUrl();
-                    if(imageUrl != null && !imageUrl.equals("")) {
+                    if(imageUrl != null && !imageUrl.isEmpty()) {
                         Picasso.with(getActivity())
                                 .load(imageUrl)
                                 .placeholder(R.drawable.ic_transparent_placeholder)

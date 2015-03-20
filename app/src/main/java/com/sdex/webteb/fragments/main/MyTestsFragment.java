@@ -73,12 +73,19 @@ public class MyTestsFragment extends BaseMainFragment {
         RestClient.getApiService().getBabyTests(new RestCallback<List<BabyTestResponse>>() {
             @Override
             public void failure(RestError restError) {
+                if (getActivity() == null) {
+                    return;
+                }
                 progress.setVisibility(View.GONE);
                 error.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void success(List<BabyTestResponse> tests, Response response) {
+                if (getActivity() == null) {
+                    return;
+                }
+
                 //TODO
                 mAdapter.setItems(tests);
                 mAdapter.notifyDataSetChanged();

@@ -45,14 +45,14 @@ public class ArticlesAdapter extends ArrayAdapter<ContentLink> {
         holder.title.setText(item.getTitle());
         holder.text.setText(item.getDescription());
         //convert date to needed format
-        if(item.getPublishedDate() != null && !item.getPublishedDate().equals("")) {
+        if(item.getPublishedDate() != null && !item.getPublishedDate().isEmpty()) {
             holder.date.setText(DateUtil.formatDate(DateUtil.parseDate(item.getPublishedDate()), "mm/dd/yyyy"));
         } else {
             holder.date.setVisibility(View.GONE);
         }
         String url = item.getImageUrl();
 
-        if (url != null && !url.equals("")) {
+        if (url != null && !url.isEmpty()) {
             Picasso.with(getContext())
                     .load(url)
                     .placeholder(R.drawable.ic_transparent_placeholder)
