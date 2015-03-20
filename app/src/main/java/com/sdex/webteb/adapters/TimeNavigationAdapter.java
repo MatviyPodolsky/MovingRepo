@@ -18,68 +18,48 @@ import java.util.List;
  */
 public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAdapter.VerticalItemHolder> {
 
-    private ArrayList<Item> mItems;
+    public static final int MODE_WEEKS = 0;
+    public static final int MODE_MONTHS = 1;
+
+    private static final int MODE_WEEKS_COUNT = 40;
+    private static final int MODE_MONTHS_COUNT = 24;
+
+    private ArrayList<Item> data;
     private int selectedItem;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
-    public TimeNavigationAdapter() {
-        mItems = new ArrayList<>();
-    }
-
-    /*
-     * A common adapter modification or reset mechanism. As with ListAdapter,
-     * calling notifyDataSetChanged() will trigger the RecyclerView to update
-     * the view. However, this method will not trigger any of the RecyclerView
-     * animation features.
-     */
-    public void setItemCount(int count) {
-        mItems.clear();
-        mItems.addAll(generateDummyData(count));
-
-        notifyDataSetChanged();
-    }
-
-    /*
-     * Inserting a new item at the head of the list. This uses a specialized
-     * RecyclerView method, notifyItemInserted(), to trigger any enabled item
-     * animations in addition to updating the view.
-     */
-    public void addItem() {
-        //mItems.add(1, generateDummyItem());
-        notifyItemInserted(1);
-    }
-
-    /*
-     * Inserting a new item at the head of the list. This uses a specialized
-     * RecyclerView method, notifyItemRemoved(), to trigger any enabled item
-     * animations in addition to updating the view.
-     */
-    public void removeItem() {
-        if (mItems.isEmpty()) return;
-
-        mItems.remove(0);
-        notifyItemRemoved(0);
+    public TimeNavigationAdapter(int mode) {
+        data = new ArrayList<>();
+        if (mode == MODE_WEEKS) {
+            data.addAll(generateWeeksData(MODE_WEEKS_COUNT));
+        } else if (mode == MODE_MONTHS) {
+            data.addAll(generateMonthsData(MODE_MONTHS_COUNT));
+        }
     }
 
     @Override
     public VerticalItemHolder onCreateViewHolder(ViewGroup container, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(container.getContext());
         View root = inflater.inflate(R.layout.item_time_navigation_controller_list, container, false);
-
         return new VerticalItemHolder(root, this);
     }
 
     @Override
     public void onBindViewHolder(VerticalItemHolder itemHolder, int position) {
-        Item item = mItems.get(position);
+        Item item = data.get(position);
         itemHolder.setSelected(position == selectedItem);
         itemHolder.bindView(item);
     }
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return data.size();
+    }
+
+    public void setSelectedItem(int selectedItem) {
+        this.selectedItem = selectedItem;
+        notifyDataSetChanged();
     }
 
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
@@ -151,7 +131,27 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
 
     }
 
-    public static List<Item> generateDummyData(int count) {
+    private static List<Item> generateMonthsData(int count) {
+        ArrayList<Item> items = new ArrayList<>();
+        int sectionColor = 0;
+        int currentSection = 0;
+        int sectionCount = count / 12 + 1;
+        for (int i = count; i > 0; i--) {
+            Item item = new Item(String.valueOf(i));
+            if (i % 12 == 0) {
+                sectionColor = Color.parseColor(colors[currentSection % colors.length]);
+                currentSection++;
+            } else if (i % 12 == 1) {
+                item.label = "year " + (sectionCount - currentSection);
+            }
+            item.color = sectionColor;
+            items.add(item);
+        }
+
+        return items;
+    }
+
+    private static List<Item> generateWeeksData(int count) {
         ArrayList<Item> items = new ArrayList<>();
         int sectionColor = 0;
         int currentSection = 0;
@@ -169,11 +169,6 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
         }
 
         return items;
-    }
-
-    public void setSelectedItem(int selectedItem) {
-        this.selectedItem = selectedItem;
-        notifyDataSetChanged();
     }
 
     private static final String[] colors = {"#EC1561", "#EA2E83", "#E84C8F", "#E52987"};
