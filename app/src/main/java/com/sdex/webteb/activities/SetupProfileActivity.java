@@ -25,10 +25,13 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
+import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -195,8 +198,11 @@ public class SetupProfileActivity extends BaseActivity {
         request.setFamilyRelation(relation);
     }
 
-    public void setBirthDate(String date, int dateType) {
+    public void setBirthDate(String date) {
         request.setDate(date);
+    }
+
+    public void setDateType(int dateType) {
         request.setDateType(dateType);
     }
 
@@ -205,7 +211,6 @@ public class SetupProfileActivity extends BaseActivity {
     }
 
     public void sendRequest() {
-
         RestClient.getApiService().setBabyProfile(request, new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
@@ -218,7 +223,7 @@ public class SetupProfileActivity extends BaseActivity {
                 user.setCompletedProfile(true);
                 String children = "";
                 for (Child child : request.getChildren()) {
-                    if (children.equals("")) {
+                    if (children.isEmpty()) {
                         children = children + child.getName();
                     } else {
                         children = children + "/" + child.getName();
@@ -249,6 +254,44 @@ public class SetupProfileActivity extends BaseActivity {
         DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_PROFILE,
                 PhotoFragment.PHOTO_SELECTED_PROFILE);
         dialog.show(getSupportFragmentManager(), null);
+    }
+
+    public boolean isValidData(){
+        if (request.getFamilyRelation() == -1) {
+            Toast.makeText(this, getString(R.string.please_select_relation), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        //check date
+        int dateType = request.getDateType();
+        String dateStr = request.getDate();
+        if(dateStr != null && dateStr.isEmpty()){
+            Toast.makeText(this, getString(R.string.please_select_date), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(dateType == BabyProfileResponse.DATE_TYPE_NOT_SET){
+            Toast.makeText(this, getString(R.string.please_select_date), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        Date currentDate = Calendar.getInstance().getTime();
+        Date requestDate = DateUtil.parseDate(dateStr);
+        if(dateType == BabyProfileResponse.DATE_TYPE_BIRTH_DATE
+                && requestDate.after(currentDate)){
+            Toast.makeText(this, getString(R.string.birth_date_cant_be_in_future), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(dateType == BabyProfileResponse.DATE_TYPE_LAST_PERIOD
+                && requestDate.after(currentDate)){
+            Toast.makeText(this, getString(R.string.last_period_cant_be_in_future), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(dateType == BabyProfileResponse.DATE_TYPE_DUE_TO
+                && requestDate.before(currentDate)){
+            Toast.makeText(this, getString(R.string.expected_birth_date_cant_be_in_past), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
 }

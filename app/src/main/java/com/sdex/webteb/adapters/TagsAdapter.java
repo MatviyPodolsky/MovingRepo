@@ -67,7 +67,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         Item me = new Item("Me");
         items.add(me);
 
-        if(children != null && !children.equals("")) {
+        if(children != null && !children.isEmpty()) {
             String[] kids = children.split("/");
 
             for (int i = 0; i < kids.length; i++) {
@@ -143,7 +143,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         String tags = "";
         for (Item tag : mTags) {
             if(tag.isSelected){
-                if(tags.equals("")){
+                if(tags.isEmpty()){
                     tags = tags + tag.getChild().getName();
                 } else {
                     tags = tags + "/" + tag.getChild().getName();

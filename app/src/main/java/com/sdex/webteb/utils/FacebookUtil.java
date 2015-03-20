@@ -65,7 +65,7 @@ public class FacebookUtil {
             }
         }
         if(lastContent == PUBLISH_PHOTO){
-            if(lastPhoto != null && !lastPhoto.equals("")) {
+            if(lastPhoto != null && !lastPhoto.isEmpty()) {
                 publishPhoto(activity, lastPhoto);
             }
         }
@@ -75,19 +75,19 @@ public class FacebookUtil {
                                            String picture) {
 
         FacebookDialog.ShareDialogBuilder builder = new FacebookDialog.ShareDialogBuilder(activity);
-        if(appName != null && !appName.equals("")) {
+        if(appName != null && !appName.isEmpty()) {
             builder.setName(appName);
         }
-        if(caption != null && !caption.equals("")) {
+        if(caption != null && !caption.isEmpty()) {
             builder.setCaption(caption);
         }
-        if(description != null && !description.equals("")) {
+        if(description != null && !description.isEmpty()) {
             builder.setDescription(description);
         }
-        if(link != null && !link.equals("")) {
+        if(link != null && !link.isEmpty()) {
             builder.setLink(link);
         }
-        if(picture != null && !picture.equals("")) {
+        if(picture != null && !picture.isEmpty()) {
             builder.setPicture(picture);
         }
 
@@ -142,19 +142,19 @@ public class FacebookUtil {
 
     private static void publishFeedDialog(final Activity activity, String appName, String caption, String description, String link, String picture) {
         Bundle params = new Bundle();
-        if(appName != null && !appName.equals("")) {
+        if(appName != null && !appName.isEmpty()) {
             params.putString("name", appName);
         }
-        if(caption != null && !caption.equals("")) {
+        if(caption != null && !caption.isEmpty()) {
             params.putString("caption", caption);
         }
-        if(description != null && !description.equals("")) {
+        if(description != null && !description.isEmpty()) {
             params.putString("description", description);
         }
-        if(link != null && !link.equals("")) {
+        if(link != null && !link.isEmpty()) {
             params.putString("link", link);
         }
-        if(picture != null && !picture.equals("")) {
+        if(picture != null && !picture.isEmpty()) {
             params.putString("picture", picture);
         }
 

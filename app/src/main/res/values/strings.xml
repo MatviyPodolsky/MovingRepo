@@ -32,6 +32,10 @@
     <string name="link_text"><u>link text</u></string>
     <string name="text"> text </string>
 
+    <!--restore password-->
+    <string name="positive_restore_message">We sent your password to your email</string>
+    <string name="negative_restore_message">We couldn\'t identify your email</string>
+
     <!--terms of use-->
     <string name="in_the_registration_process_agree_on">في عملية التسجيل الاتفاق على</string>
     <string name="terms_of_use"><u>شروط الاستخدام</u></string>
@@ -63,6 +67,14 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="none">None</string>
+    <string name="please_select_date">Please, select date</string>
+    <string name="please_select_relation">Please, select family relation</string>
+    <string name="birth_date_cant_be_in_future">Birth date can\'t be in future.</string>
+    <string name="last_period_cant_be_in_future">Last period can\'t be in future.</string>
+    <string name="expected_birth_date_cant_be_in_past">Expected birth date can\'t be in past.</string>
+    <string name="last_period_description">Last period can\'t be in future.</string>
+    <string name="expected_birth_date_description">Expected birth date can\'t be in past.</string>
+    <string name="birth_date_description">Birth date can\'t be in future.</string>
 
     <!--home-->
     <string name="in_app_notification_btn_back">back</string>

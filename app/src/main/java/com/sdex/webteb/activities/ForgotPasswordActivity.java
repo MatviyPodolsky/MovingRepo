@@ -37,13 +37,14 @@ public class ForgotPasswordActivity extends BaseActivity {
         RestClient.getApiService().restorePassword(mEmail.getText().toString(), new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
-                Toast.makeText(ForgotPasswordActivity.this, "Error:" + restError.getStrMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.negative_restore_message),
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void success(String s, Response response) {
-                Toast.makeText(ForgotPasswordActivity.this, "Letter with password sent to your Email", Toast.LENGTH_SHORT).show();
-                //TODO
+                Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.positive_restore_message),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

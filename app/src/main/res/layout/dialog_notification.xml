@@ -49,20 +49,20 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/back"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/btn_grey_notification"
-            android:text="@string/in_app_notification_btn_back" />
-
-        <Button
             android:id="@+id/next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/btn_grey_notification"
             android:text="@string/in_app_notification_btn_next" />
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_grey_notification"
+            android:text="@string/in_app_notification_btn_back" />
 
     </LinearLayout>
 
