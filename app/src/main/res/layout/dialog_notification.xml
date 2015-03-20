@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/default_background">
@@ -20,11 +21,6 @@
         android:layout_below="@+id/close"
         android:padding="12dp">
 
-        <WebView
-            android:id="@+id/content_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -32,9 +28,8 @@
             <TextView
                 android:id="@+id/content_tip"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/default_text_size"
-                android:visibility="gone" />
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/default_text_size" />
 
         </ScrollView>
 
@@ -42,10 +37,27 @@
 
 
     <LinearLayout
-        android:id="@+id/nav_buttons_container"
+        android:id="@+id/counters_container"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/content"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1/5"
+            android:layout_margin="10dp"
+            android:text="@string/notification_counters"
+            android:id="@+id/counters" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/counters_container"
         android:orientation="horizontal">
 
         <Button
@@ -53,6 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/btn_notification_selector"
             android:background="@drawable/btn_grey_notification"
             android:text="@string/in_app_notification_btn_next" />
 
@@ -61,6 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/btn_notification_selector"
             android:background="@drawable/btn_grey_notification"
             android:text="@string/in_app_notification_btn_back" />
 

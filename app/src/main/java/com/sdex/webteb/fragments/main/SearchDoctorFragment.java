@@ -218,7 +218,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
-                Toast.makeText(getActivity(), getActivity().getString(R.string.turn_location_options), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getActivity().getString(R.string.turn_location_options), Toast.LENGTH_LONG).show();
             } else {
                 Geocoder geocoder = new Geocoder(getActivity(), defaultLocale);
                 List<Address> addresses = null;

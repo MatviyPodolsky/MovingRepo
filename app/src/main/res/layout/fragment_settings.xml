@@ -4,244 +4,250 @@
     android:layout_height="match_parent"
     android:background="@color/default_background">
 
-    <RelativeLayout
-        android:id="@+id/container"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="visible">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="@string/settings_title_1"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/large_text"
-            android:background="@drawable/mb_solid_yellow"
-            android:layout_marginBottom="12dp" />
+        android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/notifications_container"
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <com.sdex.webteb.view.switchbutton.SwitchButton
-                style="@style/AppTheme.SwitchButton.Material"
-                android:id="@+id/notifications"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:checked="false" />
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
             <TextView
-                style="@style/AppTheme.TextView.Settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/notifications"
-                android:gravity="right"
-                android:text="@string/weekly_tips_notifications" />
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/settings_title_1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/large_text"
+                android:background="@drawable/mb_solid_yellow"
+                android:layout_marginBottom="12dp" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/reminders_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/notifications_container"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <com.sdex.webteb.view.switchbutton.SwitchButton
-                style="@style/AppTheme.SwitchButton.Material"
-                android:id="@+id/reminders"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true" />
-
-            <TextView
-                style="@style/AppTheme.TextView.Settings"
-                android:id="@+id/reminders_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:gravity="right"
-                android:text="@string/tests_reminders" />
-
-            <LinearLayout
-                android:orientation="horizontal"
+            <RelativeLayout
+                android:id="@+id/notifications_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/reminders"
-                android:layout_toLeftOf="@+id/reminders_text">
+                android:layout_below="@+id/title"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <com.sdex.webteb.view.switchbutton.SwitchButton
+                    style="@style/AppTheme.SwitchButton.Material"
+                    android:id="@+id/notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:checked="false" />
 
                 <TextView
                     style="@style/AppTheme.TextView.Settings"
-                    android:textColor="@color/settings_text_selector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/once_time_only"
-                    android:id="@+id/once_time" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/notifications"
+                    android:gravity="right"
+                    android:text="@string/weekly_tips_notifications" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/reminders_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/notifications_container"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <com.sdex.webteb.view.switchbutton.SwitchButton
+                    style="@style/AppTheme.SwitchButton.Material"
+                    android:id="@+id/reminders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    style="@style/AppTheme.TextView.Settings"
+                    android:id="@+id/reminders_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="right"
+                    android:text="@string/tests_reminders" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/reminders"
+                    android:layout_toLeftOf="@+id/reminders_text">
+
+                    <TextView
+                        style="@style/AppTheme.TextView.Settings"
+                        android:textColor="@color/settings_text_selector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/once_time_only"
+                        android:id="@+id/once_time" />
+
+                    <TextView
+                        style="@style/AppTheme.TextView.Settings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/"
+                        android:id="@+id/textView14" />
+
+                    <TextView
+                        style="@style/AppTheme.TextView.Settings"
+                        android:textColor="@color/settings_text_selector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/once_a_day"
+                        android:id="@+id/once_a_day" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/newsletter_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reminders_container"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <com.sdex.webteb.view.switchbutton.SwitchButton
+                    style="@style/AppTheme.SwitchButton.Material"
+                    android:id="@+id/newsletter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true" />
 
                 <TextView
                     style="@style/AppTheme.TextView.Settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="/"
-                    android:id="@+id/textView14" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/newsletter"
+                    android:gravity="right"
+                    android:text="@string/newsletter" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/bot_divider"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/newsletter_container"
+                android:text="@string/profile_settings"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/large_text"
+                android:background="@drawable/mb_solid_yellow"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp" />
+
+            <RelativeLayout
+                android:id="@+id/profile_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bot_divider"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <Button
+                    style="@style/AppTheme.Button"
+                    android:id="@+id/my_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/edit" />
 
                 <TextView
                     style="@style/AppTheme.TextView.Settings"
-                    android:textColor="@color/settings_text_selector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/once_a_day"
-                    android:id="@+id/once_a_day" />
-            </LinearLayout>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/my_profile"
+                    android:gravity="right"
+                    android:text="@string/my_profile" />
 
+            </RelativeLayout>
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/reset_container"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/profile_container"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
+                <TextView
+                    style="@style/AppTheme.TextView.Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="right"
+                    android:text="@string/reset_data" />
 
-        <RelativeLayout
-            android:id="@+id/newsletter_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/reminders_container"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            </RelativeLayout>
 
-            <com.sdex.webteb.view.switchbutton.SwitchButton
-                style="@style/AppTheme.SwitchButton.Material"
-                android:id="@+id/newsletter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true" />
+            <RelativeLayout
+                android:id="@+id/logout_container"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/reset_container"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
-            <TextView
-                style="@style/AppTheme.TextView.Settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/newsletter"
-                android:gravity="right"
-                android:text="@string/newsletter" />
+                <TextView
+                    style="@style/AppTheme.TextView.Settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="right"
+                    android:text="@string/logout" />
 
-        </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/bot_divider"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/newsletter_container"
-            android:text="@string/profile_settings"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/large_text"
-            android:background="@drawable/mb_solid_yellow"
-            android:layout_marginBottom="12dp"
-            android:layout_marginTop="12dp" />
-
-        <RelativeLayout
-            android:id="@+id/profile_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/bot_divider"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <Button
-                style="@style/AppTheme.Button"
-                android:id="@+id/my_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:text="@string/edit" />
-
-            <TextView
-                style="@style/AppTheme.TextView.Settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/my_profile"
-                android:gravity="right"
-                android:text="@string/my_profile" />
+            </RelativeLayout>
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/reset_container"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/profile_container"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/AppTheme.TextView.Settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:gravity="right"
-                android:text="@string/reset_data" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/logout_container"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@+id/reset_container"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
-
-            <TextView
-                style="@style/AppTheme.TextView.Settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:gravity="right"
-                android:text="@string/logout" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
+    </ScrollView>
 
     <ProgressBar
         android:id="@+id/progress"

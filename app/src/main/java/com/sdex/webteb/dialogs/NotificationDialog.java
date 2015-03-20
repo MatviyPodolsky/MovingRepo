@@ -7,8 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
@@ -26,12 +25,17 @@ public class NotificationDialog extends DialogFragment {
 
     private static final String ARG_DATA = "ARG_DATA";
 
-    @InjectView(R.id.content_view)
-    WebView mContentView;
     @InjectView(R.id.content_tip)
     TextView mText;
     @InjectView(R.id.title)
     TextView mTitle;
+    @InjectView(R.id.counters)
+    TextView mCounters;
+    @InjectView(R.id.back)
+    Button mBackBtn;
+    @InjectView(R.id.next)
+    Button mNextBtn;
+
     private int currentNotification;
     private int notificationsNumber;
     private NotificationsResponse data;
@@ -50,16 +54,12 @@ public class NotificationDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_notification, container, false);
         ButterKnife.inject(this, v);
-        //hide horizontal scrollbar, vertical keep visible
-        mContentView.setVerticalScrollBarEnabled(true);
-        mContentView.setHorizontalScrollBarEnabled(false);
-        //Only disabled the horizontal scrolling
-        mContentView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
         data = Parcels.unwrap(getArguments().getParcelable(ARG_DATA));
 
         notificationsNumber = data.getTests().size() + data.getTips().size();
         setCurrentNotification(currentNotification);
+        updateViews();
         return v;
     }
 
@@ -76,34 +76,38 @@ public class NotificationDialog extends DialogFragment {
 
     @OnClick(R.id.back)
     public void back() {
-        if(currentNotification > 0) {
+        if (currentNotification > 0) {
             setCurrentNotification(--currentNotification);
         }
+        updateViews();
     }
 
     @OnClick(R.id.next)
     public void next() {
-        if(currentNotification < notificationsNumber - 1) {
+        if (currentNotification < notificationsNumber - 1) {
             setCurrentNotification(++currentNotification);
         }
+        updateViews();
     }
 
-    private void setCurrentNotification(int position){
+    private void updateViews() {
+        mBackBtn.setEnabled(currentNotification != 0);
+        mNextBtn.setEnabled(currentNotification != notificationsNumber - 1);
+        String counters = getString(R.string.notification_counters);
+        mCounters.setText(String.format(counters, (currentNotification + 1), notificationsNumber));
+    }
+
+    private void setCurrentNotification(int position) {
         String name;
-        if(position < data.getTests().size()) {
+        if (position < data.getTests().size()) {
             ExaminationPreview examinationPreview = data.getTests().get(position);
             name = examinationPreview.getName();
             mTitle.setText(name);
             mText.setText(examinationPreview.getDescription());
-//            mContentView.loadData(examinationPreview.getDescription(), "text/html; charset=UTF-8", null);
-            mText.setVisibility(View.VISIBLE);
-            mContentView.setVisibility(View.GONE);
         } else {
             TipContent tipContent = data.getTips().get(position - data.getTests().size());
-            mTitle.setText("Tip");
+            mTitle.setText(R.string.notification_tip_title);
             mText.setText(tipContent.getText());
-            mText.setVisibility(View.VISIBLE);
-            mContentView.setVisibility(View.GONE);
         }
     }
 

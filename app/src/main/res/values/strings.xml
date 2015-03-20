@@ -80,6 +80,8 @@
     <string name="in_app_notification_btn_back">back</string>
     <string name="in_app_notification_btn_next">next</string>
     <string name="profile_progress_text">week %1$d</string>
+    <string name="notification_counters">%1$d/%2$d</string>
+    <string name="notification_tip_title">Tip</string>
 
     <!--summary-->
     <string name="tests">Tests</string>
@@ -277,7 +279,7 @@
 
     <!--confirm dialogs-->
     <string name="dialog_delete_photo_title">Delete photo</string>
-    <string name="dialog_delete_photo_message">Are you sure?</string>
+    <string name="dialog_delete_photo_message">Are you sure you want to delete the photo?</string>
     <string name="dialog_delete_photo_confirm">Delete</string>
     <string name="dialog_delete_photo_cancel">Cancel</string>
     <string name="dialog_logout_title">Logout</string>
@@ -305,6 +307,5 @@
     <string name="test_text" translatable="false">Text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text </string>
-
 
 </resources>
