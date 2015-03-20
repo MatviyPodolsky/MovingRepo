@@ -293,6 +293,10 @@
     <string name="dialog_edit_profile_message">You have changed your profile information, are you sure you want to update it?</string>
     <string name="dialog_edit_profile_confirm">Update</string>
     <string name="dialog_edit_profile_cancel">Cancel</string>
+    <string name="dialog_exit_title">Exit</string>
+    <string name="dialog_exit_message">Are you sure want to exit?</string>
+    <string name="dialog_exit_confirm">Yes</string>
+    <string name="dialog_exit_cancel">No</string>
 
     <!--save_photo-->
     <string name="hint_comment">a moment to remember, type few words about it</string>
