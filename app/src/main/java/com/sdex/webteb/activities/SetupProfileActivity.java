@@ -178,10 +178,15 @@ public class SetupProfileActivity extends BaseActivity {
             ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_edit_profile_title,
                     R.string.dialog_edit_profile_message, R.string.dialog_edit_profile_confirm,
                     R.string.dialog_edit_profile_cancel);
-            dialog.setCallback(new DialogCallback.EmptyCallback() {
+            dialog.setCallback(new DialogCallback() {
                 @Override
                 public void confirm() {
                     save();
+                }
+
+                @Override
+                public void cancel() {
+                    finish();
                 }
             });
             dialog.show(getSupportFragmentManager(), "dialog");
