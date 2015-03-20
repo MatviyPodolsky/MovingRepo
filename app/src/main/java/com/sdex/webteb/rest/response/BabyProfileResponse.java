@@ -11,10 +11,6 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Created by MPODOLSKY on 09.02.2015.
- */
-
 @Getter
 @Setter
 public class BabyProfileResponse extends ApiResponse {
@@ -38,6 +34,6 @@ public class BabyProfileResponse extends ApiResponse {
     private String actualBirthDate;
     @SerializedName("Children")
     @Expose
-    private List<Child> children = new ArrayList<Child>();
+    private List<Child> children = new ArrayList<>();
 
 }

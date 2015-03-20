@@ -44,7 +44,7 @@
         android:gravity="right"
         android:textColor="@android:color/white"
         android:layout_toLeftOf="@+id/avatar"
-        android:layout_toRightOf="@+id/photo_container"/>
+        android:layout_toRightOf="@+id/photo_container" />
 
     <com.sdex.webteb.view.TypefaceTextView
         android:layout_width="wrap_content"
@@ -71,7 +71,8 @@
         android:id="@+id/photo_container"
         android:layout_marginLeft="6dp">
 
-        <include layout="@layout/btn_take_photo"
+        <include
+            layout="@layout/btn_take_photo"
             android:layout_width="wrap_content"
             android:layout_height="40dp" />
 
@@ -105,12 +106,26 @@
 
     </LinearLayout>
 
-    <View
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
+        android:gravity="right"
         android:layout_height="@dimen/time_navigation_controller_month_line_height"
         android:background="@color/primary"
         android:id="@+id/line"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:textSize="10sp"
+            android:layout_width="wrap_content"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_progress_text"
+            android:background="@color/primary_dark"
+            android:id="@+id/progress"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp" />
+    </LinearLayout>
 
 
 </RelativeLayout>

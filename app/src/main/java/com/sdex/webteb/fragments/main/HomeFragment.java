@@ -89,7 +89,14 @@ public class HomeFragment extends PhotoFragment {
 
     @InjectView(R.id.fragment_container)
     FrameLayout mRootView;
-
+    @InjectView(R.id.content_list)
+    RecyclerView mRecyclerView;
+    @InjectView(R.id.recyclerview)
+    CenteredRecyclerView mTimeNavigationRecyclerView;
+    @InjectView(R.id.sliding_layout)
+    SlidingUpPanelLayout mSlidingUpPanelLayout;
+    @InjectView(R.id.drag_view)
+    FrameLayout mDragView;
     //summary
     @InjectView(R.id.summary_image)
     ImageView summaryImage;
@@ -103,25 +110,20 @@ public class HomeFragment extends PhotoFragment {
     TextView noPhotos;
     @InjectView(R.id.summary_photos_container)
     LinearLayout sumPhotoContainer;
-
+    //profile
     @InjectView(R.id.photo_container)
     View photoContainer;
-    @InjectView(R.id.content_list)
-    RecyclerView mRecyclerView;
     @InjectView(R.id.username)
     TextView mUserName;
     @InjectView(R.id.textView5)
     TextView mText;
     @InjectView(R.id.avatar)
     ImageView mProfilePhoto;
-    @InjectView(R.id.recyclerview)
-    CenteredRecyclerView mTimeNavigationRecyclerView;
-    @InjectView(R.id.sliding_layout)
-    SlidingUpPanelLayout mSlidingUpPanelLayout;
-    @InjectView(R.id.drag_view)
-    FrameLayout mDragView;
     @InjectViews({R.id.photo_1, R.id.photo_2, R.id.photo_3})
     List<ImageView> mPhotoViews;
+    @InjectView(R.id.progress)
+    TextView mProgress;
+    // notifications
     @InjectView(R.id.notifications_container)
     RelativeLayout mNotificationsContainer;
     @InjectView(R.id.amount_of_notifications)
@@ -207,6 +209,17 @@ public class HomeFragment extends PhotoFragment {
                 preferencesManager.setUsername(username);
                 preferencesManager.setCurrentWeek(String.valueOf(currentWeek));
                 gaveBirth = card.isGaveBirth();
+
+                if (!gaveBirth) {
+                    ViewGroup.LayoutParams layoutParams = mProgress.getLayoutParams();
+                    int width = currentWeek * DisplayUtil.getScreenWidth(getActivity()) / 42;
+                    layoutParams.width = width;
+                    String progressTitle = getString(R.string.profile_progress_text);
+                    mProgress.setText(String.format(progressTitle, currentWeek));
+                    mProgress.requestLayout();
+                } else {
+                    mProgress.setVisibility(View.GONE);
+                }
 
                 setProfilePhoto();
                 showLastPhoto();
