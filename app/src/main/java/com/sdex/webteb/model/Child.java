@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Parcel
+@EqualsAndHashCode
 public class Child {
+
     @SerializedName("Name")
     @Expose
     private String name;
