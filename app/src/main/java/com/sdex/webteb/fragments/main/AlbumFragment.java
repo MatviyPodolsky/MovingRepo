@@ -40,6 +40,8 @@ import butterknife.OnClick;
  */
 public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBackStackChangedListener {
 
+    public static final String NAME = AlbumFragment.class.getSimpleName();
+
     @InjectView(R.id.grid_view)
     StickyGridHeadersGridView mGridView;
     @InjectView(R.id.btn_delete_photo)
@@ -52,12 +54,6 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     private AlbumAdapter mAdapter;
     private List<DbPhoto> data;
     private DatabaseHelper databaseHelper;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

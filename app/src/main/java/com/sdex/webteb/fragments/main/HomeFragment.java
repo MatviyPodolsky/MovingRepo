@@ -36,7 +36,6 @@ import com.sdex.webteb.extras.SimpleDividerItemDecoration;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
-import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedProfilePhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
@@ -86,6 +85,7 @@ public class HomeFragment extends PhotoFragment {
     public static final int MORE_ARTICLES_FRAGMENT = 4;
     public static final int SEARCH_DOCTOR_FRAGMENT = 3;
     public static final int ALBUM_FRAGMENT = 2;
+    public static final String CONTENT_FRAGMENT = "content_fragment";
 
     @InjectView(R.id.fragment_container)
     FrameLayout mRootView;
@@ -279,7 +279,7 @@ public class HomeFragment extends PhotoFragment {
                         fragment.setArguments(args);
                         FragmentManager fragmentManager = getChildFragmentManager();
                         fragmentManager.beginTransaction()
-                                .add(R.id.fragment_container, fragment, "content_fragment")
+                                .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
                                 .addToBackStack(null)
                                 .commit();
                     }
@@ -320,7 +320,7 @@ public class HomeFragment extends PhotoFragment {
                 fragment.setArguments(args);
                 FragmentManager fragmentManager = getChildFragmentManager();
                 fragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, fragment, "content_fragment")
+                        .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
                         .addToBackStack(null)
                         .commit();
             }
@@ -488,9 +488,12 @@ public class HomeFragment extends PhotoFragment {
 
     @OnClick(R.id.summary_search_doctor)
     public void searchDoctor() {
-        SelectMenuItemEvent event = new SelectMenuItemEvent();
-        event.setPosition(SEARCH_DOCTOR_FRAGMENT);
-        BUS.post(event);
+        Fragment fragment = new SearchDoctorFragment();
+        FragmentManager fragmentManager = getChildFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
+                .addToBackStack(SearchDoctorFragment.NAME)
+                .commit();
     }
 
     @OnClick(R.id.summary_articles)
@@ -502,7 +505,7 @@ public class HomeFragment extends PhotoFragment {
             fragment.setArguments(args);
             FragmentManager fragmentManager = getChildFragmentManager();
             fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, fragment, "content_fragment")
+                    .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
                     .addToBackStack(null)
                     .commit();
         } else {
@@ -512,9 +515,12 @@ public class HomeFragment extends PhotoFragment {
 
     @OnClick(R.id.summary_photos)
     public void showAlbum() {
-        SelectMenuItemEvent event = new SelectMenuItemEvent();
-        event.setPosition(ALBUM_FRAGMENT);
-        BUS.post(event);
+        Fragment fragment = new AlbumFragment();
+        FragmentManager fragmentManager = getChildFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
+                .addToBackStack(AlbumFragment.NAME)
+                .commit();
     }
 
     @OnClick(R.id.summary_close)
@@ -630,7 +636,7 @@ public class HomeFragment extends PhotoFragment {
         fragment.setArguments(args);
         FragmentManager fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment, "content_fragment")
+                .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
                 .addToBackStack(null)
                 .commit();
     }
