@@ -223,16 +223,17 @@ public class HomeFragment extends PhotoFragment {
 
                 setProfilePhoto();
                 showLastPhoto();
+                int mode = gaveBirth ? TimeNavigationAdapter.MODE_MONTHS :
+                        TimeNavigationAdapter.MODE_WEEKS;
 
-                final TimeNavigationAdapter timeNavAdapter = new TimeNavigationAdapter();
-                int navItemCount = gaveBirth ? 24 : 40;
-                timeNavAdapter.setItemCount(navItemCount);
+                final TimeNavigationAdapter timeNavAdapter = new TimeNavigationAdapter(mode);
+
                 timeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         mTimeNavigationRecyclerView.smoothScrollToView(view);
                         timeNavAdapter.setSelectedItem(position);
-                        if(gaveBirth) {
+                        if (gaveBirth) {
                             RestClient.getApiService().getMonth(timeNavAdapter.getItemCount() - position, getMonthCallback);
                         } else {
                             RestClient.getApiService().getWeek(timeNavAdapter.getItemCount() - position, getWeekCallback);
@@ -244,9 +245,10 @@ public class HomeFragment extends PhotoFragment {
                 });
                 mTimeNavigationRecyclerView.setAdapter(timeNavAdapter);
 
-                int currentWeekIndex = navItemCount - currentWeek;
+                int itemsCount = timeNavAdapter.getItemCount();
+                int currentWeekIndex = itemsCount - currentWeek;
 
-                if (currentWeekIndex > 0 && currentWeekIndex < navItemCount) {
+                if (currentWeekIndex > 0 && currentWeekIndex < itemsCount) {
                     int offset = getTimeNavigationControllerItemOffset();
                     timeNavControllerLayoutManager.scrollToPositionWithOffset(currentWeekIndex, offset);
                     timeNavAdapter.setSelectedItem(currentWeekIndex);

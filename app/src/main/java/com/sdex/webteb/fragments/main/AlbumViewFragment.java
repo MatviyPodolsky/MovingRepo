@@ -177,6 +177,7 @@ public class AlbumViewFragment extends BaseMainFragment {
     public void onEvent(SavedPhotoEvent event) {
         data.add(event.getPhoto());
         mAdapter.notifyDataSetChanged();
+        mAllPhoto.setText(String.valueOf(data.size()));
     }
 
 }
