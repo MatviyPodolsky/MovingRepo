@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
@@ -42,19 +42,20 @@ public class BirthDateFragment extends BaseFragment {
     TextView mDescription;
     @InjectView(R.id.select_date)
     TextView mDate;
+    @InjectView(R.id.next)
+    Button mBtnNext;
     private int mDateType = LAST_PERIOD;
     private String dateString;
-    private boolean isDateChecked;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle data = getArguments();
-        if(data != null) {
+        if (data != null) {
             int dateType = data.getInt(SetupProfileActivity.DATE_TYPE, LAST_PERIOD);
             String dateStr = data.getString(SetupProfileActivity.DATE);
             selectCategory(dateType);
-            setDateChecked(true);
+            setButtonEnabled(true);
             ((SetupProfileActivity) getActivity()).setBirthDate(dateStr);
             ((SetupProfileActivity) getActivity()).setDateType(dateType);
             if(dateStr != null){
@@ -65,6 +66,8 @@ public class BirthDateFragment extends BaseFragment {
             }
             mDate.setText(dateStr);
             dateString = dateStr;
+        } else {
+            setButtonEnabled(false);
         }
     }
 
@@ -78,7 +81,7 @@ public class BirthDateFragment extends BaseFragment {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_GET_DATE:
-                    setDateChecked(true);
+                    setButtonEnabled(true);
                     int year = data.getIntExtra(DatePickerFragmentDialog.EXTRA_YEAR, -1);
                     int month = data.getIntExtra(DatePickerFragmentDialog.EXTRA_MONTH, -1);
                     int day = data.getIntExtra(DatePickerFragmentDialog.EXTRA_DAY, -1);
@@ -98,12 +101,8 @@ public class BirthDateFragment extends BaseFragment {
 
     @OnClick(R.id.next)
     public void scrollToNextPage() {
-        if (isDateChecked) {
-            if(getActivity() instanceof SetupProfileActivity){
-                ((SetupProfileActivity) getActivity()).scrollToNextPage();
-            }
-        } else {
-            Toast.makeText(getActivity(), getActivity().getString(R.string.please_select_date), Toast.LENGTH_SHORT).show();
+        if (getActivity() instanceof SetupProfileActivity) {
+            ((SetupProfileActivity) getActivity()).scrollToNextPage();
         }
     }
 
@@ -119,8 +118,8 @@ public class BirthDateFragment extends BaseFragment {
         dialog.show(getFragmentManager(), null);
     }
 
-    private void setDateChecked(boolean isChecked) {
-        isDateChecked = isChecked;
+    private void setButtonEnabled(boolean isEnabled) {
+        mBtnNext.setEnabled(isEnabled);
     }
 
     @OnClick(R.id.category_1)
