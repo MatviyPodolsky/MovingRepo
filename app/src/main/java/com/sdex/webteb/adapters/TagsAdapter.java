@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
@@ -97,6 +98,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
     public static class VerticalItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mValue;
+        private LinearLayout layout;
 
         private TagsAdapter mAdapter;
 
@@ -107,6 +109,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
             mAdapter = adapter;
 
             mValue = (TextView) itemView.findViewById(R.id.value);
+            layout = (LinearLayout) itemView.findViewById(R.id.item_tag_root);
         }
 
         @Override
@@ -121,11 +124,11 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         public void setSelected(boolean selected) {
             //mValue.setSelected(selected);
             if (selected) {
-                mValue.setBackgroundResource(android.R.color.black);
+                layout.setBackgroundResource(R.color.primary);
                 mValue.setTextColor(Color.WHITE);
             } else {
-                mValue.setBackgroundResource(android.R.color.white);
-                mValue.setTextColor(Color.BLACK);
+                layout.setBackgroundResource(R.drawable.red_border);
+                mValue.setTextColor(Color.parseColor("#EC1561"));
             }
         }
 
