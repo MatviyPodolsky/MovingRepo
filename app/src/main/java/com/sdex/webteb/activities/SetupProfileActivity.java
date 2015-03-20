@@ -55,6 +55,9 @@ public class SetupProfileActivity extends BaseActivity {
     View profileCard;
     @InjectView(R.id.avatar)
     ImageView mProfilePhoto;
+    @InjectView(R.id.progress)
+    TextView mProgress;
+
     private String username;
     private DatabaseHelper databaseHelper;
     private boolean isInEditMode;
@@ -70,6 +73,10 @@ public class SetupProfileActivity extends BaseActivity {
 
         databaseHelper = DatabaseHelper.getInstance(this);
         profileCard.findViewById(R.id.photo_container).setVisibility(View.GONE);
+
+        profileCard.setBackgroundColor(getResources().getColor(R.color.primary_dark_dark));
+        mProfilePhoto.setBackgroundColor(getResources().getColor(R.color.primary));
+        mProgress.setVisibility(View.GONE);
 
         username = PreferencesManager.getInstance().getEmail();
         DbUser user = databaseHelper.getUser(username);
