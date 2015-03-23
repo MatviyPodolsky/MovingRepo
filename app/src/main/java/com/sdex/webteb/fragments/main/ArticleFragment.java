@@ -55,14 +55,7 @@ public class ArticleFragment extends BaseMainFragment {
         data = Parcels.unwrap(args.getParcelable(ARG_ARTICLES));
         currentPosition = args.getInt(ARG_POSITION);
 
-        ContentLink article = data.get(currentPosition);
-
-        title.setText(article.getTitle());
-
-        mContentView.getSettings().setLoadWithOverviewMode(true);
-        mContentView.getSettings().setUseWideViewPort(true);
-
-        mContentView.loadUrl(article.getUrl());
+        loadData();
     }
 
     @Override
@@ -108,6 +101,22 @@ public class ArticleFragment extends BaseMainFragment {
         pw.setBackgroundDrawable(new ColorDrawable());
         pw.setOutsideTouchable(true);
         pw.showAsDropDown(v);
+    }
+
+    @OnClick(R.id.btn_next_article)
+    void setNextArticle(View v) {
+        if(currentPosition < data.size() - 1) {
+            currentPosition++;
+            loadData();
+        }
+    }
+
+    private void loadData() {
+        ContentLink article = data.get(currentPosition);
+        title.setText(article.getTitle());
+        mContentView.getSettings().setLoadWithOverviewMode(true);
+        mContentView.getSettings().setUseWideViewPort(true);
+        mContentView.loadUrl(article.getUrl());
     }
 
 }
