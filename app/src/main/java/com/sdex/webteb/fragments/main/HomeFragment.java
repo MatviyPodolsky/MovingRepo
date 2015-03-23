@@ -521,7 +521,7 @@ public class HomeFragment extends PhotoFragment {
         Fragment fragment = new SearchDoctorFragment();
         FragmentManager fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
+                .add(R.id.fragment_container, fragment, SearchDoctorFragment.NAME)
                 .addToBackStack(SearchDoctorFragment.NAME)
                 .commit();
     }

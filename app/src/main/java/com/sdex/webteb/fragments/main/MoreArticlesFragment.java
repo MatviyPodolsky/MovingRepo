@@ -30,6 +30,8 @@ import retrofit.client.Response;
  */
 public class MoreArticlesFragment extends BaseMainFragment {
 
+    public static final String NAME = MoreArticlesFragment.class.getSimpleName();
+
     public static final int PAGE_SIZE = 10;
     private final List<ContentLink> mData = new ArrayList<>();
 
@@ -58,7 +60,12 @@ public class MoreArticlesFragment extends BaseMainFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fragment = ArticleFragment.newInstance(mData, position);
-                FragmentManager fragmentManager = getChildFragmentManager();
+                FragmentManager fragmentManager;
+                if (getParentFragment() != null) {
+                    fragmentManager = getParentFragment().getChildFragmentManager();
+                } else {
+                    fragmentManager = getChildFragmentManager();
+                }
                 fragmentManager.beginTransaction()
                         .add(R.id.fragment_container, fragment, "content_fragment")
                         .addToBackStack(null)

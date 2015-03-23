@@ -106,7 +106,12 @@ public class SearchDoctorFragment extends BaseMainFragment {
                         args.putString("Specialty", specialityName);
                     }
                     fragment.setArguments(args);
-                    FragmentManager fragmentManager = getChildFragmentManager();
+                    FragmentManager fragmentManager;
+                    if (getParentFragment() != null) {
+                        fragmentManager = getParentFragment().getChildFragmentManager();
+                    } else {
+                        fragmentManager = getChildFragmentManager();
+                    }
                     fragmentManager.beginTransaction()
                             .add(R.id.fragment_container, fragment, "content_fragment")
                             .addToBackStack(null)

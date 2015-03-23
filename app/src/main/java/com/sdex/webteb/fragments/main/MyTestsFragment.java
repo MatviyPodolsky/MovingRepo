@@ -2,6 +2,8 @@ package com.sdex.webteb.fragments.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
@@ -9,7 +11,6 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MyTestsAdapter;
-import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -46,16 +47,22 @@ public class MyTestsFragment extends BaseMainFragment {
         mAdapter.setCallback(new MyTestsAdapter.Callback() {
             @Override
             public void onReadMoreBtnClick() {
-                SelectMenuItemEvent event = new SelectMenuItemEvent();
-                event.setPosition(MORE_ARTICLES_FRAGMENT);
-                BUS.post(event);
+                Fragment fragment = new MoreArticlesFragment();
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, fragment, MoreArticlesFragment.NAME)
+                        .addToBackStack(MoreArticlesFragment.NAME)
+                        .commit();
             }
 
             @Override
             public void onSearchDoctorBtnClick() {
-                SelectMenuItemEvent event = new SelectMenuItemEvent();
-                event.setPosition(SEARCH_DOCTOR_FRAGMENT);
-                BUS.post(event);
+                Fragment fragment = new SearchDoctorFragment();
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, fragment, SearchDoctorFragment.NAME)
+                        .addToBackStack(SearchDoctorFragment.NAME)
+                        .commit();
             }
 
             @Override

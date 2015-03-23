@@ -307,9 +307,10 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
             if (range.getFrom() == range.getTo()) {
                 stringBuilder.append(range.getFrom());
             } else {
-                stringBuilder.append(range.getFrom());
-                stringBuilder.append(" - ");
                 stringBuilder.append(range.getTo());
+                stringBuilder.append(" - ");
+                stringBuilder.append(range.getFrom());
+
             }
             stringBuilder.append(", ");
         }

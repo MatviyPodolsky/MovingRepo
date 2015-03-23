@@ -1,52 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/default_background">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/my_tests_title"
-        android:textColor="#03a9f5"
-        android:textSize="@dimen/default_text_size"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/error"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp" />
-
-    <ExpandableListView
-        android:id="@+id/list"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:groupIndicator="@null"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:divider="@color/primary"
-        android:dividerHeight="1dp"
-        android:childDivider="@android:color/transparent"
-        android:layout_below="@+id/title"
-        android:visibility="gone" />
+        android:background="@color/default_background">
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerInParent="true"
-        android:focusable="false"
-        android:visibility="visible" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_tests_title"
+            android:textColor="#03a9f5"
+            android:textSize="@dimen/default_text_size"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_below="@+id/error"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp" />
 
-    <TextView
-        android:id="@+id/error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:focusable="false"
-        android:text="@string/error_loading_data"
-        android:visibility="gone" />
+        <ExpandableListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:groupIndicator="@null"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:divider="@color/primary"
+            android:dividerHeight="1dp"
+            android:childDivider="@android:color/transparent"
+            android:layout_below="@+id/title"
+            android:visibility="gone" />
 
-</RelativeLayout>
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:focusable="false"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:focusable="false"
+            android:text="@string/error_loading_data"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+</FrameLayout>
