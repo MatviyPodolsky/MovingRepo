@@ -118,7 +118,13 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         BabyTestResponse item = (BabyTestResponse) getGroup(groupPosition);
         holder.title.setText(item.getContentPreview().getTitle());
         holder.text.setText(item.getContentPreview().getDescription());
-        holder.range.setText(parseRange(item.getRelatedPeriods()));
+        List<Range> relatedPeriods = item.getRelatedPeriods();
+        if(relatedPeriods != null && !relatedPeriods.isEmpty()) {
+            holder.range.setText(parseRange(relatedPeriods));
+            holder.range.setVisibility(View.VISIBLE);
+        } else {
+            holder.range.setVisibility(View.GONE);
+        }
         refreshStatus(data.get(groupPosition).getUserTest(), holder);
 
         return convertView;

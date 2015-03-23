@@ -14,20 +14,20 @@
             android:layout_height="162dp" />
 
         <RelativeLayout
-            android:id="@+id/summary_search_doctor_container"
+            android:id="@+id/summary_tests_container"
             android:layout_width="match_parent"
             android:layout_height="57dp"
             android:layout_below="@+id/summary_image"
             android:padding="5dp">
 
             <Button
-                android:id="@+id/summary_search_doctor"
+                android:id="@+id/summary_show_tests"
                 style="@style/AppTheme.Button"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="@string/search_doctor" />
+                android:text="@string/read_more" />
 
             <TextView
                 android:id="@+id/summary_test_text"
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/summary_test_text"
-                android:layout_toRightOf="@+id/summary_search_doctor"
+                android:layout_toRightOf="@+id/summary_show_tests"
                 android:orientation="horizontal">
 
                 <TextView
@@ -60,7 +60,7 @@
 
         <View
             android:id="@+id/divider1"
-            android:layout_below="@+id/summary_search_doctor_container"
+            android:layout_below="@+id/summary_tests_container"
             android:layout_width="match_parent"
             android:background="@android:color/holo_blue_light"
             android:layout_height="1dp" />
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="@string/read" />
+                android:text="@string/read_more" />
 
             <TextView
                 android:id="@+id/summary_articles_text"

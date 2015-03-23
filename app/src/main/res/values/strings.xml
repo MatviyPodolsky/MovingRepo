@@ -89,7 +89,6 @@
 
     <!--summary-->
     <string name="tests">Tests</string>
-    <string name="read">Read</string>
     <string name="articles_count">Articles count</string>
     <string name="articles">Articles</string>
     <string name="album">Album</string>
@@ -130,6 +129,7 @@
     <string name="done_test">Done test</string>
     <string name="undone_test">Undone test</string>
     <string name="reminder">Reminder</string>
+    <string name="we_found_n_tests">We found (%1$d) tests</string>
 
     <!--album-->
     <string name="take_photo">Take photo</string>
