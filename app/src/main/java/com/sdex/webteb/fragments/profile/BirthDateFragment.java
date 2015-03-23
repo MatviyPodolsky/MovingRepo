@@ -8,11 +8,13 @@ import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
 import com.sdex.webteb.dialogs.DatePickerFragmentDialog;
 import com.sdex.webteb.fragments.BaseFragment;
+import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.utils.DateUtil;
 
 import java.util.Calendar;
@@ -51,6 +53,7 @@ public class BirthDateFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle data = getArguments();
+        selectCategory(LAST_PERIOD);
         if (data != null) {
             int dateType = data.getInt(SetupProfileActivity.DATE_TYPE, LAST_PERIOD);
             String dateStr = data.getString(SetupProfileActivity.DATE);
@@ -91,8 +94,10 @@ public class BirthDateFragment extends BaseFragment {
                         Date time = date.getTime();
                         String requestDate = DateUtil.formatDate(time, "yyyy-MM-dd'T'HH:mm:ssZ");
                         String textDate = DateUtil.formatDate(time, "MMM dd, yyyy");
-                        ((SetupProfileActivity)getActivity()).setBirthDate(requestDate);
-                        mDate.setText(textDate);
+                        if(isValidDate(time)) {
+                            ((SetupProfileActivity) getActivity()).setBirthDate(requestDate);
+                            mDate.setText(textDate);
+                        }
                     }
                     break;
             }
@@ -176,5 +181,31 @@ public class BirthDateFragment extends BaseFragment {
             default:
                 break;
         }
+    }
+
+    public boolean isValidDate(Date date){
+
+        if(mDateType == BabyProfileResponse.DATE_TYPE_NOT_SET){
+            Toast.makeText(getActivity(), getString(R.string.please_select_date), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        Date currentDate = Calendar.getInstance().getTime();
+        if(mDateType == BabyProfileResponse.DATE_TYPE_BIRTH_DATE
+                && date.after(currentDate)){
+            Toast.makeText(getActivity(), getString(R.string.birth_date_cant_be_in_future), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(mDateType == BabyProfileResponse.DATE_TYPE_LAST_PERIOD
+                && date.after(currentDate)){
+            Toast.makeText(getActivity(), getString(R.string.last_period_cant_be_in_future), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(mDateType == BabyProfileResponse.DATE_TYPE_DUE_TO
+                && date.before(currentDate)){
+            Toast.makeText(getActivity(), getString(R.string.expected_birth_date_cant_be_in_past), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 }

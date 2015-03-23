@@ -71,7 +71,8 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
         mIndicator.setViewPager(mPager);
         mPager.setOnPageChangeListener(this);
         mPager.setOffscreenPageLimit(3);
-        loginButton.setReadPermissions(Arrays.asList("email"));
+        loginButton.setPublishPermissions(Arrays.asList("publish_actions", "email"));
+//        loginButton.setReadPermissions(Arrays.asList("email"));
 
         showServerChooseDialog();
     }

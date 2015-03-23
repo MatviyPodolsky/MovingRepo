@@ -51,7 +51,8 @@ public class LoginActivity extends BaseActivity {
 
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
-        loginButton.setReadPermissions(Arrays.asList("email"));
+//        loginButton.setReadPermissions(Arrays.asList("email"));
+        loginButton.setPublishPermissions(Arrays.asList("publish_actions", "email"));
 
         loginCallback = new RestCallback<UserLoginResponse>() {
             @Override

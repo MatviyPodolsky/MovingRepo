@@ -255,6 +255,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     @OnItemClick(R.id.drawer_list)
     void setItem(final int position) {
+        EventBus.getDefault().removeAllStickyEvents();
         setMenuItem(position);
     }
 

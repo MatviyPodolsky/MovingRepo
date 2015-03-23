@@ -36,13 +36,13 @@ public class ChildInfoFragment extends BaseFragment {
 
         mChildren = new ArrayList<>();
         final Bundle args = getArguments();
-        if(args != null) {
+        if (args != null) {
             final Parcelable children = args.getParcelable(SetupProfileActivity.CHILDREN);
             mChildren = Parcels.unwrap(children);
         }
 
         mAdapter = new ChildrenAdapter(getActivity());
-        if(mChildren.isEmpty()){
+        if (mChildren.isEmpty()) {
             mChildren.add(new Child());
         }
         mAdapter.setItems(mChildren);
@@ -55,7 +55,7 @@ public class ChildInfoFragment extends BaseFragment {
     }
 
     @OnClick(R.id.add)
-    public void addChild(){
+    public void addChild() {
 //        mAdapter.add(new Child());
         mAdapter.addChild(new Child());
         mAdapter.notifyDataSetChanged();
@@ -63,11 +63,9 @@ public class ChildInfoFragment extends BaseFragment {
 
     @OnClick(R.id.done)
     public void done() {
-        if(getActivity() instanceof SetupProfileActivity){
+        if (getActivity() instanceof SetupProfileActivity) {
             ((SetupProfileActivity) getActivity()).setChildren(mAdapter.getChildren());
-            if(((SetupProfileActivity) getActivity()).isValidData()) {
-                ((SetupProfileActivity) getActivity()).saveChanges();
-            }
+            ((SetupProfileActivity) getActivity()).saveChanges();
         }
     }
 }
