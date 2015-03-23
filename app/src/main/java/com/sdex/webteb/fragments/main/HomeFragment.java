@@ -225,6 +225,7 @@ public class HomeFragment extends PhotoFragment {
                 gaveBirth = card.isGaveBirth();
 
                 if (!gaveBirth) {
+                    mText.setText(String.valueOf(currentWeek));
                     ViewGroup.LayoutParams layoutParams = mProgress.getLayoutParams();
                     int width = currentWeek * DisplayUtil.getScreenWidth(getActivity()) / 42;
                     layoutParams.width = width;
@@ -234,10 +235,8 @@ public class HomeFragment extends PhotoFragment {
                     preferencesManager.setCurrentDate(String.valueOf(currentWeek),
                             PreferencesManager.DATE_TYPE_WEEK);
                 } else {
+                    RestClient.getApiService().getBabyProfile(getProfileCallback);
                     mProgress.setVisibility(View.GONE);
-                    // TODO retrieve current month
-                    preferencesManager.setCurrentDate("",
-                            PreferencesManager.DATE_TYPE_MONTH);
                 }
 
                 setProfilePhoto();
@@ -276,12 +275,6 @@ public class HomeFragment extends PhotoFragment {
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
                 mUserName.setText(username);
-                if (gaveBirth) {
-//                    mText.setVisibility(View.GONE);
-                    RestClient.getApiService().getBabyProfile(getProfileCallback);
-                } else {
-                    mText.setText(String.valueOf(currentWeek));
-                }
 
                 List<ContentPreview> previews = babyHomeResponse.getPreviews();
                 List<ContentLink> videos = babyHomeResponse.getVideos();
@@ -494,8 +487,9 @@ public class HomeFragment extends PhotoFragment {
             }
         });
 
-        int week = Integer.valueOf(PreferencesManager.getInstance().getCurrentDate() != null ?
-                PreferencesManager.getInstance().getCurrentDate() : "0");
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        int week = Integer.valueOf(preferencesManager.getCurrentDate() != null && !preferencesManager.getCurrentDate().isEmpty()
+                ? PreferencesManager.getInstance().getCurrentDate() : "0");
 
         RestClient.getApiService().getWeek(week, getWeekCallback);
 
@@ -511,8 +505,10 @@ public class HomeFragment extends PhotoFragment {
                 long currentTime = Calendar.getInstance().getTime().getTime();
                 long birthDate = DateUtil.parseDate(babyProfileResponse.getDate()).getTime();
                 long diffTime = currentTime - birthDate;
-                float age = (float)diffTime / 1000 / 3600 / 24 / 365;
-                mText.setText(String.format("%.1f years", age));
+                long month = diffTime / 1000 / 3600 / 24 / 30;
+                mText.setText(String.format("%d month", month));
+                PreferencesManager.getInstance().setCurrentDate(String.valueOf(month),
+                        PreferencesManager.DATE_TYPE_MONTH);
             }
         };
     }
