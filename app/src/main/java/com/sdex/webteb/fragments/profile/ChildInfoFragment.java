@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
@@ -26,6 +27,8 @@ import butterknife.OnClick;
 public class ChildInfoFragment extends BaseFragment {
 
     private ChildrenAdapter mAdapter;
+    @InjectView(R.id.title)
+    TextView mTitle;
     @InjectView(R.id.childs_list)
     ListView mList;
     private List<Child> mChildren;
@@ -47,6 +50,7 @@ public class ChildInfoFragment extends BaseFragment {
         }
         mAdapter.setItems(mChildren);
         mList.setAdapter(mAdapter);
+        updateChildrenCount();
     }
 
     @Override
@@ -56,9 +60,9 @@ public class ChildInfoFragment extends BaseFragment {
 
     @OnClick(R.id.add)
     public void addChild() {
-//        mAdapter.add(new Child());
         mAdapter.addChild(new Child());
         mAdapter.notifyDataSetChanged();
+        updateChildrenCount();
     }
 
     @OnClick(R.id.done)
@@ -66,6 +70,14 @@ public class ChildInfoFragment extends BaseFragment {
         if (getActivity() instanceof SetupProfileActivity) {
             ((SetupProfileActivity) getActivity()).setChildren(mAdapter.getChildren());
             ((SetupProfileActivity) getActivity()).saveChanges();
+        }
+    }
+
+    private void updateChildrenCount(){
+        int count = mAdapter.getCount();
+        if(count > 1) {
+            String title = getString(R.string.children_count);
+            mTitle.setText(String.format(title, count));
         }
     }
 }
