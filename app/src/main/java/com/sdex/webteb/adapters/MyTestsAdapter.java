@@ -307,7 +307,8 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
 
     private static String parseRange(List<Range> ranges) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Range range : ranges) {
+        for (int rangePos = ranges.size() - 1; rangePos >= 0; rangePos--) {
+            Range range = ranges.get(rangePos);
             if (range.getFrom() == range.getTo()) {
                 stringBuilder.append(range.getFrom());
             } else {
