@@ -1,6 +1,7 @@
 package com.sdex.webteb.fragments.main;
 
 import android.animation.ValueAnimator;
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,7 +74,6 @@ import butterknife.InjectView;
 import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.Optional;
-import de.greenrobot.event.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -107,7 +107,7 @@ public class HomeFragment extends PhotoFragment {
     TextView articlesCount;
     @InjectView(R.id.summary_test_title)
     TextView testTitle;
-    @InjectViews({ R.id.summary_image1, R.id.summary_image2, R.id.summary_image3 })
+    @InjectViews({R.id.summary_image1, R.id.summary_image2, R.id.summary_image3})
     List<ImageView> summaryPhotos;
     @InjectView(R.id.no_photos)
     TextView noPhotos;
@@ -144,12 +144,14 @@ public class HomeFragment extends PhotoFragment {
 
     private DatabaseHelper databaseHelper;
 
-    protected EventBus BUS = EventBus.getDefault();
     private TimeNavigationAdapter mTimeNavAdapter;
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mProgressDialog = ProgressDialog.show(getActivity(), "", getString(R.string.loading), true, false);
 
         databaseHelper = DatabaseHelper.getInstance(getActivity());
 
@@ -303,6 +305,8 @@ public class HomeFragment extends PhotoFragment {
 
 
                 mRecyclerView.setAdapter(adapter);
+
+                mProgressDialog.dismiss();
             }
         });
 
@@ -358,7 +362,7 @@ public class HomeFragment extends PhotoFragment {
                     List<ContentLink> videos = weekResponse.getVideos();
 
                     String imageUrl = weekResponse.getImageUrl();
-                    if(imageUrl != null && !imageUrl.isEmpty()) {
+                    if (imageUrl != null && !imageUrl.isEmpty()) {
                         Picasso.with(getActivity())
                                 .load(imageUrl)
                                 .placeholder(R.drawable.ic_transparent_placeholder)
@@ -375,7 +379,7 @@ public class HomeFragment extends PhotoFragment {
                     String email = PreferencesManager.getInstance().getEmail();
                     List<DbPhoto> data = databaseHelper.getPhotos(3, email, String.valueOf(weekResponse.getWeekNumber()));
                     int size = data.size();
-                    if(size == 0){
+                    if (size == 0) {
                         sumPhotoContainer.setVisibility(View.GONE);
                         noPhotos.setVisibility(View.VISIBLE);
                     } else {
@@ -413,7 +417,7 @@ public class HomeFragment extends PhotoFragment {
                     List<ContentLink> videos = monthResponse.getVideos();
 
                     String imageUrl = monthResponse.getImageUrl();
-                    if(imageUrl != null && !imageUrl.isEmpty()) {
+                    if (imageUrl != null && !imageUrl.isEmpty()) {
                         Picasso.with(getActivity())
                                 .load(imageUrl)
                                 .placeholder(R.drawable.ic_transparent_placeholder)
@@ -430,7 +434,7 @@ public class HomeFragment extends PhotoFragment {
                     String email = PreferencesManager.getInstance().getEmail();
                     List<DbPhoto> data = databaseHelper.getPhotos(3, email, String.valueOf(monthResponse.getAgeInMonths()));
                     int size = data.size();
-                    if(size == 0){
+                    if (size == 0) {
                         sumPhotoContainer.setVisibility(View.GONE);
                         noPhotos.setVisibility(View.VISIBLE);
                     } else {
@@ -528,7 +532,7 @@ public class HomeFragment extends PhotoFragment {
 
     @OnClick(R.id.summary_articles)
     public void showArticles() {
-        if(contentLinks != null) {
+        if (contentLinks != null) {
             Fragment fragment = new AdditionalContentFragment();
             Bundle args = new Bundle();
             args.putParcelable(ARTICLES_LIST, Parcels.wrap(contentLinks));
@@ -554,7 +558,7 @@ public class HomeFragment extends PhotoFragment {
     }
 
     @OnClick(R.id.summary_close)
-    public void closeSummary(){
+    public void closeSummary() {
         if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }
