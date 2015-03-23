@@ -122,8 +122,8 @@ public class SetupProfileActivity extends BaseActivity {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         String userName = preferencesManager.getUsername();
         ((TextView) profileCard.findViewById(R.id.username)).setText(userName);
-        if (preferencesManager.getCurrentWeek() != null) {
-            String currentWeek = preferencesManager.getCurrentWeek();
+        if (preferencesManager.getCurrentDate() != null) {
+            String currentWeek = preferencesManager.getCurrentDate();
             ((TextView) profileCard.findViewById(R.id.textView5)).setText(currentWeek);
         }
     }

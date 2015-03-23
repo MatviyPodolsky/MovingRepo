@@ -46,6 +46,8 @@ public class AlbumViewFragment extends BaseMainFragment {
     ViewPager mViewPager;
     @InjectView(R.id.description)
     TextView mDescription;
+    @InjectView(R.id.date)
+    TextView mDate;
     @InjectView(R.id.current_photo)
     TextView mCurrentPhoto;
     @InjectView(R.id.all_photo)
@@ -73,13 +75,13 @@ public class AlbumViewFragment extends BaseMainFragment {
         mViewPager.setOffscreenPageLimit(2);
         final int currentPhoto = getArguments().getInt("current_photo");
         mViewPager.setCurrentItem(currentPhoto);
-        setDescription(currentPhoto);
+        showPhotoInfo(currentPhoto);
 
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                setDescription(position);
+                showPhotoInfo(position);
             }
         });
     }
@@ -150,9 +152,10 @@ public class AlbumViewFragment extends BaseMainFragment {
                 location.left, location.top - contentView.getMeasuredHeight());
     }
 
-    private void setDescription(int position) {
+    private void showPhotoInfo(int position) {
         DbPhoto photo = data.get(position);
         mDescription.setText(photo.getDescription());
+        mDate.setText(photo.getDate());
         setCurrentPhotoIndex(position);
     }
 
@@ -170,7 +173,7 @@ public class AlbumViewFragment extends BaseMainFragment {
 
         data.remove(currentItem);
         mAdapter.notifyDataSetChanged();
-        setDescription(mViewPager.getCurrentItem());
+        showPhotoInfo(mViewPager.getCurrentItem());
         mAllPhoto.setText(String.valueOf(data.size()));
     }
 

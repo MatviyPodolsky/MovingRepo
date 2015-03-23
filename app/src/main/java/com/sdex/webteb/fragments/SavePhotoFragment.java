@@ -41,6 +41,7 @@ public class SavePhotoFragment extends BaseFragment {
 
     private Uri currentPhoto;
     private TagsAdapter adapter;
+    private final PreferencesManager mPreferencesManager = PreferencesManager.getInstance();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -57,8 +58,7 @@ public class SavePhotoFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(layoutManager);
         adapter = new TagsAdapter();
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
-        PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        DbUser user = databaseHelper.getUser(preferencesManager.getEmail());
+        DbUser user = databaseHelper.getUser(mPreferencesManager.getEmail());
         String children = user.getChildren();
         adapter.setChildren(children);
         adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,9 +80,14 @@ public class SavePhotoFragment extends BaseFragment {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mDescription.getWindowToken(), 0);
-        PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        String username = preferencesManager.getEmail();
-        String currentWeek = preferencesManager.getCurrentWeek();
+        String username = mPreferencesManager.getEmail();
+        String currentDate = mPreferencesManager.getCurrentDate();
+        int dateType = mPreferencesManager.getCurrentDateType();
+        if (dateType == PreferencesManager.DATE_TYPE_WEEK) {
+            currentDate += " " + getString(R.string.week);
+        } else if (dateType == PreferencesManager.DATE_TYPE_MONTH) {
+            currentDate += " " + getString(R.string.month);
+        }
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
         DbPhoto photo = new DbPhoto();
         photo.setPath(currentPhoto.getPath());
@@ -90,7 +95,7 @@ public class SavePhotoFragment extends BaseFragment {
         photo.setDescription(mDescription.getText().toString());
         photo.setTags(adapter.getTags());
         photo.setOwner(username);
-        photo.setDate(currentWeek);
+        photo.setDate(currentDate);
         databaseHelper.addPhoto(photo);
         EventBus.getDefault().post(new SavedPhotoEvent(photo));
         getActivity().onBackPressed();

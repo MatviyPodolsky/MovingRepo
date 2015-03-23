@@ -10,14 +10,18 @@ import com.google.gson.Gson;
  */
 public class PreferencesManager {
 
+    public static final int DATE_TYPE_WEEK = 0;
+    public static final int DATE_TYPE_MONTH = 1;
+
     private static final String PREF_NAME = "settings";
 
-    public static final String TOKEN = "token";
-    public static final String TOKEN_TYPE = "token_type";
-    public static final String EMAIL = "email";
-    public static final String USERNAME = "username";
-    public static final String COMPLETE_SETUP = "complete_setup";
-    public static final String CURRENT_WEEK = "current_week";
+    private static final String TOKEN = "token";
+    private static final String TOKEN_TYPE = "token_type";
+    private static final String EMAIL = "email";
+    private static final String USERNAME = "username";
+    private static final String COMPLETE_SETUP = "complete_setup";
+    private static final String CURRENT_DATE = "current_date";
+    private static final String CURRENT_DATE_TYPE = "current_date_type";
 
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;
@@ -113,14 +117,19 @@ public class PreferencesManager {
         return mPref.getBoolean(COMPLETE_SETUP, false);
     }
 
-    public void setCurrentWeek(String week) {
+    public void setCurrentDate(String date, int dateType) {
         mPref.edit()
-                .putString(CURRENT_WEEK, week)
+                .putString(CURRENT_DATE, date)
+                .putInt(CURRENT_DATE_TYPE, dateType)
                 .commit();
     }
 
-    public String getCurrentWeek() {
-        return mPref.getString(CURRENT_WEEK, null);
+    public String getCurrentDate() {
+        return mPref.getString(CURRENT_DATE, null);
+    }
+
+    public int getCurrentDateType() {
+        return mPref.getInt(CURRENT_DATE_TYPE, -1);
     }
 
 }

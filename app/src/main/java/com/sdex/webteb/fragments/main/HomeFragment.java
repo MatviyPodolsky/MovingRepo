@@ -222,7 +222,6 @@ public class HomeFragment extends PhotoFragment {
                 String username = card.getName();
                 int currentWeek = card.getCurrentWeek();
                 preferencesManager.setUsername(username);
-                preferencesManager.setCurrentWeek(String.valueOf(currentWeek));
                 gaveBirth = card.isGaveBirth();
 
                 if (!gaveBirth) {
@@ -232,8 +231,13 @@ public class HomeFragment extends PhotoFragment {
                     String progressTitle = getString(R.string.profile_progress_text);
                     mProgress.setText(String.format(progressTitle, currentWeek));
                     mProgress.requestLayout();
+                    preferencesManager.setCurrentDate(String.valueOf(currentWeek),
+                            PreferencesManager.DATE_TYPE_WEEK);
                 } else {
                     mProgress.setVisibility(View.GONE);
+                    // TODO retrieve current month
+                    preferencesManager.setCurrentDate("",
+                            PreferencesManager.DATE_TYPE_MONTH);
                 }
 
                 setProfilePhoto();
@@ -490,8 +494,8 @@ public class HomeFragment extends PhotoFragment {
             }
         });
 
-        int week = Integer.valueOf(PreferencesManager.getInstance().getCurrentWeek() != null ?
-                PreferencesManager.getInstance().getCurrentWeek() : "0");
+        int week = Integer.valueOf(PreferencesManager.getInstance().getCurrentDate() != null ?
+                PreferencesManager.getInstance().getCurrentDate() : "0");
 
         RestClient.getApiService().getWeek(week, getWeekCallback);
 

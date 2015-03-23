@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#fff"
     android:layout_width="match_parent"
@@ -20,21 +21,23 @@
         android:layout_alignParentBottom="true"
         android:clickable="true">
 
-        <TextView
+        <com.sdex.webteb.view.TypefaceTextView
+            app:typeface="DINNextLTArabicBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
+            tools:text="New Text"
             android:textColor="@android:color/white"
-            android:id="@+id/description"
+            android:id="@+id/date"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toEndOf="@+id/linearLayout2"
-            android:layout_toRightOf="@+id/linearLayout2"
-            android:gravity="right" />
+            android:layout_toEndOf="@+id/count_container"
+            android:layout_toRightOf="@+id/count_container"
+            android:gravity="right"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -42,30 +45,51 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_margin="10dp"
-            android:id="@+id/linearLayout2">
+            android:id="@+id/count_container"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
-            <TextView
+            <com.sdex.webteb.view.TypefaceTextView
+                app:typeface="DINNextLTArabicRegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="5"
                 android:textColor="@android:color/white"
                 android:id="@+id/current_photo" />
 
-            <TextView
+            <com.sdex.webteb.view.TypefaceTextView
+                app:typeface="DINNextLTArabicRegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="/"
                 android:textColor="@android:color/white"
                 android:id="@+id/textView13" />
 
-            <TextView
+            <com.sdex.webteb.view.TypefaceTextView
+                app:typeface="DINNextLTArabicRegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="9"
                 android:textColor="@android:color/white"
                 android:id="@+id/all_photo" />
         </LinearLayout>
+
+        <com.sdex.webteb.view.TypefaceTextView
+            app:typeface="DINNextLTArabicRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="New Text"
+            android:gravity="right"
+            android:id="@+id/description"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/date"
+            android:layout_alignLeft="@+id/count_container"
+            android:layout_alignStart="@+id/count_container"
+            android:layout_alignRight="@+id/date"
+            android:layout_alignEnd="@+id/date"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 
