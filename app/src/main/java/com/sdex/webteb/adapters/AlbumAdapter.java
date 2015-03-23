@@ -61,7 +61,7 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
         DbPhoto item = getItem(position);
         int count = getPhotoCount(item.getDate());
         holder.counter.setText(String.valueOf(count));
-        holder.title.setText(item.getDate() + " week");
+        holder.title.setText(item.getDate());
 
         return convertView;
     }
