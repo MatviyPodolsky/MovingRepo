@@ -73,11 +73,30 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
         }
     }
 
+    public void hideLabels() {
+        for (Item item : data) {
+            if (item.showLabel) {
+                item.showLabel = false;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void showLabels() {
+        for (Item item : data) {
+            if (item.label != null) {
+                item.showLabel = true;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     public static class Item {
 
         public int color;
         public String value;
         public String label;
+        public boolean showLabel;
 
         public Item(String value) {
             this.value = value;
@@ -110,7 +129,7 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
 
         public void bindView(Item item) {
             mValue.setText(item.value);
-            if (item.label != null) {
+            if (item.showLabel) {
                 mLabel.setVisibility(View.VISIBLE);
                 mLabel.setText(item.label);
             } else {
@@ -143,6 +162,7 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
                 currentSection++;
             } else if (i % 12 == 1) {
                 item.label = "year " + (sectionCount - currentSection);
+                item.showLabel = true;
             }
             item.color = sectionColor;
             items.add(item);
@@ -163,6 +183,7 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
                 currentSection++;
             } else if (i % 4 == 1) {
                 item.label = "month " + (sectionCount - currentSection);
+                item.showLabel = true;
             }
             item.color = sectionColor;
             items.add(item);

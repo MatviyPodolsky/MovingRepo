@@ -145,6 +145,7 @@ public class HomeFragment extends PhotoFragment {
     private DatabaseHelper databaseHelper;
 
     protected EventBus BUS = EventBus.getDefault();
+    private TimeNavigationAdapter mTimeNavAdapter;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -164,6 +165,16 @@ public class HomeFragment extends PhotoFragment {
             public void onPanelSlide(View view, float slideOffset) {
                 float alpha = (float) (0.86f + slideOffset / 0.0714);
                 mDragView.setAlpha(alpha);
+
+                if (slideOffset == 1.0f) {
+                    if (mTimeNavAdapter != null) {
+                        mTimeNavAdapter.hideLabels();
+                    }
+                } else if (slideOffset == 0.0f) {
+                    if (mTimeNavAdapter != null) {
+                        mTimeNavAdapter.showLabels();
+                    }
+                }
             }
         });
 
@@ -230,32 +241,32 @@ public class HomeFragment extends PhotoFragment {
                 int mode = gaveBirth ? TimeNavigationAdapter.MODE_MONTHS :
                         TimeNavigationAdapter.MODE_WEEKS;
 
-                final TimeNavigationAdapter timeNavAdapter = new TimeNavigationAdapter(mode);
+                mTimeNavAdapter = new TimeNavigationAdapter(mode);
 
-                timeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         mTimeNavigationRecyclerView.smoothScrollToView(view);
-                        timeNavAdapter.setSelectedItem(position);
+                        mTimeNavAdapter.setSelectedItem(position);
                         if (gaveBirth) {
-                            RestClient.getApiService().getMonth(timeNavAdapter.getItemCount() - position, getMonthCallback);
+                            RestClient.getApiService().getMonth(mTimeNavAdapter.getItemCount() - position, getMonthCallback);
                         } else {
-                            RestClient.getApiService().getWeek(timeNavAdapter.getItemCount() - position, getWeekCallback);
+                            RestClient.getApiService().getWeek(mTimeNavAdapter.getItemCount() - position, getWeekCallback);
                         }
                         if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                         }
                     }
                 });
-                mTimeNavigationRecyclerView.setAdapter(timeNavAdapter);
+                mTimeNavigationRecyclerView.setAdapter(mTimeNavAdapter);
 
-                int itemsCount = timeNavAdapter.getItemCount();
+                int itemsCount = mTimeNavAdapter.getItemCount();
                 int currentWeekIndex = itemsCount - currentWeek;
 
                 if (currentWeekIndex > 0 && currentWeekIndex < itemsCount) {
                     int offset = getTimeNavigationControllerItemOffset();
                     timeNavControllerLayoutManager.scrollToPositionWithOffset(currentWeekIndex, offset);
-                    timeNavAdapter.setSelectedItem(currentWeekIndex);
+                    mTimeNavAdapter.setSelectedItem(currentWeekIndex);
                 }
 
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
