@@ -70,8 +70,8 @@ public class MyTestsFragment extends BaseMainFragment {
             }
 
             @Override
-            public void onAddReminderBtnClick() {
-
+            public void onAddReminderBtnClick(int groupId) {
+                mList.collapseGroup(groupId);
             }
 
             @Override

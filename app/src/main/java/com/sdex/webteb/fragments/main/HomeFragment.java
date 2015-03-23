@@ -174,6 +174,7 @@ public class HomeFragment extends PhotoFragment {
                     if (mTimeNavAdapter != null) {
                         mTimeNavAdapter.hideLabels();
                     }
+                    hideNotification();
                 } else if (slideOffset == 0.0f) {
                     if (mTimeNavAdapter != null) {
                         mTimeNavAdapter.showLabels();
@@ -602,19 +603,21 @@ public class HomeFragment extends PhotoFragment {
     @Optional
     @OnClick(R.id.cancel_in_app_notification)
     void hideNotification() {
-        int height = getResources().getDimensionPixelSize(R.dimen.notification_bar_height);
-        ValueAnimator va = ValueAnimator.ofInt(height, 0);
-        va.setDuration(500);
-        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                if (mNotificationsContainer != null) {
-                    Integer value = (Integer) animation.getAnimatedValue();
-                    mNotificationsContainer.getLayoutParams().height = value;
-                    mNotificationsContainer.requestLayout();
+        if (mNotificationsContainer.getLayoutParams().height != 0) {
+            int height = getResources().getDimensionPixelSize(R.dimen.notification_bar_height);
+            ValueAnimator va = ValueAnimator.ofInt(height, 0);
+            va.setDuration(500);
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    if (mNotificationsContainer != null) {
+                        Integer value = (Integer) animation.getAnimatedValue();
+                        mNotificationsContainer.getLayoutParams().height = value;
+                        mNotificationsContainer.requestLayout();
+                    }
                 }
-            }
-        });
-        va.start();
+            });
+            va.start();
+        }
     }
 
     private void setProfilePhoto() {
