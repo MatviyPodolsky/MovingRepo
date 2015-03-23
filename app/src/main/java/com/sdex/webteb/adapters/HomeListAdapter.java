@@ -42,7 +42,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private OnItemClickCallback mCallback;
 
     public interface OnItemClickCallback {
-        void onAdditionalContentClick(ContentLink content);
+        void onAdditionalContentClick(ContentLink content, int position);
         void onPreviewClick(ContentPreview content);
     }
 
@@ -169,7 +169,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View v) {
                     if (mCallback != null) {
-                        mCallback.onAdditionalContentClick(content);
+                        mCallback.onAdditionalContentClick(content,
+                                additionalContent.indexOf(content));
                     }
                 }
             });

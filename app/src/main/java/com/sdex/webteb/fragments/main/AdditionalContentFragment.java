@@ -44,7 +44,7 @@ public class AdditionalContentFragment extends BaseMainFragment {
         error.setVisibility(View.GONE);
 
         Bundle args = getArguments();
-        List<ContentLink> articles = Parcels.unwrap(args.getParcelable(HomeFragment.ARTICLES_LIST));
+        final List<ContentLink> articles = Parcels.unwrap(args.getParcelable(HomeFragment.ARTICLES_LIST));
         String titleText = getString(R.string.we_found_n_articles);
         title.setText(String.format(titleText, articles.size()));
         mAdapter = new ArticlesAdapter(getActivity(), articles);
@@ -52,10 +52,7 @@ public class AdditionalContentFragment extends BaseMainFragment {
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = new ArticleFragment();
-                Bundle args = new Bundle();
-                args.putParcelable(ArticleFragment.ARTICLE, Parcels.wrap(mAdapter.getItem(position)));
-                fragment.setArguments(args);
+                Fragment fragment = ArticleFragment.newInstance(articles, position);
                 FragmentManager fragmentManager = getParentFragment().getChildFragmentManager();
                 fragmentManager.beginTransaction()
                         .add(R.id.fragment_container, fragment, "content_fragment")

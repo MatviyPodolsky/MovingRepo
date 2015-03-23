@@ -278,18 +278,15 @@ public class HomeFragment extends PhotoFragment {
 
                 List<ContentPreview> previews = babyHomeResponse.getPreviews();
                 List<ContentLink> videos = babyHomeResponse.getVideos();
-                List<ContentLink> additionalContent = babyHomeResponse.getAdditionalContent();
+                final List<ContentLink> additionalContent = babyHomeResponse.getAdditionalContent();
 
                 final HomeListAdapter adapter = new HomeListAdapter(getActivity(),
                         getChildFragmentManager(),
                         previews, videos, additionalContent);
                 adapter.setCallback(new HomeListAdapter.OnItemClickCallback() {
                     @Override
-                    public void onAdditionalContentClick(ContentLink content) {
-                        Fragment fragment = new ArticleFragment();
-                        Bundle args = new Bundle();
-                        args.putParcelable(ArticleFragment.ARTICLE, Parcels.wrap(content));
-                        fragment.setArguments(args);
+                    public void onAdditionalContentClick(ContentLink content, int position) {
+                        Fragment fragment = ArticleFragment.newInstance(additionalContent, position);
                         FragmentManager fragmentManager = getChildFragmentManager();
                         fragmentManager.beginTransaction()
                                 .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
