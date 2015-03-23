@@ -27,6 +27,8 @@ import retrofit.client.Response;
  */
 public class SearchResultsFragment extends BaseMainFragment {
 
+    public static final String NAME = SearchResultsFragment.class.getSimpleName();
+
     private SearchResultsAdapter mAdapter;
     @InjectView(R.id.list)
     ListView mList;
