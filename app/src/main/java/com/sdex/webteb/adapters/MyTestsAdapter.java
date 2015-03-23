@@ -41,7 +41,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
     public interface Callback {
         void onReadMoreBtnClick();
         void onSearchDoctorBtnClick();
-        void onAddReminderBtnClick();
+        void onAddReminderBtnClick(int groupId);
         void onTestDoneClick();
     }
 
@@ -155,7 +155,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 if (mCallback != null) {
-                    mCallback.onAddReminderBtnClick();
+                    mCallback.onAddReminderBtnClick(groupPosition);
                 }
                 changeReminder(data.get(groupPosition), holder, groupPosition);
             }
