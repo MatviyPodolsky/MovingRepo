@@ -15,10 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +27,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.CityResponse;
 import com.sdex.webteb.rest.response.SpecialtiesResponse;
+import com.sdex.webteb.utils.KeyboardUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -83,44 +81,6 @@ public class SearchDoctorFragment extends BaseMainFragment {
         setCurrentCountry(currentCountry);
         setSpecialties();
         setCurrentLocation();
-        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
-                    Fragment fragment = new SearchResultsFragment();
-                    Bundle args = new Bundle();
-                    args.putString("Name", search.getText().toString());
-                    String countryName = country.getText().toString();
-                    if (!countryName.equals("Any country")) {
-                        args.putString("Country", countryName);
-                    }
-                    String cityName = city.getText().toString();
-                    if (!cityName.equals("Any city")) {
-                        args.putString("City", cityName);
-                    }
-                    String specialityName = specialty.getText().toString();
-                    if (!specialityName.equals("Any speciality")) {
-                        args.putString("Specialty", specialityName);
-                    }
-                    fragment.setArguments(args);
-                    FragmentManager fragmentManager;
-                    if (getParentFragment() != null) {
-                        fragmentManager = getParentFragment().getChildFragmentManager();
-                    } else {
-                        fragmentManager = getChildFragmentManager();
-                    }
-                    fragmentManager.beginTransaction()
-                            .add(R.id.fragment_container, fragment, "content_fragment")
-                            .addToBackStack(null)
-                            .commit();
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
     @Override
@@ -187,6 +147,37 @@ public class SearchDoctorFragment extends BaseMainFragment {
         dialog.setArguments(args);
         dialog.setTargetFragment(this, REQUEST_GET_SPECIALITY);
         dialog.show(ft, "dialog");
+    }
+
+    @OnClick(R.id.btn_search)
+    public void search() {
+        KeyboardUtils.hideKeyboard(search);
+        Fragment fragment = new SearchResultsFragment();
+        Bundle args = new Bundle();
+        args.putString("Name", search.getText().toString());
+        String countryName = country.getText().toString();
+        if (!countryName.equals("Any country")) {
+            args.putString("Country", countryName);
+        }
+        String cityName = city.getText().toString();
+        if (!cityName.equals("Any city")) {
+            args.putString("City", cityName);
+        }
+        String specialityName = specialty.getText().toString();
+        if (!specialityName.equals("Any speciality")) {
+            args.putString("Specialty", specialityName);
+        }
+        fragment.setArguments(args);
+        FragmentManager fragmentManager;
+        if (getParentFragment() != null) {
+            fragmentManager = getParentFragment().getChildFragmentManager();
+        } else {
+            fragmentManager = getChildFragmentManager();
+        }
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_container, fragment, SearchResultsFragment.NAME)
+                .addToBackStack(SearchResultsFragment.NAME)
+                .commit();
     }
 
     private void setCurrentCountry(int currentCountry) {
