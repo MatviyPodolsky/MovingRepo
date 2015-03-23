@@ -304,7 +304,19 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
         if((requestCode == FACEBOOK_APP_REQUEST_CODE || requestCode == FACEBOOK_WEB_REQUEST_CODE)
                 && resultCode == RESULT_OK) {
-            if (!FacebookUtil.isFacebookInstalled(this)) {
+            if (FacebookUtil.isFacebookInstalled(this)
+                    && FacebookDialog.canPresentShareDialog(this, FacebookDialog.ShareDialogFeature.SHARE_DIALOG)
+                    && FacebookDialog.canPresentShareDialog (this, FacebookDialog.ShareDialogFeature.PHOTOS)) {
+                uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+                    @Override
+                    public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+                    }
+
+                    @Override
+                    public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+                    }
+                });
+            } else {
                 if (Session.getActiveSession() != null) {
                     Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
                 }
@@ -319,16 +331,6 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 if (currentSession.isOpened()) {
                     FacebookUtil.publishLastContent(this);
                 }
-            } else {
-                uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
-                    @Override
-                    public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-                    }
-
-                    @Override
-                    public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
-                    }
-                });
             }
         }
     }

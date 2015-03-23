@@ -52,7 +52,9 @@ public class FacebookUtil {
 
     public static void publishPhoto(Activity activity, String path){
         lastContent = PUBLISH_PHOTO;
-        if(isFacebookInstalled(activity)){
+        if(isFacebookInstalled(activity)
+                && FacebookDialog.canPresentShareDialog (activity.getApplicationContext(),
+                FacebookDialog.ShareDialogFeature.PHOTOS)){
             publishPhotoFromApp(activity, path);
         } else {
             publishPhotoFromWeb(activity, path);
@@ -131,8 +133,8 @@ public class FacebookUtil {
 
     private static void publishPhotoFromApp(Activity activity, String path) {
 
-        if (FacebookDialog.canPresentShareDialog (activity.getApplicationContext(),
-                FacebookDialog.ShareDialogFeature.PHOTOS)) {
+//        if (FacebookDialog.canPresentShareDialog (activity.getApplicationContext(),
+//                FacebookDialog.ShareDialogFeature.PHOTOS)) {
             FacebookDialog.PhotoShareDialogBuilder builder = new FacebookDialog.PhotoShareDialogBuilder(activity);
             File photoFile = new File(path);
             List<File> photos = new ArrayList<>();
@@ -140,7 +142,7 @@ public class FacebookUtil {
             builder.addPhotoFiles(photos);
             FacebookDialog photoDialog = builder.build();
             ((MainActivity) activity).getUiHelper().trackPendingDialogCall(photoDialog.present());
-        }
+//        }
     }
 
     private static void publishFeedDialog(final Activity activity, String appName, String caption, String description, String link, String picture) {
