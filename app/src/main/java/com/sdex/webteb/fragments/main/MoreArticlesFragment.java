@@ -19,8 +19,6 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.ArticlesResponse;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +31,7 @@ import retrofit.client.Response;
 public class MoreArticlesFragment extends BaseMainFragment {
 
     public static final int PAGE_SIZE = 10;
+    private final List<ContentLink> mData = new ArrayList<>();
 
     private ArticlesAdapter mAdapter;
     @InjectView(R.id.list)
@@ -54,25 +53,19 @@ public class MoreArticlesFragment extends BaseMainFragment {
 
         progress.setVisibility(View.VISIBLE);
         mList.setVisibility(View.GONE);
-        mAdapter = new ArticlesAdapter(getActivity(), new ArrayList<ContentLink>());
+
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (mAdapter.getItem(position) != null) {
-                    Fragment fragment = new ArticleFragment();
-                    Bundle args = new Bundle();
-                    args.putParcelable(ArticleFragment.ARTICLE, Parcels.wrap(mAdapter.getItem(position)));
-                    fragment.setArguments(args);
-                    FragmentManager fragmentManager = getChildFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .add(R.id.fragment_container, fragment, "content_fragment")
-                            .addToBackStack(null)
-                            .commit();
-                }
+                Fragment fragment = ArticleFragment.newInstance(mData, position);
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, fragment, "content_fragment")
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
-        mList.setAdapter(mAdapter);
         mList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -87,10 +80,10 @@ public class MoreArticlesFragment extends BaseMainFragment {
                 if (isLoading) {
                     return;
                 }
-                if(lastPage > totalPages){
+                if (lastPage > totalPages) {
                     return;
                 }
-                if(firstVisibleItem + visibleItemCount >= totalItemCount) {
+                if (firstVisibleItem + visibleItemCount >= totalItemCount) {
                     isLoading = true;
                     RestClient.getApiService().getArticles(lastPage, PAGE_SIZE, getArticles);
                 }
@@ -119,7 +112,9 @@ public class MoreArticlesFragment extends BaseMainFragment {
                 List<ContentLink> articles = articlesResponse.getArticles();
                 lastPage++;
                 totalPages = articlesResponse.getTotalItems();
-                if(articles !=null && !articles.isEmpty()) {
+                if (articles != null && !articles.isEmpty()) {
+                    mAdapter = new ArticlesAdapter(getActivity(), mData);
+                    mList.setAdapter(mAdapter);
                     mAdapter.addAll(articles);
                     mAdapter.notifyDataSetChanged();
                     progress.setVisibility(View.GONE);

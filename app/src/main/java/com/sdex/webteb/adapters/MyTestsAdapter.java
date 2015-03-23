@@ -308,12 +308,12 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                 stringBuilder.append(range.getFrom());
             } else {
                 stringBuilder.append(range.getFrom());
-                stringBuilder.append("-");
+                stringBuilder.append(" - ");
                 stringBuilder.append(range.getTo());
             }
-            stringBuilder.append(",");
+            stringBuilder.append(", ");
         }
-        stringBuilder.setLength(stringBuilder.length() - 1);
+        stringBuilder.setLength(stringBuilder.length() - 2);
         return stringBuilder.toString();
     }
 

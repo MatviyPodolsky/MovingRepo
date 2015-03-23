@@ -22,23 +22,23 @@ import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
  * Utility class for formatting and parsing the various date formats we expect
  * to encounter.
  */
-public class DateUtil
-{
+public class DateUtil {
     private static final String TAG = "DateUtils";
 
     private static final SimpleDateFormat[] dateFormats;
     private static final int dateFormat_default = 9;
 
-    private DateUtil() { }
+    private DateUtil() {
+    }
 
-    static
-    {
+    static {
         final String[] possibleDateFormats =
                 {
                         "EEE, dd MMM yyyy HH:mm:ss z", // RFC_822
@@ -57,11 +57,9 @@ public class DateUtil
         dateFormats = new SimpleDateFormat[possibleDateFormats.length];
         TimeZone gmtTZ = TimeZone.getTimeZone("GMT");
 
-        for (int i = 0; i < possibleDateFormats.length; i++)
-        {
+        for (int i = 0; i < possibleDateFormats.length; i++) {
         /* TODO: Support other locales? */
-            dateFormats[i] = new SimpleDateFormat(possibleDateFormats[i]);
-
+            dateFormats[i] = new SimpleDateFormat(possibleDateFormats[i], Locale.US);
             dateFormats[i].setTimeZone(gmtTZ);
         }
     }
@@ -70,18 +68,14 @@ public class DateUtil
      * Parse a date string.  The format of RSS/Atom dates come in many
      * different forms, so this method is extremely flexible and attempts to
      * understand many different formats.
-     *
+     * <p/>
      * Copied verbatim from Informa 0.7.0-alpha2, ParserUtils.java.
      *
-     * @param strdate
-     *   Date string to attempt to parse.
-     *
-     * @return
-     *   If successful, returns a {@link Date} object representing the parsed
-     *   date; otherwise, null.
+     * @param strdate Date string to attempt to parse.
+     * @return If successful, returns a {@link Date} object representing the parsed
+     * date; otherwise, null.
      */
-    public static Date parseDate(String strdate)
-    {
+    public static Date parseDate(String strdate) {
         Date result = null;
         strdate = strdate.trim();
         if (strdate.endsWith("Z")) {
@@ -144,19 +138,14 @@ public class DateUtil
      * Format a date in a manner that would be most suitable for serialized
      * storage.
      *
-     * @param date
-     *   {@link Date} object to format.
-     *
-     * @return
-     *   Robust, formatted date string.
+     * @param date {@link Date} object to format.
+     * @return Robust, formatted date string.
      */
-    public static String formatDate(Date date)
-    {
+    public static String formatDate(Date date) {
         return dateFormats[dateFormat_default].format(date);
     }
 
-    public static String formatDate(Date date, String dateFormat)
-    {
-        return new SimpleDateFormat(dateFormat).format(date);
+    public static String formatDate(Date date, String dateFormat) {
+        return new SimpleDateFormat(dateFormat, Locale.US).format(date);
     }
 }
