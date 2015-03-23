@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TutorialPageAdapter;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
@@ -35,8 +34,6 @@ public class WelcomeActivity extends FacebookAuthActivity implements PageIndicat
     ViewPager mPager;
     @InjectView(R.id.indicator)
     IconPageIndicator mIndicator;
-    @InjectView(R.id.auth_button)
-    LoginButton loginButton;
     @InjectView(R.id.info)
     TextView userInfoTextView;
 

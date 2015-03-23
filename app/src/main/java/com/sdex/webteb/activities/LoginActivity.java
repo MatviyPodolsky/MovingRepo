@@ -1,5 +1,6 @@
 package com.sdex.webteb.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -20,8 +21,6 @@ import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.utils.PreferencesManager;
 
-import java.util.Arrays;
-
 import butterknife.InjectView;
 import butterknife.OnClick;
 import retrofit.client.Response;
@@ -35,8 +34,6 @@ public class LoginActivity extends FacebookAuthActivity {
     EditText mPassword;
     @InjectView(R.id.forgot_password)
     TextView mForgotPassword;
-    @InjectView(R.id.auth_button)
-    LoginButton loginButton;
 
     private RestCallback<UserLoginResponse> loginCallback;
     private RestCallback<BabyProfileResponse> getBabyProfileCallback;
@@ -44,8 +41,6 @@ public class LoginActivity extends FacebookAuthActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        loginButton.setReadPermissions(Arrays.asList("email"));
 
         loginCallback = new RestCallback<UserLoginResponse>() {
             @Override

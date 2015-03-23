@@ -22,8 +22,6 @@ import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.switchbutton.SwitchButton;
 
-import java.util.Arrays;
-
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
@@ -39,8 +37,6 @@ public class RegisterActivity extends FacebookAuthActivity {
 //    TextView mConfirmPassword;
     @InjectView(R.id.name)
     TextView mName;
-    @InjectView(R.id.auth_button)
-    LoginButton loginButton;
     @InjectView(R.id.newsletters)
     SwitchButton mNewslettersSwitch;
     private String email;
@@ -52,8 +48,6 @@ public class RegisterActivity extends FacebookAuthActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        loginButton.setReadPermissions(Arrays.asList("email"));
 
         mNewslettersSwitch.setChecked(true);
 
