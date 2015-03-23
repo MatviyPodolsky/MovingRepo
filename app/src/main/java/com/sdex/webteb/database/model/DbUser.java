@@ -48,4 +48,10 @@ public class DbUser {
     public void setChildren(String children) {
         this.children = children;
     }
+
+    public void clearData(){
+        this.photoPath = null;
+        this.children = null;
+        this.completedProfile = false;
+    }
 }

@@ -208,11 +208,13 @@ public class HomeFragment extends PhotoFragment {
             @Override
             public void failure(RestError restError) {
                 Log.d("", "");
+                mProgressDialog.dismiss();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 super.failure(error);
+                mProgressDialog.dismiss();
             }
 
             @Override
