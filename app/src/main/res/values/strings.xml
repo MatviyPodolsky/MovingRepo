@@ -311,5 +311,6 @@
     <string name="test_text" translatable="false">Text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text </string>
+    <string name="loading">Loading...</string>
 
 </resources>

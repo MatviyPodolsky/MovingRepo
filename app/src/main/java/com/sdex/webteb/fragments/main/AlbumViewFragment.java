@@ -146,7 +146,7 @@ public class AlbumViewFragment extends BaseMainFragment {
         });
         pw.setBackgroundDrawable(new ColorDrawable());
         pw.setOutsideTouchable(true);
-        contentView.measure(0,0);
+        contentView.measure(0, 0);
         Rect location = DisplayUtil.locateView(v);
         pw.showAtLocation(v, Gravity.TOP | Gravity.START,
                 location.left, location.top - contentView.getMeasuredHeight());

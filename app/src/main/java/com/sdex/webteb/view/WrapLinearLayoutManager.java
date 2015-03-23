@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  */
 public class WrapLinearLayoutManager extends LinearLayoutManager {
 
-    public WrapLinearLayoutManager(Context context, int orientation, boolean reverseLayout)    {
+    public WrapLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
     }
 
@@ -80,7 +80,7 @@ public class WrapLinearLayoutManager extends LinearLayoutManager {
             int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,
                     getPaddingLeft() + getPaddingRight() + getDecoratedLeft(view) + getDecoratedRight(view), p.width);
             int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
-                    getPaddingTop() + getPaddingBottom() + getPaddingBottom() + getDecoratedBottom(view) , p.height);
+                    getPaddingTop() + getPaddingBottom() + getPaddingBottom() + getDecoratedBottom(view), p.height);
             view.measure(childWidthSpec, childHeightSpec);
 
             // Get decorated measurements

@@ -219,7 +219,7 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
                         databaseHelper.addUser(newUser);
                         launchMainActivity(false);
                     } else {
-                        if (user.isCompletedProfile()){
+                        if (user.isCompletedProfile()) {
                             launchMainActivity(true);
                         } else {
                             launchMainActivity(false);
@@ -241,20 +241,20 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
         }
     };
 
-    private void openFacebookSession(){
+    private void openFacebookSession() {
 
         Session.openActiveSession(this, true,
                 Arrays.asList("user_likes", "user_status", "user_publish"),
                 new Session.StatusCallback() {
-            @Override
-            public void call(Session session, SessionState state, Exception exception) {
-                if (exception != null) {
-                    Log.d("Facebook", exception.getMessage());
-                }
-                Log.d("Facebook", "Session State: " + session.getState());
-                // you can make request to the /me API or do other stuff like post, etc. here
-            }
-        });
+                    @Override
+                    public void call(Session session, SessionState state, Exception exception) {
+                        if (exception != null) {
+                            Log.d("Facebook", exception.getMessage());
+                        }
+                        Log.d("Facebook", "Session State: " + session.getState());
+                        // you can make request to the /me API or do other stuff like post, etc. here
+                    }
+                });
     }
 
     private static Session openActiveSession(Activity activity, boolean allowLoginUI, List permissions, Session.StatusCallback callback) {
@@ -270,7 +270,7 @@ public class WelcomeActivity extends BaseActivity implements PageIndicator {
 
     private void launchMainActivity(boolean completedProfile) {
         Intent intent;
-        if(completedProfile) {
+        if (completedProfile) {
             MainActivity.launch(WelcomeActivity.this);
         } else {
             intent = new Intent(WelcomeActivity.this, SetupProfileActivity.class);

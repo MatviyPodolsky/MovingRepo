@@ -21,7 +21,7 @@ public class TypefaceManager {
     /**
      * Obtain typeface.
      *
-     * @param context The Context the widget is running in, through which it can access the current theme, resources, etc.
+     * @param context       The Context the widget is running in, through which it can access the current theme, resources, etc.
      * @param typefaceValue The value of "typeface" attribute
      * @return specify {@link android.graphics.Typeface}
      * @throws IllegalArgumentException if unknown `typeface` attribute value.
@@ -38,8 +38,8 @@ public class TypefaceManager {
     /**
      * Create typeface from assets.
      *
-     * @param context The Context the widget is running in, through which it can
-     * access the current theme, resources, etc.
+     * @param context       The Context the widget is running in, through which it can
+     *                      access the current theme, resources, etc.
      * @param typefaceValue The value of "typeface" attribute
      * @return typeface {@link android.graphics.Typeface}
      * @throws IllegalArgumentException if unknown `typeface` attribute value.
@@ -64,7 +64,6 @@ public class TypefaceManager {
         }
         return typeface;
     }
-
 
 
 }

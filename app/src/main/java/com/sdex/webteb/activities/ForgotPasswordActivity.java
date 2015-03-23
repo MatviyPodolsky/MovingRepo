@@ -33,7 +33,7 @@ public class ForgotPasswordActivity extends BaseActivity {
     }
 
     @OnClick(R.id.restore)
-    public void restore(View v){
+    public void restore(View v) {
         RestClient.getApiService().restorePassword(mEmail.getText().toString(), new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {

@@ -68,10 +68,10 @@ public class TimeControllerItem extends View {
         super.onDraw(canvas);
         if (isSelected) {
             canvas.drawCircle(size / 2, size / 2, size / 2 - 4, ciclePaint);
-            canvas.drawText(getValue(), (size - width)/2 - 4, (size + height)/2, textPaint);
+            canvas.drawText(getValue(), (size - width) / 2 - 4, (size + height) / 2, textPaint);
         } else {
             canvas.drawCircle(size / 2, size / 2, size / 2 - 4, ringPaint);
-            canvas.drawText(getValue(), (size - width)/2 - 4, (size + height)/2, textPaint);
+            canvas.drawText(getValue(), (size - width) / 2 - 4, (size + height) / 2, textPaint);
         }
     }
 

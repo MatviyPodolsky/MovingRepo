@@ -57,7 +57,7 @@ public class FamilyRelationFragment extends BaseFragment {
                     String extra = data.getStringExtra(FamilyRelationDialog.EXTRA_RELATION);
                     relation.setText(extra);
                     int relationPosition = data.getIntExtra(FamilyRelationDialog.EXTRA_POSITION, 0);
-                    ((SetupProfileActivity)getActivity()).setFamilyRelation(relationPosition);
+                    ((SetupProfileActivity) getActivity()).setFamilyRelation(relationPosition);
                     break;
             }
         }

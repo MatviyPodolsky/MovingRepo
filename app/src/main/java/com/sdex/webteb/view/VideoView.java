@@ -111,7 +111,7 @@ public class VideoView extends TextureView implements MediaPlayerControl {
         switch (specMode) {
             case MeasureSpec.UNSPECIFIED:
             /*
-			 * Parent says we can be as big as we want. Just don't be larger
+             * Parent says we can be as big as we want. Just don't be larger
 			 * than max size imposed on ourselves.
 			 */
                 result = desiredSize;

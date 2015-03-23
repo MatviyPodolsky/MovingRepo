@@ -100,7 +100,7 @@ public class SetupProfileActivity extends BaseActivity {
             public void success(BabyProfileResponse babyProfileResponse, Response response) {
                 oldProfile = babyProfileResponse;
                 oldChildren = new ArrayList<>();
-                for (Child child : babyProfileResponse.getChildren()){
+                for (Child child : babyProfileResponse.getChildren()) {
                     Child newChild = new Child();
                     newChild.setGender(child.getGender());
                     newChild.setName(child.getName());

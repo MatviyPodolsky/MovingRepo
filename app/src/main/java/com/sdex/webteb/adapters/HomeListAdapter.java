@@ -25,8 +25,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
-* Created by Yuriy Mysochenko on 24.02.2015.
-*/
+ * Created by Yuriy Mysochenko on 24.02.2015.
+ */
 public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_PREVIEW = 0;
@@ -43,6 +43,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public interface OnItemClickCallback {
         void onAdditionalContentClick(ContentLink content, int position);
+
         void onPreviewClick(ContentPreview content);
     }
 
@@ -135,7 +136,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             viewHolder.viewPager.setAdapter(videoThumbnailAdapter);
             viewHolder.mIndicator.setViewPager(viewHolder.viewPager);
             viewHolder.viewPager.setOffscreenPageLimit(3);
-            viewHolder.viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            viewHolder.viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {
                     super.onPageSelected(position);

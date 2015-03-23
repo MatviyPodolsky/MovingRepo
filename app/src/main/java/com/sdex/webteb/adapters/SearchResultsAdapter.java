@@ -45,7 +45,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
 
         holder.name.setText(item.getName());
         holder.specialty.setText(item.getSpecialty());
-        if(false) {
+        if (false) {
             holder.call.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,7 +68,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
             holder.call.setVisibility(View.GONE);
             holder.saveContact.setVisibility(View.GONE);
         }
-        if(item.getLatitude() != null && item.getLongitude() != null) {
+        if (item.getLatitude() != null && item.getLongitude() != null) {
             holder.location.setVisibility(View.VISIBLE);
             holder.locationText.setVisibility(View.VISIBLE);
             holder.location.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +87,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         }
 
         String url = item.getImageUrl();
-        if(url != null && !url.isEmpty()) {
+        if (url != null && !url.isEmpty()) {
             Picasso.with(getContext())
                     .load(url)
                     .placeholder(R.drawable.ic_transparent_placeholder)

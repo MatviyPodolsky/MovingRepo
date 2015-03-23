@@ -39,7 +39,7 @@ public class TermsOfServiceDialog extends BaseDialogFragment {
     }
 
     @OnClick(R.id.cancel)
-    public void close(final View v){
+    public void close(final View v) {
         this.dismiss();
     }
 

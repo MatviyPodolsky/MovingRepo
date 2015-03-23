@@ -60,7 +60,7 @@ public class SplashActivity extends BaseActivity {
             finish();
         } else {
             DbUser user = databaseHelper.getUser(PreferencesManager.getInstance().getEmail());
-            if (user != null && user.isCompletedProfile()){
+            if (user != null && user.isCompletedProfile()) {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 SplashActivity.this.finish();
             } else {
