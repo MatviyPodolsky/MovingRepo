@@ -30,9 +30,9 @@ public class FlowTextHelper {
 
     public static void tryFlowText(Context context, String text,
                                    View thumbnailView,
-                                   TextView messageView,  int addPadding){
+                                   TextView messageView, int addPadding) {
         // There is nothing I can do for older versions, so just return
-        if(!mNewClassAvailable) return;
+        if (!mNewClassAvailable) return;
 //        text = "djkfghdghdkhg kd kfd ghkdg hd ghdgh dkgh dkfhg kdfshg kfdh gdfh gfdh gkdsg kdfj gdjkg d gdf dfg" +
 //                "dkfg dklgdk ghdkjfh gjkdf hgkjdh kjdfhg kdfh gkdjfh gkjdfh gdfj hdkfh dhk hdfk ghdfkj gdkf hdfkg";
         int screenWidth = DisplayUtil.getScreenWidth(context);
@@ -47,7 +47,7 @@ public class FlowTextHelper {
         float textLineHeight = messageView.getPaint().getTextSize();
 
         // Set the span according to the number of lines and width of the image
-        int lines =  (int)Math.round((height - padding) / textLineHeight);
+        int lines = (int) Math.round((height - padding) / textLineHeight);
         SpannableString ss = new SpannableString(text);
         //For an html text you can use this line:
 //        SpannableStringBuilder ss = (SpannableStringBuilder)Html.fromHtml(text);
@@ -56,8 +56,8 @@ public class FlowTextHelper {
         messageView.setText(ss);
 
         // Align the text with the image by removing the rule that the text is to the right of the image
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)messageView.getLayoutParams();
-        int[]rules = params.getRules();
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) messageView.getLayoutParams();
+        int[] rules = params.getRules();
         rules[RelativeLayout.RIGHT_OF] = 0;
         if (CompatibilityUtil.getSdkVersion() >= 17) {
             rules[RelativeLayout.END_OF] = 0;

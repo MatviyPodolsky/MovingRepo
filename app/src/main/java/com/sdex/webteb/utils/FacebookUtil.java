@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-* Created by MPODOLSKY on 17.03.2015.
-*/
+ * Created by MPODOLSKY on 17.03.2015.
+ */
 public class FacebookUtil {
 
     public static final int PUBLISH_ARTICLE = 0;
@@ -37,11 +37,11 @@ public class FacebookUtil {
     private static String lastPhoto;
     private static int lastContent;
 
-    public static void publishArticle(Activity activity, ContentLink article){
+    public static void publishArticle(Activity activity, ContentLink article) {
         lastArticle = article;
         lastContent = PUBLISH_ARTICLE;
-        if(isFacebookInstalled(activity) && FacebookDialog.canPresentShareDialog(activity.getApplicationContext(),
-                FacebookDialog.ShareDialogFeature.SHARE_DIALOG) ){
+        if (isFacebookInstalled(activity) && FacebookDialog.canPresentShareDialog(activity.getApplicationContext(),
+                FacebookDialog.ShareDialogFeature.SHARE_DIALOG)) {
             publishFeedFromApp(activity, null, article.getTitle(), article.getDescription(),
                     article.getUrl(), article.getImageUrl());
         } else {
@@ -50,25 +50,25 @@ public class FacebookUtil {
         }
     }
 
-    public static void publishPhoto(Activity activity, String path){
+    public static void publishPhoto(Activity activity, String path) {
         lastContent = PUBLISH_PHOTO;
-        if(isFacebookInstalled(activity)
-                && FacebookDialog.canPresentShareDialog (activity.getApplicationContext(),
-                FacebookDialog.ShareDialogFeature.PHOTOS)){
+        if (isFacebookInstalled(activity)
+                && FacebookDialog.canPresentShareDialog(activity.getApplicationContext(),
+                FacebookDialog.ShareDialogFeature.PHOTOS)) {
             publishPhotoFromApp(activity, path);
         } else {
             publishPhotoFromWeb(activity, path);
         }
     }
 
-    public static void publishLastContent(Activity activity){
-        if(lastContent == PUBLISH_ARTICLE){
-            if(lastArticle != null) {
+    public static void publishLastContent(Activity activity) {
+        if (lastContent == PUBLISH_ARTICLE) {
+            if (lastArticle != null) {
                 publishArticle(activity, lastArticle);
             }
         }
-        if(lastContent == PUBLISH_PHOTO){
-            if(lastPhoto != null && !lastPhoto.isEmpty()) {
+        if (lastContent == PUBLISH_PHOTO) {
+            if (lastPhoto != null && !lastPhoto.isEmpty()) {
                 publishPhoto(activity, lastPhoto);
             }
         }
@@ -78,24 +78,24 @@ public class FacebookUtil {
                                            String picture) {
 
         FacebookDialog.ShareDialogBuilder builder = new FacebookDialog.ShareDialogBuilder(activity);
-        if(appName != null && !appName.isEmpty()) {
+        if (appName != null && !appName.isEmpty()) {
             builder.setName(appName);
         }
-        if(caption != null && !caption.isEmpty()) {
+        if (caption != null && !caption.isEmpty()) {
             builder.setCaption(caption);
         }
-        if(description != null && !description.isEmpty()) {
+        if (description != null && !description.isEmpty()) {
             builder.setDescription(description);
         }
-        if(link != null && !link.isEmpty()) {
+        if (link != null && !link.isEmpty()) {
             builder.setLink(link);
         }
-        if(picture != null && !picture.isEmpty()) {
+        if (picture != null && !picture.isEmpty()) {
             builder.setPicture(picture);
         }
 
         FacebookDialog shareDialog = builder.build();
-        ((MainActivity)activity).getUiHelper().trackPendingDialogCall(shareDialog.present());
+        ((MainActivity) activity).getUiHelper().trackPendingDialogCall(shareDialog.present());
     }
 
     private static void publishFeedFromWeb(Activity activity, String appName, String caption, String description, String link,
@@ -108,7 +108,7 @@ public class FacebookUtil {
         }
 
         if (currentSession.isOpened()) {
-            if(hasPublishPermission()) {
+            if (hasPublishPermission()) {
                 publishFeedDialog(activity, appName, caption, description, link, picture);
             } else {
                 currentSession.requestNewPublishPermissions(new Session.NewPermissionsRequest(activity, PERMISSION));
@@ -135,31 +135,31 @@ public class FacebookUtil {
 
 //        if (FacebookDialog.canPresentShareDialog (activity.getApplicationContext(),
 //                FacebookDialog.ShareDialogFeature.PHOTOS)) {
-            FacebookDialog.PhotoShareDialogBuilder builder = new FacebookDialog.PhotoShareDialogBuilder(activity);
-            File photoFile = new File(path);
-            List<File> photos = new ArrayList<>();
-            photos.add(photoFile);
-            builder.addPhotoFiles(photos);
-            FacebookDialog photoDialog = builder.build();
-            ((MainActivity) activity).getUiHelper().trackPendingDialogCall(photoDialog.present());
+        FacebookDialog.PhotoShareDialogBuilder builder = new FacebookDialog.PhotoShareDialogBuilder(activity);
+        File photoFile = new File(path);
+        List<File> photos = new ArrayList<>();
+        photos.add(photoFile);
+        builder.addPhotoFiles(photos);
+        FacebookDialog photoDialog = builder.build();
+        ((MainActivity) activity).getUiHelper().trackPendingDialogCall(photoDialog.present());
 //        }
     }
 
     private static void publishFeedDialog(final Activity activity, String appName, String caption, String description, String link, String picture) {
         Bundle params = new Bundle();
-        if(appName != null && !appName.isEmpty()) {
+        if (appName != null && !appName.isEmpty()) {
             params.putString("name", appName);
         }
-        if(caption != null && !caption.isEmpty()) {
+        if (caption != null && !caption.isEmpty()) {
             params.putString("caption", caption);
         }
-        if(description != null && !description.isEmpty()) {
+        if (description != null && !description.isEmpty()) {
             params.putString("description", description);
         }
-        if(link != null && !link.isEmpty()) {
+        if (link != null && !link.isEmpty()) {
             params.putString("link", link);
         }
-        if(picture != null && !picture.isEmpty()) {
+        if (picture != null && !picture.isEmpty()) {
             params.putString("picture", picture);
         }
 
@@ -196,7 +196,7 @@ public class FacebookUtil {
         feedDialog.show();
     }
 
-    private static void publishPhotoDialog(final Activity activity, String path){
+    private static void publishPhotoDialog(final Activity activity, String path) {
         if (!isPostingPhoto) {
             lastPhoto = path;
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -231,7 +231,7 @@ public class FacebookUtil {
         }
 
         if (currentSession.isOpened()) {
-            if(hasPublishPermission()) {
+            if (hasPublishPermission()) {
                 publishPhotoDialog(activity, path);
             } else {
                 currentSession.requestNewPublishPermissions(new Session.NewPermissionsRequest(activity, PERMISSION));
@@ -269,7 +269,7 @@ public class FacebookUtil {
         return session != null && session.getPermissions().contains("publish_actions");
     }
 
-    private static String getLastPhoto(){
+    private static String getLastPhoto() {
         return lastPhoto;
     }
 

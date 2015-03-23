@@ -36,10 +36,14 @@ public class LoginActivity extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
 
-    @InjectView(R.id.username) EditText mUsername;
-    @InjectView(R.id.password) EditText mPassword;
-    @InjectView(R.id.forgot_password) TextView mForgotPassword;
-    @InjectView(R.id.auth_button) LoginButton loginButton;
+    @InjectView(R.id.username)
+    EditText mUsername;
+    @InjectView(R.id.password)
+    EditText mPassword;
+    @InjectView(R.id.forgot_password)
+    TextView mForgotPassword;
+    @InjectView(R.id.auth_button)
+    LoginButton loginButton;
     private UiLifecycleHelper uiHelper;
 
     private RestCallback<UserLoginResponse> loginCallback;
@@ -59,7 +63,7 @@ public class LoginActivity extends BaseActivity {
             public void failure(RestError restError) {
                 findViewById(R.id.login).setEnabled(true);
                 String text = "failure :(";
-                if(restError != null){
+                if (restError != null) {
                     text = "Error:" + restError.getStrMessage();
                 }
                 Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
@@ -81,7 +85,7 @@ public class LoginActivity extends BaseActivity {
                     RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
 
                 } else {
-                    if (user.isCompletedProfile()){
+                    if (user.isCompletedProfile()) {
                         launchMainActivity(true);
                     } else {
                         launchMainActivity(false);
@@ -98,7 +102,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void success(BabyProfileResponse babyProfileResponse, Response response) {
-                if(babyProfileResponse != null && babyProfileResponse.getDateType() == BabyProfileResponse.DATE_TYPE_NOT_SET) {
+                if (babyProfileResponse != null && babyProfileResponse.getDateType() == BabyProfileResponse.DATE_TYPE_NOT_SET) {
                     launchMainActivity(false);
                 } else {
                     launchMainActivity(true);
@@ -159,7 +163,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @OnClick(R.id.forgot_password)
-    public void forgotPassword(final View v){
+    public void forgotPassword(final View v) {
         Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
         startActivity(intent);
     }
@@ -176,7 +180,7 @@ public class LoginActivity extends BaseActivity {
         newFragment.show(getSupportFragmentManager(), null);
     }
 
-    private boolean isValidData(){
+    private boolean isValidData() {
         boolean isValid = true;
         if (mPassword.getText().length() < 4) {
             isValid = false;
@@ -195,7 +199,7 @@ public class LoginActivity extends BaseActivity {
 
     private void launchMainActivity(boolean completedProfile) {
         Intent intent;
-        if(completedProfile) {
+        if (completedProfile) {
             MainActivity.launch(LoginActivity.this);
         } else {
             intent = new Intent(LoginActivity.this, SetupProfileActivity.class);
@@ -229,7 +233,7 @@ public class LoginActivity extends BaseActivity {
                         databaseHelper.addUser(newUser);
                         launchMainActivity(false);
                     } else {
-                        if (user.isCompletedProfile()){
+                        if (user.isCompletedProfile()) {
                             launchMainActivity(true);
                         } else {
                             launchMainActivity(false);

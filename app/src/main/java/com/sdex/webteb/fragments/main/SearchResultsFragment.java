@@ -46,16 +46,16 @@ public class SearchResultsFragment extends BaseMainFragment {
 
         Bundle bundle = this.getArguments();
         Map<String, String> options = new ArrayMap<>();
-        if(bundle.containsKey("Name")){
+        if (bundle.containsKey("Name")) {
             options.put("Name", bundle.getString("Name"));
         }
-        if(bundle.containsKey("Country")){
+        if (bundle.containsKey("Country")) {
             options.put("Country", bundle.getString("Country"));
         }
-        if(bundle.containsKey("City")){
+        if (bundle.containsKey("City")) {
             options.put("City", bundle.getString("City"));
         }
-        if(bundle.containsKey("Specialty")){
+        if (bundle.containsKey("Specialty")) {
             options.put("Specialty", bundle.getString("Specialty"));
         }
 
@@ -68,7 +68,7 @@ public class SearchResultsFragment extends BaseMainFragment {
             @Override
             public void success(SearchDoctorResponse doctors, Response response) {
                 //TODO
-                if(doctors != null) {
+                if (doctors != null) {
                     List<Doctor> docs = doctors.getDoctors();
                     if (docs == null || docs.isEmpty()) {
                         showNoData();
@@ -97,27 +97,27 @@ public class SearchResultsFragment extends BaseMainFragment {
         getDoctorsCallback.cancel();
     }
 
-    private void showProgress(){
+    private void showProgress() {
         progress.setVisibility(View.VISIBLE);
         error.setVisibility(View.GONE);
         mList.setVisibility(View.GONE);
     }
 
-    private void showError(){
+    private void showError() {
         error.setText(getString(R.string.error_loading_data));
         error.setVisibility(View.VISIBLE);
         progress.setVisibility(View.GONE);
         mList.setVisibility(View.GONE);
     }
 
-    private void showNoData(){
+    private void showNoData() {
         error.setText(getString(R.string.empty_loaded_data));
         error.setVisibility(View.VISIBLE);
         progress.setVisibility(View.GONE);
         mList.setVisibility(View.GONE);
     }
 
-    private void showData(){
+    private void showData() {
         progress.setVisibility(View.GONE);
         error.setVisibility(View.GONE);
         mList.setVisibility(View.VISIBLE);

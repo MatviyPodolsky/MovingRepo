@@ -156,7 +156,7 @@ public class SettingsFragment extends BaseMainFragment {
             public void success(String s, Response response) {
                 PreferencesManager.getInstance().clear();
                 Session activeSession = Session.getActiveSession();
-                if(activeSession != null) {
+                if (activeSession != null) {
                     activeSession.closeAndClearTokenInformation();
                 }
                 Intent intent = new Intent(getActivity(), WelcomeActivity.class);

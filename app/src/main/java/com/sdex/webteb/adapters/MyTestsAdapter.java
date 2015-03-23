@@ -40,8 +40,11 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
 
     public interface Callback {
         void onReadMoreBtnClick();
+
         void onSearchDoctorBtnClick();
+
         void onAddReminderBtnClick();
+
         void onTestDoneClick();
     }
 
@@ -189,15 +192,15 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
     };
 
     private void refreshStatus(final UserTest test, final ViewHolderGroup holder) {
-        if(test != null) {
-            if(test.isReminderStatus()){
+        if (test != null) {
+            if (test.isReminderStatus()) {
                 holder.reminder.setVisibility(View.VISIBLE);
-            } else{
+            } else {
                 holder.reminder.setVisibility(View.GONE);
             }
-            if(test.isTestDone()){
+            if (test.isTestDone()) {
                 holder.done.setVisibility(View.VISIBLE);
-            } else{
+            } else {
                 holder.done.setVisibility(View.GONE);
             }
         } else {
@@ -207,7 +210,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
     }
 
     private void refreshButtons(final UserTest test, final ViewHolderChild holder) {
-        if(test != null && test.isReminderStatus()) {
+        if (test != null && test.isReminderStatus()) {
             holder.addReminder.setText(context.getString(R.string.delete_reminder));
         } else {
             holder.addReminder.setText(context.getString(R.string.add_reminder));
@@ -215,11 +218,12 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         holder.checkbox.setChecked(test != null && test.isTestDone());
 
     }
+
     private void changeReminder(final BabyTestResponse item,
                                 final ViewHolderChild holder, final int position) {
         BabyReminderRequest request = new BabyReminderRequest();
         request.setTestId(item.getContentPreview().getKey().getId());
-        if(item.getUserTest() != null && item.getUserTest().isReminderStatus()) {
+        if (item.getUserTest() != null && item.getUserTest().isReminderStatus()) {
             RestClient.getApiService().deleteBabyReminder(request, new RestCallback<String>() {
                 @Override
                 public void failure(RestError restError) {
@@ -243,7 +247,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void success(String s, Response response) {
                     UserTest test;
-                    if(item.getUserTest() == null) {
+                    if (item.getUserTest() == null) {
                         test = new UserTest();
                         test.setTestId(item.getContentPreview().getKey().getId());
                     } else {
@@ -262,7 +266,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                                   final ViewHolderChild holder, final int position) {
         BabyTestDoneRequest request = new BabyTestDoneRequest();
         request.setTestId(item.getContentPreview().getKey().getId());
-        if(item.getUserTest() != null && item.getUserTest().isTestDone()) {
+        if (item.getUserTest() != null && item.getUserTest().isTestDone()) {
             RestClient.getApiService().makeTestUndone(request, new RestCallback<String>() {
                 @Override
                 public void failure(RestError restError) {
@@ -286,7 +290,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                 @Override
                 public void success(String s, Response response) {
                     UserTest test;
-                    if(item.getUserTest() == null) {
+                    if (item.getUserTest() == null) {
                         test = new UserTest();
                         test.setTestId(item.getContentPreview().getKey().getId());
                     } else {

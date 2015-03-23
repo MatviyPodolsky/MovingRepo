@@ -50,7 +50,7 @@ public class ChildrenAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public List<Child> getChildren(){
+    public List<Child> getChildren() {
         return data;
     }
 
@@ -109,10 +109,10 @@ public class ChildrenAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void setGender(ViewHolder holder, int gender){
+    private void setGender(ViewHolder holder, int gender) {
         Child child = (Child) holder.name.getTag();
-        switch (gender){
-            case MALE :
+        switch (gender) {
+            case MALE:
                 child.setGender(MALE);
                 selectMale(holder);
                 break;
@@ -129,36 +129,41 @@ public class ChildrenAdapter extends BaseAdapter {
         }
     }
 
-    private void clearFemale(ViewHolder holder){
+    private void clearFemale(ViewHolder holder) {
         holder.textFemale.setVisibility(View.GONE);
         holder.imageFemale.setImageResource(R.drawable.ic_female_normal);
         holder.containerFemale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
     }
-    private void clearMale(ViewHolder holder){
+
+    private void clearMale(ViewHolder holder) {
         holder.textMale.setVisibility(View.GONE);
         holder.imageMale.setImageResource(R.drawable.ic_male_normal);
         holder.containerMale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
     }
-    private void clearUnknown(ViewHolder holder){
+
+    private void clearUnknown(ViewHolder holder) {
         holder.textUnknown.setVisibility(View.GONE);
         holder.imageUnknown.setImageResource(R.drawable.ic_question_mark_normal);
         holder.containerUnknown.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
     }
-    private void selectFemale(ViewHolder holder){
+
+    private void selectFemale(ViewHolder holder) {
         clearMale(holder);
         clearUnknown(holder);
         holder.textFemale.setVisibility(View.VISIBLE);
         holder.imageFemale.setImageResource(R.drawable.ic_female_pressed);
         holder.containerFemale.setBackgroundColor(context.getResources().getColor(R.color.primary));
     }
-    private void selectMale(ViewHolder holder){
+
+    private void selectMale(ViewHolder holder) {
         clearFemale(holder);
         clearUnknown(holder);
         holder.textMale.setVisibility(View.VISIBLE);
         holder.imageMale.setImageResource(R.drawable.ic_male_pressed);
         holder.containerMale.setBackgroundColor(context.getResources().getColor(R.color.primary));
     }
-    private void selectUnknown(ViewHolder holder){
+
+    private void selectUnknown(ViewHolder holder) {
         clearFemale(holder);
         clearMale(holder);
         holder.textUnknown.setVisibility(View.VISIBLE);
@@ -170,14 +175,17 @@ public class ChildrenAdapter extends BaseAdapter {
 
         @InjectView(R.id.name)
         EditText name;
+
         private NameWatcher(View view) {
             ButterKnife.inject(this, view);
         }
 
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
+
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
+
         public void afterTextChanged(Editable s) {
             Child child = (Child) name.getTag();
             child.setName(s.toString());

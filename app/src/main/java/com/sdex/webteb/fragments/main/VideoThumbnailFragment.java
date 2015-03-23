@@ -22,8 +22,8 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
-* Created by Yuriy Mysochenko on 25.02.2015.
-*/
+ * Created by Yuriy Mysochenko on 25.02.2015.
+ */
 public class VideoThumbnailFragment extends BaseFragment {
 
     public static final String ALL_VIDEO = "all_video";
@@ -56,7 +56,7 @@ public class VideoThumbnailFragment extends BaseFragment {
 
         ContentLink video = data.get(currentVideoPosition);
 
-        if(video.getImageUrl()!=null && !video.getImageUrl().isEmpty()) {
+        if (video.getImageUrl() != null && !video.getImageUrl().isEmpty()) {
             Picasso.with(getActivity())
                     .load(video.getImageUrl())
                     .noPlaceholder()

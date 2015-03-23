@@ -154,9 +154,9 @@ public interface ApiService {
 
     @GET("/GetEntity")
     public void getEntity(@Query("ID") int id, @Query("Type") String type,
-                         @Query("FieldName") String fieldName, Callback<EntityResponse> callback);
+                          @Query("FieldName") String fieldName, Callback<EntityResponse> callback);
 
-//    notifications
+    //    notifications
     @GET("/baby/notifications")
     public void getNotifications(@Query("ignoreSettings") boolean ignoreSettings,
                                  Callback<NotificationsResponse> callback);

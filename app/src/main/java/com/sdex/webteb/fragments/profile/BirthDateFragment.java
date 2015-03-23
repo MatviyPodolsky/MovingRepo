@@ -61,9 +61,9 @@ public class BirthDateFragment extends BaseFragment {
             setButtonEnabled(true);
             ((SetupProfileActivity) getActivity()).setBirthDate(dateStr);
             ((SetupProfileActivity) getActivity()).setDateType(dateType);
-            if(dateStr != null){
+            if (dateStr != null) {
                 Date date = DateUtil.parseDate(dateStr);
-                if(date != null){
+                if (date != null) {
                     dateStr = DateUtil.formatDate(date, "MMM dd, yyyy");
                 }
             }
@@ -88,13 +88,13 @@ public class BirthDateFragment extends BaseFragment {
                     int year = data.getIntExtra(DatePickerFragmentDialog.EXTRA_YEAR, -1);
                     int month = data.getIntExtra(DatePickerFragmentDialog.EXTRA_MONTH, -1);
                     int day = data.getIntExtra(DatePickerFragmentDialog.EXTRA_DAY, -1);
-                    if(year >=0 && month>=0 && day>=0) {
+                    if (year >= 0 && month >= 0 && day >= 0) {
                         //set time to 12:00:00 to show that day begins
-                        Calendar date = new GregorianCalendar(year,month,day, 12, 0);
+                        Calendar date = new GregorianCalendar(year, month, day, 12, 0);
                         Date time = date.getTime();
                         String requestDate = DateUtil.formatDate(time, "yyyy-MM-dd'T'HH:mm:ssZ");
                         String textDate = DateUtil.formatDate(time, "MMM dd, yyyy");
-                        if(isValidDate(time)) {
+                        if (isValidDate(time)) {
                             ((SetupProfileActivity) getActivity()).setBirthDate(requestDate);
                             mDate.setText(textDate);
                         }
@@ -115,7 +115,7 @@ public class BirthDateFragment extends BaseFragment {
     public void selectDate() {
         DialogFragment dialog = new DatePickerFragmentDialog();
         dialog.setTargetFragment(this, REQUEST_GET_DATE);
-        if(dateString != null) {
+        if (dateString != null) {
             Bundle args = new Bundle();
             args.putString(DatePickerFragmentDialog.EXTRA_DATE, dateString);
             dialog.setArguments(args);
@@ -143,7 +143,7 @@ public class BirthDateFragment extends BaseFragment {
 
     }
 
-    public void clearCategories(){
+    public void clearCategories() {
         mFirstCategory.setTextColor(getResources().getColor(R.color.primary));
         mSecondCategory.setTextColor(getResources().getColor(R.color.primary));
         mThirdCategory.setTextColor(getResources().getColor(R.color.primary));
@@ -152,15 +152,15 @@ public class BirthDateFragment extends BaseFragment {
         mThirdCategory.setBackgroundColor(getResources().getColor(android.R.color.transparent));
     }
 
-    private void selectCategory(int category){
-        switch (category){
+    private void selectCategory(int category) {
+        switch (category) {
             case LAST_PERIOD:
                 clearCategories();
                 mFirstCategory.setTextColor(getResources().getColor(R.color.selected_text));
                 mFirstCategory.setBackgroundColor(getResources().getColor(R.color.primary));
                 mDescription.setText(getString(R.string.last_period_description));
                 mDateType = LAST_PERIOD;
-                ((SetupProfileActivity)getActivity()).setDateType(mDateType);
+                ((SetupProfileActivity) getActivity()).setDateType(mDateType);
                 break;
             case DUE_TO:
                 clearCategories();
@@ -168,7 +168,7 @@ public class BirthDateFragment extends BaseFragment {
                 mSecondCategory.setBackgroundColor(getResources().getColor(R.color.primary));
                 mDescription.setText(getString(R.string.expected_birth_date_description));
                 mDateType = DUE_TO;
-                ((SetupProfileActivity)getActivity()).setDateType(mDateType);
+                ((SetupProfileActivity) getActivity()).setDateType(mDateType);
                 break;
             case BIRTH_DATE:
                 clearCategories();
@@ -176,32 +176,32 @@ public class BirthDateFragment extends BaseFragment {
                 mThirdCategory.setBackgroundColor(getResources().getColor(R.color.primary));
                 mDescription.setText(getString(R.string.birth_date_description));
                 mDateType = BIRTH_DATE;
-                ((SetupProfileActivity)getActivity()).setDateType(mDateType);
+                ((SetupProfileActivity) getActivity()).setDateType(mDateType);
                 break;
             default:
                 break;
         }
     }
 
-    public boolean isValidDate(Date date){
+    public boolean isValidDate(Date date) {
 
-        if(mDateType == BabyProfileResponse.DATE_TYPE_NOT_SET){
+        if (mDateType == BabyProfileResponse.DATE_TYPE_NOT_SET) {
             Toast.makeText(getActivity(), getString(R.string.please_select_date), Toast.LENGTH_SHORT).show();
             return false;
         }
         Date currentDate = Calendar.getInstance().getTime();
-        if(mDateType == BabyProfileResponse.DATE_TYPE_BIRTH_DATE
-                && date.after(currentDate)){
+        if (mDateType == BabyProfileResponse.DATE_TYPE_BIRTH_DATE
+                && date.after(currentDate)) {
             Toast.makeText(getActivity(), getString(R.string.birth_date_cant_be_in_future), Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(mDateType == BabyProfileResponse.DATE_TYPE_LAST_PERIOD
-                && date.after(currentDate)){
+        if (mDateType == BabyProfileResponse.DATE_TYPE_LAST_PERIOD
+                && date.after(currentDate)) {
             Toast.makeText(getActivity(), getString(R.string.last_period_cant_be_in_future), Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(mDateType == BabyProfileResponse.DATE_TYPE_DUE_TO
-                && date.before(currentDate)){
+        if (mDateType == BabyProfileResponse.DATE_TYPE_DUE_TO
+                && date.before(currentDate)) {
             Toast.makeText(getActivity(), getString(R.string.expected_birth_date_cant_be_in_past), Toast.LENGTH_SHORT).show();
             return false;
         }

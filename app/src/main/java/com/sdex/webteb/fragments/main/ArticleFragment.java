@@ -105,7 +105,7 @@ public class ArticleFragment extends BaseMainFragment {
 
     @OnClick(R.id.btn_next_article)
     void setNextArticle() {
-        if(currentPosition < data.size() - 1) {
+        if (currentPosition < data.size() - 1) {
             currentPosition++;
             loadData();
         }

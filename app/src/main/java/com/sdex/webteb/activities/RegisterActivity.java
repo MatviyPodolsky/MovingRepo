@@ -42,7 +42,7 @@ public class RegisterActivity extends BaseActivity {
     TextView mEmail;
     @InjectView(R.id.password)
     TextView mPassword;
-//    @InjectView(R.id.confirm_password)
+    //    @InjectView(R.id.confirm_password)
 //    TextView mConfirmPassword;
     @InjectView(R.id.name)
     TextView mName;
@@ -71,7 +71,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void failure(RestError restError) {
                 String error = "failure :(";
-                if(restError != null){
+                if (restError != null) {
                     error = "Error:" + restError.getStrMessage();
                 }
                 Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
@@ -92,7 +92,7 @@ public class RegisterActivity extends BaseActivity {
                     databaseHelper.addUser(newUser);
                     launchMainActivity(false);
                 } else {
-                    if (user.isCompletedProfile()){
+                    if (user.isCompletedProfile()) {
                         launchMainActivity(true);
                     } else {
                         launchMainActivity(false);
@@ -171,7 +171,7 @@ public class RegisterActivity extends BaseActivity {
 
     @OnEditorAction(R.id.password)
     boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-        if(event == null && actionId ==  EditorInfo.IME_ACTION_DONE) {
+        if (event == null && actionId == EditorInfo.IME_ACTION_DONE) {
             register(textView);
         }
         return true;
@@ -198,7 +198,7 @@ public class RegisterActivity extends BaseActivity {
 
     private void launchMainActivity(boolean completedProfile) {
         Intent intent;
-        if(completedProfile) {
+        if (completedProfile) {
             MainActivity.launch(RegisterActivity.this);
         } else {
             intent = new Intent(RegisterActivity.this, SetupProfileActivity.class);

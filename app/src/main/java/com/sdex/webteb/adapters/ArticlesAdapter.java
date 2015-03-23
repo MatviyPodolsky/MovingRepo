@@ -45,7 +45,7 @@ public class ArticlesAdapter extends ArrayAdapter<ContentLink> {
         holder.title.setText(item.getTitle());
         holder.text.setText(item.getDescription());
         //convert date to needed format
-        if(item.getPublishedDate() != null && !item.getPublishedDate().isEmpty()) {
+        if (item.getPublishedDate() != null && !item.getPublishedDate().isEmpty()) {
             holder.date.setText(DateUtil.formatDate(DateUtil.parseDate(item.getPublishedDate()), "mm/dd/yyyy"));
         } else {
             holder.date.setVisibility(View.GONE);

@@ -107,7 +107,7 @@ public class PreferencesManager {
         return mPref.getString(USERNAME, null);
     }
 
-    public void setCompleteSetup(boolean isComplete){
+    public void setCompleteSetup(boolean isComplete) {
         mPref.edit()
                 .putBoolean(COMPLETE_SETUP, isComplete)
                 .commit();

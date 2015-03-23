@@ -35,7 +35,7 @@ public class ProfilePageAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 BaseFragment relationFragment = new FamilyRelationFragment();
-                if(profile != null) {
+                if (profile != null) {
                     Bundle args = new Bundle();
                     args.putInt(SetupProfileActivity.FAMILY_RELATION, profile.getFamilyRelation());
                     relationFragment.setArguments(args);
@@ -43,7 +43,7 @@ public class ProfilePageAdapter extends FragmentStatePagerAdapter {
                 return relationFragment;
             case 1:
                 BaseFragment birthDateFragment = new BirthDateFragment();
-                if(profile != null) {
+                if (profile != null) {
                     Bundle args = new Bundle();
                     args.putInt(SetupProfileActivity.DATE_TYPE, profile.getDateType());
                     args.putString(SetupProfileActivity.DATE, profile.getDate());
@@ -52,7 +52,7 @@ public class ProfilePageAdapter extends FragmentStatePagerAdapter {
                 return birthDateFragment;
             case 2:
                 BaseFragment childInfoFragment = new ChildInfoFragment();
-                if(profile != null) {
+                if (profile != null) {
                     Bundle args = new Bundle();
                     Parcelable children = Parcels.wrap(profile.getChildren());
                     args.putParcelable(SetupProfileActivity.CHILDREN, children);
