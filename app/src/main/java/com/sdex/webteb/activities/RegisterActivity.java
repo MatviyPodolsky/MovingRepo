@@ -3,16 +3,12 @@ package com.sdex.webteb.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
 import com.sdex.webteb.database.DatabaseHelper;
@@ -21,22 +17,17 @@ import com.sdex.webteb.dialogs.TermsOfServiceDialog;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
-import com.sdex.webteb.rest.request.FacebookLoginRequest;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.switchbutton.SwitchButton;
-
-import java.util.Arrays;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import retrofit.client.Response;
 
-public class RegisterActivity extends BaseActivity {
-
-    private static final String TAG = "RegisterActivity";
+public class RegisterActivity extends FacebookAuthActivity {
 
     @InjectView(R.id.email)
     TextView mEmail;
@@ -46,11 +37,8 @@ public class RegisterActivity extends BaseActivity {
 //    TextView mConfirmPassword;
     @InjectView(R.id.name)
     TextView mName;
-    @InjectView(R.id.auth_button)
-    LoginButton loginButton;
     @InjectView(R.id.newsletters)
     SwitchButton mNewslettersSwitch;
-    private UiLifecycleHelper uiHelper;
     private String email;
     private String password;
 
@@ -60,10 +48,6 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        uiHelper = new UiLifecycleHelper(this, callback);
-        uiHelper.onCreate(savedInstanceState);
-        loginButton.setReadPermissions(Arrays.asList("email"));
 
         mNewslettersSwitch.setChecked(true);
 
@@ -125,36 +109,6 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_register;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        uiHelper.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        uiHelper.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        uiHelper.onDestroy();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        uiHelper.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
     }
 
     @OnClick(R.id.link1)
@@ -241,36 +195,5 @@ public class RegisterActivity extends BaseActivity {
         startActivity(intent);
         finish();
     }
-
-    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-        if (state.isOpened()) {
-            Log.i(TAG, "Logged in...");
-            FacebookLoginRequest request = new FacebookLoginRequest();
-            request.setToken(session.getAccessToken());
-
-            RestClient.getApiService().facebookLogin(request, new RestCallback<UserLoginResponse>() {
-                @Override
-                public void failure(RestError restError) {
-                }
-
-                @Override
-                public void success(UserLoginResponse s, retrofit.client.Response response) {
-                    //TODO
-                    final PreferencesManager preferencesManager = PreferencesManager.getInstance();
-                    preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
-                    launchMainActivity();
-                }
-            });
-        } else if (state.isClosed()) {
-            Log.i(TAG, "Logged out...");
-        }
-    }
-
-    private Session.StatusCallback callback = new Session.StatusCallback() {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-            onSessionStateChange(session, state, exception);
-        }
-    };
 
 }

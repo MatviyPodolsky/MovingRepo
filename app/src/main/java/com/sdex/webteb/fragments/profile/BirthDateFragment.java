@@ -107,7 +107,10 @@ public class BirthDateFragment extends BaseFragment {
     @OnClick(R.id.next)
     public void scrollToNextPage() {
         if (getActivity() instanceof SetupProfileActivity) {
-            ((SetupProfileActivity) getActivity()).scrollToNextPage();
+            Date date = DateUtil.parseDate(mDate.getText().toString());
+            if (date == null || isValidDate(date)) {
+                ((SetupProfileActivity) getActivity()).scrollToNextPage();
+            }
         }
     }
 
@@ -184,7 +187,6 @@ public class BirthDateFragment extends BaseFragment {
     }
 
     public boolean isValidDate(Date date) {
-
         if (mDateType == BabyProfileResponse.DATE_TYPE_NOT_SET) {
             Toast.makeText(getActivity(), getString(R.string.please_select_date), Toast.LENGTH_SHORT).show();
             return false;
