@@ -2,7 +2,6 @@ package com.sdex.webteb.rest;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.parceler.Parcel;
 import org.parceler.ParcelConstructor;
 
 /**

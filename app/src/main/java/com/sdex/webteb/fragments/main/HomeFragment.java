@@ -1,6 +1,7 @@
 package com.sdex.webteb.fragments.main;
 
 import android.animation.ValueAnimator;
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,7 +74,6 @@ import butterknife.InjectView;
 import butterknife.InjectViews;
 import butterknife.OnClick;
 import butterknife.Optional;
-import de.greenrobot.event.EventBus;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -84,6 +84,7 @@ import retrofit.client.Response;
 public class HomeFragment extends PhotoFragment {
 
     public static final String ARTICLES_LIST = "ARTICLES_LIST";
+    public static final String TESTS_LIST = "TESTS_LIST";
 
     public static final int MORE_ARTICLES_FRAGMENT = 4;
     public static final int SEARCH_DOCTOR_FRAGMENT = 3;
@@ -107,7 +108,7 @@ public class HomeFragment extends PhotoFragment {
     TextView articlesCount;
     @InjectView(R.id.summary_test_title)
     TextView testTitle;
-    @InjectViews({ R.id.summary_image1, R.id.summary_image2, R.id.summary_image3 })
+    @InjectViews({R.id.summary_image1, R.id.summary_image2, R.id.summary_image3})
     List<ImageView> summaryPhotos;
     @InjectView(R.id.no_photos)
     TextView noPhotos;
@@ -141,15 +142,18 @@ public class HomeFragment extends PhotoFragment {
     private boolean gaveBirth;
 
     private List<ContentLink> contentLinks;
+    private List<ContentPreview> testsList;
 
     private DatabaseHelper databaseHelper;
 
-    protected EventBus BUS = EventBus.getDefault();
     private TimeNavigationAdapter mTimeNavAdapter;
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mProgressDialog = ProgressDialog.show(getActivity(), "", getString(R.string.loading), true, false);
 
         databaseHelper = DatabaseHelper.getInstance(getActivity());
 
@@ -303,6 +307,8 @@ public class HomeFragment extends PhotoFragment {
 
 
                 mRecyclerView.setAdapter(adapter);
+
+                mProgressDialog.dismiss();
             }
         });
 
@@ -351,14 +357,13 @@ public class HomeFragment extends PhotoFragment {
 
                 //TODO
                 if (weekResponse != null) {
-                    List<ContentPreview> tests = weekResponse.getTests();
+                    testsList = weekResponse.getTests();
                     List<ContentPreview> previews = weekResponse.getPreviews();
-                    List<ContentLink> additionalContent = weekResponse.getAdditionalContent();
                     contentLinks = weekResponse.getAdditionalContent();
                     List<ContentLink> videos = weekResponse.getVideos();
 
                     String imageUrl = weekResponse.getImageUrl();
-                    if(imageUrl != null && !imageUrl.isEmpty()) {
+                    if (imageUrl != null && !imageUrl.isEmpty()) {
                         Picasso.with(getActivity())
                                 .load(imageUrl)
                                 .placeholder(R.drawable.ic_transparent_placeholder)
@@ -366,16 +371,16 @@ public class HomeFragment extends PhotoFragment {
                                 .centerCrop()
                                 .into(summaryImage);
                     }
-                    articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + additionalContent.size());
-                    if (tests != null && tests.size() > 0) {
-                        testTitle.setText(tests.get(0).getTitle());
+                    articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
+                    if (testsList != null && testsList.size() > 0) {
+                        testTitle.setText(testsList.get(0).getTitle());
                     } else {
                         testTitle.setText(getActivity().getString(R.string.no_tests));
                     }
                     String email = PreferencesManager.getInstance().getEmail();
                     List<DbPhoto> data = databaseHelper.getPhotos(3, email, String.valueOf(weekResponse.getWeekNumber()));
                     int size = data.size();
-                    if(size == 0){
+                    if (size == 0) {
                         sumPhotoContainer.setVisibility(View.GONE);
                         noPhotos.setVisibility(View.VISIBLE);
                     } else {
@@ -406,14 +411,13 @@ public class HomeFragment extends PhotoFragment {
             public void success(MonthResponse monthResponse, Response response) {
                 //TODO
                 if (monthResponse != null) {
-                    List<ContentPreview> tests = monthResponse.getTests();
+                    testsList = monthResponse.getTests();
                     List<ContentPreview> previews = monthResponse.getPreviews();
-                    List<ContentLink> additionalContent = monthResponse.getAdditionalContent();
                     contentLinks = monthResponse.getAdditionalContent();
                     List<ContentLink> videos = monthResponse.getVideos();
 
                     String imageUrl = monthResponse.getImageUrl();
-                    if(imageUrl != null && !imageUrl.isEmpty()) {
+                    if (imageUrl != null && !imageUrl.isEmpty()) {
                         Picasso.with(getActivity())
                                 .load(imageUrl)
                                 .placeholder(R.drawable.ic_transparent_placeholder)
@@ -421,16 +425,16 @@ public class HomeFragment extends PhotoFragment {
                                 .centerCrop()
                                 .into(summaryImage);
                     }
-                    articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + additionalContent.size());
-                    if (tests != null && tests.size() > 0) {
-                        testTitle.setText(tests.get(0).getTitle());
+                    articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
+                    if (testsList != null && testsList.size() > 0) {
+                        testTitle.setText(testsList.get(0).getTitle());
                     } else {
                         testTitle.setText(getActivity().getString(R.string.no_tests));
                     }
                     String email = PreferencesManager.getInstance().getEmail();
                     List<DbPhoto> data = databaseHelper.getPhotos(3, email, String.valueOf(monthResponse.getAgeInMonths()));
                     int size = data.size();
-                    if(size == 0){
+                    if (size == 0) {
                         sumPhotoContainer.setVisibility(View.GONE);
                         noPhotos.setVisibility(View.VISIBLE);
                     } else {
@@ -516,19 +520,26 @@ public class HomeFragment extends PhotoFragment {
     }
 
 
-    @OnClick(R.id.summary_search_doctor)
-    public void searchDoctor() {
-        Fragment fragment = new SearchDoctorFragment();
-        FragmentManager fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
-                .addToBackStack(SearchDoctorFragment.NAME)
-                .commit();
+    @OnClick(R.id.summary_show_tests)
+    public void showTests() {
+        if (testsList != null) {
+            Fragment fragment = new SummaryTestsFragment();
+            Bundle args = new Bundle();
+            args.putParcelable(TESTS_LIST, Parcels.wrap(testsList));
+            fragment.setArguments(args);
+            FragmentManager fragmentManager = getChildFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            Toast.makeText(getActivity(), "No tests", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick(R.id.summary_articles)
     public void showArticles() {
-        if(contentLinks != null) {
+        if (contentLinks != null) {
             Fragment fragment = new AdditionalContentFragment();
             Bundle args = new Bundle();
             args.putParcelable(ARTICLES_LIST, Parcels.wrap(contentLinks));
@@ -554,7 +565,7 @@ public class HomeFragment extends PhotoFragment {
     }
 
     @OnClick(R.id.summary_close)
-    public void closeSummary(){
+    public void closeSummary() {
         if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }

@@ -15,10 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +27,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.CityResponse;
 import com.sdex.webteb.rest.response.SpecialtiesResponse;
+import com.sdex.webteb.utils.KeyboardUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -83,39 +81,6 @@ public class SearchDoctorFragment extends BaseMainFragment {
         setCurrentCountry(currentCountry);
         setSpecialties();
         setCurrentLocation();
-        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
-                    Fragment fragment = new SearchResultsFragment();
-                    Bundle args = new Bundle();
-                    args.putString("Name", search.getText().toString());
-                    String countryName = country.getText().toString();
-                    if(!countryName.equals("Any country")) {
-                        args.putString("Country", countryName);
-                    }
-                    String cityName = city.getText().toString();
-                    if(!cityName.equals("Any city")) {
-                        args.putString("City", cityName);
-                    }
-                    String specialityName = specialty.getText().toString();
-                    if(!specialityName.equals("Any speciality")) {
-                        args.putString("Specialty", specialityName);
-                    }
-                    fragment.setArguments(args);
-                    FragmentManager fragmentManager = getChildFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .add(R.id.fragment_container, fragment, "content_fragment")
-                            .addToBackStack(null)
-                            .commit();
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
     @Override
@@ -184,22 +149,53 @@ public class SearchDoctorFragment extends BaseMainFragment {
         dialog.show(ft, "dialog");
     }
 
-    private void setCurrentCountry(int currentCountry){
+    @OnClick(R.id.btn_search)
+    public void search() {
+        KeyboardUtils.hideKeyboard(search);
+        Fragment fragment = new SearchResultsFragment();
+        Bundle args = new Bundle();
+        args.putString("Name", search.getText().toString());
+        String countryName = country.getText().toString();
+        if (!countryName.equals("Any country")) {
+            args.putString("Country", countryName);
+        }
+        String cityName = city.getText().toString();
+        if (!cityName.equals("Any city")) {
+            args.putString("City", cityName);
+        }
+        String specialityName = specialty.getText().toString();
+        if (!specialityName.equals("Any speciality")) {
+            args.putString("Specialty", specialityName);
+        }
+        fragment.setArguments(args);
+        FragmentManager fragmentManager;
+        if (getParentFragment() != null) {
+            fragmentManager = getParentFragment().getChildFragmentManager();
+        } else {
+            fragmentManager = getChildFragmentManager();
+        }
+        fragmentManager.beginTransaction()
+                .add(R.id.fragment_container, fragment, SearchResultsFragment.NAME)
+                .addToBackStack(SearchResultsFragment.NAME)
+                .commit();
+    }
+
+    private void setCurrentCountry(int currentCountry) {
         this.currentCountry = currentCountry;
         country.setText(countriesList[currentCountry]);
         setCities(countryCodes[currentCountry]);
         city.setText("Any city");
     }
 
-    private void checkoutCountry(String isoCode){
+    private void checkoutCountry(String isoCode) {
         for (int i = 0; i < countryCodes.length; i++) {
-            if(countryCodes[i].equals(isoCode)){
+            if (countryCodes[i].equals(isoCode)) {
                 setCurrentCountry(i);
             }
         }
     }
 
-    private void setCurrentLocation(){
+    private void setCurrentLocation() {
         Locale defaultLocale = getActivity().getResources().getConfiguration().locale;
 
         LocationManager locationManager = (LocationManager) getActivity()
@@ -239,22 +235,22 @@ public class SearchDoctorFragment extends BaseMainFragment {
                     }
                 } else {
                     // if GPS Enabled get lat/long using GPS Services
-                        if (location == null) {
-                            locationManager.requestLocationUpdates(
-                                    LocationManager.GPS_PROVIDER,
-                                    MIN_TIME_BW_UPDATES,
-                                    MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
-                            Log.d("GPS", "GPS Enabled");
-                            if (locationManager != null) {
-                                location = locationManager
-                                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                                if (location != null) {
-                                    latitude = location.getLatitude();
-                                    longitude = location.getLongitude();
-                                }
+                    if (location == null) {
+                        locationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+                        Log.d("GPS", "GPS Enabled");
+                        if (locationManager != null) {
+                            location = locationManager
+                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if (location != null) {
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
                             }
                         }
                     }
+                }
                 addresses = geocoder.getFromLocation(latitude, longitude, 1);
                 checkoutCountry(addresses.get(0).getCountryCode());
             }
@@ -285,7 +281,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
 
     };
 
-    private void setCities(String isoCode){
+    private void setCities(String isoCode) {
         getCitiesCallback = new RestCallback<List<CityResponse>>() {
             @Override
             public void failure(RestError restError) {
@@ -294,7 +290,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
 
             @Override
             public void success(List<CityResponse> cities, Response response) {
-                if(cities != null) {
+                if (cities != null) {
                     citiesList = new String[cities.size() + 1];
                     citiesList[0] = "Any city";
 
@@ -308,7 +304,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
         RestClient.getApiService().getCities(isoCode, getCitiesCallback);
     }
 
-    private void setSpecialties(){
+    private void setSpecialties() {
         getSpecialtiesCallback = new RestCallback<List<SpecialtiesResponse>>() {
             @Override
             public void failure(RestError restError) {
@@ -317,12 +313,12 @@ public class SearchDoctorFragment extends BaseMainFragment {
 
             @Override
             public void success(List<SpecialtiesResponse> specialties, Response response) {
-                if(specialties != null) {
+                if (specialties != null) {
                     specialtiesList = new String[specialties.size() + 1];
                     specialtiesList[0] = "Any speciality";
 
                     for (int i = 0; i < specialties.size(); i++) {
-                        specialtiesList[i+1] = specialties.get(i).getName();
+                        specialtiesList[i + 1] = specialties.get(i).getName();
                     }
                 }
             }

@@ -68,6 +68,7 @@
     <string name="female">Female</string>
     <string name="none">None</string>
     <string name="please_select_date">Please, select date</string>
+    <string name="please_select_correct_date">Please, select correct date</string>
     <string name="please_select_relation">Please, select family relation</string>
     <string name="birth_date_cant_be_in_future">Birth date can\'t be in future.</string>
     <string name="last_period_cant_be_in_future">Last period can\'t be in future.</string>
@@ -75,6 +76,7 @@
     <string name="last_period_description">Last period can\'t be in future.</string>
     <string name="expected_birth_date_description">Expected birth date can\'t be in past.</string>
     <string name="birth_date_description">Birth date can\'t be in future.</string>
+    <string name="children_count">%1$d children</string>
 
     <!--home-->
     <string name="in_app_notification_btn_back">back</string>
@@ -87,7 +89,6 @@
 
     <!--summary-->
     <string name="tests">Tests</string>
-    <string name="read">Read</string>
     <string name="articles_count">Articles count</string>
     <string name="articles">Articles</string>
     <string name="album">Album</string>
@@ -128,6 +129,7 @@
     <string name="done_test">Done test</string>
     <string name="undone_test">Undone test</string>
     <string name="reminder">Reminder</string>
+    <string name="we_found_n_tests">We found (%1$d) tests</string>
 
     <!--album-->
     <string name="take_photo">Take photo</string>
@@ -309,5 +311,6 @@
     <string name="test_text" translatable="false">Text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text </string>
+    <string name="loading">Loading...</string>
 
 </resources>

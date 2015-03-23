@@ -38,10 +38,10 @@ public class PreviewFragment extends BaseMainFragment {
             EntityField entityField = fields.get(0);
             if (entityField != null) {
                 List<EntityFieldBody> bodies = entityField.getBodies();
-                if(bodies != null && bodies.size()>0){
+                if (bodies != null && bodies.size() > 0) {
                     EntityFieldBody entityFieldBody = bodies.get(0);
                     String content = entityFieldBody.getContent();
-                    if(entityFieldBody.getTypeID() == EntityFieldBody.Html && content != null){
+                    if (entityFieldBody.getTypeID() == EntityFieldBody.Html && content != null) {
                         contentView.loadData(content, "text/html; charset=UTF-8", null);
                     }
                 }

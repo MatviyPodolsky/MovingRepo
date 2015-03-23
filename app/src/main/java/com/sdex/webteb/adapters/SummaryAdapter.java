@@ -135,7 +135,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.viewPager.setAdapter(videoThumbnailAdapter);
             viewHolder.mIndicator.setViewPager(viewHolder.viewPager);
             viewHolder.viewPager.setOffscreenPageLimit(3);
-            viewHolder.viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            viewHolder.viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override
                 public void onPageSelected(int position) {
                     super.onPageSelected(position);
@@ -164,7 +164,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 viewHolder.image.setVisibility(View.GONE);
             }
-            if(test.getSectionIconUrl() != null) {
+            if (test.getSectionIconUrl() != null) {
                 Picasso.with(context)
                         .load(test.getSectionIconUrl())
                         .noPlaceholder()
@@ -206,11 +206,11 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private Object getItem(int position) {
-        if(position < tests.size()){
+        if (position < tests.size()) {
             return tests.get(position);
-        } else if (position < tests.size() + previews.size()){
+        } else if (position < tests.size() + previews.size()) {
             return previews.get(position - tests.size());
-        } else if (position < tests.size() + previews.size() + additionalContent.size()){
+        } else if (position < tests.size() + previews.size() + additionalContent.size()) {
             return additionalContent.get(position - tests.size() - previews.size());
         } else {
             return new VideoWrapper(videos);
@@ -220,11 +220,11 @@ public class SummaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         // Note that unlike in ListView adapters, types don't have to be contiguous
-        if(position < tests.size()){
+        if (position < tests.size()) {
             return TYPE_TEST;
-        } else if (position < tests.size() + previews.size()){
+        } else if (position < tests.size() + previews.size()) {
             return TYPE_PREVIEW;
-        } else if (position < tests.size() + previews.size() + additionalContent.size()){
+        } else if (position < tests.size() + previews.size() + additionalContent.size()) {
             return TYPE_ADDITIONAL_CONTENT;
         } else {
             return TYPE_VIDEO;

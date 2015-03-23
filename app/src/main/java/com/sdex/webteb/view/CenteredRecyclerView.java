@@ -41,7 +41,7 @@ public class CenteredRecyclerView extends RecyclerView {
         return super.onTouchEvent(ev);
     }
 
-    public void setScrollListener(){
+    public void setScrollListener() {
         this.setOnScrollListener(new OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

@@ -2,6 +2,8 @@ package com.sdex.webteb.fragments.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
@@ -9,11 +11,12 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MyTestsAdapter;
-import com.sdex.webteb.internal.events.SelectMenuItemEvent;
+import com.sdex.webteb.model.Range;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyTestResponse;
+import com.sdex.webteb.utils.PreferencesManager;
 
 import java.util.List;
 
@@ -38,6 +41,8 @@ public class MyTestsFragment extends BaseMainFragment {
     TextView error;
 
     protected EventBus BUS = EventBus.getDefault();
+    private final PreferencesManager mPreferencesManager = PreferencesManager.getInstance();
+    private final String currentDate = mPreferencesManager.getCurrentDate();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -46,16 +51,22 @@ public class MyTestsFragment extends BaseMainFragment {
         mAdapter.setCallback(new MyTestsAdapter.Callback() {
             @Override
             public void onReadMoreBtnClick() {
-                SelectMenuItemEvent event = new SelectMenuItemEvent();
-                event.setPosition(MORE_ARTICLES_FRAGMENT);
-                BUS.post(event);
+                Fragment fragment = new MoreArticlesFragment();
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, fragment, MoreArticlesFragment.NAME)
+                        .addToBackStack(MoreArticlesFragment.NAME)
+                        .commit();
             }
 
             @Override
             public void onSearchDoctorBtnClick() {
-                SelectMenuItemEvent event = new SelectMenuItemEvent();
-                event.setPosition(SEARCH_DOCTOR_FRAGMENT);
-                BUS.post(event);
+                Fragment fragment = new SearchDoctorFragment();
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, fragment, SearchDoctorFragment.NAME)
+                        .addToBackStack(SearchDoctorFragment.NAME)
+                        .commit();
             }
 
             @Override
@@ -69,7 +80,6 @@ public class MyTestsFragment extends BaseMainFragment {
             }
         });
         mList.setAdapter(mAdapter);
-
         RestClient.getApiService().getBabyTests(new RestCallback<List<BabyTestResponse>>() {
             @Override
             public void failure(RestError restError) {
@@ -91,8 +101,31 @@ public class MyTestsFragment extends BaseMainFragment {
                 mAdapter.notifyDataSetChanged();
                 progress.setVisibility(View.GONE);
                 mList.setVisibility(View.VISIBLE);
+                mList.setSelection(getPositionWithAge(tests));
             }
         });
+    }
+
+    private int getPositionWithAge(List<BabyTestResponse> tests) {
+        int sizeItems = tests.size();
+        for (int itemPosition = 0; itemPosition < sizeItems; itemPosition++) {
+            List<Range> listPeriods = tests.get(itemPosition).getRelatedPeriods();
+            int currentParseDate = Integer.parseInt(currentDate);
+            int lastDate = listPeriods.get(listPeriods.size() - 1).getTo();
+
+            if(mPreferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
+                int firstDate = listPeriods.get(listPeriods.size() - 1).getFrom();
+                if(currentParseDate <= lastDate && currentParseDate >= firstDate) {
+                    return itemPosition;
+                }
+
+            }
+
+            if(currentParseDate == lastDate) {
+                return itemPosition;
+            }
+        }
+        return 0;
     }
 
     @Override
