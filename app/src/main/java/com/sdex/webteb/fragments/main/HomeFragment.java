@@ -496,10 +496,6 @@ public class HomeFragment extends PhotoFragment {
         });
 
         final PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        int week = Integer.valueOf(preferencesManager.getCurrentDate() != null && !preferencesManager.getCurrentDate().isEmpty()
-                ? PreferencesManager.getInstance().getCurrentDate() : "0");
-
-        RestClient.getApiService().getWeek(week, getWeekCallback);
 
 //        if baby got birth, send request to get birth date
         getProfileCallback = new RestCallback<BabyProfileResponse>() {

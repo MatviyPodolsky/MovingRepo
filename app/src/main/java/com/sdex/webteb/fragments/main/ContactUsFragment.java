@@ -1,14 +1,18 @@
 package com.sdex.webteb.fragments.main;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -17,6 +21,7 @@ import com.sdex.webteb.utils.KeyboardUtils;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
 
 /**
@@ -34,6 +39,38 @@ public class ContactUsFragment extends BaseMainFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mTitle.setError(null);
+            }
+        });
+        mText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mText.setError(null);
+            }
+        });
     }
 
     @Override
@@ -57,10 +94,15 @@ public class ContactUsFragment extends BaseMainFragment {
                     Activity activity = getActivity();
                     if (activity != null) {
                         mSend.setEnabled(true);
-                        Toast.makeText(activity,
-                                String.format(getString(R.string.error_with_description),
-                                        (restError.getStrMessage() != null ? restError.getStrMessage() : "Unknown error")),
-                                Toast.LENGTH_SHORT).show();
+                        AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+                        alertDialog.setMessage(getString(R.string.error_sending_message));
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.close),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
                     }
                 }
 
@@ -69,9 +111,18 @@ public class ContactUsFragment extends BaseMainFragment {
                     Activity activity = getActivity();
                     if (activity != null) {
                         mSend.setEnabled(true);
-                        Toast.makeText(activity,
-                                getString(R.string.your_message_was_sent),
-                                Toast.LENGTH_SHORT).show();
+                        AlertDialog alertDialog = new AlertDialog.Builder(activity).create();
+                        alertDialog.setMessage(getString(R.string.your_message_was_sent));
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.close),
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        SelectMenuItemEvent event = new SelectMenuItemEvent();
+                                        event.setPosition(0);
+                                        EventBus.getDefault().post(event);
+                                    }
+                                });
+                        alertDialog.show();
                     }
                 }
             });
