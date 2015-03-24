@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -54,23 +55,47 @@ public abstract class PhotoFragment extends BaseFragment {
 
 
     public static Uri getGalleryPhotoUri(Activity activity, Uri selectedImage) {
-        Cursor cursor = null;
-        String filePath = null;
-        try {
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-            cursor = activity.getContentResolver().query(
-                    selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            filePath = cursor.getString(columnIndex);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
+        final String[] imageColumns = {MediaStore.Images.Media.DATA};
+        final String imageOrderBy = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            String id = selectedImage.getLastPathSegment().split(":")[1];
+            Uri uri = getUri();
+            Cursor cursor = null;
+            try {
+                cursor = activity.getContentResolver().query(uri, imageColumns,
+                        MediaStore.Images.Media._ID + "=" + id, null, imageOrderBy);
+                if (cursor.moveToFirst()) {
+                    int columnIndex = cursor.getColumnIndex(imageColumns[0]);
+                    return Uri.parse(cursor.getString(columnIndex));
+                }
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        } else {
+            Cursor cursor = null;
+            try {
+                cursor = activity.getContentResolver().query(
+                        selectedImage, imageColumns, null, null, imageOrderBy);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(imageColumns[0]);
+                return Uri.parse(cursor.getString(columnIndex));
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
             }
         }
-        return Uri.parse(filePath);
+        return null;
+    }
+
+    private static Uri getUri() {
+        String state = Environment.getExternalStorageState();
+        if (!state.equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
+            return MediaStore.Images.Media.INTERNAL_CONTENT_URI;
+        }
+        return MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
     }
 
     private static File getAlbumStorageDir() {
