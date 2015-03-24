@@ -237,10 +237,10 @@ public class HomeFragment extends PhotoFragment {
                 if (!gaveBirth) {
                     mText.setText(String.valueOf(currentWeek));
                     ViewGroup.LayoutParams layoutParams = mProgress.getLayoutParams();
-                    int width = currentWeek * DisplayUtil.getScreenWidth(getActivity()) / 42;
-                    layoutParams.width = width;
+                    int currentDays = (card.getTotalDays() - card.getDaysLeft());
+                    layoutParams.width = currentDays * DisplayUtil.getScreenWidth(getActivity()) / card.getTotalDays();
                     String progressTitle = getString(R.string.profile_progress_text);
-                    mProgress.setText(String.format(progressTitle, currentWeek));
+                    mProgress.setText(String.format(progressTitle, card.getDaysLeft()));
                     mProgress.requestLayout();
                     preferencesManager.setCurrentDate(String.valueOf(currentWeek),
                             PreferencesManager.DATE_TYPE_WEEK);
