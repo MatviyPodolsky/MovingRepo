@@ -22,6 +22,7 @@ public class PreferencesManager {
     private static final String COMPLETE_SETUP = "complete_setup";
     private static final String CURRENT_DATE = "current_date";
     private static final String CURRENT_DATE_TYPE = "current_date_type";
+    private static final String LAST_NOTIFICATION_DATE = "last_notification_date";
 
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;
@@ -130,6 +131,16 @@ public class PreferencesManager {
 
     public int getCurrentDateType() {
         return mPref.getInt(CURRENT_DATE_TYPE, -1);
+    }
+
+    public void setLastNotificationDate(long date) {
+        mPref.edit().putLong(LAST_NOTIFICATION_DATE, date).commit();
+    }
+
+    public boolean isNotificationDateExpired() {
+        long currentDate = System.currentTimeMillis();
+        long date = mPref.getLong(LAST_NOTIFICATION_DATE, 0);
+        return currentDate - date > 24 * 60 * 60 * 1000;
     }
 
 }

@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sdex.webteb.BuildConfig;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.TimeNavigationAdapter;
@@ -154,6 +153,8 @@ public class HomeFragment extends PhotoFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        final PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
         mProgressDialog = ProgressDialog.show(getActivity(), "", getString(R.string.loading), true, false);
 
@@ -463,40 +464,42 @@ public class HomeFragment extends PhotoFragment {
             }
         };
 
-        boolean ignoreSettings = BuildConfig.DEBUG;
-        RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
-            @Override
-            public void success(NotificationsResponse notificationsResponse, Response response) {
+        boolean expired = preferencesManager.isNotificationDateExpired();
+        if (expired) {
+            boolean ignoreSettings = false;
+            RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
+                @Override
+                public void success(NotificationsResponse notificationsResponse, Response response) {
 
-                if (getActivity() == null) {
-                    return;
+                    if (getActivity() == null) {
+                        return;
+                    }
+
+                    List<ExaminationPreview> tests = notificationsResponse.getTests();
+                    List<TipContent> tips = notificationsResponse.getTips();
+                    int amount = tests.size() + tips.size();
+                    mNotificationsAmount.setText("1/" + amount);
+
+                    if (!tests.isEmpty()) {
+                        ExaminationPreview examinationPreview = tests.get(0);
+                        String name = examinationPreview.getName();
+                        mNotificationsTitle.setText(name);
+                    } else if (!tips.isEmpty()) {
+                        TipContent tipContent = tips.get(0);
+                        String text = tipContent.getText();
+                        mNotificationsTitle.setText(text);
+                    }
+
+                    showNotification(notificationsResponse);
+                    preferencesManager.setLastNotificationDate(System.currentTimeMillis());
                 }
 
-                List<ExaminationPreview> tests = notificationsResponse.getTests();
-                List<TipContent> tips = notificationsResponse.getTips();
-                int amount = tests.size() + tips.size();
-                mNotificationsAmount.setText("1/" + amount);
+                @Override
+                public void failure(RetrofitError error) {
 
-                if (!tests.isEmpty()) {
-                    ExaminationPreview examinationPreview = tests.get(0);
-                    String name = examinationPreview.getName();
-                    mNotificationsTitle.setText(name);
-                } else if (!tips.isEmpty()) {
-                    TipContent tipContent = tips.get(0);
-                    String text = tipContent.getText();
-                    mNotificationsTitle.setText(text);
                 }
-
-                showNotification(notificationsResponse);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-
-        final PreferencesManager preferencesManager = PreferencesManager.getInstance();
+            });
+        }
 
 //        if baby got birth, send request to get birth date
         getProfileCallback = new RestCallback<BabyProfileResponse>() {
@@ -514,7 +517,7 @@ public class HomeFragment extends PhotoFragment {
                 mText.setText(String.format("%d month", month));
                 PreferencesManager.getInstance().setCurrentDate(String.valueOf(month),
                         PreferencesManager.DATE_TYPE_MONTH);
-                RestClient.getApiService().getMonth((int)month, getMonthCallback);
+                RestClient.getApiService().getMonth((int) month, getMonthCallback);
                 if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
                     setNavController((int) month, timeNavControllerLayoutManager);
                 }
