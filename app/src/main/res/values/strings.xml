@@ -269,9 +269,12 @@
 
     <!--contact us-->
     <string name="contact_us_title">Contact us</string>
-    <string name="contact_us_title_hint">title hint</string>
-    <string name="contact_us_text_hint">text hint</string>
+    <string name="contact_us_title_hint">Title...</string>
+    <string name="contact_us_text_hint">Message...</string>
     <string name="contact_us_btn_send">Send</string>
+    <string name="your_message_was_sent">Your message was sent</string>
+    <string name="please_enter_title">Please enter title</string>
+    <string name="please_enter_message">Please enter message</string>
 
     <!--sharing-->
     <string name="choose_email_client">Choose email client</string>
@@ -282,6 +285,7 @@
     <string name="error_loading_data">Error loading data</string>
     <string name="empty_loaded_data">Empty loaded data</string>
     <string name="no_connection">No connection to the internet</string>
+    <string name="error_with_description">Error: %1$s</string>
 
     <!--confirm dialogs-->
     <string name="dialog_delete_photo_title">Delete photo</string>
