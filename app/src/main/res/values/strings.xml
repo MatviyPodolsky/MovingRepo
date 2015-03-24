@@ -86,6 +86,8 @@
     <string name="notification_tip_title">Tip</string>
     <string name="week">week</string>
     <string name="month">month</string>
+    <string name="dialog_notification_week_confirm">Yes, I did</string>
+    <string name="dialog_notification_week_cancel">Not yet</string>
 
     <!--summary-->
     <string name="tests">Tests</string>

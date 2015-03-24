@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_popup"
+    android:paddingRight="20dp"
+    android:paddingBottom="30dp">
+
+    <Button
+        android:id="@+id/close"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/btn_close_notification"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Title"
+        android:id="@+id/title"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/close"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Content"
+        android:id="@+id/content"
+        android:layout_below="@+id/close"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="40dp" />
+
+    <Button
+        style="@style/AppTheme.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_notification_week_confirm"
+        android:id="@+id/yes"
+        android:layout_below="@+id/content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp" />
+
+    <Button
+        style="@style/AppTheme.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_notification_week_cancel"
+        android:id="@+id/no"
+        android:layout_below="@+id/yes"
+        android:layout_marginLeft="20dp" />
+</RelativeLayout>

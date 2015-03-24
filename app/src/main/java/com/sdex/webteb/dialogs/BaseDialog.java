@@ -15,7 +15,8 @@ import butterknife.ButterKnife;
 public abstract class BaseDialog extends DialogFragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(getLayoutResource(), container, false);
         ButterKnife.inject(this, v);
         return v;
