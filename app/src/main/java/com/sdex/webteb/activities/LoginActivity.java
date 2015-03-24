@@ -1,6 +1,5 @@
 package com.sdex.webteb.activities;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -9,11 +8,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
+import com.sdex.webteb.model.Child;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -34,6 +33,7 @@ public class LoginActivity extends FacebookAuthActivity {
     EditText mPassword;
     @InjectView(R.id.forgot_password)
     TextView mForgotPassword;
+    private String mUserEmail;
 
     private RestCallback<UserLoginResponse> loginCallback;
     private RestCallback<BabyProfileResponse> getBabyProfileCallback;
@@ -57,13 +57,13 @@ public class LoginActivity extends FacebookAuthActivity {
             public void success(UserLoginResponse s, Response response) {
                 final PreferencesManager preferencesManager = PreferencesManager.getInstance();
                 preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
-                String userName = s.getUserName();
-                preferencesManager.setEmail(userName);
+                mUserEmail = s.getUserName();
+                preferencesManager.setEmail(mUserEmail);
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
-                DbUser user = databaseHelper.getUser(userName);
+                DbUser user = databaseHelper.getUser(mUserEmail);
                 if (user == null) {
                     DbUser newUser = new DbUser();
-                    newUser.setEmail(userName);
+                    newUser.setEmail(mUserEmail);
                     databaseHelper.addUser(newUser);
 
                     RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
@@ -89,6 +89,19 @@ public class LoginActivity extends FacebookAuthActivity {
                 if (babyProfileResponse != null && babyProfileResponse.getDateType() == BabyProfileResponse.DATE_TYPE_NOT_SET) {
                     launchMainActivity(false);
                 } else {
+                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
+                    DbUser user = databaseHelper.getUser(mUserEmail);
+                    user.setCompletedProfile(true);
+                    String children = "";
+                    for (Child child : babyProfileResponse.getChildren()) {
+                        if (children.isEmpty()) {
+                            children = children + child.getName();
+                        } else {
+                            children = children + "/" + child.getName();
+                        }
+                    }
+                    user.setChildren(children);
+                    databaseHelper.updateUser(user);
                     launchMainActivity(true);
                 }
             }

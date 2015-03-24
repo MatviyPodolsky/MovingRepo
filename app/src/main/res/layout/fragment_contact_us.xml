@@ -24,6 +24,9 @@
             android:hint="@string/contact_us_title_hint"
             android:imeOptions="flagNavigateNext"
             android:singleLine="true"
+            android:ems="10"
+            android:inputType="text"
+            android:textColorHint="@color/hint"
             android:textSize="@dimen/default_text_size" />
 
         <EditText

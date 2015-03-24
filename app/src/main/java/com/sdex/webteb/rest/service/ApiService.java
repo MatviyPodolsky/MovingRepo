@@ -7,11 +7,13 @@ import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.request.BabyReminderRequest;
 import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.request.ChangePasswordRequest;
+import com.sdex.webteb.rest.request.ContactUsRequest;
 import com.sdex.webteb.rest.request.FacebookLoginRequest;
 import com.sdex.webteb.rest.request.NotificationTappedRequest;
 import com.sdex.webteb.rest.request.PushTokenRequest;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.request.RegisterUserRequest;
+import com.sdex.webteb.rest.request.SendEventRequest;
 import com.sdex.webteb.rest.request.SetPasswordRequest;
 import com.sdex.webteb.rest.response.ArticlesResponse;
 import com.sdex.webteb.rest.response.BabyGeneralResponse;
@@ -155,6 +157,12 @@ public interface ApiService {
     @GET("/GetEntity")
     public void getEntity(@Query("ID") int id, @Query("Type") String type,
                           @Query("FieldName") String fieldName, Callback<EntityResponse> callback);
+
+    @POST("/ContactUs")
+    public void contactUs(@Body ContactUsRequest body, Callback<String> callback);
+
+    @POST("/SendEvent")
+    public void sendEvent(@Body SendEventRequest body, Callback<String> callback);
 
     //    notifications
     @GET("/baby/notifications")
