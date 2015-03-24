@@ -59,6 +59,7 @@ import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.Utils;
 import com.sdex.webteb.view.CenteredRecyclerView;
 import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -89,6 +90,7 @@ public class HomeFragment extends PhotoFragment {
     public static final int MORE_ARTICLES_FRAGMENT = 4;
     public static final int SEARCH_DOCTOR_FRAGMENT = 3;
     public static final int ALBUM_FRAGMENT = 2;
+    public static final int MAX_USERNAME_SIZE = 8;
     public static final String CONTENT_FRAGMENT = "content_fragment";
 
     @InjectView(R.id.fragment_container)
@@ -270,18 +272,16 @@ public class HomeFragment extends PhotoFragment {
                 });
                 mTimeNavigationRecyclerView.setAdapter(mTimeNavAdapter);
 
-                int itemsCount = mTimeNavAdapter.getItemCount();
-                int currentWeekIndex = itemsCount - currentWeek;
-
-                if (currentWeekIndex > 0 && currentWeekIndex < itemsCount) {
-                    int offset = getTimeNavigationControllerItemOffset();
-                    timeNavControllerLayoutManager.scrollToPositionWithOffset(currentWeekIndex, offset);
-                    mTimeNavAdapter.setSelectedItem(currentWeekIndex);
+                if (mode == TimeNavigationAdapter.MODE_WEEKS) {
+                    int itemsCount = mTimeNavAdapter.getItemCount();
+                    int currentIndex = itemsCount - currentWeek;
+                    timeNavControllerLayoutManager.scrollToPositionWithOffset(currentIndex, getTimeNavigationControllerItemOffset());
+                    mTimeNavAdapter.setSelectedItem(currentIndex);
                 }
 
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
-                mUserName.setText(username);
+                mUserName.setText(Utils.ellipsize(username, MAX_USERNAME_SIZE));
 
                 List<ContentPreview> previews = babyHomeResponse.getPreviews();
                 List<ContentLink> videos = babyHomeResponse.getVideos();
@@ -491,7 +491,7 @@ public class HomeFragment extends PhotoFragment {
             }
         });
 
-        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        final PreferencesManager preferencesManager = PreferencesManager.getInstance();
         int week = Integer.valueOf(preferencesManager.getCurrentDate() != null && !preferencesManager.getCurrentDate().isEmpty()
                 ? PreferencesManager.getInstance().getCurrentDate() : "0");
 
@@ -513,8 +513,17 @@ public class HomeFragment extends PhotoFragment {
                 mText.setText(String.format("%d month", month));
                 PreferencesManager.getInstance().setCurrentDate(String.valueOf(month),
                         PreferencesManager.DATE_TYPE_MONTH);
+                if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
+                    setNavController((int) month, timeNavControllerLayoutManager);
+                }
             }
         };
+    }
+
+    private void setNavController(int month, LinearLayoutManager timeNavControllerLayoutManager) {
+        int index = mTimeNavAdapter.getItemCount() - month;
+        timeNavControllerLayoutManager.scrollToPositionWithOffset(index, getTimeNavigationControllerItemOffset());
+        mTimeNavAdapter.setSelectedItem(index);
     }
 
     @Override

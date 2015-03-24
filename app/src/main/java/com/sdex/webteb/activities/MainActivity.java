@@ -23,7 +23,8 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MenuAdapter;
-import com.sdex.webteb.dialogs.PushNotificationDialog;
+import com.sdex.webteb.dialogs.BaseDialog;
+import com.sdex.webteb.dialogs.WeekPushNotificationDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.main.AboutFragment;
 import com.sdex.webteb.fragments.main.AlbumFragment;
@@ -405,15 +406,13 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     public void onEventMainThread(NotificationEvent event) {
         Bundle extras = event.getExtras();
-        //handlePushNotification(extras);
-        PushNotificationDialog pushNotificationDialog = PushNotificationDialog.newInstance();
-        pushNotificationDialog.setArguments(extras);
-        pushNotificationDialog.show(getSupportFragmentManager(), "dialog");
+        handlePushNotification(extras);
     }
 
     private void handlePushNotification(Bundle extras) {
         String type = extras.getString(NOTIFICATION_TYPE).trim();
         String notificationId = extras.getString(NOTIFICATION_ID);
+        BaseDialog pushNotificationDialog = null;
         switch (type) {
             case NOTIFICATION_TYPE_TEST_SINGLE:
                 // open the test page in the app
@@ -429,12 +428,17 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 // open the home page
                 break;
             case NOTIFICATION_TYPE_WEEK_38:
-                // open the home page
-                break;
             case NOTIFICATION_TYPE_WEEK_40:
                 // open the home page
+                pushNotificationDialog = WeekPushNotificationDialog.newInstance();
                 break;
         }
+
+        if (pushNotificationDialog != null) {
+            pushNotificationDialog.setArguments(extras);
+            pushNotificationDialog.show(getSupportFragmentManager(), "dialog");
+        }
+
         NotificationTappedRequest request = new NotificationTappedRequest(notificationId);
         RestClient.getApiService().postNotificationTapped(request, new Callback<String>() {
             @Override
