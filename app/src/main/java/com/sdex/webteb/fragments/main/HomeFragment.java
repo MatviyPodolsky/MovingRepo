@@ -148,6 +148,7 @@ public class HomeFragment extends PhotoFragment {
 
     private TimeNavigationAdapter mTimeNavAdapter;
     private ProgressDialog mProgressDialog;
+    private int currentMonth;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -228,7 +229,6 @@ public class HomeFragment extends PhotoFragment {
                 BabyHomeResponse.Card card = babyHomeResponse.getCard();
                 String username = card.getName();
                 int currentWeek = card.getCurrentWeek();
-                int currentMonth = Integer.parseInt(preferencesManager.getCurrentDate());
                 preferencesManager.setUsername(username);
                 gaveBirth = card.isGaveBirth();
 
@@ -273,6 +273,11 @@ public class HomeFragment extends PhotoFragment {
 
                 int itemsCount = mTimeNavAdapter.getItemCount();
                 int currentIndex;
+                try {
+                    currentMonth = Integer.parseInt(preferencesManager.getCurrentDate());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
 
                 if (mode == TimeNavigationAdapter.MODE_WEEKS) {
                     currentIndex = itemsCount - currentWeek;
