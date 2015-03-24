@@ -21,10 +21,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/album_title"
-                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/btn_take_photo"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:id="@+id/title" />
 
             <include
+                android:id="@id/btn_take_photo"
                 layout="@layout/btn_take_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
