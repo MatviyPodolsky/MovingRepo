@@ -150,7 +150,6 @@ public class HomeFragment extends PhotoFragment {
 
     private TimeNavigationAdapter mTimeNavAdapter;
     private ProgressDialog mProgressDialog;
-    private int currentMonth;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -273,22 +272,12 @@ public class HomeFragment extends PhotoFragment {
                 });
                 mTimeNavigationRecyclerView.setAdapter(mTimeNavAdapter);
 
-                int itemsCount = mTimeNavAdapter.getItemCount();
-                int currentIndex;
-                try {
-                    currentMonth = Integer.parseInt(preferencesManager.getCurrentDate());
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-
                 if (mode == TimeNavigationAdapter.MODE_WEEKS) {
-                    currentIndex = itemsCount - currentWeek;
-                } else {
-                    currentIndex = itemsCount - currentMonth;
+                    int itemsCount = mTimeNavAdapter.getItemCount();
+                    int currentIndex = itemsCount - currentWeek;
+                    timeNavControllerLayoutManager.scrollToPositionWithOffset(currentIndex, getTimeNavigationControllerItemOffset());
+                    mTimeNavAdapter.setSelectedItem(currentIndex);
                 }
-
-                timeNavControllerLayoutManager.scrollToPositionWithOffset(currentIndex, getTimeNavigationControllerItemOffset());
-                mTimeNavAdapter.setSelectedItem(currentIndex);
 
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
@@ -502,7 +491,7 @@ public class HomeFragment extends PhotoFragment {
             }
         });
 
-        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        final PreferencesManager preferencesManager = PreferencesManager.getInstance();
         int week = Integer.valueOf(preferencesManager.getCurrentDate() != null && !preferencesManager.getCurrentDate().isEmpty()
                 ? PreferencesManager.getInstance().getCurrentDate() : "0");
 
@@ -524,8 +513,19 @@ public class HomeFragment extends PhotoFragment {
                 mText.setText(String.format("%d month", month));
                 PreferencesManager.getInstance().setCurrentDate(String.valueOf(month),
                         PreferencesManager.DATE_TYPE_MONTH);
+                setNavController((int) month, preferencesManager, mTimeNavAdapter, timeNavControllerLayoutManager);
             }
         };
+    }
+
+    private void setNavController(int month,PreferencesManager preferencesManager,
+                                  TimeNavigationAdapter timeNavigationAdapter,
+                                  LinearLayoutManager timeNavControllerLayoutManager) {
+        if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
+            int index = timeNavigationAdapter.getItemCount() - month;
+            timeNavControllerLayoutManager.scrollToPositionWithOffset(index, getTimeNavigationControllerItemOffset());
+            mTimeNavAdapter.setSelectedItem(index);
+        }
     }
 
     @Override
