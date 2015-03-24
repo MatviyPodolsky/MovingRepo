@@ -83,11 +83,13 @@ public class SavePhotoFragment extends BaseFragment {
         String username = mPreferencesManager.getEmail();
         String currentDate = mPreferencesManager.getCurrentDate();
         int dateType = mPreferencesManager.getCurrentDateType();
+        String photoDateType = null;
         if (dateType == PreferencesManager.DATE_TYPE_WEEK) {
-            currentDate += " " + getString(R.string.week);
+            photoDateType = getString(R.string.week);
         } else if (dateType == PreferencesManager.DATE_TYPE_MONTH) {
-            currentDate += " " + getString(R.string.month);
+            photoDateType = getString(R.string.month);
         }
+        currentDate = String.format(photoDateType, currentDate);
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
         DbPhoto photo = new DbPhoto();
         photo.setPath(currentPhoto.getPath());
