@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.SearchDoctorResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +31,7 @@ public class SearchResultsFragment extends BaseMainFragment {
 
     public static final String NAME = SearchResultsFragment.class.getSimpleName();
 
+    public static final int PAGE_SIZE = 10;
     private SearchResultsAdapter mAdapter;
     @InjectView(R.id.list)
     ListView mList;
@@ -38,7 +41,14 @@ public class SearchResultsFragment extends BaseMainFragment {
     TextView error;
     @InjectView(R.id.titleResults)
     TextView titleResults;
+    private final List<Doctor> mData = new ArrayList<>();
     private RestCallback<SearchDoctorResponse> getDoctorsCallback;
+    private int lastPage = 1;
+    private int currentCount;
+    private int totalCount;
+    private boolean isLoading = true;
+    private Map<String, String> mOptions;
+    private String searchKey;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -47,45 +57,88 @@ public class SearchResultsFragment extends BaseMainFragment {
         showProgress();
 
         Bundle bundle = this.getArguments();
-        Map<String, String> options = new ArrayMap<>();
+        mOptions = new ArrayMap<>();
         if (bundle.containsKey("Name")) {
-            options.put("Name", bundle.getString("Name"));
+            mOptions.put("Name", bundle.getString("Name"));
         }
         if (bundle.containsKey("Country")) {
-            options.put("Country", bundle.getString("Country"));
+            mOptions.put("Country", bundle.getString("Country"));
         }
         if (bundle.containsKey("City")) {
-            options.put("City", bundle.getString("City"));
+            mOptions.put("City", bundle.getString("City"));
         }
         if (bundle.containsKey("Specialty")) {
-            options.put("Specialty", bundle.getString("Specialty"));
+            mOptions.put("Specialty", bundle.getString("Specialty"));
         }
+        mOptions.put("PageSize", String.valueOf(PAGE_SIZE));
+        mOptions.put("PageIndex", String.valueOf(lastPage));
+
+        mAdapter = new SearchResultsAdapter(getActivity(), mData);
+        mList.setAdapter(mAdapter);
 
         getDoctorsCallback = new RestCallback<SearchDoctorResponse>() {
             @Override
             public void failure(RestError restError) {
-                showError();
+                isLoading = false;
+                if(mAdapter.getCount() == 0){
+                    showError();
+                }
             }
 
             @Override
-            public void success(SearchDoctorResponse doctors, Response response) {
+            public void success(SearchDoctorResponse docResponse, Response response) {
                 //TODO
-                if (doctors != null) {
-                    List<Doctor> docs = doctors.getDoctors();
-                    if (docs == null || docs.isEmpty()) {
-                        showNoData();
-                    } else {
-                        mAdapter = new SearchResultsAdapter(getActivity(), docs);
-                        mList.setAdapter(mAdapter);
-                        titleResults.setText("Found " + String.valueOf(docs.size()));
+                if (docResponse != null) {
+                    lastPage++;
+                    searchKey = docResponse.getSearchKey();
+                    totalCount = docResponse.getResultsCount();
+                    mOptions.put("PageIndex", String.valueOf(lastPage));
+                    mOptions.put("SearchKey", searchKey);
+                    List<Doctor> docs = docResponse.getDoctors();
+                    if (docs != null && !docs.isEmpty()) {
+                        mAdapter.addAll(docs);
+                        mAdapter.notifyDataSetChanged();
+                        progress.setVisibility(View.GONE);
+                        mList.setVisibility(View.VISIBLE);
+                        currentCount = mAdapter.getCount();
+                        isLoading = false;
+                        String titleText = getString(R.string.found_n_doctors);
+                        titleResults.setText(String.format(titleText, currentCount, totalCount));
                         showData();
+                    } else {
+                        if(mAdapter.getCount() == 0){
+                            showNoData();
+                        }
                     }
-                } else {
-                    showNoData();
                 }
             }
         };
-        RestClient.getApiService().searchDoctor(options, getDoctorsCallback);
+
+        mList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (totalItemCount == 0) {
+                    return;
+                }
+                if (isLoading) {
+                    return;
+                }
+                if (currentCount >= totalCount) {
+                    return;
+                }
+                if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+                    isLoading = true;
+                    RestClient.getApiService().searchDoctor(mOptions, getDoctorsCallback);
+                }
+            }
+        });
+
+        RestClient.getApiService().searchDoctor(mOptions, getDoctorsCallback);
     }
 
     @Override
@@ -113,7 +166,7 @@ public class SearchResultsFragment extends BaseMainFragment {
     }
 
     private void showNoData() {
-        error.setText(getString(R.string.empty_loaded_data));
+        error.setText(getString(R.string.no_doctors_found));
         error.setVisibility(View.VISIBLE);
         progress.setVisibility(View.GONE);
         mList.setVisibility(View.GONE);

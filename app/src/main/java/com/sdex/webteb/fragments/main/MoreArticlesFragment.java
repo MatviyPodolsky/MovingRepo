@@ -56,6 +56,9 @@ public class MoreArticlesFragment extends BaseMainFragment {
         progress.setVisibility(View.VISIBLE);
         mList.setVisibility(View.GONE);
 
+        mAdapter = new ArticlesAdapter(getActivity(), mData);
+        mList.setAdapter(mAdapter);
+
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -120,8 +123,6 @@ public class MoreArticlesFragment extends BaseMainFragment {
                 lastPage++;
                 totalPages = articlesResponse.getTotalItems();
                 if (articles != null && !articles.isEmpty()) {
-                    mAdapter = new ArticlesAdapter(getActivity(), mData);
-                    mList.setAdapter(mAdapter);
                     mAdapter.addAll(articles);
                     mAdapter.notifyDataSetChanged();
                     progress.setVisibility(View.GONE);
