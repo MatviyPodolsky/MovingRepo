@@ -228,6 +228,7 @@ public class HomeFragment extends PhotoFragment {
                 BabyHomeResponse.Card card = babyHomeResponse.getCard();
                 String username = card.getName();
                 int currentWeek = card.getCurrentWeek();
+                int currentMonth = Integer.parseInt(preferencesManager.getCurrentDate());
                 preferencesManager.setUsername(username);
                 gaveBirth = card.isGaveBirth();
 
@@ -271,13 +272,16 @@ public class HomeFragment extends PhotoFragment {
                 mTimeNavigationRecyclerView.setAdapter(mTimeNavAdapter);
 
                 int itemsCount = mTimeNavAdapter.getItemCount();
-                int currentWeekIndex = itemsCount - currentWeek;
+                int currentIndex;
 
-                if (currentWeekIndex > 0 && currentWeekIndex < itemsCount) {
-                    int offset = getTimeNavigationControllerItemOffset();
-                    timeNavControllerLayoutManager.scrollToPositionWithOffset(currentWeekIndex, offset);
-                    mTimeNavAdapter.setSelectedItem(currentWeekIndex);
+                if (mode == TimeNavigationAdapter.MODE_WEEKS) {
+                    currentIndex = itemsCount - currentWeek;
+                } else {
+                    currentIndex = itemsCount - currentMonth;
                 }
+
+                timeNavControllerLayoutManager.scrollToPositionWithOffset(currentIndex, getTimeNavigationControllerItemOffset());
+                mTimeNavAdapter.setSelectedItem(currentIndex);
 
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
