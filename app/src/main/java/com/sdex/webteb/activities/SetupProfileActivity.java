@@ -195,6 +195,9 @@ public class SetupProfileActivity extends BaseActivity {
                 if (oldProfile.getFamilyRelation() != request.getFamilyRelation()) {
                     wasChanged = true;
                 }
+                if (!oldChildren.equals(request.getDateType())) {
+                    wasChanged = true;
+                }
                 if (!oldProfile.getDate().equals(request.getDate())) {
                     wasChanged = true;
                 }

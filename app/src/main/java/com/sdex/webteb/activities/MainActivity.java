@@ -23,7 +23,6 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MenuAdapter;
-import com.sdex.webteb.dialogs.BaseDialog;
 import com.sdex.webteb.dialogs.ConfirmDialog;
 import com.sdex.webteb.dialogs.DialogCallback;
 import com.sdex.webteb.dialogs.WeekPushNotificationDialog;
@@ -235,21 +234,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             if (curFragment != null && curFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
                 curFragment.getChildFragmentManager().popBackStack();
             } else {
-                final ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_exit_title,
-                        R.string.dialog_exit_message, R.string.dialog_exit_confirm,
-                        R.string.dialog_exit_cancel);
-                dialog.setCallback(new DialogCallback() {
-                    @Override
-                    public void confirm() {
-                        MainActivity.super.onBackPressed();
-                    }
-
-                    @Override
-                    public void cancel() {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show(getSupportFragmentManager(), "dialog");
+                super.onBackPressed();
             }
         }
     }

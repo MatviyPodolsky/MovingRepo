@@ -1,5 +1,6 @@
 package com.sdex.webteb.fragments.main;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,8 @@ import com.facebook.Session;
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
 import com.sdex.webteb.activities.WelcomeActivity;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.ConfirmDialog;
 import com.sdex.webteb.dialogs.DialogCallback;
 import com.sdex.webteb.internal.model.Settings;
@@ -27,6 +30,8 @@ import com.sdex.webteb.view.switchbutton.SwitchButton;
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
@@ -52,6 +57,7 @@ public class SettingsFragment extends BaseMainFragment {
     TextView mOnceTime;
     @InjectView(R.id.once_a_day)
     TextView mOnceADay;
+    private ProgressDialog mProgressDialog;
 
     private final Settings mOldSettings = new Settings();
     private final Settings mNewSettings = new Settings();
@@ -181,9 +187,30 @@ public class SettingsFragment extends BaseMainFragment {
         dialog.setCallback(new DialogCallback.EmptyCallback() {
             @Override
             public void confirm() {
+                mProgressDialog = ProgressDialog.show(getActivity(), "", getString(R.string.loading), true, false);
                 notifications.setChecked(true);
                 reminders.setChecked(true);
                 newsletter.setChecked(true);
+                RestClient.getApiService().deleteSettings(new Callback<String>() {
+                    @Override
+                    public void success(String s, Response response) {
+                        final PreferencesManager preferencesManager = PreferencesManager.getInstance();
+                        String email = preferencesManager.getEmail();
+                        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
+                        DbUser user = databaseHelper.getUser(email);
+                        user.clearData();
+                        databaseHelper.updateUser(user);
+                        mProgressDialog.dismiss();
+                        Intent intent = new Intent(getActivity(), SetupProfileActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        mProgressDialog.dismiss();
+                    }
+                });
             }
         });
         dialog.show(getChildFragmentManager(), "dialog");
