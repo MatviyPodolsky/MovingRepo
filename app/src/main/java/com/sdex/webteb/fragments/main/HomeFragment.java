@@ -513,19 +513,17 @@ public class HomeFragment extends PhotoFragment {
                 mText.setText(String.format("%d month", month));
                 PreferencesManager.getInstance().setCurrentDate(String.valueOf(month),
                         PreferencesManager.DATE_TYPE_MONTH);
-                setNavController((int) month, preferencesManager, mTimeNavAdapter, timeNavControllerLayoutManager);
+                if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
+                    setNavController((int) month, timeNavControllerLayoutManager);
+                }
             }
         };
     }
 
-    private void setNavController(int month,PreferencesManager preferencesManager,
-                                  TimeNavigationAdapter timeNavigationAdapter,
-                                  LinearLayoutManager timeNavControllerLayoutManager) {
-        if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
-            int index = timeNavigationAdapter.getItemCount() - month;
-            timeNavControllerLayoutManager.scrollToPositionWithOffset(index, getTimeNavigationControllerItemOffset());
-            mTimeNavAdapter.setSelectedItem(index);
-        }
+    private void setNavController(int month, LinearLayoutManager timeNavControllerLayoutManager) {
+        int index = mTimeNavAdapter.getItemCount() - month;
+        timeNavControllerLayoutManager.scrollToPositionWithOffset(index, getTimeNavigationControllerItemOffset());
+        mTimeNavAdapter.setSelectedItem(index);
     }
 
     @Override
