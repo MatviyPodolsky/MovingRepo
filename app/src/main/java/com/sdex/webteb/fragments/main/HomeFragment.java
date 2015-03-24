@@ -392,7 +392,9 @@ public class HomeFragment extends PhotoFragment {
                         testTitle.setText(getActivity().getString(R.string.no_tests));
                     }
                     String email = PreferencesManager.getInstance().getEmail();
-                    List<DbPhoto> data = databaseHelper.getPhotos(3, email, String.valueOf(weekResponse.getWeekNumber()));
+                    String dateType = getString(R.string.week);
+                    String date = String.format(dateType, String.valueOf(weekResponse.getWeekNumber()));
+                    List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
                     int size = data.size();
                     if (size == 0) {
                         sumPhotoContainer.setVisibility(View.GONE);
@@ -446,7 +448,9 @@ public class HomeFragment extends PhotoFragment {
                         testTitle.setText(getActivity().getString(R.string.no_tests));
                     }
                     String email = PreferencesManager.getInstance().getEmail();
-                    List<DbPhoto> data = databaseHelper.getPhotos(3, email, String.valueOf(monthResponse.getAgeInMonths()));
+                    String dateType = getString(R.string.month);
+                    String date = String.format(dateType, String.valueOf(monthResponse.getAgeInMonths()));
+                    List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
                     int size = data.size();
                     if (size == 0) {
                         sumPhotoContainer.setVisibility(View.GONE);

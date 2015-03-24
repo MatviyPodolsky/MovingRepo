@@ -84,8 +84,8 @@
     <string name="profile_progress_text">week %1$d</string>
     <string name="notification_counters" translatable="false">%1$d/%2$d</string>
     <string name="notification_tip_title">Tip</string>
-    <string name="week">week</string>
-    <string name="month">month</string>
+    <string name="week">%1$s week</string>
+    <string name="month">%1$s month</string>
     <string name="dialog_notification_week_confirm">Yes, I did</string>
     <string name="dialog_notification_week_cancel">Not yet</string>
 
