@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -66,14 +65,6 @@ public class SettingsFragment extends BaseMainFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        reminders.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mOnceADay.setSelected(isChecked);
-                mOnceTime.setSelected(!isChecked);
-            }
-        });
-
         RestClient.getApiService().getBabyGeneral(new RestCallback<BabyGeneralResponse>() {
             @Override
             public void failure(RestError restError) {
@@ -123,6 +114,8 @@ public class SettingsFragment extends BaseMainFragment {
     @OnCheckedChanged(R.id.reminders)
     void onCheckedChangedReminders(boolean checked) {
         mNewSettings.setTestsReminder(checked ? 1 : 0);
+        mOnceADay.setSelected(checked);
+        mOnceTime.setSelected(!checked);
     }
 
     @OnCheckedChanged(R.id.newsletter)
