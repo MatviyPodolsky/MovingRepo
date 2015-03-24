@@ -148,6 +148,7 @@ public class HomeFragment extends PhotoFragment {
 
     private TimeNavigationAdapter mTimeNavAdapter;
     private ProgressDialog mProgressDialog;
+    private int currentMonth;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -271,13 +272,21 @@ public class HomeFragment extends PhotoFragment {
                 mTimeNavigationRecyclerView.setAdapter(mTimeNavAdapter);
 
                 int itemsCount = mTimeNavAdapter.getItemCount();
-                int currentWeekIndex = itemsCount - currentWeek;
-
-                if (currentWeekIndex > 0 && currentWeekIndex < itemsCount) {
-                    int offset = getTimeNavigationControllerItemOffset();
-                    timeNavControllerLayoutManager.scrollToPositionWithOffset(currentWeekIndex, offset);
-                    mTimeNavAdapter.setSelectedItem(currentWeekIndex);
+                int currentIndex;
+                try {
+                    currentMonth = Integer.parseInt(preferencesManager.getCurrentDate());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
                 }
+
+                if (mode == TimeNavigationAdapter.MODE_WEEKS) {
+                    currentIndex = itemsCount - currentWeek;
+                } else {
+                    currentIndex = itemsCount - currentMonth;
+                }
+
+                timeNavControllerLayoutManager.scrollToPositionWithOffset(currentIndex, getTimeNavigationControllerItemOffset());
+                mTimeNavAdapter.setSelectedItem(currentIndex);
 
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
