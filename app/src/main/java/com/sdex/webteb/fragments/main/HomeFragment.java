@@ -59,6 +59,7 @@ import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.Utils;
 import com.sdex.webteb.view.CenteredRecyclerView;
 import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -89,6 +90,7 @@ public class HomeFragment extends PhotoFragment {
     public static final int MORE_ARTICLES_FRAGMENT = 4;
     public static final int SEARCH_DOCTOR_FRAGMENT = 3;
     public static final int ALBUM_FRAGMENT = 2;
+    public static final int MAX_USERNAME_SIZE = 8;
     public static final String CONTENT_FRAGMENT = "content_fragment";
 
     @InjectView(R.id.fragment_container)
@@ -279,7 +281,7 @@ public class HomeFragment extends PhotoFragment {
 
                 mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
-                mUserName.setText(username);
+                mUserName.setText(Utils.ellipsize(username, MAX_USERNAME_SIZE));
 
                 List<ContentPreview> previews = babyHomeResponse.getPreviews();
                 List<ContentLink> videos = babyHomeResponse.getVideos();
