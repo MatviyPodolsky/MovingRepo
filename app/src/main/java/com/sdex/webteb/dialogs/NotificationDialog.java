@@ -7,6 +7,8 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.model.ExaminationPreview;
 import com.sdex.webteb.model.TipContent;
 import com.sdex.webteb.rest.response.NotificationsResponse;
+import com.sdex.webteb.utils.DisplayUtil;
 
 import org.parceler.Parcels;
 
@@ -61,6 +64,14 @@ public class NotificationDialog extends DialogFragment {
         setCurrentNotification(currentNotification);
         updateViews();
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        int height = (int) (DisplayUtil.getScreenHeight(getActivity()) * 0.8);
+        Window window = getDialog().getWindow();
+        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, height);
     }
 
     @Override
