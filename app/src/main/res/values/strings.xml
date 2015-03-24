@@ -272,7 +272,8 @@
     <string name="contact_us_title_hint">Title...</string>
     <string name="contact_us_text_hint">Message...</string>
     <string name="contact_us_btn_send">Send</string>
-    <string name="your_message_was_sent">Your message was sent</string>
+    <string name="your_message_was_sent">Your message was sent successfully</string>
+    <string name="error_sending_message">Oops, we failed to send your message, please click close and retry</string>
     <string name="please_enter_title">Please enter title</string>
     <string name="please_enter_message">Please enter message</string>
 

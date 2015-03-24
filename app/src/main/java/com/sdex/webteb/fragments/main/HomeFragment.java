@@ -243,6 +243,7 @@ public class HomeFragment extends PhotoFragment {
                     mProgress.requestLayout();
                     preferencesManager.setCurrentDate(String.valueOf(currentWeek),
                             PreferencesManager.DATE_TYPE_WEEK);
+                    RestClient.getApiService().getWeek(currentWeek, getWeekCallback);
                 } else {
                     RestClient.getApiService().getBabyProfile(getProfileCallback);
                     mProgress.setVisibility(View.GONE);
@@ -496,10 +497,6 @@ public class HomeFragment extends PhotoFragment {
         });
 
         final PreferencesManager preferencesManager = PreferencesManager.getInstance();
-        int week = Integer.valueOf(preferencesManager.getCurrentDate() != null && !preferencesManager.getCurrentDate().isEmpty()
-                ? PreferencesManager.getInstance().getCurrentDate() : "0");
-
-        RestClient.getApiService().getWeek(week, getWeekCallback);
 
 //        if baby got birth, send request to get birth date
         getProfileCallback = new RestCallback<BabyProfileResponse>() {
@@ -517,6 +514,7 @@ public class HomeFragment extends PhotoFragment {
                 mText.setText(String.format("%d month", month));
                 PreferencesManager.getInstance().setCurrentDate(String.valueOf(month),
                         PreferencesManager.DATE_TYPE_MONTH);
+                RestClient.getApiService().getMonth((int)month, getMonthCallback);
                 if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
                     setNavController((int) month, timeNavControllerLayoutManager);
                 }
