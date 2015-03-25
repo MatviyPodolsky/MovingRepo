@@ -146,7 +146,7 @@
     <!--search doctor-->
     <string name="country">Country</string>
     <string name="city">Any city</string>
-    <string name="specialty">Any speciality</string>
+    <string name="specialty">Speciality</string>
     <string name="doctor_name">Doctor name</string>
     <string name="search">Search</string>
     <string name="found_n_doctors">Showing %1$d out of total %2$d</string>
