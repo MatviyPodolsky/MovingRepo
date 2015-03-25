@@ -50,6 +50,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
+import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.rest.response.EntityResponse;
 import com.sdex.webteb.rest.response.MonthResponse;
 import com.sdex.webteb.rest.response.NotificationsResponse;
@@ -143,7 +144,7 @@ public class HomeFragment extends PhotoFragment {
     private boolean gaveBirth;
 
     private List<ContentLink> contentLinks;
-    private List<ContentPreview> testsList;
+    private List<BabyTestResponse> testsList;
 
     private DatabaseHelper databaseHelper;
 
@@ -385,7 +386,7 @@ public class HomeFragment extends PhotoFragment {
                     }
                     articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
                     if (testsList != null && testsList.size() > 0) {
-                        testTitle.setText(testsList.get(0).getTitle());
+                        testTitle.setText(testsList.get(0).getContentPreview().getTitle());
                     } else {
                         testTitle.setText(getActivity().getString(R.string.no_tests));
                     }
@@ -449,7 +450,7 @@ public class HomeFragment extends PhotoFragment {
                     }
                     articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
                     if (testsList != null && testsList.size() > 0) {
-                        testTitle.setText(testsList.get(0).getTitle());
+                        testTitle.setText(testsList.get(0).getContentPreview().getTitle());
                     } else {
                         testTitle.setText(getActivity().getString(R.string.no_tests));
                     }

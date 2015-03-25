@@ -20,7 +20,7 @@ public class MonthResponse extends ApiResponse {
     private int ageInMonths;
     @SerializedName("Tests")
     @Expose
-    private List<ContentPreview> tests;
+    private List<BabyTestResponse> tests;
     @SerializedName("Previews")
     @Expose
     private List<ContentPreview> previews;

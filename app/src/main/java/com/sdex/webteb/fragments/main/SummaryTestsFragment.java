@@ -9,12 +9,10 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MyTestsAdapter;
-import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -43,18 +41,12 @@ public class SummaryTestsFragment extends BaseMainFragment {
         error.setVisibility(View.GONE);
 
         Bundle args = getArguments();
-        final List<ContentPreview> tests = Parcels.unwrap(args.getParcelable(HomeFragment.TESTS_LIST));
+        final List<BabyTestResponse> tests = Parcels.unwrap(args.getParcelable(HomeFragment.TESTS_LIST));
         String titleText = getString(R.string.we_found_n_tests);
         title.setText(String.format(titleText, tests.size()));
         mAdapter = new MyTestsAdapter(getActivity());
         mList.setAdapter(mAdapter);
-        List<BabyTestResponse> babyTests = new ArrayList<>();
-        for (ContentPreview test : tests){
-            BabyTestResponse currentTest = new BabyTestResponse();
-            currentTest.setContentPreview(test);
-            babyTests.add(currentTest);
-        }
-        mAdapter.setItems(babyTests);
+        mAdapter.setItems(tests);
     }
 
     @Override
