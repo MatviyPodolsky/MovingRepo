@@ -50,6 +50,11 @@ public class ChildrenAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void removeChild(Child child) {
+        data.remove(child);
+        notifyDataSetChanged();
+    }
+
     public List<Child> getChildren() {
         return data;
     }
@@ -100,6 +105,19 @@ public class ChildrenAdapter extends BaseAdapter {
         }
 
         final Child item = getItem(position);
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeChild((Child)holder.name.getTag());
+            }
+        });
+
+        if (getCount() < 2) {
+            holder.delete.setVisibility(View.GONE);
+        } else {
+            holder.delete.setVisibility(View.VISIBLE);
+        }
 
         holder.name.setTag(item);
         holder.name.setText(item.getName());
@@ -194,6 +212,8 @@ public class ChildrenAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
+        @InjectView(R.id.delete)
+        ImageView delete;
         @InjectView(R.id.name)
         EditText name;
         @InjectView(R.id.container_female)
