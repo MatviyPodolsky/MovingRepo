@@ -3,7 +3,10 @@ package com.sdex.webteb.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.sdex.webteb.utils.PreferencesManager;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import retrofit.client.Response;
 
 
@@ -31,8 +35,9 @@ public class LoginActivity extends FacebookAuthActivity {
     EditText mUsername;
     @InjectView(R.id.password)
     EditText mPassword;
-    @InjectView(R.id.forgot_password)
-    TextView mForgotPassword;
+    @InjectView(R.id.login)
+    Button mLogin;
+
     private String mUserEmail;
 
     private RestCallback<UserLoginResponse> loginCallback;
@@ -45,7 +50,7 @@ public class LoginActivity extends FacebookAuthActivity {
         loginCallback = new RestCallback<UserLoginResponse>() {
             @Override
             public void failure(RestError restError) {
-                findViewById(R.id.login).setEnabled(true);
+                mLogin.setEnabled(true);
                 String text = "failure :(";
                 if (restError != null) {
                     text = "Error:" + restError.getStrMessage();
@@ -113,12 +118,20 @@ public class LoginActivity extends FacebookAuthActivity {
         return R.layout.activity_login;
     }
 
+    @OnEditorAction(R.id.password)
+    boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+        if (event == null && actionId == EditorInfo.IME_ACTION_DONE) {
+            login();
+        }
+        return true;
+    }
+
     @OnClick(R.id.login)
-    public void login(final View v) {
+    public void login() {
         if (!isValidData()) {
             return;
         }
-        v.setEnabled(false);
+        mLogin.setEnabled(false);
 
         String username = mUsername.getText().toString();
         String password = mPassword.getText().toString();

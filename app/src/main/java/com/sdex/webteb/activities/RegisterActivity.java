@@ -6,10 +6,10 @@ import android.support.v4.app.DialogFragment;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
@@ -33,12 +33,12 @@ public class RegisterActivity extends FacebookAuthActivity {
     TextView mEmail;
     @InjectView(R.id.password)
     TextView mPassword;
-    //    @InjectView(R.id.confirm_password)
-//    TextView mConfirmPassword;
     @InjectView(R.id.name)
     TextView mName;
     @InjectView(R.id.newsletters)
     SwitchButton mNewslettersSwitch;
+    @InjectView(R.id.register)
+    Button mRegister;
     private String email;
     private String password;
 
@@ -88,7 +88,7 @@ public class RegisterActivity extends FacebookAuthActivity {
         registerCallback = new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
-                findViewById(R.id.register).setEnabled(true);
+                mRegister.setEnabled(true);
                 String text = "register fail :(";
                 if (restError != null) {
                     text = "Error:" + restError.getStrMessage();
@@ -126,17 +126,17 @@ public class RegisterActivity extends FacebookAuthActivity {
     @OnEditorAction(R.id.password)
     boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
         if (event == null && actionId == EditorInfo.IME_ACTION_DONE) {
-            register(textView);
+            register();
         }
         return true;
     }
 
     @OnClick(R.id.register)
-    public void register(final View v) {
+    public void register() {
         if (!isValidData()) {
             return;
         }
-        v.setEnabled(false);
+        mRegister.setEnabled(false);
 
         RegisterAccountRequest request = new RegisterAccountRequest();
         email = mEmail.getText().toString();
