@@ -108,7 +108,7 @@ public class BirthDateFragment extends BaseFragment {
     public void scrollToNextPage() {
         if (getActivity() instanceof SetupProfileActivity) {
             Date date = DateUtil.parseDate(mDate.getText().toString());
-            if (date == null || isValidDate(date)) {
+            if (date != null && isValidDate(date)) {
                 ((SetupProfileActivity) getActivity()).scrollToNextPage();
             }
         }
