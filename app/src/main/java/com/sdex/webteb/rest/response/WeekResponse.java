@@ -20,7 +20,7 @@ public class WeekResponse extends ApiResponse {
     private int weekNumber;
     @SerializedName("Tests")
     @Expose
-    private List<ContentPreview> tests;
+    private List<BabyTestResponse> tests;
     @SerializedName("Previews")
     @Expose
     private List<ContentPreview> previews;
