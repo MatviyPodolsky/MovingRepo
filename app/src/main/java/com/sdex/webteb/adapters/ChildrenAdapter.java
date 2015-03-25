@@ -31,10 +31,19 @@ public class ChildrenAdapter extends BaseAdapter {
     private Context context;
     private List<Child> data = new ArrayList();
     private LayoutInflater inflater;
+    private Callback mCallback;
 
     public ChildrenAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+    }
+
+    public interface Callback{
+        public void onDeleteChild(Child child);
+    }
+
+    public void setCallback(Callback callback){
+        this.mCallback = callback;
     }
 
     public void setItems(List<Child> newItems) {
@@ -109,7 +118,9 @@ public class ChildrenAdapter extends BaseAdapter {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeChild((Child)holder.name.getTag());
+                if (mCallback != null) {
+                    mCallback.onDeleteChild((Child)holder.name.getTag());
+                }
             }
         });
 

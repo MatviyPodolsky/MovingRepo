@@ -1,5 +1,7 @@
 package com.sdex.webteb.fragments.profile;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -45,6 +47,27 @@ public class ChildInfoFragment extends BaseFragment {
         }
 
         mAdapter = new ChildrenAdapter(getActivity());
+        mAdapter.setCallback(new ChildrenAdapter.Callback() {
+            @Override
+            public void onDeleteChild(final Child child) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
+                        .setMessage("Are you sure you want to delete child?")
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mAdapter.removeChild(child);
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                dialog.show();
+
+            }
+        });
         if (mChildren.isEmpty()) {
             mChildren.add(new Child());
         }

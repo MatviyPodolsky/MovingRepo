@@ -324,7 +324,6 @@ public class HomeFragment extends PhotoFragment {
                     return;
                 }
 
-                //TODO show error loading
                 Toast.makeText(getActivity(),
                         restError != null ? "Error: " + restError.getStrMessage() : "Unknown error",
                         Toast.LENGTH_SHORT).show();
@@ -337,7 +336,6 @@ public class HomeFragment extends PhotoFragment {
                     return;
                 }
 
-                //TODO
                 Fragment fragment = new PreviewFragment();
                 Bundle args = new Bundle();
                 Parcelable entity = Parcels.wrap(entityResponse);
@@ -367,7 +365,6 @@ public class HomeFragment extends PhotoFragment {
                     return;
                 }
 
-                //TODO
                 if (weekResponse != null) {
                     testsList = weekResponse.getTests();
                     List<ContentPreview> previews = weekResponse.getPreviews();
@@ -426,12 +423,6 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(MonthResponse monthResponse, Response response) {
-
-                if (getActivity() == null) {
-                    return;
-                }
-
-                //TODO
                 if (getActivity() == null) {
                     return;
                 }
