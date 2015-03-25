@@ -7,24 +7,27 @@ import com.sdex.webteb.model.Range;
 import com.sdex.webteb.model.UserTest;
 import com.sdex.webteb.rest.model.ApiRequest;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
 
+@Parcel
 @Getter
 @Setter
 public class BabyTestResponse extends ApiRequest {
 
     @SerializedName("ContentPreview")
     @Expose
-    private ContentPreview contentPreview;
+    public ContentPreview contentPreview;
     @SerializedName("UserTest")
     @Expose
-    private UserTest userTest;
+    public UserTest userTest;
     @SerializedName("RelatedPeriods")
     @Expose
-    private List<Range> relatedPeriods = new ArrayList<>();
+    public List<Range> relatedPeriods = new ArrayList<>();
 
 }

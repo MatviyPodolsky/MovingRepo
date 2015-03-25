@@ -19,13 +19,13 @@ public class EntityFieldBody {
 
     @SerializedName("Type")
     @Expose
-    private String type;
+    public String type;
     @SerializedName("TypeID")
     @Expose
-    private int typeID;
+    public int typeID;
     @SerializedName("Content")
     @Expose
-    private String content;
+    public String content;
 
     public static final int Html = 0;
     public static final int Video = 1;

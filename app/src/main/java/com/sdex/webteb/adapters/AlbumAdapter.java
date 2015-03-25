@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimpleAdapter {
 
-    int mHeaderResId = R.layout.item_my_album_grid_header;
-    int mItemResId = R.layout.item_my_album_grid;
+    int mHeaderResId = R.layout.item_album_grid_header;
+    int mItemResId = R.layout.item_album_grid;
 
     private LayoutInflater mInflater;
     private List<DbPhoto> data;

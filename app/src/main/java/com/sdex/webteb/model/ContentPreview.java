@@ -19,22 +19,22 @@ public class ContentPreview {
 
     @SerializedName("Title")
     @Expose
-    private String title;
+    public String title;
     @SerializedName("Description")
     @Expose
-    private String description;
+    public String description;
     @SerializedName("ImageUrl")
     @Expose
-    private String imageUrl;
+    public String imageUrl;
     @SerializedName("Key")
     @Expose
-    private EntityKey key;
+    public EntityKey key;
     @SerializedName("SectionIconUrl")
     @Expose
-    private String sectionIconUrl;
+    public String sectionIconUrl;
     @SerializedName("SectionName")
     @Expose
-    private String sectionName;
+    public String sectionName;
 
     public ContentPreview() {
     }

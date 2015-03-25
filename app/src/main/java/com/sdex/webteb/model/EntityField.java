@@ -21,16 +21,16 @@ public class EntityField {
 
     @SerializedName("Title")
     @Expose
-    private String title;
+    public String title;
     @SerializedName("IsOpened")
     @Expose
-    private boolean isOpened;
+    public boolean isOpened;
     @SerializedName("Collapsable")
     @Expose
-    private boolean isCollapsable;
+    public boolean isCollapsable;
     @SerializedName("Bodies")
     @Expose
-    private List<EntityFieldBody> bodies;
+    public List<EntityFieldBody> bodies;
 
 
     public EntityField() {

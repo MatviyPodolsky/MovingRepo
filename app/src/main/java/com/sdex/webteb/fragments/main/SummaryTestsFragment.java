@@ -2,13 +2,15 @@ package com.sdex.webteb.fragments.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.adapters.MyTestsAdapter;
+import com.sdex.webteb.adapters.TestsAdapter;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 
 import org.parceler.Parcels;
@@ -22,7 +24,7 @@ import butterknife.InjectView;
  */
 public class SummaryTestsFragment extends BaseMainFragment {
 
-    private MyTestsAdapter mAdapter;
+    private TestsAdapter mAdapter;
     @InjectView(R.id.list)
     ExpandableListView mList;
     @InjectView(R.id.progress)
@@ -44,14 +46,50 @@ public class SummaryTestsFragment extends BaseMainFragment {
         final List<BabyTestResponse> tests = Parcels.unwrap(args.getParcelable(HomeFragment.TESTS_LIST));
         String titleText = getString(R.string.we_found_n_tests);
         title.setText(String.format(titleText, tests.size()));
-        mAdapter = new MyTestsAdapter(getActivity());
+        mAdapter = new TestsAdapter(getActivity());
         mList.setAdapter(mAdapter);
         mAdapter.setItems(tests);
+        mAdapter.setCallback(new TestsAdapter.Callback() {
+            @Override
+            public void onReadMoreBtnClick(BabyTestResponse item) {
+                Fragment fragment = TestsItemFragment.newInstance(item);
+                FragmentManager fragmentManager;
+                if (getParentFragment() != null) {
+                    fragmentManager = getParentFragment().getChildFragmentManager();
+                } else {
+                    fragmentManager = getChildFragmentManager();
+                }
+                fragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, fragment, TestsItemFragment.NAME)
+                        .addToBackStack(TestsItemFragment.NAME)
+                        .commit();
+            }
+
+            @Override
+            public void onSearchDoctorBtnClick() {
+                Fragment fragment = new SearchDoctorFragment();
+                FragmentManager fragmentManager = getChildFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.fragment_container, fragment, SearchDoctorFragment.NAME)
+                        .addToBackStack(SearchDoctorFragment.NAME)
+                        .commit();
+            }
+
+            @Override
+            public void onAddReminderBtnClick(int groupId) {
+                mList.collapseGroup(groupId);
+            }
+
+            @Override
+            public void onTestDoneClick() {
+
+            }
+        });
     }
 
     @Override
     public int getLayoutResource() {
-        return R.layout.fragment_my_tests;
+        return R.layout.fragment_tests;
     }
 
 }

@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.adapters.MyTestsAdapter;
+import com.sdex.webteb.adapters.TestsAdapter;
 import com.sdex.webteb.model.Range;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -21,18 +21,14 @@ import com.sdex.webteb.utils.PreferencesManager;
 import java.util.List;
 
 import butterknife.InjectView;
-import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
 
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public class MyTestsFragment extends BaseMainFragment {
+public class TestsFragment extends BaseMainFragment {
 
-    public static final int MORE_ARTICLES_FRAGMENT = 4;
-    public static final int SEARCH_DOCTOR_FRAGMENT = 3;
-
-    private MyTestsAdapter mAdapter;
+    private TestsAdapter mAdapter;
     @InjectView(R.id.list)
     ExpandableListView mList;
     @InjectView(R.id.progress)
@@ -40,22 +36,26 @@ public class MyTestsFragment extends BaseMainFragment {
     @InjectView(R.id.error)
     TextView error;
 
-    protected EventBus BUS = EventBus.getDefault();
     private final PreferencesManager mPreferencesManager = PreferencesManager.getInstance();
     private final String currentDate = mPreferencesManager.getCurrentDate();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAdapter = new MyTestsAdapter(getActivity());
-        mAdapter.setCallback(new MyTestsAdapter.Callback() {
+        mAdapter = new TestsAdapter(getActivity());
+        mAdapter.setCallback(new TestsAdapter.Callback() {
             @Override
-            public void onReadMoreBtnClick() {
-                Fragment fragment = new MoreArticlesFragment();
-                FragmentManager fragmentManager = getChildFragmentManager();
+            public void onReadMoreBtnClick(BabyTestResponse item) {
+                Fragment fragment = TestsItemFragment.newInstance(item);
+                FragmentManager fragmentManager;
+                if (getParentFragment() != null) {
+                    fragmentManager = getParentFragment().getChildFragmentManager();
+                } else {
+                    fragmentManager = getChildFragmentManager();
+                }
                 fragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, fragment, MoreArticlesFragment.NAME)
-                        .addToBackStack(MoreArticlesFragment.NAME)
+                        .add(R.id.fragment_container, fragment, TestsItemFragment.NAME)
+                        .addToBackStack(TestsItemFragment.NAME)
                         .commit();
             }
 
@@ -130,7 +130,7 @@ public class MyTestsFragment extends BaseMainFragment {
 
     @Override
     public int getLayoutResource() {
-        return R.layout.fragment_my_tests;
+        return R.layout.fragment_tests;
     }
 
 }

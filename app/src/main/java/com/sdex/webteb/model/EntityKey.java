@@ -19,13 +19,16 @@ public class EntityKey {
 
     @SerializedName("ID")
     @Expose
-    private int id;
+    public int id;
     @SerializedName("Type")
     @Expose
-    private String type;
+    public String type;
     @SerializedName("FieldName")
     @Expose
-    private String fieldName;
+    public String fieldName;
+    @SerializedName("Url")
+    @Expose
+    public String url;
 
     public EntityKey() {
     }

@@ -8,9 +8,9 @@ import org.parceler.Parcel;
 @Parcel
 public class Settings {
 
-    private boolean isWeeklyTipNotification;
-    private boolean isNewsletter;
-    private int testsReminder;
+    public boolean isWeeklyTipNotification;
+    public boolean isNewsletter;
+    public int testsReminder;
 
     public Settings() {
     }

@@ -19,9 +19,9 @@ public class Targeting {
 
     @SerializedName("Name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("Value")
     @Expose
-    private String value;
+    public String value;
 
 }

@@ -19,22 +19,22 @@ public class ContentLink {
 
     @SerializedName("Url")
     @Expose
-    private String url;
+    public String url;
     @SerializedName("Title")
     @Expose
-    private String title;
+    public String title;
     @SerializedName("ImageUrl")
     @Expose
-    private String imageUrl;
+    public String imageUrl;
     @SerializedName("Author")
     @Expose
-    private String author;
+    public String author;
     @SerializedName("Description")
     @Expose
-    private String description;
+    public String description;
     @SerializedName("PublishedDate")
     @Expose
-    private String publishedDate;
+    public String publishedDate;
 
     public ContentLink() {
     }

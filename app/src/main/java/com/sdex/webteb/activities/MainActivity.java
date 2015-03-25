@@ -31,9 +31,9 @@ import com.sdex.webteb.fragments.main.AlbumFragment;
 import com.sdex.webteb.fragments.main.ContactUsFragment;
 import com.sdex.webteb.fragments.main.HomeFragment;
 import com.sdex.webteb.fragments.main.MoreArticlesFragment;
-import com.sdex.webteb.fragments.main.MyTestsFragment;
 import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
+import com.sdex.webteb.fragments.main.TestsFragment;
 import com.sdex.webteb.gcm.GcmHelper;
 import com.sdex.webteb.internal.events.NotificationEvent;
 import com.sdex.webteb.internal.events.SelectMenuItemEvent;
@@ -363,7 +363,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             case 1:
                 mLogo.setVisibility(View.VISIBLE);
                 mTitle.setVisibility(View.GONE);
-                return new MyTestsFragment();
+                return new TestsFragment();
             case 2:
                 mLogo.setVisibility(View.VISIBLE);
                 mTitle.setVisibility(View.GONE);

@@ -23,21 +23,21 @@ public class EntityResponse {
 
     @SerializedName("ID")
     @Expose
-    private Integer id;
+    public Integer id;
     @SerializedName("Name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("EnglishName")
     @Expose
-    private String englishName;
+    public String englishName;
     @SerializedName("ImageUrl")
     @Expose
-    private String imageUrl;
+    public String imageUrl;
     @SerializedName("Fields")
     @Expose
-    private List<EntityField> fields;
+    public List<EntityField> fields;
     @SerializedName("Targeting")
     @Expose
-    private List<Targeting> targeting;
+    public List<Targeting> targeting;
 
 }

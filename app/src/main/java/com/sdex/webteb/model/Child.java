@@ -21,10 +21,10 @@ public class Child {
 
     @SerializedName("Name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("Gender")
     @Expose
-    private int gender;
+    public int gender;
 
     public Child() {
     }

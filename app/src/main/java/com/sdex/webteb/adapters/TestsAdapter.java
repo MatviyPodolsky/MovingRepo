@@ -30,7 +30,7 @@ import retrofit.client.Response;
 /**
  * Created by MPODOLSKY on 04.02.2015.
  */
-public class MyTestsAdapter extends BaseExpandableListAdapter {
+public class TestsAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<BabyTestResponse> data = new ArrayList<>();
@@ -39,7 +39,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
     private Callback mCallback;
 
     public interface Callback {
-        void onReadMoreBtnClick();
+        void onReadMoreBtnClick(BabyTestResponse item);
 
         void onSearchDoctorBtnClick();
 
@@ -48,7 +48,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
         void onTestDoneClick();
     }
 
-    public MyTestsAdapter(Context context) {
+    public TestsAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
@@ -108,7 +108,7 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                              View convertView, ViewGroup parent) {
         final ViewHolderGroup holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_my_tests_group, parent, false);
+            convertView = inflater.inflate(R.layout.item_tests_group, parent, false);
             holder = new ViewHolderGroup(convertView);
             convertView.setTag(holder);
         } else {
@@ -135,19 +135,19 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                              boolean isLastChild, View convertView, ViewGroup parent) {
         final ViewHolderChild holder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_my_tests_child, parent, false);
+            convertView = inflater.inflate(R.layout.item_tests_child, parent, false);
             holder = new ViewHolderChild(convertView);
 //            holder.checkbox.setOnCheckedChangeListener(onCheckedChangeListener);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolderChild) convertView.getTag();
         }
-
+        final BabyTestResponse item = data.get(groupPosition);
         holder.readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mCallback != null) {
-                    mCallback.onReadMoreBtnClick();
+                    mCallback.onReadMoreBtnClick(item);
                 }
             }
         });
@@ -159,14 +159,15 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                 }
             }
         });
-        holder.addReminder.setTag(data.get(groupPosition));
+
+        holder.addReminder.setTag(item);
         holder.addReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mCallback != null) {
                     mCallback.onAddReminderBtnClick(groupPosition);
                 }
-                changeReminder(data.get(groupPosition), holder, groupPosition);
+                changeReminder(item, holder, groupPosition);
             }
         });
         holder.checkbox.setOnClickListener(new View.OnClickListener() {
@@ -175,10 +176,10 @@ public class MyTestsAdapter extends BaseExpandableListAdapter {
                 if (mCallback != null) {
                     mCallback.onTestDoneClick();
                 }
-                changeTestStatus(data.get(groupPosition), holder, groupPosition);
+                changeTestStatus(item, holder, groupPosition);
             }
         });
-        refreshButtons(data.get(groupPosition).getUserTest(), holder);
+        refreshButtons(item.getUserTest(), holder);
 
         holder.checkbox.setTag(groupPosition);
 //        holder.checkbox.setChecked(checked.get(groupPosition));
