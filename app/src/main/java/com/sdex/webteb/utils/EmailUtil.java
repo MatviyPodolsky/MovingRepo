@@ -28,13 +28,14 @@ public class EmailUtil {
         }
     }
 
-    public static void shareText(Context context, String text) {
+    public static void shareText(Context context, String subject, String text) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("vnd.android.cursor.dir/email");
         sharingIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
         try {
             context.startActivity(Intent.createChooser(sharingIntent,
                     context.getString(R.string.choose_email_client)));
