@@ -38,6 +38,12 @@ public class RestClient {
 
     private static final ApiService apiService = restAdapter.create(ApiService.class);
 
+//    static {
+//        okHttpClient.setConnectTimeout(60, TimeUnit.SECONDS);
+//        okHttpClient.setReadTimeout(60, TimeUnit.SECONDS);
+//        okHttpClient.setWriteTimeout(60, TimeUnit.SECONDS);
+//    }
+
     private RestClient() {
     }
 
