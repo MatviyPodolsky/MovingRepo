@@ -149,6 +149,8 @@
     <string name="specialty">Any speciality</string>
     <string name="doctor_name">Doctor name</string>
     <string name="search">Search</string>
+    <string name="found_n_doctors">Showing %1$d out of total %2$d</string>
+    <string name="no_doctors_found">No doctors found</string>
     <string name="turn_location_options">Please, turn on location options if you want to select your current place as default for search</string>
     <string-array name="countries">
         <item>المملكة العربية السعودية</item>
