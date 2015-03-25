@@ -51,7 +51,7 @@ public class ChildInfoFragment extends BaseFragment {
             @Override
             public void onDeleteChild(final Child child) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                        .setMessage("Are you sure you want to delete child?")
+                        .setMessage(R.string.are_u_sure_u_want_to_delete_child)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

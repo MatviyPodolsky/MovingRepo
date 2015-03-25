@@ -318,6 +318,10 @@
     <!--save_photo-->
     <string name="hint_comment">a moment to remember, type few words about it</string>
 
+    <!--newborn-->
+    <string name="newborn_title">Congratulation with new child</string>
+    <string name="newborn_text">new child new child new child new child new child new child
+    new child new child new child new child</string>
 
     <!--debug text-->
     <string name="test_text" translatable="false">Text text text text text text text text text text text text text
