@@ -90,7 +90,7 @@ public class BirthDateFragment extends BaseFragment {
                     int day = data.getIntExtra(DatePickerFragmentDialog.EXTRA_DAY, -1);
                     if (year >= 0 && month >= 0 && day >= 0) {
                         //set time to 12:00:00 to show that day begins
-                        Calendar date = new GregorianCalendar(year, month, day, 12, 0);
+                        Calendar date = new GregorianCalendar(year, month, day);
                         Date time = date.getTime();
                         String requestDate = DateUtil.formatDate(time, "yyyy-MM-dd'T'HH:mm:ssZ");
                         String textDate = DateUtil.formatDate(time, "MMM dd, yyyy");
@@ -193,7 +193,7 @@ public class BirthDateFragment extends BaseFragment {
         }
         Date currentDate = Calendar.getInstance().getTime();
         if (mDateType == BabyProfileResponse.DATE_TYPE_BIRTH_DATE
-                && date.after(currentDate)) {
+                && DateUtil.compareDatesAndToday(date, currentDate)) {
             Toast.makeText(getActivity(), getString(R.string.birth_date_cant_be_in_future), Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -203,7 +203,7 @@ public class BirthDateFragment extends BaseFragment {
             return false;
         }
         if (mDateType == BabyProfileResponse.DATE_TYPE_DUE_TO
-                && date.before(currentDate)) {
+                && DateUtil.compareDatesAndToday(currentDate, date)) {
             Toast.makeText(getActivity(), getString(R.string.expected_birth_date_cant_be_in_past), Toast.LENGTH_SHORT).show();
             return false;
         }

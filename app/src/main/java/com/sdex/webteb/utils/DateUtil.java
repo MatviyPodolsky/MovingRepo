@@ -21,6 +21,7 @@ package com.sdex.webteb.utils;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -60,7 +61,6 @@ public class DateUtil {
         for (int i = 0; i < possibleDateFormats.length; i++) {
         /* TODO: Support other locales? */
             dateFormats[i] = new SimpleDateFormat(possibleDateFormats[i], Locale.US);
-            dateFormats[i].setTimeZone(gmtTZ);
         }
     }
 
@@ -147,5 +147,14 @@ public class DateUtil {
 
     public static String formatDate(Date date, String dateFormat) {
         return new SimpleDateFormat(dateFormat, Locale.US).format(date);
+    }
+
+    public static boolean compareDatesAndToday(Date from, Date to) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(from);
+        int dayFrom = c.get(Calendar.DAY_OF_MONTH);
+        c.setTime(to);
+        int dayTo = c.get(Calendar.DAY_OF_MONTH);
+        return dayFrom > dayTo;
     }
 }
