@@ -31,10 +31,19 @@ public class ChildrenAdapter extends BaseAdapter {
     private Context context;
     private List<Child> data = new ArrayList();
     private LayoutInflater inflater;
+    private Callback mCallback;
 
     public ChildrenAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+    }
+
+    public interface Callback{
+        public void onDeleteChild(Child child);
+    }
+
+    public void setCallback(Callback callback){
+        this.mCallback = callback;
     }
 
     public void setItems(List<Child> newItems) {
@@ -47,6 +56,11 @@ public class ChildrenAdapter extends BaseAdapter {
 
     public void addChild(Child child) {
         data.add(child);
+        notifyDataSetChanged();
+    }
+
+    public void removeChild(Child child) {
+        data.remove(child);
         notifyDataSetChanged();
     }
 
@@ -100,6 +114,21 @@ public class ChildrenAdapter extends BaseAdapter {
         }
 
         final Child item = getItem(position);
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCallback != null) {
+                    mCallback.onDeleteChild((Child)holder.name.getTag());
+                }
+            }
+        });
+
+        if (getCount() < 2) {
+            holder.delete.setVisibility(View.GONE);
+        } else {
+            holder.delete.setVisibility(View.VISIBLE);
+        }
 
         holder.name.setTag(item);
         holder.name.setText(item.getName());
@@ -194,6 +223,8 @@ public class ChildrenAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
+        @InjectView(R.id.delete)
+        ImageView delete;
         @InjectView(R.id.name)
         EditText name;
         @InjectView(R.id.container_female)
