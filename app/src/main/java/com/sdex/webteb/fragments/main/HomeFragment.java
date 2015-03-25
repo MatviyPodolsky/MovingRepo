@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -211,13 +210,11 @@ public class HomeFragment extends PhotoFragment {
         RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
             @Override
             public void failure(RestError restError) {
-                Log.d("", "");
-                mProgressDialog.dismiss();
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-                super.failure(error);
+                if (getActivity() == null) {
+                    return;
+                }
+
                 mProgressDialog.dismiss();
             }
 
@@ -227,6 +224,7 @@ public class HomeFragment extends PhotoFragment {
                 if (getActivity() == null) {
                     return;
                 }
+
                 PreferencesManager preferencesManager = PreferencesManager.getInstance();
                 BabyHomeResponse.Card card = babyHomeResponse.getCard();
                 String username = card.getName();
@@ -320,6 +318,11 @@ public class HomeFragment extends PhotoFragment {
         getEntityCallback = new RestCallback<EntityResponse>() {
             @Override
             public void failure(RestError restError) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
                 //TODO show error loading
                 Toast.makeText(getActivity(),
                         restError != null ? "Error: " + restError.getStrMessage() : "Unknown error",
@@ -351,6 +354,9 @@ public class HomeFragment extends PhotoFragment {
             @Override
             public void failure(RestError restError) {
                 //TODO show error loading
+                if (getActivity() == null) {
+                    return;
+                }
             }
 
             @Override
@@ -412,10 +418,18 @@ public class HomeFragment extends PhotoFragment {
             @Override
             public void failure(RestError restError) {
                 //TODO show error loading
+                if (getActivity() == null) {
+                    return;
+                }
             }
 
             @Override
             public void success(MonthResponse monthResponse, Response response) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
                 //TODO
                 if (monthResponse != null) {
                     testsList = monthResponse.getTests();
@@ -496,7 +510,9 @@ public class HomeFragment extends PhotoFragment {
 
                 @Override
                 public void failure(RetrofitError error) {
-
+                    if (getActivity() == null) {
+                        return;
+                    }
                 }
             });
         }
@@ -510,6 +526,11 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(BabyProfileResponse babyProfileResponse, Response response) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
                 long currentTime = Calendar.getInstance().getTime().getTime();
                 long birthDate = DateUtil.parseDate(babyProfileResponse.getDate()).getTime();
                 long diffTime = currentTime - birthDate;
