@@ -82,7 +82,7 @@ public class ArticleFragment extends BaseMainFragment {
         contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EmailUtil.shareText(getActivity(), article.getUrl());
+                EmailUtil.shareText(getActivity(), article.getTitle(), article.getUrl());
                 pw.dismiss();
             }
         });
