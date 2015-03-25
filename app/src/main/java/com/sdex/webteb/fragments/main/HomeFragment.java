@@ -417,6 +417,9 @@ public class HomeFragment extends PhotoFragment {
             @Override
             public void success(MonthResponse monthResponse, Response response) {
                 //TODO
+                if (getActivity() == null) {
+                    return;
+                }
                 if (monthResponse != null) {
                     testsList = monthResponse.getTests();
                     List<ContentPreview> previews = monthResponse.getPreviews();
