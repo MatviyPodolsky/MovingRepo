@@ -195,6 +195,8 @@ public class SettingsFragment extends BaseMainFragment {
                         DbUser user = databaseHelper.getUser(email);
                         user.clearData();
                         databaseHelper.updateUser(user);
+                        preferencesManager.remove("current_date");
+                        preferencesManager.remove("current_date_type");
                         mProgressDialog.dismiss();
                         Intent intent = new Intent(getActivity(), SetupProfileActivity.class);
                         startActivity(intent);

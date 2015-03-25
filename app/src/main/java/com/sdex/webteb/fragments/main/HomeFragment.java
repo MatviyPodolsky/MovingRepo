@@ -433,6 +433,9 @@ public class HomeFragment extends PhotoFragment {
                 }
 
                 //TODO
+                if (getActivity() == null) {
+                    return;
+                }
                 if (monthResponse != null) {
                     testsList = monthResponse.getTests();
                     List<ContentPreview> previews = monthResponse.getPreviews();
