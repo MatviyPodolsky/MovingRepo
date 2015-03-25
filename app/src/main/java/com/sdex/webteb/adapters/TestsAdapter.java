@@ -19,6 +19,7 @@ import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyReminderRequest;
 import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.response.BabyTestResponse;
+import com.sdex.webteb.utils.PreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class TestsAdapter extends BaseExpandableListAdapter {
     private List<Boolean> checked = new ArrayList<>();
     private LayoutInflater inflater;
     private Callback mCallback;
+    private PreferencesManager mPreferencesManager;
 
     public interface Callback {
         void onReadMoreBtnClick(BabyTestResponse item);
@@ -51,6 +53,7 @@ public class TestsAdapter extends BaseExpandableListAdapter {
     public TestsAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        mPreferencesManager = PreferencesManager.getInstance();
     }
 
     public void setCallback(Callback callback) {
@@ -161,15 +164,28 @@ public class TestsAdapter extends BaseExpandableListAdapter {
         });
 
         holder.addReminder.setTag(item);
-        holder.addReminder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mCallback != null) {
-                    mCallback.onAddReminderBtnClick(groupPosition);
-                }
-                changeReminder(item, holder, groupPosition);
+
+        int currentDate = Integer.parseInt(mPreferencesManager.getCurrentDate());
+        List<Range> relatedPeriods = item.getRelatedPeriods();
+        for (int i = 0; i < relatedPeriods.size(); i++) {
+            if (currentDate >= relatedPeriods.get(i).getFrom() &&
+                    currentDate <= relatedPeriods.get(i).getTo()) {
+                holder.addReminder.setEnabled(true);
+                holder.addReminder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mCallback != null) {
+                            mCallback.onAddReminderBtnClick(groupPosition);
+                        }
+                        changeReminder(item, holder, groupPosition);
+                    }
+                });
+                break;
+            } else {
+                holder.addReminder.setEnabled(false);
             }
-        });
+        }
+
         holder.checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
