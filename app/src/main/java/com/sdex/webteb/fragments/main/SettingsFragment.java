@@ -3,6 +3,7 @@ package com.sdex.webteb.fragments.main;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -146,6 +147,7 @@ public class SettingsFragment extends BaseMainFragment {
     }
 
     private void logout() {
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().clear().commit();
         RestClient.getApiService().logout(new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
