@@ -168,7 +168,7 @@ public class TestsAdapter extends BaseExpandableListAdapter {
         int currentDate = Integer.parseInt(mPreferencesManager.getCurrentDate());
         List<Range> relatedPeriods = item.getRelatedPeriods();
         for (int i = 0; i < relatedPeriods.size(); i++) {
-            if (currentDate >= relatedPeriods.get(i).getFrom() &&
+            if (currentDate == relatedPeriods.get(i).getFrom() ||
                     currentDate <= relatedPeriods.get(i).getTo()) {
                 holder.addReminder.setEnabled(true);
                 holder.addReminder.setOnClickListener(new View.OnClickListener() {
