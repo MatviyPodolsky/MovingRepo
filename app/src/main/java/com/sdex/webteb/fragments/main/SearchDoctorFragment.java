@@ -155,16 +155,19 @@ public class SearchDoctorFragment extends BaseMainFragment {
         Bundle args = new Bundle();
         args.putString("Name", search.getText().toString());
         String countryName = country.getText().toString();
+        String countryId = String.valueOf(country.getId());
         if (!countryName.equals("Any country")) {
-            args.putString("Country", countryName);
+            args.putString("CountryId", countryId);
         }
         String cityName = city.getText().toString();
+        String cityId = String.valueOf(city.getId());
         if (!cityName.equals("Any city")) {
-            args.putString("City", cityName);
+            args.putString("CityId", cityId);
         }
         String specialityName = specialty.getText().toString();
+        String specialityId = String.valueOf(city.getId());
         if (!specialityName.equals("Any speciality")) {
-            args.putString("Specialty", specialityName);
+            args.putString("SpecialtyId", specialityId);
         }
         fragment.setArguments(args);
 

@@ -61,14 +61,14 @@ public class SearchResultsFragment extends BaseMainFragment {
         if (bundle.containsKey("Name")) {
             mOptions.put("Name", bundle.getString("Name"));
         }
-        if (bundle.containsKey("Country")) {
-            mOptions.put("Country", bundle.getString("Country"));
+        if (bundle.containsKey("CountryId")) {
+            mOptions.put("CountryId", bundle.getString("CountryId"));
         }
-        if (bundle.containsKey("City")) {
-            mOptions.put("City", bundle.getString("City"));
+        if (bundle.containsKey("CityId")) {
+            mOptions.put("CityId", bundle.getString("CityId"));
         }
-        if (bundle.containsKey("Specialty")) {
-            mOptions.put("Specialty", bundle.getString("Specialty"));
+        if (bundle.containsKey("SpecialtyId")) {
+            mOptions.put("SpecialtyId", bundle.getString("SpecialtyId"));
         }
         mOptions.put("PageSize", String.valueOf(PAGE_SIZE));
         mOptions.put("PageIndex", String.valueOf(lastPage));
@@ -93,7 +93,7 @@ public class SearchResultsFragment extends BaseMainFragment {
             @Override
             public void success(SearchDoctorResponse docResponse, Response response) {
 
-                if (isAdded()) {
+                if (!isAdded()) {
                     return;
                 }
 
