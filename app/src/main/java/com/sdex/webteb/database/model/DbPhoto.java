@@ -13,7 +13,8 @@ public class DbPhoto {
     public String path;
     public String description;
     public String owner;
-    public String date;
+    public String displayedDate;
+    public String innerDate;
     public String tags;
 
     public DbPhoto() {
@@ -51,12 +52,20 @@ public class DbPhoto {
         this.owner = owner;
     }
 
-    public String getDate() {
-        return date;
+    public String getDisplayedDate() {
+        return displayedDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDisplayedDate(String displayedDate) {
+        this.displayedDate = displayedDate;
+    }
+
+    public String getInnerDate() {
+        return innerDate;
+    }
+
+    public void setInnerDate(String innerDate) {
+        this.innerDate = innerDate;
     }
 
     public String getTags() {

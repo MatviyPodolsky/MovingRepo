@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.facebook.Session;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MenuAdapter;
 import com.sdex.webteb.dialogs.BaseDialog;
@@ -35,6 +36,7 @@ import com.sdex.webteb.fragments.main.SearchDoctorFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
 import com.sdex.webteb.fragments.main.TestsFragment;
 import com.sdex.webteb.gcm.GcmHelper;
+import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.NotificationEvent;
 import com.sdex.webteb.internal.events.SelectMenuItemEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
@@ -199,12 +201,14 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     public void onStart() {
         super.onStart();
         BUS.register(this);
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
     public void onStop() {
         BUS.unregister(this);
         super.onStop();
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     @OnClick(R.id.toggle_drawer)
@@ -216,6 +220,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             closeDrawer();
         } else {
             mDrawerLayout.openDrawer(RIGHT_DRAWER_GRAVITY);
+            sendAnalyticsEvent(Events.CATEGORY_BURGER, Events.ACTION_OPEN);
         }
     }
 

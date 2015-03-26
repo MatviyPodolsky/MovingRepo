@@ -10,7 +10,11 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TestsAdapter;
+import com.sdex.webteb.internal.analytics.Events;
+import com.sdex.webteb.model.ContentPreview;
+import com.sdex.webteb.model.EntityKey;
 import com.sdex.webteb.model.Range;
+import com.sdex.webteb.model.UserTest;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -39,6 +43,12 @@ public class TestsFragment extends BaseMainFragment {
     private final String currentDate = mPreferencesManager.getCurrentDate();
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_my_tests);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mAdapter = new TestsAdapter(getActivity());
@@ -56,13 +66,14 @@ public class TestsFragment extends BaseMainFragment {
             }
 
             @Override
-            public void onAddReminderBtnClick(int groupId) {
+            public void onAddReminderBtnClick(BabyTestResponse item, int groupId) {
                 mList.collapseGroup(groupId);
+                sendAnalyticsTestReminder(item);
             }
 
             @Override
-            public void onTestDoneClick() {
-
+            public void onTestDoneClick(BabyTestResponse item) {
+                sendAnalyticsTestDone(item);
             }
         });
         mList.setAdapter(mAdapter);
@@ -90,6 +101,50 @@ public class TestsFragment extends BaseMainFragment {
                 mList.setSelection(getPositionWithAge(tests));
             }
         });
+    }
+
+    protected void sendAnalyticsTestDone(BabyTestResponse item) {
+        UserTest userTest = item.getUserTest();
+        final boolean isDone;
+        if (userTest != null) {
+            isDone = userTest.isTestDone();
+        } else {
+            isDone = false;
+        }
+        ContentPreview contentPreview = item.getContentPreview();
+        EntityKey key = contentPreview.getKey();
+        final String label = key.getId() + "-"
+                + key.getType() + "-"
+                + contentPreview.getTitle();
+        final String action;
+        if (isDone) {
+            action = Events.ACTION_REMOVE_DONE;
+        } else {
+            action = Events.ACTION_ADD_DOME;
+        }
+        sendAnalyticsEvent(Events.CATEGORY_TESTS, action, label);
+    }
+
+    protected void sendAnalyticsTestReminder(BabyTestResponse item) {
+        UserTest userTest = item.getUserTest();
+        final boolean hasReminder;
+        if (userTest != null) {
+            hasReminder = userTest.isReminderStatus();
+        } else {
+            hasReminder = false;
+        }
+        ContentPreview contentPreview = item.getContentPreview();
+        EntityKey key = contentPreview.getKey();
+        final String label = key.getId() + "-"
+                + key.getType() + "-"
+                + contentPreview.getTitle();
+        final String action;
+        if (hasReminder) {
+            action = Events.ACTION_DELETE_REMINDER;
+        } else {
+            action = Events.ACTION_ADD_REMINDER;
+        }
+        sendAnalyticsEvent(Events.CATEGORY_TESTS, action, label);
     }
 
     private int getPositionWithAge(List<BabyTestResponse> tests) {

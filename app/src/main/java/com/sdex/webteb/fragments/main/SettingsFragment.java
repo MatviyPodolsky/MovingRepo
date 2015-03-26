@@ -63,6 +63,12 @@ public class SettingsFragment extends BaseMainFragment {
     private final Settings mNewSettings = new Settings();
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_settings);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

@@ -49,6 +49,12 @@ public class MoreArticlesFragment extends BaseMainFragment {
     private boolean isLoading;
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_more_articles);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

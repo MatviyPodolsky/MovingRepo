@@ -21,7 +21,7 @@ import butterknife.InjectView;
 /**
  * Created by MPODOLSKY on 23.03.2015.
  */
-public class SummaryTestsFragment extends BaseMainFragment {
+public class SummaryTestsFragment extends TestsFragment {
 
     public static final String NAME = SummaryTestsFragment.class.getSimpleName();
 
@@ -77,13 +77,14 @@ public class SummaryTestsFragment extends BaseMainFragment {
             }
 
             @Override
-            public void onAddReminderBtnClick(int groupId) {
+            public void onAddReminderBtnClick(BabyTestResponse item, int groupId) {
                 mList.collapseGroup(groupId);
+                sendAnalyticsTestReminder(item);
             }
 
             @Override
-            public void onTestDoneClick() {
-
+            public void onTestDoneClick(BabyTestResponse item) {
+                sendAnalyticsTestDone(item);
             }
         });
         if (size == 1) {

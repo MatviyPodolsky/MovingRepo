@@ -72,6 +72,12 @@ public class SearchDoctorFragment extends BaseMainFragment {
     private RestCallback<List<SpecialtiesResponse>> getSpecialtiesCallback;
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_search_doctor);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         countriesList = getActivity().getResources().getStringArray(R.array.countries);

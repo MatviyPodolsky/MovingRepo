@@ -45,9 +45,9 @@ public class TestsAdapter extends BaseExpandableListAdapter {
 
         void onSearchDoctorBtnClick();
 
-        void onAddReminderBtnClick(int groupId);
+        void onAddReminderBtnClick(BabyTestResponse item, int groupId);
 
-        void onTestDoneClick();
+        void onTestDoneClick(BabyTestResponse item);
     }
 
     public TestsAdapter(Context context) {
@@ -175,7 +175,7 @@ public class TestsAdapter extends BaseExpandableListAdapter {
                     @Override
                     public void onClick(View v) {
                         if (mCallback != null) {
-                            mCallback.onAddReminderBtnClick(groupPosition);
+                            mCallback.onAddReminderBtnClick(item, groupPosition);
                         }
                         changeReminder(item, holder, groupPosition);
                     }
@@ -190,7 +190,7 @@ public class TestsAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 if (mCallback != null) {
-                    mCallback.onTestDoneClick();
+                    mCallback.onTestDoneClick(item);
                 }
                 changeTestStatus(item, holder, groupPosition);
             }

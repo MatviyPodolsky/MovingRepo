@@ -37,6 +37,12 @@ public class ContactUsFragment extends BaseMainFragment {
     Button mSend;
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_contact_us);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mTitle.addTextChangedListener(new TextWatcher() {

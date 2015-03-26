@@ -37,7 +37,7 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
     @Override
     public long getHeaderId(int position) {
         DbPhoto item = getItem(position);
-        return item.getDate().hashCode();
+        return item.getDisplayedDate().hashCode();
     }
 
     @Override
@@ -59,9 +59,9 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
         }
 
         DbPhoto item = getItem(position);
-        int count = getPhotoCount(item.getDate());
+        int count = getPhotoCount(item.getDisplayedDate());
         holder.counter.setText(String.valueOf(count));
-        holder.title.setText(item.getDate());
+        holder.title.setText(item.getDisplayedDate());
 
         return convertView;
     }
@@ -108,7 +108,7 @@ public class AlbumAdapter extends BaseAdapter implements StickyGridHeadersSimple
     private int getPhotoCount(String date) {
         int count = 0;
         for (DbPhoto dbPhoto : data) {
-            if (dbPhoto.getDate().equals(date)) {
+            if (dbPhoto.getDisplayedDate().equals(date)) {
                 count++;
             }
         }

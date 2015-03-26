@@ -157,7 +157,7 @@ public class AlbumViewFragment extends BaseMainFragment {
     private void showPhotoInfo(int position) {
         DbPhoto photo = data.get(position);
         mDescription.setText(photo.getDescription());
-        mDate.setText(photo.getDate());
+        mDate.setText(photo.getDisplayedDate());
         setCurrentPhotoIndex(position);
     }
 

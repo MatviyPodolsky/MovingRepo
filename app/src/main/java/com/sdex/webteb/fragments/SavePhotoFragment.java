@@ -18,6 +18,7 @@ import com.sdex.webteb.adapters.TagsAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
+import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.WrapLinearLayoutManager;
@@ -99,10 +100,13 @@ public class SavePhotoFragment extends BaseFragment {
         String currentDate = mPreferencesManager.getCurrentDate();
         int dateType = mPreferencesManager.getCurrentDateType();
         String photoDateType = null;
+        String innerDate = null;
         if (dateType == PreferencesManager.DATE_TYPE_WEEK) {
             photoDateType = getString(R.string.week);
+            innerDate = PhotoFragment.LABEL_WEEK + "-" + dateType;
         } else if (dateType == PreferencesManager.DATE_TYPE_MONTH) {
             photoDateType = getString(R.string.month);
+            innerDate = PhotoFragment.LABEL_MONTH + "-" + dateType;
         }
         currentDate = String.format(photoDateType, currentDate);
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
@@ -112,9 +116,14 @@ public class SavePhotoFragment extends BaseFragment {
         photo.setDescription(mDescription.getText().toString());
         photo.setTags(adapter.getTags());
         photo.setOwner(username);
-        photo.setDate(currentDate);
+        photo.setDisplayedDate(currentDate);
+        photo.setInnerDate(innerDate);
         databaseHelper.addPhoto(photo);
         EventBus.getDefault().post(new SavedPhotoEvent(photo));
+
+        String label = innerDate;
+        sendAnalyticsEvent(Events.CATEGORY_ALBUM, Events.ACTION_ADD_IMAGE, label);
+
         getActivity().onBackPressed();
     }
 

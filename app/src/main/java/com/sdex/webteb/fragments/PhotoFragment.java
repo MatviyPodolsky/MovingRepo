@@ -28,7 +28,8 @@ public abstract class PhotoFragment extends BaseFragment {
     public static final int PHOTO_SELECTED_ALBUM = 7001;
     public static final int PHOTO_SELECTED_PROFILE = 7002;
 
-    public static final String PHOTO_PATH = "PHOTO_PATH";
+    public static final String LABEL_WEEK = "Week";
+    public static final String LABEL_MONTH = "Month";
 
     private static final String CAMERA_DIR = "/dcim/";
 
@@ -52,7 +53,6 @@ public abstract class PhotoFragment extends BaseFragment {
         BUS.unregister(this);
         super.onStop();
     }
-
 
     public static Uri getGalleryPhotoUri(Activity activity, Uri selectedImage) {
         final String[] imageColumns = {MediaStore.Images.Media.DATA};

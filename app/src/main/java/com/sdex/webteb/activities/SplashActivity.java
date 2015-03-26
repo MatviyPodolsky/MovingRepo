@@ -7,6 +7,7 @@ import android.os.Handler;
 import com.sdex.webteb.R;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
+import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.utils.PreferencesManager;
 
 public class SplashActivity extends BaseActivity {
@@ -27,19 +28,27 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        boolean wasLaunched = PreferencesManager.getInstance().wasLaunched();
+        String action;
+        if (wasLaunched) {
+            action = Events.ACTION_REGULAR_LAUNCH;
+        } else {
+            action = Events.ACTION_FIRST_LAUNCH;
+            PreferencesManager.getInstance().setWasLaunched(true);
+        }
+        sendAnalyticsEvent(Events.CATEGORY_LAUNCH_EVENTS, action);
+
         databaseHelper = DatabaseHelper.getInstance(this);
 
         isLoggedIn = (PreferencesManager.getInstance().getAccessToken() != null);
 
         mHandler = new Handler();
-
         mInvokeMainActivityTask = new Runnable() {
             @Override
             public void run() {
                 invokeMainActivity();
             }
         };
-
         mHandler.postDelayed(mInvokeMainActivityTask, AUTO_HIDE_DELAY_MILLIS);
     }
 

@@ -68,6 +68,9 @@ public class SetupProfileActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sendAnalyticsScreenName(R.string.screen_edit_profile);
+
         isInEditMode = getIntent().getBooleanExtra(SettingsFragment.EDIT_PROFILE, false);
 
         databaseHelper = DatabaseHelper.getInstance(this);

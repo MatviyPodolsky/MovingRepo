@@ -1,8 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="TypographyDashes">
 
     <string name="app_name">WebTeb</string>
 
     <string name="facebook_app_id" translatable="false">326836307523571</string>
+    <string name="google_analytics_tracker_id" translatable="false">UA-61229124-1</string>
 
     <!--welcome-->
     <string name="welcome_text">Test text to test data display on the screen of the mobile device</string>
@@ -61,8 +63,8 @@
     <string name="expected_birth_date">Expected birth date</string>
     <string name="birth_date">Birth date</string>
     <string name="date">Date</string>
-    <string name="click_to_select_date">Click to select date...</string>
-    <string name="type_child_name">Type child name...</string>
+    <string name="click_to_select_date">Click to select date…</string>
+    <string name="type_child_name">Type child name…</string>
     <string name="add_child">Add child</string>
     <string name="male">Male</string>
     <string name="female">Female</string>

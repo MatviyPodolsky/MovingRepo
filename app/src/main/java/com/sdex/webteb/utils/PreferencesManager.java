@@ -23,6 +23,7 @@ public class PreferencesManager {
     private static final String CURRENT_DATE = "current_date";
     private static final String CURRENT_DATE_TYPE = "current_date_type";
     private static final String LAST_NOTIFICATION_DATE = "last_notification_date";
+    private static final String WAS_LAUNCHED = "WAS_LAUNCHED";
 
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;
@@ -116,6 +117,16 @@ public class PreferencesManager {
 
     public boolean isCompleteSetup() {
         return mPref.getBoolean(COMPLETE_SETUP, false);
+    }
+
+    public void setWasLaunched(boolean wasLaunched) {
+        mPref.edit()
+                .putBoolean(WAS_LAUNCHED, wasLaunched)
+                .commit();
+    }
+
+    public boolean wasLaunched() {
+        return mPref.getBoolean(WAS_LAUNCHED, false);
     }
 
     public void setCurrentDate(String date, int dateType) {

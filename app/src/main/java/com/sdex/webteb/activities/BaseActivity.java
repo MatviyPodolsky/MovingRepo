@@ -8,7 +8,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.sdex.webteb.R;
+import com.sdex.webteb.WTApp;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -77,6 +80,32 @@ public abstract class BaseActivity extends ActionBarActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         navigationBar.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    protected void sendAnalyticsScreenName(int nameRes) {
+        sendAnalyticsScreenName(getString(nameRes));
+    }
+
+    protected void sendAnalyticsScreenName(String name) {
+        Tracker tracker = ((WTApp) getApplication()).getTracker();
+        tracker.setScreenName(name);
+        tracker.send(new HitBuilders.ScreenViewBuilder()
+                .build());
+    }
+
+    protected void sendAnalyticsEvent(String category, String action) {
+        sendAnalyticsEvent(category, action, null);
+    }
+
+    protected void sendAnalyticsEvent(String category, String action, String label) {
+        Tracker t = ((WTApp) getApplication()).getTracker();
+        HitBuilders.EventBuilder eventBuilder = new HitBuilders.EventBuilder();
+        eventBuilder.setCategory(category);
+        eventBuilder.setAction(action);
+        if (label != null) {
+            eventBuilder.setLabel(label);
+        }
+        t.send(eventBuilder.build());
     }
 
 }

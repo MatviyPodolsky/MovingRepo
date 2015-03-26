@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.sdex.webteb.WTApp;
+
 import butterknife.ButterKnife;
 
 /**
@@ -41,6 +45,36 @@ public abstract class BaseFragment extends Fragment {
                 .add(containerId, fragment, tag)
                 .addToBackStack(tag)
                 .commit();
+    }
+
+    protected void sendAnalyticsScreenName(int nameRes) {
+        sendAnalyticsScreenName(getString(nameRes));
+    }
+
+    protected void sendAnalyticsScreenName(String name) {
+        if (isAdded()) {
+            Tracker tracker = ((WTApp) getActivity().getApplication()).getTracker();
+            tracker.setScreenName(name);
+            tracker.send(new HitBuilders.ScreenViewBuilder()
+                    .build());
+        }
+    }
+
+    protected void sendAnalyticsEvent(String category, String action) {
+        sendAnalyticsEvent(category, action, null);
+    }
+
+    protected void sendAnalyticsEvent(String category, String action, String label) {
+        if (isAdded()) {
+            Tracker t = ((WTApp) getActivity().getApplication()).getTracker();
+            HitBuilders.EventBuilder eventBuilder = new HitBuilders.EventBuilder();
+            eventBuilder.setCategory(category);
+            eventBuilder.setAction(action);
+            if (label != null) {
+                eventBuilder.setLabel(label);
+            }
+            t.send(eventBuilder.build());
+        }
     }
 
 }

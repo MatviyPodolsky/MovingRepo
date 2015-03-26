@@ -21,6 +21,11 @@ public class AboutFragment extends BaseMainFragment {
     @InjectView(R.id.textAppVersion)
     TextView appVersion;
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_about);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

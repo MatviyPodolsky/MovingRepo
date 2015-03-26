@@ -32,7 +32,7 @@ public class RestClient {
             .setEndpoint(ENDPOINT)
             .setClient(new OkClient(okHttpClient))
             .setRequestInterceptor(new SessionRequestInterceptor())
-            .setLogLevel(RestAdapter.LogLevel.FULL)
+            .setLogLevel(RestAdapter.LogLevel.NONE)
             .setConverter(new GsonConverter(gson))
             .build();
 

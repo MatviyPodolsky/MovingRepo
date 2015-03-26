@@ -137,6 +137,12 @@ public class HomeFragment extends PhotoFragment {
     private ProgressDialog mProgressDialog;
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_home);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -379,8 +385,7 @@ public class HomeFragment extends PhotoFragment {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }
             String email = PreferencesManager.getInstance().getEmail();
-            String dateType = getString(R.string.month);
-            String date = String.format(dateType, String.valueOf(monthResponse.getAgeInMonths()));
+            String date = PhotoFragment.LABEL_MONTH + "-" + monthResponse.getAgeInMonths();
             List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
             int size = data.size();
             if (size == 0) {
@@ -431,8 +436,7 @@ public class HomeFragment extends PhotoFragment {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }
             String email = PreferencesManager.getInstance().getEmail();
-            String dateType = getString(R.string.week);
-            String date = String.format(dateType, String.valueOf(weekResponse.getWeekNumber()));
+            String date = PhotoFragment.LABEL_WEEK + "-" + weekResponse.getWeekNumber();
             List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
             int size = data.size();
             if (size == 0) {

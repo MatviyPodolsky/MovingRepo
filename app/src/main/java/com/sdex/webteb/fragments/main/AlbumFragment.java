@@ -22,6 +22,7 @@ import com.sdex.webteb.dialogs.DialogCallback;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
+import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.DeletePhotoEvent;
 import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
@@ -54,6 +55,12 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     private AlbumAdapter mAdapter;
     private List<DbPhoto> data;
     private DatabaseHelper databaseHelper;
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_my_album);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -124,6 +131,10 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         data.remove(event.getIndex());
         mAdapter.notifyDataSetChanged();
         DbPhoto photo = event.getPhoto();
+
+        String label = photo.getInnerDate();
+        sendAnalyticsEvent(Events.CATEGORY_ALBUM, Events.ACTION_REMOVE_IMAGE, label);
+
         databaseHelper.deletePhoto(photo);
 
         showOrHideEmptyView();

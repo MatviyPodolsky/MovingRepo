@@ -76,9 +76,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 .list();
     }
 
-    public List<DbPhoto> getPhotos(int limit, String owner, String week) {
+    public List<DbPhoto> getPhotos(int limit, String owner, String date) {
         return cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
-                .withSelection("timestamp > ? AND owner = ? AND date = ?", "0", owner, week)
+                .withSelection("timestamp > ? AND owner = ? AND innerDate = ?", "0", owner, date)
                 .orderBy("timestamp DESC")
                 .limit(limit)
                 .list();
