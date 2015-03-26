@@ -82,6 +82,10 @@
             android:layout_weight="1"
             android:text="@string/register" />
 
+        <View
+            android:layout_width="5dp"
+            android:layout_height="1dp" />
+
         <Button
             style="@style/AppTheme.Button"
             android:id="@+id/login"
