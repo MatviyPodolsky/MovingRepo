@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@color/default_background"
+    android:background="@color/gray_background"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_margin="5dp"
+        android:layout_margin="9dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/ic_share_facebook"
         android:id="@+id/facebook" />
 
     <ImageView
-        android:layout_margin="5dp"
+        android:layout_margin="9dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/ic_share_send"
         android:id="@+id/email" />
 
     <ImageView
-        android:layout_margin="5dp"
+        android:layout_margin="9dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/ic_share_print"
         android:id="@+id/print" />
 </LinearLayout>

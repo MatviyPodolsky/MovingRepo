@@ -22,6 +22,9 @@ import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.switchbutton.SwitchButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
@@ -89,9 +92,28 @@ public class RegisterActivity extends FacebookAuthActivity {
             @Override
             public void failure(RestError restError) {
                 mRegister.setEnabled(true);
-                String text = "register fail :(";
-                if (restError != null) {
-                    text = "Error:" + restError.getStrMessage();
+                String text = restError.getMessage();
+                RestError.ModelState modelState = restError.getModelState();
+                if (modelState != null) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    List<String> errors = new ArrayList<>();
+                    List<String> modelEmail = modelState.getModelEmail();
+                    List<String> modelPassword = modelState.getModelPassword();
+                    if (modelEmail != null) {
+                        errors.addAll(modelEmail);
+                    }
+                    if (modelPassword != null) {
+                        errors.addAll(modelState.getModelPassword());
+                    }
+                    int i = 0;
+                    for (String error : errors) {
+                        if (i != 0) {
+                            stringBuilder.append("\n");
+                        }
+                        stringBuilder.append(error);
+                        i++;
+                    }
+                    text = stringBuilder.toString();
                 }
                 Toast.makeText(RegisterActivity.this, text, Toast.LENGTH_SHORT).show();
             }

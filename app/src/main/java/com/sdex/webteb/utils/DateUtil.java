@@ -149,12 +149,35 @@ public class DateUtil {
         return new SimpleDateFormat(dateFormat, Locale.US).format(date);
     }
 
-    public static boolean compareDatesAndToday(Date from, Date to) {
+    public static boolean compareDatesWithToday(Date from, Date to) {
         Calendar c = Calendar.getInstance();
+
         c.setTime(from);
+        int yearFrom = c.get(Calendar.YEAR);
+        int monthFrom = c.get(Calendar.MONTH);
         int dayFrom = c.get(Calendar.DAY_OF_MONTH);
+
         c.setTime(to);
+        int yearTo = c.get(Calendar.YEAR);
+        int monthTo = c.get(Calendar.MONTH);
         int dayTo = c.get(Calendar.DAY_OF_MONTH);
-        return dayFrom > dayTo;
+
+        if (yearFrom > yearTo) {
+            return true;
+        } else if (yearFrom < yearTo) {
+            return false;
+        }
+
+        if (monthFrom > monthTo) {
+            return true;
+        } else if (monthFrom < monthTo) {
+            return false;
+        }
+
+        if (dayFrom > dayTo) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

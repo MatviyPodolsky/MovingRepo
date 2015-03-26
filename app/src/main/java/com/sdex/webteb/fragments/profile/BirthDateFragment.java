@@ -193,7 +193,7 @@ public class BirthDateFragment extends BaseFragment {
         }
         Date currentDate = Calendar.getInstance().getTime();
         if (mDateType == BabyProfileResponse.DATE_TYPE_BIRTH_DATE
-                && DateUtil.compareDatesAndToday(date, currentDate)) {
+                && DateUtil.compareDatesWithToday(date, currentDate)) {
             Toast.makeText(getActivity(), getString(R.string.birth_date_cant_be_in_future), Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -203,7 +203,7 @@ public class BirthDateFragment extends BaseFragment {
             return false;
         }
         if (mDateType == BabyProfileResponse.DATE_TYPE_DUE_TO
-                && DateUtil.compareDatesAndToday(currentDate, date)) {
+                && DateUtil.compareDatesWithToday(currentDate, date)) {
             Toast.makeText(getActivity(), getString(R.string.expected_birth_date_cant_be_in_past), Toast.LENGTH_SHORT).show();
             return false;
         }
