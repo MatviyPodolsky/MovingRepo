@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.utils.EmailUtil;
 import com.sdex.webteb.utils.FacebookUtil;
@@ -121,6 +122,7 @@ public class ArticleFragment extends BaseMainFragment {
         if (currentPosition < data.size() - 1) {
             currentPosition++;
             loadData();
+            sendAnalyticsEvent(Events.CATEGORY_NAVIGATION, Events.ACTION_NEXT);
         }
     }
 
@@ -130,6 +132,8 @@ public class ArticleFragment extends BaseMainFragment {
         mContentView.getSettings().setLoadWithOverviewMode(true);
         mContentView.getSettings().setUseWideViewPort(true);
         mContentView.loadUrl(article.getUrl());
+
+        sendAnalyticsScreenName(article.getTitle());
     }
 
 }

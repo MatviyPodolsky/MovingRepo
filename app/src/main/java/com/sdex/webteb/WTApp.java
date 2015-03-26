@@ -22,7 +22,7 @@ public class WTApp extends Application {
     public synchronized Tracker getTracker() {
         if (tracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            tracker = analytics.newTracker(getString(R.string.google_analytics_tracker_id));
+            tracker = analytics.newTracker(getString(R.string.ga_trackingId));
         }
         return tracker;
     }

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.SearchResultsAdapter;
+import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.model.Doctor;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -80,19 +82,23 @@ public class SearchResultsFragment extends BaseMainFragment {
             @Override
             public void onCallClick(Doctor doctor) {
                 String phoneNumber = doctor.getPhone();
-                if(phoneNumber != null && !phoneNumber.isEmpty()) {
+                if(!TextUtils.isEmpty(phoneNumber)) {
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     intent.setData(Uri.parse("tel:" + phoneNumber));
                     startActivity(intent);
                 }
+                String label = doctor.getId() + " - " + doctor.getName();
+                sendAnalyticsEvent(Events.CATEGORY_PHONE, Events.ACTION_CALL, label);
             }
 
             @Override
             public void onSaveContactClick(Doctor doctor) {
                 String phoneNumber = doctor.getPhone();
-                if(phoneNumber != null && !phoneNumber.isEmpty()) {
+                if(!TextUtils.isEmpty(phoneNumber)) {
 //                    TODO save contact
                 }
+                String label = doctor.getId() + " - " + doctor.getName();
+                sendAnalyticsEvent(Events.CATEGORY_PHONE, Events.ACTION_SAVE_CONTACT, label);
             }
 
             @Override

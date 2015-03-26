@@ -53,6 +53,8 @@ public class TestsItemFragment extends BaseMainFragment {
             String url = item.getContentPreview().getKey().getUrl();
             mTitle.setText(title);
             mContentView.loadUrl(url);
+
+            sendAnalyticsScreenName(title);
         }
     }
 

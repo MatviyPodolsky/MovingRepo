@@ -103,10 +103,10 @@ public class SavePhotoFragment extends BaseFragment {
         String innerDate = null;
         if (dateType == PreferencesManager.DATE_TYPE_WEEK) {
             photoDateType = getString(R.string.week);
-            innerDate = PhotoFragment.LABEL_WEEK + "-" + dateType;
+            innerDate = PhotoFragment.LABEL_WEEK + "-" + currentDate;
         } else if (dateType == PreferencesManager.DATE_TYPE_MONTH) {
             photoDateType = getString(R.string.month);
-            innerDate = PhotoFragment.LABEL_MONTH + "-" + dateType;
+            innerDate = PhotoFragment.LABEL_MONTH + "-" + currentDate;
         }
         currentDate = String.format(photoDateType, currentDate);
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
