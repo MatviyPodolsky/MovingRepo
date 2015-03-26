@@ -1,8 +1,6 @@
 package com.sdex.webteb.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +22,25 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
     private static final int RESOURCE = R.layout.item_search_doctor;
 
     private LayoutInflater inflater;
+    private Callback mCallback;
+
+    public interface Callback {
+
+        void onCallClick(String phoneNumber);
+
+        void onSaveContactClick(String phoneNumber);
+
+        void onShowLocationClick(String latitude, String longitude);
+
+    }
 
     public SearchResultsAdapter(Context context, List<Doctor> objects) {
         super(context, RESOURCE, objects);
         this.inflater = LayoutInflater.from(context);
+    }
+
+    public void setCallback(Callback callback) {
+        this.mCallback = callback;
     }
 
     @Override
@@ -48,36 +61,29 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         holder.call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phoneNumber = item.getPhone();
-                if(phoneNumber != null && !phoneNumber.isEmpty()) {
-                    Intent intent = new Intent(Intent.ACTION_CALL);
-                    intent.setData(Uri.parse("tel:" + phoneNumber));
-                    getContext().startActivity(intent);
+                if(mCallback != null) {
+                    mCallback.onCallClick(item.getPhone());
                 }
             }
         });
         holder.saveContact.setVisibility(View.GONE);
-//        holder.saveContact.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                TODO save contact
-//                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-//                            "mailto", item.getEmail(), null));
-//                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hello");
-//                    getContext().startActivity(Intent.createChooser(emailIntent, "Send email..."));
-//            }
-//        });
+        holder.saveContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mCallback != null) {
+                    mCallback.onSaveContactClick(item.getPhone());
+                }
+            }
+        });
         if (item.getLatitude() != null && item.getLongitude() != null) {
             holder.location.setVisibility(View.VISIBLE);
             holder.locationText.setVisibility(View.VISIBLE);
             holder.location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Uri uri = Uri.parse("geo:0,0?q=" + item.getLatitude() + "," + item.getLongitude());
-//                    Uri uri = Uri.parse("http://maps.google.co.in/maps?q=" + item.getLocation());
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    getContext().startActivity(intent);
+                    if(mCallback != null) {
+                        mCallback.onShowLocationClick(item.getLatitude(), item.getLongitude());
+                    }
                 }
             });
         } else {
