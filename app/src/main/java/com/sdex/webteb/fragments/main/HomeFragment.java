@@ -34,9 +34,7 @@ import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
-import com.sdex.webteb.internal.events.SelectedProfilePhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
-import com.sdex.webteb.internal.events.TakenProfilePhotoEvent;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.model.EntityKey;
@@ -61,7 +59,6 @@ import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
@@ -344,7 +341,8 @@ public class HomeFragment extends PhotoFragment {
         long birthDate = DateUtil.parseDate(babyProfileResponse.getDate()).getTime();
         long diffTime = currentTime - birthDate;
         long month = diffTime / 1000 / 3600 / 24 / 30;
-        mText.setText(String.format("%d month", month));
+        String dateType = getString(R.string.month);
+        mText.setText(String.format(dateType, month));
         preferencesManager.setCurrentDate(String.valueOf(month),
                 PreferencesManager.DATE_TYPE_MONTH);
         RestClient.getApiService().getMonth((int) month, getMonthCallback);
@@ -670,14 +668,6 @@ public class HomeFragment extends PhotoFragment {
         return (DisplayUtil.getScreenWidth(getActivity()) - (2 * itemPadding + itemSize)) / 2;
     }
 
-    // change profile photo from home
-//    @OnClick(R.id.avatar)
-//    public void takeProfilePhoto() {
-//        DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_PROFILE,
-//                PhotoFragment.PHOTO_SELECTED_PROFILE);
-//        dialog.show(getFragmentManager(), null);
-//    }
-
     @OnClick(R.id.btn_take_photo)
     public void takePhoto() {
         DialogFragment dialog = PhotoDialog.newInstance(PhotoFragment.PHOTO_TAKEN_ALBUM,
@@ -702,37 +692,6 @@ public class HomeFragment extends PhotoFragment {
     public void onEventMainThread(SelectedPhotoEvent event) {
         Uri galleryPhotoUri = getGalleryPhotoUri(getActivity(), event.getSelectedImage());
         showPhotoPreview(galleryPhotoUri.getPath());
-    }
-
-    public void onEventMainThread(TakenProfilePhotoEvent event) {
-        File albumDir = PhotoFragment.getAlbumDir();
-        File profileImage = new File(albumDir.getAbsolutePath() + "/profile"
-                + PhotoFragment.JPEG_FILE_SUFFIX);
-
-        final String username = PreferencesManager.getInstance().getEmail();
-        DbUser user = databaseHelper.getUser(username);
-        user.setPhotoPath(profileImage.getAbsolutePath());
-        databaseHelper.updateUser(user);
-        Picasso.with(getActivity())
-                .load(PhotoFragment.FILE_PREFIX + profileImage)
-                .placeholder(R.drawable.ic_photo)
-                .fit()
-                .centerCrop()
-                .into(mProfilePhoto);
-    }
-
-    public void onEventMainThread(SelectedProfilePhotoEvent event) {
-        final String username = PreferencesManager.getInstance().getEmail();
-        DbUser user = databaseHelper.getUser(username);
-        Uri galleryPhotoUri = getGalleryPhotoUri(getActivity(), event.getSelectedProfileImage());
-        user.setPhotoPath(galleryPhotoUri.getPath());
-        databaseHelper.updateUser(user);
-        Picasso.with(getActivity())
-                .load(PhotoFragment.FILE_PREFIX + galleryPhotoUri)
-                .placeholder(R.drawable.ic_photo)
-                .fit()
-                .centerCrop()
-                .into(mProfilePhoto);
     }
 
 }
