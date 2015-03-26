@@ -3,9 +3,7 @@ package com.sdex.webteb.fragments.main;
 import android.animation.ValueAnimator;
 import android.app.ProgressDialog;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -24,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.activities.NewbornActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.TimeNavigationAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
@@ -55,7 +52,6 @@ import com.sdex.webteb.rest.response.EntityResponse;
 import com.sdex.webteb.rest.response.MonthResponse;
 import com.sdex.webteb.rest.response.NotificationsResponse;
 import com.sdex.webteb.rest.response.WeekResponse;
-import com.sdex.webteb.utils.CompatibilityUtil;
 import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
@@ -64,8 +60,6 @@ import com.sdex.webteb.view.CenteredRecyclerView;
 import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
-
-import org.parceler.Parcels;
 
 import java.io.File;
 import java.util.Calendar;
@@ -84,12 +78,6 @@ import retrofit.client.Response;
  */
 public class HomeFragment extends PhotoFragment {
 
-    public static final String ARTICLES_LIST = "ARTICLES_LIST";
-    public static final String TESTS_LIST = "TESTS_LIST";
-
-    public static final int MORE_ARTICLES_FRAGMENT = 4;
-    public static final int SEARCH_DOCTOR_FRAGMENT = 3;
-    public static final int ALBUM_FRAGMENT = 2;
     public static final int MAX_USERNAME_SIZE = 8;
 
     @InjectView(R.id.fragment_container)
@@ -146,6 +134,7 @@ public class HomeFragment extends PhotoFragment {
     private List<BabyTestResponse> testsList;
 
     private DatabaseHelper databaseHelper;
+    private PreferencesManager preferencesManager;
 
     private TimeNavigationAdapter mTimeNavAdapter;
     private ProgressDialog mProgressDialog;
@@ -154,12 +143,133 @@ public class HomeFragment extends PhotoFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final PreferencesManager preferencesManager = PreferencesManager.getInstance();
-
-        mProgressDialog = ProgressDialog.show(getActivity(), "", getString(R.string.loading), true, false);
+        showProgress();
 
         databaseHelper = DatabaseHelper.getInstance(getActivity());
+        preferencesManager = PreferencesManager.getInstance();
 
+        setUpSummaryView();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
+                getActivity(), R.drawable.divider_home_list));
+        photoContainer.setVisibility(View.VISIBLE);
+
+        RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                hideProgress();
+                showError(restError);
+            }
+
+            @Override
+            public void success(BabyHomeResponse babyHomeResponse, Response response) {
+                setUpHomeView(babyHomeResponse);
+                hideProgress();
+            }
+        });
+
+        getEntityCallback = new RestCallback<EntityResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                showError(restError);
+            }
+
+            @Override
+            public void success(EntityResponse entityResponse, Response response) {
+                if (isAdded()) {
+                    Fragment fragment = PreviewFragment.newInstance(entityResponse);
+                    addNestedFragment(R.id.fragment_container, fragment, PreviewFragment.NAME);
+                }
+            }
+        };
+
+        getWeekCallback = new RestCallback<WeekResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                showError(restError);
+            }
+
+            @Override
+            public void success(WeekResponse weekResponse, Response response) {
+                showWeeks(weekResponse);
+            }
+        };
+
+        getMonthCallback = new RestCallback<MonthResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                showError(restError);
+            }
+
+            @Override
+            public void success(MonthResponse monthResponse, Response response) {
+                showMonths(monthResponse);
+            }
+        };
+
+        boolean expired = preferencesManager.isNotificationDateExpired();
+        if (expired) {
+            boolean ignoreSettings = false;
+            RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
+                @Override
+                public void success(NotificationsResponse notificationsResponse, Response response) {
+                    setUpNotifications(notificationsResponse);
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+
+                }
+            });
+        }
+
+//        if baby got birth, send request to get birth date
+        getProfileCallback = new RestCallback<BabyProfileResponse>() {
+            @Override
+            public void failure(RestError restError) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
+                mText.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void success(BabyProfileResponse babyProfileResponse, Response response) {
+                setUpProfileView(babyProfileResponse);
+            }
+        };
+    }
+
+    private void setUpNotifications(NotificationsResponse notificationsResponse) {
+        if (getActivity() == null) {
+            return;
+        }
+
+        List<ExaminationPreview> tests = notificationsResponse.getTests();
+        List<TipContent> tips = notificationsResponse.getTips();
+        int amount = tests.size() + tips.size();
+        mNotificationsAmount.setText("1/" + amount);
+
+        if (!tests.isEmpty()) {
+            ExaminationPreview examinationPreview = tests.get(0);
+            String name = examinationPreview.getName();
+            mNotificationsTitle.setText(name);
+        } else if (!tips.isEmpty()) {
+            TipContent tipContent = tips.get(0);
+            String text = tipContent.getText();
+            mNotificationsTitle.setText(text);
+        }
+
+        showNotification(notificationsResponse);
+        preferencesManager.setLastNotificationDate(System.currentTimeMillis());
+    }
+
+    private void setUpSummaryView() {
         final LinearLayoutManager timeNavControllerLayoutManager =
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mTimeNavigationRecyclerView.setLayoutManager(timeNavControllerLayoutManager);
@@ -193,350 +303,29 @@ public class HomeFragment extends PhotoFragment {
                 ViewGroup.LayoutParams layoutParams = mDragView.getLayoutParams();
                 layoutParams.height = panelHeight;
                 mDragView.requestLayout();
-                if (CompatibilityUtil.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN) {
-                    mRootView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                } else {
-                    mRootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                }
+                Utils.removeGlobalLayoutListener(mRootView, this);
             }
         });
-
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
-                getActivity(), R.drawable.divider_home_list));
-        photoContainer.setVisibility(View.VISIBLE);
-
-        RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
-            @Override
-            public void failure(RestError restError) {
-
-                if (getActivity() == null) {
-                    return;
-                }
-
-                mProgressDialog.dismiss();
-            }
-
-            @Override
-            public void success(BabyHomeResponse babyHomeResponse, Response response) {
-
-                if (getActivity() == null) {
-                    return;
-                }
-
-                PreferencesManager preferencesManager = PreferencesManager.getInstance();
-                BabyHomeResponse.Card card = babyHomeResponse.getCard();
-                String username = card.getName();
-                int currentWeek = card.getCurrentWeek();
-                preferencesManager.setUsername(username);
-                gaveBirth = card.isGaveBirth();
-
-                if (!gaveBirth) {
-                    mText.setText(String.valueOf(currentWeek));
-                    ViewGroup.LayoutParams layoutParams = mProgress.getLayoutParams();
-                    int currentDays = (card.getTotalDays() - card.getDaysLeft());
-                    layoutParams.width = currentDays * DisplayUtil.getScreenWidth(getActivity()) / card.getTotalDays();
-                    String progressTitle = getString(R.string.profile_progress_text);
-                    mProgress.setText(String.format(progressTitle, card.getDaysLeft()));
-                    mProgress.requestLayout();
-                    preferencesManager.setCurrentDate(String.valueOf(currentWeek),
-                            PreferencesManager.DATE_TYPE_WEEK);
-                    RestClient.getApiService().getWeek(currentWeek, getWeekCallback);
-                } else {
-                    RestClient.getApiService().getBabyProfile(getProfileCallback);
-                    mProgress.setVisibility(View.GONE);
-                }
-
-                setProfilePhoto();
-                showLastPhoto();
-                int mode = gaveBirth ? TimeNavigationAdapter.MODE_MONTHS :
-                        TimeNavigationAdapter.MODE_WEEKS;
-
-                mTimeNavAdapter = new TimeNavigationAdapter(mode);
-
-                mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        mTimeNavigationRecyclerView.smoothScrollToView(view);
-                        mTimeNavAdapter.setSelectedItem(position);
-                        if (gaveBirth) {
-                            RestClient.getApiService().getMonth(mTimeNavAdapter.getItemCount() - position, getMonthCallback);
-                        } else {
-                            RestClient.getApiService().getWeek(mTimeNavAdapter.getItemCount() - position, getWeekCallback);
-                        }
-                        if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                        }
-                    }
-                });
-                mTimeNavigationRecyclerView.setAdapter(mTimeNavAdapter);
-
-                if (mode == TimeNavigationAdapter.MODE_WEEKS) {
-                    int itemsCount = mTimeNavAdapter.getItemCount();
-                    int currentIndex = itemsCount - currentWeek;
-                    timeNavControllerLayoutManager.scrollToPositionWithOffset(currentIndex, getTimeNavigationControllerItemOffset());
-                    mTimeNavAdapter.setSelectedItem(currentIndex);
-                }
-
-                mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
-
-                mUserName.setText(Utils.ellipsize(username, MAX_USERNAME_SIZE));
-
-                List<ContentPreview> previews = babyHomeResponse.getPreviews();
-                List<ContentLink> videos = babyHomeResponse.getVideos();
-                final List<ContentLink> additionalContent = babyHomeResponse.getAdditionalContent();
-
-                final HomeListAdapter adapter = new HomeListAdapter(getActivity(),
-                        getChildFragmentManager(),
-                        previews, videos, additionalContent);
-                adapter.setCallback(new HomeListAdapter.OnItemClickCallback() {
-                    @Override
-                    public void onAdditionalContentClick(ContentLink content, int position) {
-                        Fragment fragment = ArticleFragment.newInstance(additionalContent, position);
-                        addNestedFragment(R.id.fragment_container, fragment, ArticleFragment.NAME);
-                    }
-
-                    @Override
-                    public void onPreviewClick(ContentPreview content) {
-                        EntityKey key = content.getKey();
-                        RestClient.getApiService().getEntity(key.getId(), key.getType(), key.getFieldName(), getEntityCallback);
-                    }
-                });
-
-
-                mRecyclerView.setAdapter(adapter);
-
-                mProgressDialog.dismiss();
-            }
-        });
-
-        getEntityCallback = new RestCallback<EntityResponse>() {
-            @Override
-            public void failure(RestError restError) {
-
-                if (getActivity() == null) {
-                    return;
-                }
-
-                Toast.makeText(getActivity(),
-                        restError != null ? "Error: " + restError.getStrMessage() : "Unknown error",
-                        Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void success(EntityResponse entityResponse, Response response) {
-
-                if (getActivity() == null) {
-                    return;
-                }
-
-                Fragment fragment = new PreviewFragment();
-                Bundle args = new Bundle();
-                Parcelable entity = Parcels.wrap(entityResponse);
-                args.putParcelable(PreviewFragment.ENTITY, entity);
-                fragment.setArguments(args);
-                addNestedFragment(R.id.fragment_container, fragment, PreviewFragment.NAME);
-            }
-        };
-
-        getWeekCallback = new RestCallback<WeekResponse>() {
-            @Override
-            public void failure(RestError restError) {
-                //TODO show error loading
-                if (getActivity() == null) {
-                    return;
-                }
-            }
-
-            @Override
-            public void success(WeekResponse weekResponse, Response response) {
-
-                if (getActivity() == null) {
-                    return;
-                }
-
-                if (weekResponse != null) {
-                    testsList = weekResponse.getTests();
-                    List<ContentPreview> previews = weekResponse.getPreviews();
-                    contentLinks = weekResponse.getAdditionalContent();
-                    List<ContentLink> videos = weekResponse.getVideos();
-
-                    String imageUrl = weekResponse.getImageUrl();
-                    if (imageUrl != null && !imageUrl.isEmpty()) {
-                        Picasso.with(getActivity())
-                                .load(imageUrl)
-                                .placeholder(R.drawable.ic_transparent_placeholder)
-                                .fit()
-                                .centerCrop()
-                                .into(summaryImage);
-                    }
-                    articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
-                    if (testsList != null && testsList.size() > 0) {
-                        testTitle.setText(testsList.get(0).getContentPreview().getTitle());
-                    } else {
-                        testTitle.setText(getActivity().getString(R.string.no_tests));
-                    }
-                    String email = PreferencesManager.getInstance().getEmail();
-                    String dateType = getString(R.string.week);
-                    String date = String.format(dateType, String.valueOf(weekResponse.getWeekNumber()));
-                    List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
-                    int size = data.size();
-                    if (size == 0) {
-                        sumPhotoContainer.setVisibility(View.GONE);
-                        noPhotos.setVisibility(View.VISIBLE);
-                    } else {
-                        sumPhotoContainer.setVisibility(View.VISIBLE);
-                        noPhotos.setVisibility(View.GONE);
-                        for (int i = 0; i < size; i++) {
-                            Picasso.with(getActivity())
-                                    .load(PhotoFragment.FILE_PREFIX + data.get(i).getPath())
-                                    .placeholder(R.drawable.ic_transparent_placeholder)
-                                    .fit()
-                                    .centerCrop()
-                                    .into(summaryPhotos.get(i));
-                        }
-                    }
-                } else {
-                    //TODO show no data
-                }
-            }
-        };
-
-        getMonthCallback = new RestCallback<MonthResponse>() {
-            @Override
-            public void failure(RestError restError) {
-                //TODO show error loading
-                if (getActivity() == null) {
-                    return;
-                }
-            }
-
-            @Override
-            public void success(MonthResponse monthResponse, Response response) {
-                if (getActivity() == null) {
-                    return;
-                }
-                if (monthResponse != null) {
-                    testsList = monthResponse.getTests();
-                    List<ContentPreview> previews = monthResponse.getPreviews();
-                    contentLinks = monthResponse.getAdditionalContent();
-                    List<ContentLink> videos = monthResponse.getVideos();
-
-                    String imageUrl = monthResponse.getImageUrl();
-                    if (!TextUtils.isEmpty(imageUrl)) {
-                        Picasso.with(getActivity())
-                                .load(imageUrl)
-                                .placeholder(R.drawable.ic_transparent_placeholder)
-                                .fit()
-                                .centerCrop()
-                                .into(summaryImage);
-                    }
-                    articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
-                    if (testsList != null && testsList.size() > 0) {
-                        testTitle.setText(testsList.get(0).getContentPreview().getTitle());
-                    } else {
-                        testTitle.setText(getActivity().getString(R.string.no_tests));
-                    }
-                    String email = PreferencesManager.getInstance().getEmail();
-                    String dateType = getString(R.string.month);
-                    String date = String.format(dateType, String.valueOf(monthResponse.getAgeInMonths()));
-                    List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
-                    int size = data.size();
-                    if (size == 0) {
-                        sumPhotoContainer.setVisibility(View.GONE);
-                        noPhotos.setVisibility(View.VISIBLE);
-                    } else {
-                        sumPhotoContainer.setVisibility(View.VISIBLE);
-                        noPhotos.setVisibility(View.GONE);
-                        for (int i = 0; i < size; i++) {
-                            Picasso.with(getActivity())
-                                    .load(PhotoFragment.FILE_PREFIX + data.get(i).getPath())
-                                    .placeholder(R.drawable.ic_transparent_placeholder)
-                                    .fit()
-                                    .centerCrop()
-                                    .into(summaryPhotos.get(i));
-                        }
-                    }
-                } else {
-                    //TODO show no data
-                }
-            }
-        };
-
-        boolean expired = preferencesManager.isNotificationDateExpired();
-        if (expired) {
-            boolean ignoreSettings = false;
-            RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
-                @Override
-                public void success(NotificationsResponse notificationsResponse, Response response) {
-
-                    if (getActivity() == null) {
-                        return;
-                    }
-
-                    List<ExaminationPreview> tests = notificationsResponse.getTests();
-                    List<TipContent> tips = notificationsResponse.getTips();
-                    int amount = tests.size() + tips.size();
-                    mNotificationsAmount.setText("1/" + amount);
-
-                    if (!tests.isEmpty()) {
-                        ExaminationPreview examinationPreview = tests.get(0);
-                        String name = examinationPreview.getName();
-                        mNotificationsTitle.setText(name);
-                    } else if (!tips.isEmpty()) {
-                        TipContent tipContent = tips.get(0);
-                        String text = tipContent.getText();
-                        mNotificationsTitle.setText(text);
-                    }
-
-                    showNotification(notificationsResponse);
-                    preferencesManager.setLastNotificationDate(System.currentTimeMillis());
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    if (getActivity() == null) {
-                        return;
-                    }
-                }
-            });
-        }
-
-//        if baby got birth, send request to get birth date
-        getProfileCallback = new RestCallback<BabyProfileResponse>() {
-            @Override
-            public void failure(RestError restError) {
-                mText.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void success(BabyProfileResponse babyProfileResponse, Response response) {
-
-                if (getActivity() == null) {
-                    return;
-                }
-
-                long currentTime = Calendar.getInstance().getTime().getTime();
-                long birthDate = DateUtil.parseDate(babyProfileResponse.getDate()).getTime();
-                long diffTime = currentTime - birthDate;
-                long month = diffTime / 1000 / 3600 / 24 / 30;
-                mText.setText(String.format("%d month", month));
-                PreferencesManager.getInstance().setCurrentDate(String.valueOf(month),
-                        PreferencesManager.DATE_TYPE_MONTH);
-                RestClient.getApiService().getMonth((int) month, getMonthCallback);
-                if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
-                    setNavController((int) month, timeNavControllerLayoutManager);
-                }
-            }
-        };
     }
 
-    private void setNavController(int month, LinearLayoutManager timeNavControllerLayoutManager) {
-        int index = mTimeNavAdapter.getItemCount() - month;
-        timeNavControllerLayoutManager.scrollToPositionWithOffset(index, getTimeNavigationControllerItemOffset());
-        mTimeNavAdapter.setSelectedItem(index);
+    private void showProgress() {
+        mProgressDialog = ProgressDialog.show(getActivity(), "", getString(R.string.loading), true, false);
+    }
+
+    private void hideProgress() {
+        if (getActivity() == null) {
+            return;
+        }
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    private void showError(RestError restError) {
+        if (getActivity() == null) {
+            return;
+        }
+        // TODO show error
     }
 
     @Override
@@ -544,15 +333,228 @@ public class HomeFragment extends PhotoFragment {
         return R.layout.fragment_home;
     }
 
+    private void setUpProfileView(BabyProfileResponse babyProfileResponse) {
+
+        if (getActivity() == null) {
+            return;
+        }
+
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        long currentTime = Calendar.getInstance().getTime().getTime();
+        long birthDate = DateUtil.parseDate(babyProfileResponse.getDate()).getTime();
+        long diffTime = currentTime - birthDate;
+        long month = diffTime / 1000 / 3600 / 24 / 30;
+        mText.setText(String.format("%d month", month));
+        preferencesManager.setCurrentDate(String.valueOf(month),
+                PreferencesManager.DATE_TYPE_MONTH);
+        RestClient.getApiService().getMonth((int) month, getMonthCallback);
+        if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
+            setNavController((int) month);
+        }
+    }
+
+    private void showMonths(MonthResponse monthResponse) {
+
+        if (getActivity() == null) {
+            return;
+        }
+
+        if (monthResponse != null) {
+            testsList = monthResponse.getTests();
+            List<ContentPreview> previews = monthResponse.getPreviews();
+            contentLinks = monthResponse.getAdditionalContent();
+            List<ContentLink> videos = monthResponse.getVideos();
+
+            String imageUrl = monthResponse.getImageUrl();
+            if (!TextUtils.isEmpty(imageUrl)) {
+                Picasso.with(getActivity())
+                        .load(imageUrl)
+                        .placeholder(R.drawable.ic_transparent_placeholder)
+                        .fit()
+                        .centerCrop()
+                        .into(summaryImage);
+            }
+            articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
+            if (testsList != null && testsList.size() > 0) {
+                testTitle.setText(testsList.get(0).getContentPreview().getTitle());
+            } else {
+                testTitle.setText(getActivity().getString(R.string.no_tests));
+            }
+            String email = PreferencesManager.getInstance().getEmail();
+            String dateType = getString(R.string.month);
+            String date = String.format(dateType, String.valueOf(monthResponse.getAgeInMonths()));
+            List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
+            int size = data.size();
+            if (size == 0) {
+                sumPhotoContainer.setVisibility(View.GONE);
+                noPhotos.setVisibility(View.VISIBLE);
+            } else {
+                sumPhotoContainer.setVisibility(View.VISIBLE);
+                noPhotos.setVisibility(View.GONE);
+                for (int i = 0; i < size; i++) {
+                    Picasso.with(getActivity())
+                            .load(PhotoFragment.FILE_PREFIX + data.get(i).getPath())
+                            .placeholder(R.drawable.ic_transparent_placeholder)
+                            .fit()
+                            .centerCrop()
+                            .into(summaryPhotos.get(i));
+                }
+            }
+        } else {
+            //TODO show no data
+        }
+    }
+
+    private void showWeeks(WeekResponse weekResponse) {
+
+        if (getActivity() == null) {
+            return;
+        }
+
+        if (weekResponse != null) {
+            testsList = weekResponse.getTests();
+            List<ContentPreview> previews = weekResponse.getPreviews();
+            contentLinks = weekResponse.getAdditionalContent();
+            List<ContentLink> videos = weekResponse.getVideos();
+
+            String imageUrl = weekResponse.getImageUrl();
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                Picasso.with(getActivity())
+                        .load(imageUrl)
+                        .placeholder(R.drawable.ic_transparent_placeholder)
+                        .fit()
+                        .centerCrop()
+                        .into(summaryImage);
+            }
+            articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
+            if (testsList != null && testsList.size() > 0) {
+                testTitle.setText(testsList.get(0).getContentPreview().getTitle());
+            } else {
+                testTitle.setText(getActivity().getString(R.string.no_tests));
+            }
+            String email = PreferencesManager.getInstance().getEmail();
+            String dateType = getString(R.string.week);
+            String date = String.format(dateType, String.valueOf(weekResponse.getWeekNumber()));
+            List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
+            int size = data.size();
+            if (size == 0) {
+                sumPhotoContainer.setVisibility(View.GONE);
+                noPhotos.setVisibility(View.VISIBLE);
+            } else {
+                sumPhotoContainer.setVisibility(View.VISIBLE);
+                noPhotos.setVisibility(View.GONE);
+                for (int i = 0; i < size; i++) {
+                    Picasso.with(getActivity())
+                            .load(PhotoFragment.FILE_PREFIX + data.get(i).getPath())
+                            .placeholder(R.drawable.ic_transparent_placeholder)
+                            .fit()
+                            .centerCrop()
+                            .into(summaryPhotos.get(i));
+                }
+            }
+        } else {
+            //TODO show no data
+        }
+    }
+
+    private void setUpHomeView(BabyHomeResponse babyHomeResponse) {
+        if (!isAdded()) {
+            return;
+        }
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        BabyHomeResponse.Card card = babyHomeResponse.getCard();
+        String username = card.getName();
+        int currentWeek = card.getCurrentWeek();
+        preferencesManager.setUsername(username);
+        gaveBirth = card.isGaveBirth();
+
+        if (!gaveBirth) {
+            mText.setText(String.valueOf(currentWeek));
+            ViewGroup.LayoutParams layoutParams = mProgress.getLayoutParams();
+            int currentDays = (card.getTotalDays() - card.getDaysLeft());
+            layoutParams.width = currentDays * DisplayUtil.getScreenWidth(getActivity()) / card.getTotalDays();
+            String progressTitle = getString(R.string.profile_progress_text);
+            mProgress.setText(String.format(progressTitle, card.getDaysLeft()));
+            mProgress.requestLayout();
+            preferencesManager.setCurrentDate(String.valueOf(currentWeek),
+                    PreferencesManager.DATE_TYPE_WEEK);
+            RestClient.getApiService().getWeek(currentWeek, getWeekCallback);
+        } else {
+            RestClient.getApiService().getBabyProfile(getProfileCallback);
+            mProgress.setVisibility(View.GONE);
+        }
+
+        setProfilePhoto();
+        showLastPhoto();
+        int mode = gaveBirth ? TimeNavigationAdapter.MODE_MONTHS :
+                TimeNavigationAdapter.MODE_WEEKS;
+
+        mTimeNavAdapter = new TimeNavigationAdapter(mode);
+
+        mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mTimeNavigationRecyclerView.smoothScrollToView(view);
+                mTimeNavAdapter.setSelectedItem(position);
+                if (gaveBirth) {
+                    RestClient.getApiService().getMonth(mTimeNavAdapter.getItemCount() - position, getMonthCallback);
+                } else {
+                    RestClient.getApiService().getWeek(mTimeNavAdapter.getItemCount() - position, getWeekCallback);
+                }
+                if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                }
+            }
+        });
+        mTimeNavigationRecyclerView.setAdapter(mTimeNavAdapter);
+
+        if (mode == TimeNavigationAdapter.MODE_WEEKS) {
+            int itemsCount = mTimeNavAdapter.getItemCount();
+            int currentIndex = itemsCount - currentWeek;
+            LinearLayoutManager layoutManager = (LinearLayoutManager) mTimeNavigationRecyclerView.getLayoutManager();
+            layoutManager.scrollToPositionWithOffset(currentIndex, getTimeNavigationControllerItemOffset());
+            mTimeNavAdapter.setSelectedItem(currentIndex);
+        }
+
+        mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
+
+        mUserName.setText(Utils.ellipsize(username, MAX_USERNAME_SIZE));
+
+        List<ContentPreview> previews = babyHomeResponse.getPreviews();
+        List<ContentLink> videos = babyHomeResponse.getVideos();
+        final List<ContentLink> additionalContent = babyHomeResponse.getAdditionalContent();
+
+        final HomeListAdapter adapter = new HomeListAdapter(getActivity(),
+                getChildFragmentManager(),
+                previews, videos, additionalContent);
+        adapter.setCallback(new HomeListAdapter.OnItemClickCallback() {
+            @Override
+            public void onAdditionalContentClick(ContentLink content, int position) {
+                Fragment fragment = ArticleFragment.newInstance(additionalContent, position);
+                addNestedFragment(R.id.fragment_container, fragment, ArticleFragment.NAME);
+            }
+
+            @Override
+            public void onPreviewClick(ContentPreview content) {
+                EntityKey key = content.getKey();
+                RestClient.getApiService().getEntity(key.getId(), key.getType(), key.getFieldName(), getEntityCallback);
+            }
+        });
+
+        mRecyclerView.setAdapter(adapter);
+    }
+
+    private void setNavController(int month) {
+        int index = mTimeNavAdapter.getItemCount() - month;
+        LinearLayoutManager layoutManager = (LinearLayoutManager) mTimeNavigationRecyclerView.getLayoutManager();
+        layoutManager.scrollToPositionWithOffset(index, getTimeNavigationControllerItemOffset());
+        mTimeNavAdapter.setSelectedItem(index);
+    }
 
     @OnClick(R.id.summary_show_tests)
     public void showTests() {
         if (testsList != null) {
-            Fragment fragment = new SummaryTestsFragment();
-            Bundle args = new Bundle();
-            args.putParcelable(TESTS_LIST, Parcels.wrap(testsList));
-            fragment.setArguments(args);
-
+            Fragment fragment = SummaryTestsFragment.newInstance(testsList);
             addNestedFragment(R.id.fragment_container, fragment, SummaryTestsFragment.NAME);
         } else {
             Toast.makeText(getActivity(), "No tests", Toast.LENGTH_SHORT).show();
@@ -562,11 +564,7 @@ public class HomeFragment extends PhotoFragment {
     @OnClick(R.id.summary_articles)
     public void showArticles() {
         if (contentLinks != null) {
-            Fragment fragment = new AdditionalContentFragment();
-            Bundle args = new Bundle();
-            args.putParcelable(ARTICLES_LIST, Parcels.wrap(contentLinks));
-            fragment.setArguments(args);
-
+            Fragment fragment = AdditionalContentFragment.newInstance(contentLinks);
             addNestedFragment(R.id.fragment_container, fragment, AdditionalContentFragment.NAME);
         } else {
             Toast.makeText(getActivity(), "No articles", Toast.LENGTH_SHORT).show();

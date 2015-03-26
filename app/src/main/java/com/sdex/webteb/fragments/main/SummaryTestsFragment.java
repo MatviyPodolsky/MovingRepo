@@ -25,7 +25,8 @@ public class SummaryTestsFragment extends BaseMainFragment {
 
     public static final String NAME = SummaryTestsFragment.class.getSimpleName();
 
-    private TestsAdapter mAdapter;
+    private static final String ARG_TESTS_LIST = "ARG_TESTS_LIST";
+
     @InjectView(R.id.list)
     ExpandableListView mList;
     @InjectView(R.id.progress)
@@ -34,6 +35,17 @@ public class SummaryTestsFragment extends BaseMainFragment {
     TextView error;
     @InjectView(R.id.title)
     TextView title;
+
+    public static Fragment newInstance(List<BabyTestResponse> testsList) {
+        Fragment fragment = new SummaryTestsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_TESTS_LIST, Parcels.wrap(testsList));
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public SummaryTestsFragment() {
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -44,10 +56,11 @@ public class SummaryTestsFragment extends BaseMainFragment {
         error.setVisibility(View.GONE);
 
         Bundle args = getArguments();
-        final List<BabyTestResponse> tests = Parcels.unwrap(args.getParcelable(HomeFragment.TESTS_LIST));
+        final List<BabyTestResponse> tests = Parcels.unwrap(args.getParcelable(ARG_TESTS_LIST));
         String titleText = getString(R.string.we_found_n_tests);
-        title.setText(String.format(titleText, tests.size()));
-        mAdapter = new TestsAdapter(getActivity());
+        int size = tests.size();
+        title.setText(String.format(titleText, size));
+        TestsAdapter mAdapter = new TestsAdapter(getActivity());
         mList.setAdapter(mAdapter);
         mAdapter.setItems(tests);
         mAdapter.setCallback(new TestsAdapter.Callback() {
@@ -73,6 +86,9 @@ public class SummaryTestsFragment extends BaseMainFragment {
 
             }
         });
+        if (size == 1) {
+            mList.expandGroup(0, true);
+        }
     }
 
     @Override

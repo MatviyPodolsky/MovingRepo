@@ -26,7 +26,8 @@ public class AdditionalContentFragment extends BaseMainFragment {
 
     public static final String NAME = AdditionalContentFragment.class.getSimpleName();
 
-    private ArticlesAdapter mAdapter;
+    private static final String ARG_ARTICLES_LIST = "ARTICLES_LIST";
+
     @InjectView(R.id.list)
     ListView mList;
     @InjectView(R.id.progress)
@@ -35,6 +36,17 @@ public class AdditionalContentFragment extends BaseMainFragment {
     TextView error;
     @InjectView(R.id.title)
     TextView title;
+
+    public static Fragment newInstance(List<ContentLink> contentLinks) {
+        Fragment fragment = new AdditionalContentFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_ARTICLES_LIST, Parcels.wrap(contentLinks));
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public AdditionalContentFragment() {
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -45,10 +57,10 @@ public class AdditionalContentFragment extends BaseMainFragment {
         error.setVisibility(View.GONE);
 
         Bundle args = getArguments();
-        final List<ContentLink> articles = Parcels.unwrap(args.getParcelable(HomeFragment.ARTICLES_LIST));
+        final List<ContentLink> articles = Parcels.unwrap(args.getParcelable(ARG_ARTICLES_LIST));
         String titleText = getString(R.string.we_found_n_articles);
         title.setText(String.format(titleText, articles.size()));
-        mAdapter = new ArticlesAdapter(getActivity(), articles);
+        ArticlesAdapter mAdapter = new ArticlesAdapter(getActivity(), articles);
         mList.setAdapter(mAdapter);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
