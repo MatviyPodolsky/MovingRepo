@@ -19,8 +19,6 @@ import com.sdex.webteb.utils.PreferencesManager;
 import com.viewpagerindicator.IconPageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
-import java.util.Arrays;
-
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -47,7 +45,6 @@ public class WelcomeActivity extends FacebookAuthActivity implements PageIndicat
         mIndicator.setViewPager(mPager);
         mPager.setOnPageChangeListener(this);
         mPager.setOffscreenPageLimit(3);
-        loginButton.setReadPermissions(Arrays.asList("email"));
 
         showServerChooseDialog();
     }

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.activities.NewbornActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.TimeNavigationAdapter;
 import com.sdex.webteb.database.DatabaseHelper;

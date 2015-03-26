@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.facebook.Session;
+import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
@@ -43,6 +44,7 @@ public abstract class FacebookAuthActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
 //        loginButton.setReadPermissions(Arrays.asList("email"));
+        loginButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
 
