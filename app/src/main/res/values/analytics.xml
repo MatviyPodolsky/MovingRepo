@@ -2,6 +2,7 @@
 <resources>
 
     <string name="screen_home">Home</string>
+    <string name="screen_summary">Summary</string>
     <string name="screen_my_tests">Tests</string>
     <string name="screen_my_album">Album</string>
     <string name="screen_search_doctor">Search doctor</string>
