@@ -41,6 +41,8 @@ import de.greenrobot.event.EventBus;
  */
 public class AlbumViewFragment extends BaseMainFragment {
 
+    public static final String NAME = AlbumViewFragment.class.getSimpleName();
+
     private final EventBus mEventBus = EventBus.getDefault();
     @InjectView(R.id.viewpager)
     ViewPager mViewPager;

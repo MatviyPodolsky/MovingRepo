@@ -28,6 +28,8 @@ import butterknife.OnClick;
 
 public class ArticleFragment extends BaseMainFragment {
 
+    public static final String NAME = ArticleFragment.class.getSimpleName();
+
     private static final String ARG_ARTICLES = "ARG_ARTICLES";
     private static final String ARG_POSITION = "ARG_POSITION";
 

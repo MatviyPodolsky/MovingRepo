@@ -3,7 +3,6 @@ package com.sdex.webteb.fragments.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
@@ -23,6 +22,8 @@ import butterknife.InjectView;
  * Created by MPODOLSKY on 23.03.2015.
  */
 public class SummaryTestsFragment extends BaseMainFragment {
+
+    public static final String NAME = SummaryTestsFragment.class.getSimpleName();
 
     private TestsAdapter mAdapter;
     @InjectView(R.id.list)
@@ -53,26 +54,13 @@ public class SummaryTestsFragment extends BaseMainFragment {
             @Override
             public void onReadMoreBtnClick(BabyTestResponse item) {
                 Fragment fragment = TestsItemFragment.newInstance(item);
-                FragmentManager fragmentManager;
-                if (getParentFragment() != null) {
-                    fragmentManager = getParentFragment().getChildFragmentManager();
-                } else {
-                    fragmentManager = getChildFragmentManager();
-                }
-                fragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, fragment, TestsItemFragment.NAME)
-                        .addToBackStack(TestsItemFragment.NAME)
-                        .commit();
+                addNestedFragment(R.id.fragment_container, fragment, TestsItemFragment.NAME);
             }
 
             @Override
             public void onSearchDoctorBtnClick() {
                 Fragment fragment = new SearchDoctorFragment();
-                FragmentManager fragmentManager = getChildFragmentManager();
-                fragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, fragment, SearchDoctorFragment.NAME)
-                        .addToBackStack(SearchDoctorFragment.NAME)
-                        .commit();
+                addNestedFragment(R.id.fragment_container, fragment, SearchDoctorFragment.NAME);
             }
 
             @Override

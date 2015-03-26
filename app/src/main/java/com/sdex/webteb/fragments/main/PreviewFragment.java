@@ -19,6 +19,8 @@ import butterknife.InjectView;
 
 public class PreviewFragment extends BaseMainFragment {
 
+    public static final String NAME = PreviewFragment.class.getSimpleName();
+
     public static final String ENTITY = "ENTITY";
 
     @InjectView(R.id.content)

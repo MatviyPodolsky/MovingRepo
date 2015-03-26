@@ -74,12 +74,7 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AlbumViewFragment fragment = AlbumViewFragment.newInstance(position);
-
-                FragmentManager fragmentManager = getChildFragmentManager();
-                fragmentManager.beginTransaction()
-                        .add(R.id.fragment_album_container, fragment, "gg")
-                        .addToBackStack("gg")
-                        .commit();
+                addNestedFragment(R.id.fragment_album_container, fragment, AlbumViewFragment.NAME);
             }
         });
 
@@ -168,15 +163,8 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     }
 
     private void showPhotoPreview(String path) {
-        Fragment fragment = new SavePhotoFragment();
-        Bundle args = new Bundle();
-        args.putString(PHOTO_PATH, path);
-        fragment.setArguments(args);
-        FragmentManager fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment, "content_fragment")
-                .addToBackStack(null)
-                .commit();
+        Fragment fragment = SavePhotoFragment.newInstance(path);
+        addNestedFragment(R.id.fragment_container, fragment, SavePhotoFragment.NAME);
     }
 
     @Override

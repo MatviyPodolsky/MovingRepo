@@ -9,7 +9,6 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -91,7 +90,6 @@ public class HomeFragment extends PhotoFragment {
     public static final int SEARCH_DOCTOR_FRAGMENT = 3;
     public static final int ALBUM_FRAGMENT = 2;
     public static final int MAX_USERNAME_SIZE = 8;
-    public static final String CONTENT_FRAGMENT = "content_fragment";
 
     @InjectView(R.id.fragment_container)
     FrameLayout mRootView;
@@ -296,11 +294,7 @@ public class HomeFragment extends PhotoFragment {
                     @Override
                     public void onAdditionalContentClick(ContentLink content, int position) {
                         Fragment fragment = ArticleFragment.newInstance(additionalContent, position);
-                        FragmentManager fragmentManager = getChildFragmentManager();
-                        fragmentManager.beginTransaction()
-                                .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
-                                .addToBackStack(null)
-                                .commit();
+                        addNestedFragment(R.id.fragment_container, fragment, ArticleFragment.NAME);
                     }
 
                     @Override
@@ -342,11 +336,7 @@ public class HomeFragment extends PhotoFragment {
                 Parcelable entity = Parcels.wrap(entityResponse);
                 args.putParcelable(PreviewFragment.ENTITY, entity);
                 fragment.setArguments(args);
-                FragmentManager fragmentManager = getChildFragmentManager();
-                fragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
-                        .addToBackStack(null)
-                        .commit();
+                addNestedFragment(R.id.fragment_container, fragment, PreviewFragment.NAME);
             }
         };
 
@@ -561,11 +551,8 @@ public class HomeFragment extends PhotoFragment {
             Bundle args = new Bundle();
             args.putParcelable(TESTS_LIST, Parcels.wrap(testsList));
             fragment.setArguments(args);
-            FragmentManager fragmentManager = getChildFragmentManager();
-            fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
-                    .addToBackStack(null)
-                    .commit();
+
+            addNestedFragment(R.id.fragment_container, fragment, SummaryTestsFragment.NAME);
         } else {
             Toast.makeText(getActivity(), "No tests", Toast.LENGTH_SHORT).show();
         }
@@ -578,11 +565,8 @@ public class HomeFragment extends PhotoFragment {
             Bundle args = new Bundle();
             args.putParcelable(ARTICLES_LIST, Parcels.wrap(contentLinks));
             fragment.setArguments(args);
-            FragmentManager fragmentManager = getChildFragmentManager();
-            fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
-                    .addToBackStack(null)
-                    .commit();
+
+            addNestedFragment(R.id.fragment_container, fragment, AdditionalContentFragment.NAME);
         } else {
             Toast.makeText(getActivity(), "No articles", Toast.LENGTH_SHORT).show();
         }
@@ -591,11 +575,7 @@ public class HomeFragment extends PhotoFragment {
     @OnClick(R.id.summary_photos)
     public void showAlbum() {
         Fragment fragment = new AlbumFragment();
-        FragmentManager fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
-                .addToBackStack(AlbumFragment.NAME)
-                .commit();
+        addNestedFragment(R.id.fragment_container, fragment, AlbumFragment.NAME);
     }
 
     @OnClick(R.id.summary_close)
@@ -707,15 +687,8 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void showPhotoPreview(String path) {
-        Fragment fragment = new SavePhotoFragment();
-        Bundle args = new Bundle();
-        args.putString(PHOTO_PATH, path);
-        fragment.setArguments(args);
-        FragmentManager fragmentManager = getChildFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment, CONTENT_FRAGMENT)
-                .addToBackStack(null)
-                .commit();
+        Fragment fragment = SavePhotoFragment.newInstance(path);
+        addNestedFragment(R.id.fragment_container, fragment, SavePhotoFragment.NAME);
     }
 
     public void onEventMainThread(SavedPhotoEvent event) {

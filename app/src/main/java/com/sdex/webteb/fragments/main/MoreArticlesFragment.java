@@ -3,7 +3,6 @@ package com.sdex.webteb.fragments.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -63,16 +62,7 @@ public class MoreArticlesFragment extends BaseMainFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fragment = ArticleFragment.newInstance(mData, position);
-                FragmentManager fragmentManager;
-                if (getParentFragment() != null) {
-                    fragmentManager = getParentFragment().getChildFragmentManager();
-                } else {
-                    fragmentManager = getChildFragmentManager();
-                }
-                fragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, fragment, "content_fragment")
-                        .addToBackStack(null)
-                        .commit();
+                addNestedFragment(R.id.fragment_container, fragment, ArticleFragment.NAME);
             }
         });
 

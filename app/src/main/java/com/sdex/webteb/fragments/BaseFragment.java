@@ -3,6 +3,7 @@ package com.sdex.webteb.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,5 +29,18 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public abstract int getLayoutResource();
+
+    protected void addNestedFragment(int containerId, Fragment fragment, String tag) {
+        FragmentManager fragmentManager;
+        if (getParentFragment() != null) { // parent fragment already nested
+            fragmentManager = getParentFragment().getChildFragmentManager();
+        } else {
+            fragmentManager = getChildFragmentManager();
+        }
+        fragmentManager.beginTransaction()
+                .add(containerId, fragment, tag)
+                .addToBackStack(tag)
+                .commit();
+    }
 
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,7 +18,6 @@ import com.sdex.webteb.adapters.TagsAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
-import com.sdex.webteb.fragments.main.HomeFragment;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.WrapLinearLayoutManager;
@@ -32,6 +32,10 @@ import de.greenrobot.event.EventBus;
  */
 public class SavePhotoFragment extends BaseFragment {
 
+    public static final String NAME = SavePhotoFragment.class.getSimpleName();
+
+    private static final String PHOTO_PATH = "PHOTO_PATH";
+
     @InjectView(R.id.description)
     EditText mDescription;
     @InjectView(R.id.image)
@@ -43,10 +47,21 @@ public class SavePhotoFragment extends BaseFragment {
     private TagsAdapter adapter;
     private final PreferencesManager mPreferencesManager = PreferencesManager.getInstance();
 
+    public static Fragment newInstance(String path) {
+        Fragment fragment = new SavePhotoFragment();
+        Bundle args = new Bundle();
+        args.putString(PHOTO_PATH, path);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public SavePhotoFragment() {
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        currentPhoto = Uri.parse(getArguments().getString(HomeFragment.PHOTO_PATH));
+        currentPhoto = Uri.parse(getArguments().getString(PHOTO_PATH));
         Picasso.with(getActivity())
                 .load(PhotoFragment.FILE_PREFIX + currentPhoto)
                 .noPlaceholder()

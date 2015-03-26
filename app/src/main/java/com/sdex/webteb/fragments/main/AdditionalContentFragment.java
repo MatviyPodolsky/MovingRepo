@@ -3,7 +3,6 @@ package com.sdex.webteb.fragments.main;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,6 +23,8 @@ import butterknife.InjectView;
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
 public class AdditionalContentFragment extends BaseMainFragment {
+
+    public static final String NAME = AdditionalContentFragment.class.getSimpleName();
 
     private ArticlesAdapter mAdapter;
     @InjectView(R.id.list)
@@ -53,11 +54,7 @@ public class AdditionalContentFragment extends BaseMainFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fragment = ArticleFragment.newInstance(articles, position);
-                FragmentManager fragmentManager = getParentFragment().getChildFragmentManager();
-                fragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, fragment, "content_fragment")
-                        .addToBackStack(null)
-                        .commit();
+                addNestedFragment(R.id.fragment_container, fragment, ArticleFragment.NAME);
             }
         });
 
