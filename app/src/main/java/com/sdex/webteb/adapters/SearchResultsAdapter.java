@@ -26,11 +26,11 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
 
     public interface Callback {
 
-        void onCallClick(String phoneNumber);
+        void onCallClick(Doctor doctor);
 
-        void onSaveContactClick(String phoneNumber);
+        void onSaveContactClick(Doctor doctor);
 
-        void onShowLocationClick(String latitude, String longitude);
+        void onShowLocationClick(Doctor doctor);
 
     }
 
@@ -62,7 +62,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
             @Override
             public void onClick(View v) {
                 if(mCallback != null) {
-                    mCallback.onCallClick(item.getPhone());
+                    mCallback.onCallClick(item);
                 }
             }
         });
@@ -71,7 +71,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
             @Override
             public void onClick(View v) {
                 if(mCallback != null) {
-                    mCallback.onSaveContactClick(item.getPhone());
+                    mCallback.onSaveContactClick(item);
                 }
             }
         });
@@ -82,7 +82,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
                 @Override
                 public void onClick(View v) {
                     if(mCallback != null) {
-                        mCallback.onShowLocationClick(item.getLatitude(), item.getLongitude());
+                        mCallback.onShowLocationClick(item);
                     }
                 }
             });

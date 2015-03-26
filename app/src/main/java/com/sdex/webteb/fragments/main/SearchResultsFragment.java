@@ -78,7 +78,8 @@ public class SearchResultsFragment extends BaseMainFragment {
         mAdapter = new SearchResultsAdapter(getActivity(), mData);
         mAdapter.setCallback(new SearchResultsAdapter.Callback() {
             @Override
-            public void onCallClick(String phoneNumber) {
+            public void onCallClick(Doctor doctor) {
+                String phoneNumber = doctor.getPhone();
                 if(phoneNumber != null && !phoneNumber.isEmpty()) {
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     intent.setData(Uri.parse("tel:" + phoneNumber));
@@ -87,15 +88,16 @@ public class SearchResultsFragment extends BaseMainFragment {
             }
 
             @Override
-            public void onSaveContactClick(String phoneNumber) {
+            public void onSaveContactClick(Doctor doctor) {
+                String phoneNumber = doctor.getPhone();
                 if(phoneNumber != null && !phoneNumber.isEmpty()) {
 //                    TODO save contact
                 }
             }
 
             @Override
-            public void onShowLocationClick(String latitude, String longitude) {
-                Uri uri = Uri.parse("geo:0,0?q=" + latitude + "," + longitude);
+            public void onShowLocationClick(Doctor doctor) {
+                Uri uri = Uri.parse("geo:0,0?q=" + doctor.getLatitude() + "," + doctor.getLongitude());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }
