@@ -11,6 +11,7 @@
     <color name="hint">#AAAAAA</color>
     <color name="error">#FF0000</color>
     <color name="default_background">#FFFFFF</color>
+    <color name="gray_background">#D8D8D8</color>
     <color name="action_bar_text_color">#FFFFFF</color>
     <color name="divider">#AAAAAA</color>
 

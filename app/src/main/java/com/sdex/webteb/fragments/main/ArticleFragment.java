@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,8 @@ public class ArticleFragment extends BaseMainFragment {
     WebView mContentView;
     @InjectView(R.id.title)
     TextView title;
+    @InjectView(R.id.share)
+    ImageButton mShareButton;
 
     private List<ContentLink> data;
     private int currentPosition;
@@ -72,6 +75,8 @@ public class ArticleFragment extends BaseMainFragment {
         final PopupWindow pw = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
+        mShareButton.setEnabled(false);
+
         final ContentLink article = data.get(currentPosition);
 
         contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
@@ -101,6 +106,12 @@ public class ArticleFragment extends BaseMainFragment {
             }
         });
         pw.setBackgroundDrawable(new ColorDrawable());
+        pw.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mShareButton.setEnabled(true);
+            }
+        });
         pw.setOutsideTouchable(true);
         pw.showAsDropDown(v);
     }
