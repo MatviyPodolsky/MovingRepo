@@ -11,8 +11,8 @@ import lombok.Setter;
 public class SendEventRequest extends ApiRequest {
 
     @SerializedName("Key")
-    public String key;
+    private String key;
     @SerializedName("Data")
-    public String data;
+    private String data;
 
 }

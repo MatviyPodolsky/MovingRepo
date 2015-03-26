@@ -133,7 +133,7 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         DbPhoto photo = event.getPhoto();
 
         String label = photo.getInnerDate();
-        sendAnalyticsEvent(Events.CATEGORY_ALBUM, Events.ACTION_REMOVE_IMAGE, label);
+        sendInnerAnalyticsEvent(Events.ACTION_REMOVE_IMAGE, label);
 
         databaseHelper.deletePhoto(photo);
 

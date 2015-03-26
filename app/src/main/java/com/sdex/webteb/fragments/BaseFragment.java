@@ -11,8 +11,13 @@ import android.view.ViewGroup;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.sdex.webteb.WTApp;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.request.SendEventRequest;
 
 import butterknife.ButterKnife;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
@@ -75,6 +80,20 @@ public abstract class BaseFragment extends Fragment {
             }
             t.send(eventBuilder.build());
         }
+    }
+
+    protected void sendInnerAnalyticsEvent(String action, String label) {
+        SendEventRequest request = new SendEventRequest();
+        request.setKey(action);
+        request.setData(label);
+        RestClient.getApiService().sendEvent(request, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+            }
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
     }
 
 }

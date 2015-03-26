@@ -88,7 +88,7 @@ public class SearchResultsFragment extends BaseMainFragment {
                     startActivity(intent);
                 }
                 String label = doctor.getId() + " - " + doctor.getName();
-                sendAnalyticsEvent(Events.CATEGORY_PHONE, Events.ACTION_CALL, label);
+                sendInnerAnalyticsEvent(Events.ACTION_CALL, label);
             }
 
             @Override
@@ -98,7 +98,7 @@ public class SearchResultsFragment extends BaseMainFragment {
 //                    TODO save contact
                 }
                 String label = doctor.getId() + " - " + doctor.getName();
-                sendAnalyticsEvent(Events.CATEGORY_PHONE, Events.ACTION_SAVE_CONTACT, label);
+                sendInnerAnalyticsEvent(Events.ACTION_SAVE_CONTACT, label);
             }
 
             @Override
