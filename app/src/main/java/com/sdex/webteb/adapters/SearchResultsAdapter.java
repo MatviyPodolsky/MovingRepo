@@ -48,9 +48,12 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         holder.call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CALL);
-                intent.setData(Uri.parse("tel:" + item.getPhone()));
-                getContext().startActivity(intent);
+                String phoneNumber = item.getPhone();
+                if(phoneNumber != null && !phoneNumber.isEmpty()) {
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel:" + phoneNumber));
+                    getContext().startActivity(intent);
+                }
             }
         });
         holder.saveContact.setVisibility(View.GONE);
