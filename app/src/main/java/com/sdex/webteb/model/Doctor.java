@@ -59,6 +59,9 @@ public class Doctor {
     @SerializedName("ImageUrl")
     @Expose
     private String imageUrl;
+    @SerializedName("PhoneNumber")
+    @Expose
+    private String phone;
 
     public Doctor() {
     }

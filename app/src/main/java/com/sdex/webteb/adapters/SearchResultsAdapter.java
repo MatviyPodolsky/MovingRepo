@@ -45,29 +45,25 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
 
         holder.name.setText(item.getName());
         holder.specialty.setText(item.getSpecialty());
-        if (false) {
-            holder.call.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_CALL);
-//                    intent.setData(Uri.parse("tel:" + item.getPhone()));
-                    getContext().startActivity(intent);
-                }
-            });
-            holder.saveContact.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO save contact
+        holder.call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + item.getPhone()));
+                getContext().startActivity(intent);
+            }
+        });
+        holder.saveContact.setVisibility(View.GONE);
+//        holder.saveContact.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                TODO save contact
 //                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
 //                            "mailto", item.getEmail(), null));
 //                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hello");
 //                    getContext().startActivity(Intent.createChooser(emailIntent, "Send email..."));
-                }
-            });
-        } else {
-            holder.call.setVisibility(View.GONE);
-            holder.saveContact.setVisibility(View.GONE);
-        }
+//            }
+//        });
         if (item.getLatitude() != null && item.getLongitude() != null) {
             holder.location.setVisibility(View.VISIBLE);
             holder.locationText.setVisibility(View.VISIBLE);
