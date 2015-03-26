@@ -79,6 +79,11 @@ public class SearchResultsFragment extends BaseMainFragment {
         getDoctorsCallback = new RestCallback<SearchDoctorResponse>() {
             @Override
             public void failure(RestError restError) {
+
+                if (isAdded()) {
+                    return;
+                }
+
                 isLoading = false;
                 if(mAdapter.getCount() == 0){
                     showError();
@@ -87,7 +92,11 @@ public class SearchResultsFragment extends BaseMainFragment {
 
             @Override
             public void success(SearchDoctorResponse docResponse, Response response) {
-                //TODO
+
+                if (isAdded()) {
+                    return;
+                }
+
                 if (docResponse != null) {
                     lastPage++;
                     searchKey = docResponse.getSearchKey();

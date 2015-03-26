@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -168,16 +167,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
             args.putString("Specialty", specialityName);
         }
         fragment.setArguments(args);
-        FragmentManager fragmentManager;
-        if (getParentFragment() != null) {
-            fragmentManager = getParentFragment().getChildFragmentManager();
-        } else {
-            fragmentManager = getChildFragmentManager();
-        }
-        fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment, SearchResultsFragment.NAME)
-                .addToBackStack(SearchResultsFragment.NAME)
-                .commit();
+
+        addNestedFragment(R.id.fragment_container, fragment, SearchResultsFragment.NAME);
     }
 
     private void setCurrentCountry(int currentCountry) {
