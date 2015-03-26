@@ -25,7 +25,7 @@ public class VideoThumbnailAdapter extends FragmentStatePagerAdapter implements 
 
     @Override
     public int getIconResId(int index) {
-        return R.drawable.page_indicator;
+        return R.drawable.video_home_page_indicator;
     }
 
     public int getCount() {
