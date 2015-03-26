@@ -1,11 +1,22 @@
 package com.sdex.webteb.utils;
 
 import android.os.Build;
+import android.view.View;
+import android.view.ViewTreeObserver;
 
 /**
  * Created by Yuriy Mysochenko on 11.03.2015.
  */
 public final class Utils {
+
+    public static void removeGlobalLayoutListener(View view,
+            ViewTreeObserver.OnGlobalLayoutListener listener) {
+        if (CompatibilityUtil.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+        } else {
+            view.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
+        }
+    }
 
     public static String getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
