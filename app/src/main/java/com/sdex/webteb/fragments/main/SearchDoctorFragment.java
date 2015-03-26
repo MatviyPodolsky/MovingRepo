@@ -56,6 +56,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
     private String[] specialtiesList = {"Any speciality"};
     private String[] countriesList;
     private int[] countryIds;
+    private int[] citiesIds;
+    private int[] specialitiesIds;
     private String[] countryCodes;
     private int currentCountry = 3;//Jordan
 
@@ -161,19 +163,19 @@ public class SearchDoctorFragment extends BaseMainFragment {
         Bundle args = new Bundle();
         args.putString("Name", search.getText().toString());
         String countryName = country.getText().toString();
-        String countryId = String.valueOf(country.getId());
+        String countryId = String.valueOf(getIdItemFromString(countryName, countriesList, REQUEST_GET_COUNTRY));
         if (!countryName.equals("Any country")) {
-            args.putString("CountryId", countryId);
+            args.putString("Country", countryId);
         }
         String cityName = city.getText().toString();
-        String cityId = String.valueOf(city.getId());
+        String cityId = String.valueOf(getIdItemFromString(cityName, citiesList, REQUEST_GET_CITY));
         if (!cityName.equals("Any city")) {
-            args.putString("CityId", cityId);
+            args.putString("City", cityId);
         }
         String specialityName = specialty.getText().toString();
-        String specialityId = String.valueOf(city.getId());
+        String specialityId = String.valueOf(getIdItemFromString(specialityName, specialtiesList, REQUEST_GET_SPECIALITY));
         if (!specialityName.equals("Any speciality")) {
-            args.putString("SpecialtyId", specialityId);
+            args.putString("Specialty", specialityId);
         }
         fragment.setArguments(args);
 
@@ -185,6 +187,21 @@ public class SearchDoctorFragment extends BaseMainFragment {
         country.setText(countriesList[currentCountry]);
         setCities(countryCodes[currentCountry]);
         city.setText("Any city");
+    }
+
+    private int getIdItemFromString(String str, String[] list, int requestCode) {
+        for (int i = list.length - 1; i > 0; i--) {
+            if (str.equals(list[i])) {
+                if (requestCode == REQUEST_GET_COUNTRY) {
+                    return countryIds[i];
+                } else if (requestCode == REQUEST_GET_CITY) {
+                    return citiesIds[i];
+                } else if (requestCode == REQUEST_GET_SPECIALITY) {
+                    return specialitiesIds[i];
+                }
+            }
+        }
+        return 0;
     }
 
     private void checkoutCountry(String isoCode) {
@@ -291,11 +308,15 @@ public class SearchDoctorFragment extends BaseMainFragment {
             @Override
             public void success(List<CityResponse> cities, Response response) {
                 if (cities != null) {
-                    citiesList = new String[cities.size() + 1];
+                    int sizeArray = cities.size() + 1;
+                    citiesList = new String[sizeArray];
+                    citiesIds = new int[sizeArray];
                     citiesList[0] = "Any city";
+                    citiesIds[0] = 0;
 
                     for (int i = 0; i < cities.size(); i++) {
                         citiesList[i + 1] = cities.get(i).getName();
+                        citiesIds[i + 1] = cities.get(i).getId();
                     }
                     int i = 0;
                 }
@@ -314,11 +335,15 @@ public class SearchDoctorFragment extends BaseMainFragment {
             @Override
             public void success(List<SpecialtiesResponse> specialties, Response response) {
                 if (specialties != null) {
-                    specialtiesList = new String[specialties.size() + 1];
+                    int sizeArray = specialties.size() + 1;
+                    specialtiesList = new String[sizeArray];
+                    specialitiesIds = new int[sizeArray];
                     specialtiesList[0] = "Any speciality";
+                    specialitiesIds[0] = 0;
 
                     for (int i = 0; i < specialties.size(); i++) {
                         specialtiesList[i + 1] = specialties.get(i).getName();
+                        specialitiesIds[i + 1] = specialties.get(i).getId();
                     }
                 }
             }
