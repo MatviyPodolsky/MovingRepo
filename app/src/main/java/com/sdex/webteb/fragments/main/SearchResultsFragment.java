@@ -93,7 +93,7 @@ public class SearchResultsFragment extends BaseMainFragment {
             @Override
             public void success(SearchDoctorResponse docResponse, Response response) {
 
-                if (isAdded()) {
+                if (!isAdded()) {
                     return;
                 }
 
