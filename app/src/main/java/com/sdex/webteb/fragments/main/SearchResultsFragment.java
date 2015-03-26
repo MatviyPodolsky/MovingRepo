@@ -1,5 +1,7 @@
 package com.sdex.webteb.fragments.main;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
@@ -74,6 +76,30 @@ public class SearchResultsFragment extends BaseMainFragment {
         mOptions.put("PageIndex", String.valueOf(lastPage));
 
         mAdapter = new SearchResultsAdapter(getActivity(), mData);
+        mAdapter.setCallback(new SearchResultsAdapter.Callback() {
+            @Override
+            public void onCallClick(String phoneNumber) {
+                if(phoneNumber != null && !phoneNumber.isEmpty()) {
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel:" + phoneNumber));
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onSaveContactClick(String phoneNumber) {
+                if(phoneNumber != null && !phoneNumber.isEmpty()) {
+//                    TODO save contact
+                }
+            }
+
+            @Override
+            public void onShowLocationClick(String latitude, String longitude) {
+                Uri uri = Uri.parse("geo:0,0?q=" + latitude + "," + longitude);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
         mList.setAdapter(mAdapter);
 
         getDoctorsCallback = new RestCallback<SearchDoctorResponse>() {
