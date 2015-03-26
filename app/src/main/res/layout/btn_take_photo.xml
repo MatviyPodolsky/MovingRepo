@@ -6,5 +6,5 @@
     android:drawableRight="@drawable/ic_photo"
     android:drawablePadding="5dp"
     android:textColor="@android:color/white"
-    android:background="@drawable/btn_blue"
+    android:background="@drawable/btn_blue_normal"
     android:id="@+id/btn_take_photo" />

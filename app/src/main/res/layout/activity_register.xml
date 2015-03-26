@@ -92,22 +92,18 @@
             <!--android:textSize="13sp" />-->
 
         <Button
+            style="@style/AppTheme.Button"
             android:id="@+id/register"
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
             android:layout_below="@+id/password"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btn_blue"
-            android:text="@string/sign_up"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/default_text_size" />
+            android:text="@string/sign_up" />
 
         <com.facebook.widget.LoginButton xmlns:fb="http://schemas.android.com/apk/res-auto"
             android:id="@+id/auth_button"
             style="@style/FacebookLoginButton"
             android:layout_width="match_parent"
-            android:layout_height="39dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/register"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
