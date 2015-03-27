@@ -79,6 +79,8 @@
     <string name="expected_birth_date_description">Expected birth date can\'t be in past.</string>
     <string name="birth_date_description">Birth date can\'t be in future.</string>
     <string name="children_count">%1$d children</string>
+    <string name="child_count">1 child</string>
+    <string name="title_childs">Children</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="are_u_sure_u_want_to_delete_child">Are you sure you want to delete child?</string>
