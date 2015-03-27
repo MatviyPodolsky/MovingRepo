@@ -131,6 +131,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
         } else if (holder instanceof VideoViewHolder) {
             final VideoViewHolder viewHolder = (VideoViewHolder) holder;
+            Collections.reverse(videos);
             VideoThumbnailAdapter videoThumbnailAdapter =
                     new VideoThumbnailAdapter(fragmentManager, videos);
             viewHolder.viewPager.setAdapter(videoThumbnailAdapter);
@@ -144,6 +145,9 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     viewHolder.mIndicator.notifyDataSetChanged();
                 }
             });
+            if (videos.size() > 1) {
+                viewHolder.viewPager.setCurrentItem(videos.size() - 1);
+            }
         } else if (holder instanceof AdditionalContentViewHolder) {
             final ContentLink content = (ContentLink) getItem(position);
             final AdditionalContentViewHolder viewHolder = (AdditionalContentViewHolder) holder;
