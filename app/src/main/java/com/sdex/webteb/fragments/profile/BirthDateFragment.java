@@ -97,6 +97,23 @@ public class BirthDateFragment extends BaseFragment {
                         if (isValidDate(time)) {
                             ((SetupProfileActivity) getActivity()).setBirthDate(requestDate);
                             mDate.setText(textDate);
+                            long selectedDate = time.getTime();
+                            long currentTime = Calendar.getInstance().getTime().getTime();
+                            long age = 0;
+                            long diffTime = Math.abs(currentTime - selectedDate);
+                            if(mDateType == BIRTH_DATE){
+                                age = diffTime / 1000 / 3600 / 24 / 30;
+                            } else {
+                                if(mDateType == LAST_PERIOD) {
+                                    age = diffTime / 1000 / 3600 / 24 / 7;
+                                } else {
+                                    long currentWeek = (280 - diffTime / 1000 / 3600 / 24) / 7;
+                                    age = (currentWeek < 0) ? 0 : currentWeek;
+                                }
+                            }
+                            if (getActivity() instanceof SetupProfileActivity) {
+                                    ((SetupProfileActivity) getActivity()).setChildAge(String.valueOf(age));
+                            }
                         }
                     }
                     break;

@@ -115,6 +115,7 @@ public class MoreArticlesFragment extends BaseMainFragment {
                     return;
                 }
 
+                int totalCount = articlesResponse.getTotalItems();
                 List<ContentLink> articles = articlesResponse.getArticles();
                 lastPage++;
                 totalPages = articlesResponse.getTotalItems();
@@ -123,8 +124,8 @@ public class MoreArticlesFragment extends BaseMainFragment {
                     mAdapter.notifyDataSetChanged();
                     progress.setVisibility(View.GONE);
                     mList.setVisibility(View.VISIBLE);
-                    String titleText = getString(R.string.we_found_n_articles);
-                    title.setText(String.format(titleText, mAdapter.getCount()));
+                    String titleText = getString(R.string.showing_articles);
+                    title.setText(String.format(titleText, mAdapter.getCount(), totalCount));
                     isLoading = false;
                 }
             }

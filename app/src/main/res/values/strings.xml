@@ -254,6 +254,7 @@
     <!--more articles-->
     <string name="more_articles_title">More articles</string>
     <string name="we_found_n_articles">We found (%1$d) articles</string>
+    <string name="showing_articles">(showing %1$d/%2$d) Articles</string>
 
     <!--settings-->
     <string name="settings_title">Settings</string>
