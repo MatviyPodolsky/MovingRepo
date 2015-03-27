@@ -123,7 +123,7 @@ public class SavePhotoFragment extends BaseFragment {
         EventBus.getDefault().post(new SavedPhotoEvent(photo));
 
         String label = innerDate;
-        sendInnerAnalyticsEvent(Events.ACTION_ADD_IMAGE, label);
+        sendInnerAnalyticsEvent(Events.CATEGORY_ALBUM, Events.ACTION_ADD_IMAGE, label);
 
         getActivity().onBackPressed();
     }

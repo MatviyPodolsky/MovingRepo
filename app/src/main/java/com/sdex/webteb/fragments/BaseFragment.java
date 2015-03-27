@@ -82,7 +82,8 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    protected void sendInnerAnalyticsEvent(String action, String label) {
+    protected void sendInnerAnalyticsEvent(String category, String action, String label) {
+        sendAnalyticsEvent(category, action, label);
         SendEventRequest request = new SendEventRequest();
         request.setKey(action);
         request.setData(label);
