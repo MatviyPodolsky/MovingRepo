@@ -3,9 +3,11 @@ package com.sdex.webteb.adapters;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +32,7 @@ public class ChildrenAdapter extends BaseAdapter {
 
     private Context context;
     private List<Child> data = new ArrayList();
+    private List<Boolean> completedChildren = new ArrayList<>();
     private LayoutInflater inflater;
     private Callback mCallback;
 
@@ -38,11 +41,11 @@ public class ChildrenAdapter extends BaseAdapter {
         this.inflater = LayoutInflater.from(context);
     }
 
-    public interface Callback{
+    public interface Callback {
         public void onDeleteChild(Child child);
     }
 
-    public void setCallback(Callback callback){
+    public void setCallback(Callback callback) {
         this.mCallback = callback;
     }
 
@@ -90,6 +93,7 @@ public class ChildrenAdapter extends BaseAdapter {
             convertView = inflater.inflate(RESOURCE, parent, false);
             holder = new ViewHolder(convertView);
             holder.name.addTextChangedListener(new NameWatcher(convertView));
+            holder.name.setOnEditorActionListener(new OnCompleteChildListener(convertView));
             holder.containerFemale.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -119,7 +123,7 @@ public class ChildrenAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (mCallback != null) {
-                    mCallback.onDeleteChild((Child)holder.name.getTag());
+                    mCallback.onDeleteChild((Child) holder.name.getTag());
                 }
             }
         });
@@ -198,6 +202,25 @@ public class ChildrenAdapter extends BaseAdapter {
         holder.textUnknown.setVisibility(View.VISIBLE);
         holder.imageUnknown.setImageResource(R.drawable.ic_question_mark_selected);
         holder.containerUnknown.setBackgroundColor(context.getResources().getColor(R.color.primary));
+    }
+
+    public class OnCompleteChildListener implements TextView.OnEditorActionListener {
+
+        @InjectView(R.id.name)
+        EditText name;
+
+        private OnCompleteChildListener(View view) {
+            ButterKnife.inject(this, view);
+        }
+
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                Child child = (Child) name.getTag();
+                return false;
+            }
+            return false;
+        }
     }
 
     public class NameWatcher implements TextWatcher {

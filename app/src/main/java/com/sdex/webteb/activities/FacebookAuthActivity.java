@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.facebook.LoggingBehavior;
 import com.facebook.Session;
-import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
+import com.facebook.Settings;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
@@ -44,9 +45,12 @@ public abstract class FacebookAuthActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
 //        loginButton.setReadPermissions(Arrays.asList("email"));
-        loginButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+//        loginButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
+
+        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 
         getBabyProfileCallback = new RestCallback<BabyProfileResponse>() {
             @Override
