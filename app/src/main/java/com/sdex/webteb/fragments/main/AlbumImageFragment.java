@@ -9,11 +9,14 @@ import android.widget.ImageView;
 import com.sdex.webteb.R;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.fragments.PhotoFragment;
+import com.sdex.webteb.internal.events.ClickPhotoEvent;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Yuriy Mysochenko on 04.02.2015.
@@ -50,6 +53,11 @@ public class AlbumImageFragment extends BaseMainFragment {
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_album_image;
+    }
+
+    @OnClick(R.id.photo)
+    void click() {
+        EventBus.getDefault().post(new ClickPhotoEvent());
     }
 
 }

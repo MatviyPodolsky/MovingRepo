@@ -19,6 +19,7 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.PhotoPagerAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
+import com.sdex.webteb.internal.events.ClickPhotoEvent;
 import com.sdex.webteb.internal.events.DeletePhotoEvent;
 import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
@@ -54,6 +55,8 @@ public class AlbumViewFragment extends BaseMainFragment {
     TextView mCurrentPhoto;
     @InjectView(R.id.all_photo)
     TextView mAllPhoto;
+    @InjectView(R.id.photo_info_container)
+    View mPhotoInfo;
     private PhotoPagerAdapter mAdapter;
     private List<DbPhoto> data;
 
@@ -185,6 +188,14 @@ public class AlbumViewFragment extends BaseMainFragment {
         data.add(event.getPhoto());
         mAdapter.notifyDataSetChanged();
         mAllPhoto.setText(String.valueOf(data.size()));
+    }
+
+    public void onEvent(ClickPhotoEvent event) {
+        if (mPhotoInfo.getVisibility() == View.GONE) {
+            mPhotoInfo.setVisibility(View.VISIBLE);
+        } else {
+            mPhotoInfo.setVisibility(View.GONE);
+        }
     }
 
 }

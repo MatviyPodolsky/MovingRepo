@@ -13,101 +13,109 @@
         class="android.support.v4.view.ViewPager"
         android:id="@+id/viewpager" />
 
-    <RelativeLayout
-        android:id="@+id/bottom_bar"
+    <LinearLayout
+        android:id="@+id/photo_info_container"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
-        android:background="#7f000000"
-        android:layout_height="78dp"
-        android:layout_alignParentBottom="true"
-        android:clickable="true">
-
-        <com.sdex.webteb.view.TypefaceTextView
-            app:typeface="DINNextLTArabicBold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="New Text"
-            android:textColor="@android:color/white"
-            android:id="@+id/date"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/count_container"
-            android:layout_toRightOf="@+id/count_container"
-            android:gravity="right"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/count_container"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp">
-
-            <com.sdex.webteb.view.TypefaceTextView
-                app:typeface="DINNextLTArabicRegular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="5"
-                android:textColor="@android:color/white"
-                android:id="@+id/current_photo" />
-
-            <com.sdex.webteb.view.TypefaceTextView
-                app:typeface="DINNextLTArabicRegular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/"
-                android:textColor="@android:color/white"
-                android:id="@+id/textView13" />
-
-            <com.sdex.webteb.view.TypefaceTextView
-                app:typeface="DINNextLTArabicRegular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="9"
-                android:textColor="@android:color/white"
-                android:id="@+id/all_photo" />
-        </LinearLayout>
-
-        <com.sdex.webteb.view.TypefaceTextView
-            app:typeface="DINNextLTArabicRegular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="New Text"
-            android:gravity="right"
-            android:id="@+id/description"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textColor="@android:color/white"
-            android:layout_below="@+id/date"
-            android:layout_alignLeft="@+id/count_container"
-            android:layout_alignStart="@+id/count_container"
-            android:layout_alignRight="@+id/date"
-            android:layout_alignEnd="@+id/date"
-            android:layout_alignParentBottom="true" />
-
-    </RelativeLayout>
-
-    <Button
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Share"
-        android:id="@+id/btn_share"
-        android:textSize="@dimen/default_text_size"
-        android:textColor="@android:color/white"
-        android:background="@drawable/btn_red_normal"
-        android:drawableRight="@drawable/ic_share"
-        android:drawablePadding="8dp"
-        android:layout_above="@+id/bottom_bar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:elegantTextHeight="false"
-        android:elevation="0dp" />
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text="Share"
+            android:id="@+id/btn_share"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@android:color/white"
+            android:background="@color/primary"
+            android:drawableRight="@drawable/ic_share"
+            android:drawablePadding="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+        <RelativeLayout
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:background="#7f000000"
+            android:layout_height="78dp"
+            android:clickable="true">
+
+            <com.sdex.webteb.view.TypefaceTextView
+                app:typeface="DINNextLTArabicBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="New Text"
+                android:textColor="@android:color/white"
+                android:id="@+id/date"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/count_container"
+                android:layout_toRightOf="@+id/count_container"
+                android:gravity="right"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/count_container"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
+
+                <com.sdex.webteb.view.TypefaceTextView
+                    app:typeface="DINNextLTArabicRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="5"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/current_photo" />
+
+                <com.sdex.webteb.view.TypefaceTextView
+                    app:typeface="DINNextLTArabicRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/textView13" />
+
+                <com.sdex.webteb.view.TypefaceTextView
+                    app:typeface="DINNextLTArabicRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="9"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/all_photo" />
+            </LinearLayout>
+
+            <com.sdex.webteb.view.TypefaceTextView
+                app:typeface="DINNextLTArabicRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="New Text"
+                android:gravity="right"
+                android:id="@+id/description"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@android:color/white"
+                android:layout_below="@+id/date"
+                android:layout_alignLeft="@+id/count_container"
+                android:layout_alignStart="@+id/count_container"
+                android:layout_alignRight="@+id/date"
+                android:layout_alignEnd="@+id/date"
+                android:layout_alignParentBottom="true" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
 </RelativeLayout>
