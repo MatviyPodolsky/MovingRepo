@@ -37,7 +37,6 @@ import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.model.ContentPreview;
-import com.sdex.webteb.model.EntityKey;
 import com.sdex.webteb.model.ExaminationPreview;
 import com.sdex.webteb.model.TipContent;
 import com.sdex.webteb.rest.RestCallback;
@@ -46,7 +45,6 @@ import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.BabyTestResponse;
-import com.sdex.webteb.rest.response.EntityResponse;
 import com.sdex.webteb.rest.response.MonthResponse;
 import com.sdex.webteb.rest.response.NotificationsResponse;
 import com.sdex.webteb.rest.response.WeekResponse;
@@ -123,7 +121,6 @@ public class HomeFragment extends PhotoFragment {
 
     private RestCallback<WeekResponse> getWeekCallback;
     private RestCallback<MonthResponse> getMonthCallback;
-    private RestCallback<EntityResponse> getEntityCallback;
     private RestCallback<BabyProfileResponse> getProfileCallback;
     private boolean gaveBirth;
 
@@ -173,21 +170,6 @@ public class HomeFragment extends PhotoFragment {
                 hideProgress();
             }
         });
-
-        getEntityCallback = new RestCallback<EntityResponse>() {
-            @Override
-            public void failure(RestError restError) {
-                showError(restError);
-            }
-
-            @Override
-            public void success(EntityResponse entityResponse, Response response) {
-                if (isAdded()) {
-                    Fragment fragment = PreviewFragment.newInstance(entityResponse);
-                    addNestedFragment(R.id.fragment_container, fragment, PreviewFragment.NAME);
-                }
-            }
-        };
 
         getWeekCallback = new RestCallback<WeekResponse>() {
             @Override
@@ -539,8 +521,8 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void onPreviewClick(ContentPreview content) {
-                EntityKey key = content.getKey();
-                RestClient.getApiService().getEntity(key.getId(), key.getType(), key.getFieldName(), getEntityCallback);
+                Fragment fragment = PreviewFragment.newInstance(content);
+                addNestedFragment(R.id.fragment_container, fragment, PreviewFragment.NAME);
             }
         });
 
