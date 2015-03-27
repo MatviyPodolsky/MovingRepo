@@ -55,6 +55,7 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     private AlbumAdapter mAdapter;
     private List<DbPhoto> data;
     private DatabaseHelper databaseHelper;
+    private FragmentManager fragmentManager;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -70,7 +71,12 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
 
         showOrHideEmptyView();
 
-        getChildFragmentManager().addOnBackStackChangedListener(this);
+        if (getParentFragment() != null) {
+            fragmentManager = getParentFragment().getChildFragmentManager();
+        } else {
+            fragmentManager = getChildFragmentManager();
+        }
+        fragmentManager.addOnBackStackChangedListener(this);
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -105,7 +111,7 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getChildFragmentManager().removeOnBackStackChangedListener(this);
+        fragmentManager.removeOnBackStackChangedListener(this);
     }
 
     @OnClick(R.id.btn_take_photo)
@@ -179,8 +185,12 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
 
     @Override
     public void onBackStackChanged() {
-        final int count = getChildFragmentManager().getBackStackEntryCount();
-        if (count > 0) {
+        final int count = fragmentManager.getBackStackEntryCount();
+        int numOfFragments = 0;
+        if (getParentFragment() != null) {
+            numOfFragments = 1;
+        }
+        if (count > numOfFragments) {
             mDeletePhoto.setVisibility(View.VISIBLE);
         } else {
             mDeletePhoto.setVisibility(View.INVISIBLE);
