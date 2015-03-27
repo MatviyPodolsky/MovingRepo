@@ -183,6 +183,10 @@ public class SetupProfileActivity extends BaseActivity {
         }
     }
 
+    public void setChildAge(String age) {
+        ((TextView) profileCard.findViewById(R.id.textView5)).setText(age);
+    }
+
     public void launchMainActivity() {
         if (!isInEditMode) {
             Intent intent = new Intent(SetupProfileActivity.this, MainActivity.class);
