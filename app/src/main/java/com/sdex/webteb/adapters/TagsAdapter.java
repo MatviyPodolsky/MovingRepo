@@ -13,6 +13,7 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.model.Child;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHolder> {
@@ -75,7 +76,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
                 items.add(new TagsAdapter.Item(kids[i]));
             }
         }
-
+        Collections.reverse(items);
         return items;
     }
 
