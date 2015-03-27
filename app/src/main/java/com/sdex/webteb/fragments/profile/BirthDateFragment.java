@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -111,6 +112,7 @@ public class BirthDateFragment extends BaseFragment {
                                     age = (currentWeek < 0) ? 0 : currentWeek;
                                 }
                             }
+                            dateString = textDate;
                             if (getActivity() instanceof SetupProfileActivity) {
                                     ((SetupProfileActivity) getActivity()).setChildAge(String.valueOf(age));
                             }
@@ -135,7 +137,7 @@ public class BirthDateFragment extends BaseFragment {
     public void selectDate() {
         DialogFragment dialog = new DatePickerFragmentDialog();
         dialog.setTargetFragment(this, REQUEST_GET_DATE);
-        if (dateString != null) {
+        if (!TextUtils.isEmpty(dateString)) {
             Bundle args = new Bundle();
             args.putString(DatePickerFragmentDialog.EXTRA_DATE, dateString);
             dialog.setArguments(args);
