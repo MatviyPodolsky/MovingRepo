@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -662,7 +663,16 @@ public class HomeFragment extends PhotoFragment {
 
     private void showPhotoPreview(String path) {
         Fragment fragment = SavePhotoFragment.newInstance(path);
-        addNestedFragment(R.id.fragment_container, fragment, SavePhotoFragment.NAME);
+        Fragment fragmentByTag = getChildFragmentManager().findFragmentByTag(AlbumFragment.NAME);
+        if (fragmentByTag != null) {
+            FragmentManager fragmentManager = getParentFragment().getChildFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, fragment, SavePhotoFragment.NAME)
+                    .addToBackStack(SavePhotoFragment.NAME)
+                    .commit();
+        } else {
+            addNestedFragment(R.id.fragment_container, fragment, SavePhotoFragment.NAME);
+        }
     }
 
     public void onEventMainThread(SavedPhotoEvent event) {
