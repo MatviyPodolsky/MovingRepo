@@ -1,6 +1,7 @@
 package com.sdex.webteb.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -51,6 +52,10 @@ public class ChildrenAdapter extends BaseAdapter {
 
     public void setItems(List<Child> newItems) {
         data.clear();
+        completedChildren.clear();
+        for (int i = 0; i < newItems.size(); i++) {
+            completedChildren.add(false);
+        }
         if (newItems != null) {
             data.addAll(newItems);
         }
@@ -59,6 +64,7 @@ public class ChildrenAdapter extends BaseAdapter {
 
     public void addChild(Child child) {
         data.add(child);
+        completedChildren.add(false);
         notifyDataSetChanged();
     }
 
@@ -122,21 +128,20 @@ public class ChildrenAdapter extends BaseAdapter {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mCallback != null) {
-                    mCallback.onDeleteChild((Child) holder.name.getTag());
+                if(getCount() < 2){
+                    holder.name.setText("");
+                } else {
+                    if (mCallback != null) {
+                        mCallback.onDeleteChild((Child) holder.name.getTag());
+                    }
                 }
             }
         });
 
-        if (getCount() < 2) {
-            holder.delete.setVisibility(View.GONE);
-        } else {
-            holder.delete.setVisibility(View.VISIBLE);
-        }
-
         holder.name.setTag(item);
         holder.name.setText(item.getName());
         setGender(holder, item.getGender());
+        updateCompleteChild(convertView, position);
 
 
         return convertView;
@@ -204,19 +209,34 @@ public class ChildrenAdapter extends BaseAdapter {
         holder.containerUnknown.setBackgroundColor(context.getResources().getColor(R.color.primary));
     }
 
+    private void updateCompleteChild(View view, int position){
+        if (completedChildren.get(position)) {
+            view.findViewById(R.id.name_container).setBackgroundColor(Color.parseColor("#D8D8D8"));
+            view.findViewById(R.id.delete).setVisibility(View.VISIBLE);
+        } else {
+            view.findViewById(R.id.name_container).setBackgroundResource(R.drawable.text_field);
+            view.findViewById(R.id.delete).setVisibility(View.GONE);
+        }
+
+    }
+
     public class OnCompleteChildListener implements TextView.OnEditorActionListener {
 
         @InjectView(R.id.name)
         EditText name;
+        View v;
 
-        private OnCompleteChildListener(View view) {
+        private OnCompleteChildListener(final View view) {
             ButterKnife.inject(this, view);
+            this.v = view;
         }
 
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                Child child = (Child) name.getTag();
+                int position = getChildren().indexOf((Child) name.getTag());
+                completedChildren.set(position, true);
+                updateCompleteChild(this.v, position);
                 return false;
             }
             return false;
