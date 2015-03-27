@@ -66,7 +66,14 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
                 }
             }
         });
-        holder.saveContact.setVisibility(View.GONE);
+        holder.saveContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mCallback != null) {
+                    mCallback.onSaveContactClick(item);
+                }
+            }
+        });
         holder.saveContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

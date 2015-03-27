@@ -71,7 +71,8 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/call"
             android:layout_marginRight="10dp"
-            android:src="@drawable/btn_doctor_search_list_normal"/>
+            android:duplicateParentState="true"
+            android:src="@drawable/doctors_contacts_icon_selector"/>
 
         <TextView
             android:id="@+id/location_text"
