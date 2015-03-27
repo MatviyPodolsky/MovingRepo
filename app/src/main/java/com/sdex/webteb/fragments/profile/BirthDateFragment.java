@@ -128,11 +128,6 @@ public class BirthDateFragment extends BaseFragment {
 
     private void setButtonEnabled(boolean isEnabled) {
         mBtnNext.setEnabled(isEnabled);
-        if(isEnabled) {
-            mBtnNext.setBackgroundResource(R.drawable.btn_blue_normal);
-        } else {
-            mBtnNext.setBackgroundResource(R.drawable.btn_blue_disabled);
-        }
     }
 
     @OnClick(R.id.category_1)
