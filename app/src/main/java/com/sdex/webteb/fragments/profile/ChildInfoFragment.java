@@ -56,6 +56,7 @@ public class ChildInfoFragment extends BaseFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mAdapter.removeChild(child);
+                                updateChildrenCount();
                             }
                         })
                         .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -98,6 +99,9 @@ public class ChildInfoFragment extends BaseFragment {
 
     private void updateChildrenCount(){
         int count = mAdapter.getCount();
+        if(count == 1) {
+            mTitle.setText(R.string.child_count);
+        }
         if(count > 1) {
             String title = getString(R.string.children_count);
             mTitle.setText(String.format(title, count));
