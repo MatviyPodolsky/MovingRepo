@@ -111,6 +111,10 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+//        if (BuildConfig.DEBUG) {
+//            SharedPreferenceUtils.startActivity(this);
+//        }
+
         GcmHelper gcmHelper = new GcmHelper(this);
         gcmHelper.register();
 

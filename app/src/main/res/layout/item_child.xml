@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:background="@drawable/text_field">
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
 
-    <ImageView
-        android:id="@+id/delete"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:padding="10dp"
-        android:src="@drawable/ic_error"/>
-
-    <EditText
-        android:id="@+id/name"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:hint="@string/type_child_name"
-        android:gravity="right|center_vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textSize="@dimen/default_text_size"
-        android:inputType="textCapSentences"
-        android:imeOptions="actionDone"
-        android:background="@drawable/edit_text_without_border"
-        android:singleLine="true"
-        android:layout_weight="2"/>
+        android:layout_weight="2"
+        android:background="@drawable/text_field">
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:background="@color/primary"
-        android:layout_gravity="center_vertical"/>
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_error" />
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/type_child_name"
+            android:gravity="right|center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/edit_text_without_border"
+            android:textSize="@dimen/default_text_size"
+            android:inputType="textCapSentences"
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/container_female"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-        
+
         <TextView
             android:id="@+id/text_female"
             android:layout_width="48dp"
@@ -49,23 +50,18 @@
             android:gravity="center"
             android:textColor="@color/button_text"
             android:visibility="gone"
-            android:layout_gravity="center_vertical"/>
-        
+            android:layout_gravity="center_vertical" />
+
         <ImageView
             android:id="@+id/image_female"
             android:layout_width="42dp"
-            android:layout_height="match_parent"
+            android:layout_height="40dp"
             android:padding="10dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_female_normal"/>
-        
-        </LinearLayout>
+            android:background="@drawable/red_border"
+            android:src="@drawable/ic_female_normal" />
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:background="@color/primary"
-        android:layout_gravity="center_vertical"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/container_male"
@@ -83,7 +79,7 @@
             android:gravity="center"
             android:textColor="@color/button_text"
             android:visibility="gone"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical" />
 
         <ImageView
             android:id="@+id/image_male"
@@ -91,15 +87,10 @@
             android:layout_height="match_parent"
             android:padding="10dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_male_normal"/>
+            android:background="@drawable/red_border"
+            android:src="@drawable/ic_male_normal" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:background="@color/primary"
-        android:layout_gravity="center_vertical"/>
 
     <LinearLayout
         android:id="@+id/container_unknown"
@@ -117,7 +108,7 @@
             android:gravity="center"
             android:textColor="@color/button_text"
             android:visibility="gone"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical" />
 
         <ImageView
             android:id="@+id/image_unknown"
@@ -125,7 +116,8 @@
             android:layout_height="match_parent"
             android:padding="10dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_question_mark_normal"/>
+            android:background="@drawable/red_border"
+            android:src="@drawable/ic_question_mark_normal" />
 
     </LinearLayout>
 
