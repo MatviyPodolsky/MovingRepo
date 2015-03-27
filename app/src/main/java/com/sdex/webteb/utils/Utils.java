@@ -40,14 +40,4 @@ public final class Utils {
         }
     }
 
-    public static String ellipsize(String input, int maxLen) {
-        if (input == null) {
-            return "";
-        }
-        if (input.length() < maxLen) {
-            return input;
-        }
-        return input.substring(0, maxLen) + "...";
-    }
-
 }

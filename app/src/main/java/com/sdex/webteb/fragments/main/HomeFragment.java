@@ -75,8 +75,6 @@ import retrofit.client.Response;
  */
 public class HomeFragment extends PhotoFragment {
 
-    public static final int MAX_USERNAME_SIZE = 8;
-
     @InjectView(R.id.fragment_container)
     FrameLayout mRootView;
     @InjectView(R.id.content_list)
@@ -521,7 +519,7 @@ public class HomeFragment extends PhotoFragment {
 
         mTimeNavigationRecyclerView.setVisibility(View.VISIBLE);
 
-        mUserName.setText(Utils.ellipsize(username, MAX_USERNAME_SIZE));
+        mUserName.setText(username);
 
         List<ContentPreview> previews = babyHomeResponse.getPreviews();
         List<ContentLink> videos = babyHomeResponse.getVideos();
