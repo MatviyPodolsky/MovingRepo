@@ -386,7 +386,7 @@ public class HomeFragment extends PhotoFragment {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }
             String email = PreferencesManager.getInstance().getEmail();
-            String date = PhotoFragment.LABEL_MONTH + "-" + monthResponse.getAgeInMonths();
+            String date = DbPhoto.LABEL_MONTH + "-" + monthResponse.getAgeInMonths();
             List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
             int size = data.size();
             if (size == 0) {
@@ -437,7 +437,7 @@ public class HomeFragment extends PhotoFragment {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }
             String email = PreferencesManager.getInstance().getEmail();
-            String date = PhotoFragment.LABEL_WEEK + "-" + weekResponse.getWeekNumber();
+            String date = DbPhoto.LABEL_WEEK + "-" + weekResponse.getWeekNumber();
             List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
             int size = data.size();
             if (size == 0) {

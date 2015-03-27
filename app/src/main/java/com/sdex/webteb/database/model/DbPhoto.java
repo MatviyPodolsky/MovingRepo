@@ -1,12 +1,17 @@
 package com.sdex.webteb.database.model;
 
+import android.support.annotation.NonNull;
+
 import org.parceler.Parcel;
 
 /**
  * Created by Yuriy Mysochenko on 02.03.2015.
  */
 @Parcel
-public class DbPhoto {
+public class DbPhoto implements Comparable {
+
+    public static final String LABEL_WEEK = "Week";
+    public static final String LABEL_MONTH = "Month";
 
     public Long _id;
     public Long timestamp;
@@ -75,4 +80,27 @@ public class DbPhoto {
     public void setTags(String tags) {
         this.tags = tags;
     }
+
+    @Override
+    public int compareTo(@NonNull Object another) {
+        DbPhoto photo = (DbPhoto) another;
+
+        String[] thisSplit = innerDate.split("-");
+        String thisDateType = thisSplit[0];
+        String thisDate = thisSplit[1];
+
+        String[] split = photo.getInnerDate().split("-");
+        String dateType = split[0];
+        String date = split[1];
+
+        if (thisDateType.equals(LABEL_MONTH) && dateType.equals(LABEL_WEEK)) {
+            return 1;
+        } else if (thisDateType.equals(LABEL_WEEK) && dateType.equals(LABEL_MONTH)) {
+            return -1;
+        } else {
+            return thisDate.compareTo(date);
+        }
+
+    }
+
 }

@@ -28,9 +28,6 @@ public abstract class PhotoFragment extends BaseFragment {
     public static final int PHOTO_SELECTED_ALBUM = 7001;
     public static final int PHOTO_SELECTED_PROFILE = 7002;
 
-    public static final String LABEL_WEEK = "Week";
-    public static final String LABEL_MONTH = "Month";
-
     private static final String CAMERA_DIR = "/dcim/";
 
     public static final String JPEG_FILE_PREFIX = "IMG_";

@@ -9,6 +9,7 @@ import android.net.Uri;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
 
+import java.util.Collections;
 import java.util.List;
 
 import static nl.qbusict.cupboard.CupboardFactory.cupboard;
@@ -62,10 +63,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<DbPhoto> getPhotos(String owner) {
-        return cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
+        List<DbPhoto> photos = cupboard().withDatabase(getReadableDatabase()).query(DbPhoto.class)
                 .withSelection("timestamp > ? AND owner = ?", "0", owner)
-                .orderBy("timestamp"/* + " DESC"*/) // show newer on the top
                 .list();
+        Collections.sort(photos);
+        return photos;
     }
 
     public List<DbPhoto> getPhotos(int limit, String owner) {

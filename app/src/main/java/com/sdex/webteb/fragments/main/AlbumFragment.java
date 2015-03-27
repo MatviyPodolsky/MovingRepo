@@ -66,16 +66,11 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         databaseHelper = DatabaseHelper.getInstance(getActivity());
-        String email = PreferencesManager.getInstance().getEmail();
-        data = databaseHelper.getPhotos(email);
+        loadPhotos();
 
         showOrHideEmptyView();
 
         getChildFragmentManager().addOnBackStackChangedListener(this);
-
-        mAdapter = new AlbumAdapter(getActivity(), data);
-        mGridView.setAdapter(mAdapter);
-        mGridView.setAreHeadersSticky(false);
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,6 +87,14 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         String childNames = children.replaceAll("/", ", ");
         String formattedTitle = String.format(title, childNames);
         mTitle.setText(Html.fromHtml(formattedTitle));
+    }
+
+    private void loadPhotos() {
+        String email = PreferencesManager.getInstance().getEmail();
+        data = databaseHelper.getPhotos(email);
+        mAdapter = new AlbumAdapter(getActivity(), data);
+        mGridView.setAdapter(mAdapter);
+        mGridView.setAreHeadersSticky(false);
     }
 
     @Override
@@ -147,22 +150,18 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     }
 
     public void onEvent(SavedPhotoEvent event) {
-        data.add(event.getPhoto());
-        mAdapter.notifyDataSetChanged();
-
+        loadPhotos();
         showOrHideEmptyView();
     }
 
     public void onEvent(TakenPhotoEvent event) {
         DbPhoto photo = databaseHelper.getTmpPhoto();
         showPhotoPreview(photo.getPath());
-//        BUS.removeStickyEvent(event);
     }
 
     public void onEvent(SelectedPhotoEvent event) {
         Uri galleryPhotoUri = getGalleryPhotoUri(getActivity(), event.getSelectedImage());
         showPhotoPreview(galleryPhotoUri.getPath());
-//        BUS.removeStickyEvent(event);
     }
 
     private void showOrHideEmptyView() {
