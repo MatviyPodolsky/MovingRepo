@@ -92,7 +92,8 @@ public class SavePhotoFragment extends BaseFragment {
     }
 
     @OnClick(R.id.save)
-    void save() {
+    void save(View v) {
+        v.setEnabled(false);
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mDescription.getWindowToken(), 0);
