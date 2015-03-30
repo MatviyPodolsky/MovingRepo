@@ -95,6 +95,9 @@
     <string name="month">%1$s month</string>
     <string name="dialog_notification_week_confirm">Yes, I did</string>
     <string name="dialog_notification_week_cancel">Not yet</string>
+    <string name="age_in_week">Week %1$d</string>
+    <string name="age_in_month">Age %1$d month</string>
+    <string name="age_in_years_and_month">Age %1$d years %2$d month</string>
 
     <!--summary-->
     <string name="tests">Tests</string>
