@@ -195,19 +195,25 @@ public class HomeFragment extends PhotoFragment {
         };
 
         boolean expired = preferencesManager.isNotificationDateExpired();
-        if (expired) {
-            boolean ignoreSettings = false;
-            RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
-                @Override
-                public void success(NotificationsResponse notificationsResponse, Response response) {
-                    setUpNotifications(notificationsResponse);
-                }
+        NotificationsResponse lastNotification = preferencesManager.getLastNotification();
+        if (lastNotification == null) {
+            if (expired) {
+                boolean ignoreSettings = false;
+                RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
+                    @Override
+                    public void success(NotificationsResponse notificationsResponse, Response response) {
+                        setUpNotifications(notificationsResponse);
+                        preferencesManager.setLastNotification(notificationsResponse);
+                    }
 
-                @Override
-                public void failure(RetrofitError error) {
+                    @Override
+                    public void failure(RetrofitError error) {
 
-                }
-            });
+                    }
+                });
+            }
+        } else {
+            setUpNotifications(lastNotification);
         }
 
 //        if baby got birth, send request to get birth date
@@ -597,6 +603,7 @@ public class HomeFragment extends PhotoFragment {
     @OnClick(R.id.cancel_in_app_notification)
     void hideNotification() {
         if (mNotificationsContainer.getLayoutParams().height != 0) {
+            preferencesManager.removeLastNotification();
             int height = getResources().getDimensionPixelSize(R.dimen.notification_bar_height);
             ValueAnimator va = ValueAnimator.ofInt(height, 0);
             va.setDuration(500);
