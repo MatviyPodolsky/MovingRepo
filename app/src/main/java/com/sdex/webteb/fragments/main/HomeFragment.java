@@ -360,8 +360,12 @@ public class HomeFragment extends PhotoFragment {
                         .into(summaryImage);
             }
             articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
-            if (testsList != null && testsList.size() > 0) {
+            int count = testsList.size();
+            if (testsList != null && count == 1) {
                 testTitle.setText(testsList.get(0).getContentPreview().getTitle());
+            } else if (testsList != null && count > 1) {
+                String testsCount = getString(R.string.n_tests);
+                testTitle.setText(String.format(testsCount, count));
             } else {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }
@@ -411,8 +415,12 @@ public class HomeFragment extends PhotoFragment {
                         .into(summaryImage);
             }
             articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
-            if (testsList != null && testsList.size() > 0) {
+            int count = testsList.size();
+            if (testsList != null && count == 1) {
                 testTitle.setText(testsList.get(0).getContentPreview().getTitle());
+            } else if (testsList != null && count > 1) {
+                String testsCount = getString(R.string.n_tests);
+                testTitle.setText(String.format(testsCount, count));
             } else {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }
