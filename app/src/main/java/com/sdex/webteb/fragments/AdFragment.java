@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.google.android.gms.ads.mediation.admob.AdMobExtras;
@@ -28,9 +29,10 @@ public class AdFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mAdView = (PublisherAdView) view.findViewById(R.id.adView);
+        mAdView.setAdSizes(AdSize.SMART_BANNER);
         Bundle args = getArguments();
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
-                .addTestDevice("58D30D945873E3CEA5542FC70C5F304A")
+                //.addTestDevice("58D30D945873E3CEA5542FC70C5F304A")
                 .addNetworkExtras(new AdMobExtras(args))
                 .build();
         mAdView.loadAd(adRequest);
