@@ -187,10 +187,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Object getItem(int position) {
         if (position < previews.size()) {
             return previews.get(position);
-        } else if (position == previews.size()) {
+        } else if (position == previews.size() && !videos.isEmpty()) {
             return new VideoWrapper(videos);
         } else {
-            return additionalContent.get(position - previews.size() - 1);
+            int video = videos.isEmpty() ? 0 : 1;
+            return additionalContent.get(position - previews.size() - video);
         }
     }
 
