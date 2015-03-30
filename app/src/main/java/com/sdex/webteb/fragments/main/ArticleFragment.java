@@ -38,7 +38,7 @@ public class ArticleFragment extends BaseMainFragment {
     @InjectView(R.id.content)
     WebView mContentView;
     @InjectView(R.id.title)
-    TextView title;
+    TextView mTitle;
     @InjectView(R.id.share)
     ImageButton mShareButton;
 
@@ -128,12 +128,13 @@ public class ArticleFragment extends BaseMainFragment {
 
     private void loadData() {
         ContentLink article = data.get(currentPosition);
-        title.setText(article.getTitle());
+        String title = article.getTitle();
+        mTitle.setText(title);
         mContentView.getSettings().setLoadWithOverviewMode(true);
         mContentView.getSettings().setUseWideViewPort(true);
         mContentView.loadUrl(article.getUrl());
 
-        sendAnalyticsScreenName(article.getTitle());
+        sendAnalyticsScreenName(String.format(getString(R.string.screen_article), title));
     }
 
 }

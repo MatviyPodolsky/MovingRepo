@@ -69,8 +69,6 @@ public class SetupProfileActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        sendAnalyticsScreenName(R.string.screen_edit_profile);
-
         isInEditMode = getIntent().getBooleanExtra(SettingsFragment.EDIT_PROFILE, false);
 
         databaseHelper = DatabaseHelper.getInstance(this);
@@ -132,8 +130,27 @@ public class SetupProfileActivity extends BaseActivity {
     }
 
     private void initViewPager() {
+        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                switch (position) {
+                    case 0:
+                        sendAnalyticsScreenName(R.string.screen_profile_family_relation);
+                        break;
+                    case 1:
+                        sendAnalyticsScreenName(R.string.screen_profile_birth_date);
+                        break;
+                    case 2:
+                        sendAnalyticsScreenName(R.string.screen_profile_children);
+                        break;
+                }
+            }
+        });
         mPager.setAdapter(mAdapter);
         mPager.setOffscreenPageLimit(3);
+
+        sendAnalyticsScreenName(R.string.screen_profile_family_relation);
     }
 
     @Override

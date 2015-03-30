@@ -2,14 +2,20 @@
 <resources>
 
     <string name="screen_home">Home</string>
-    <string name="screen_summary">Summary</string>
+    <string name="screen_summary_weeks">Summary/weeks/%1$s</string>
+    <string name="screen_summary_baby">Summary/baby/%1$s</string>
     <string name="screen_my_tests">Tests</string>
+    <string name="screen_test">Tests/%1$s</string>
     <string name="screen_my_album">Album</string>
-    <string name="screen_search_doctor">Search doctor</string>
-    <string name="screen_more_articles">More articles</string>
+    <string name="screen_search_doctor">Doctors</string>
+    <string name="screen_search_doctor_result">Doctors/Result</string>
+    <string name="screen_more_articles">Articles</string>
+    <string name="screen_article">Articles/%1$s</string>
     <string name="screen_settings">Settings</string>
+    <string name="screen_profile_family_relation">Profile/FamilyRelation</string>
+    <string name="screen_profile_birth_date">Profile/BirthDate</string>
+    <string name="screen_profile_children">Profile/Children</string>
     <string name="screen_about">About</string>
-    <string name="screen_contact_us">Contact us</string>
-    <string name="screen_edit_profile">Edit profile</string>
+    <string name="screen_contact_us">ContactUs</string>
 
 </resources>

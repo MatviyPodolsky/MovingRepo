@@ -27,6 +27,7 @@
             android:ems="10"
             android:inputType="text"
             android:textColorHint="@color/hint"
+            android:background="@drawable/text_contact_field"
             android:textSize="@dimen/default_text_size" />
 
         <EditText
@@ -37,6 +38,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="9dp"
             android:hint="@string/contact_us_text_hint"
+            android:background="@drawable/text_contact_field"
             android:imeOptions="actionDone"
             android:textSize="@dimen/default_text_size"
             android:gravity="top|right" />
