@@ -92,7 +92,6 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         }
         if (item.getLatitude() != null && item.getLongitude() != null) {
             holder.location.setVisibility(View.VISIBLE);
-            holder.locationText.setVisibility(View.VISIBLE);
             holder.location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,7 +102,6 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
             });
         } else {
             holder.location.setVisibility(View.GONE);
-            holder.locationText.setVisibility(View.GONE);
         }
 
         String url = item.getImageUrl();
@@ -130,8 +128,6 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         TextView specialty;
         @InjectView(R.id.location)
         ImageView location;
-        @InjectView(R.id.location_text)
-        TextView locationText;
         @InjectView(R.id.save_contact)
         ImageView saveContact;
         @InjectView(R.id.call)

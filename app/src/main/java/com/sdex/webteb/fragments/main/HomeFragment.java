@@ -33,9 +33,11 @@ import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.extras.SimpleDividerItemDecoration;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
+import com.sdex.webteb.internal.StaticDataProvider;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
+import com.sdex.webteb.internal.model.MonthRange;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.model.ExaminationPreview;
@@ -277,7 +279,19 @@ public class HomeFragment extends PhotoFragment {
                     if (mTimeNavAdapter != null) {
                         mTimeNavAdapter.hideLabels();
                     }
-                    sendAnalyticsScreenName(R.string.screen_summary);
+                    String screenName;
+                    int currentDateType = preferencesManager.getCurrentDateType();
+                    if (currentDateType == PreferencesManager.DATE_TYPE_MONTH) {
+                        String month = preferencesManager.getCurrentDate();
+                        int numMonth = Integer.parseInt(month);
+                        MonthRange range = StaticDataProvider.getCurrentRange(numMonth);
+                        String rangeTitle = getString(range.getTitle());
+                        screenName = String.format(getString(R.string.screen_summary_baby), rangeTitle);
+                    } else {
+                        String week = preferencesManager.getCurrentDate();
+                        screenName = String.format(getString(R.string.screen_summary_weeks), week);
+                    }
+                    sendAnalyticsScreenName(screenName);
                 } else if (slideOffset == 0.0f) {
                     if (mTimeNavAdapter != null) {
                         mTimeNavAdapter.showLabels();
@@ -373,8 +387,12 @@ public class HomeFragment extends PhotoFragment {
                         .into(summaryImage);
             }
             articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
-            if (testsList != null && testsList.size() > 0) {
+            int count = testsList.size();
+            if (testsList != null && count == 1) {
                 testTitle.setText(testsList.get(0).getContentPreview().getTitle());
+            } else if (testsList != null && count > 1) {
+                String testsCount = getString(R.string.n_tests);
+                testTitle.setText(String.format(testsCount, count));
             } else {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }
@@ -424,8 +442,12 @@ public class HomeFragment extends PhotoFragment {
                         .into(summaryImage);
             }
             articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
-            if (testsList != null && testsList.size() > 0) {
+            int count = testsList.size();
+            if (testsList != null && count == 1) {
                 testTitle.setText(testsList.get(0).getContentPreview().getTitle());
+            } else if (testsList != null && count > 1) {
+                String testsCount = getString(R.string.n_tests);
+                testTitle.setText(String.format(testsCount, count));
             } else {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }

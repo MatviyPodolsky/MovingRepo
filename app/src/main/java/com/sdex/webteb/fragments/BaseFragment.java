@@ -2,6 +2,7 @@ package com.sdex.webteb.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -25,7 +26,8 @@ import retrofit.client.Response;
 public abstract class BaseFragment extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutResource(), container, false);
         ButterKnife.inject(this, view);
         return view;
@@ -52,7 +54,7 @@ public abstract class BaseFragment extends Fragment {
                 .commit();
     }
 
-    protected void sendAnalyticsScreenName(int nameRes) {
+    protected void sendAnalyticsScreenName(@StringRes int nameRes) {
         sendAnalyticsScreenName(getString(nameRes));
     }
 

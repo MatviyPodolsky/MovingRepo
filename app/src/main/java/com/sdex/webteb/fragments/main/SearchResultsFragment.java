@@ -64,6 +64,8 @@ public class SearchResultsFragment extends BaseMainFragment {
 
         showProgress();
 
+        sendAnalyticsScreenName(R.string.screen_search_doctor_result);
+
         Bundle bundle = this.getArguments();
         mOptions = new ArrayMap<>();
         if (bundle.containsKey("Name")) {

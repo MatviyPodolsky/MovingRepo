@@ -54,7 +54,7 @@ public class TestsItemFragment extends BaseMainFragment {
             mTitle.setText(title);
             mContentView.loadUrl(url);
 
-            sendAnalyticsScreenName(title);
+            sendAnalyticsScreenName(String.format(getString(R.string.screen_test), title));
         }
     }
 
