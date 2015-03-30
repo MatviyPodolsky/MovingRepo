@@ -170,7 +170,7 @@ public class TestsAdapter extends BaseExpandableListAdapter {
         for (int i = 0; i < relatedPeriods.size(); i++) {
             if (currentDate == relatedPeriods.get(i).getFrom() ||
                     currentDate <= relatedPeriods.get(i).getTo()) {
-                holder.addReminder.setEnabled(true);
+                holder.addReminder.setVisibility(View.VISIBLE);
                 holder.addReminder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -182,7 +182,7 @@ public class TestsAdapter extends BaseExpandableListAdapter {
                 });
                 break;
             } else {
-                holder.addReminder.setEnabled(false);
+                holder.addReminder.setVisibility(View.GONE);
             }
         }
 
