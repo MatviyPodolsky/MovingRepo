@@ -127,7 +127,9 @@ public class AlbumViewFragment extends BaseMainFragment {
             @Override
             public void onClick(View v) {
                 DbPhoto dbPhoto = data.get(mViewPager.getCurrentItem());
-                EmailUtil.sharePhoto(getActivity(), dbPhoto.getPath());
+                String subject = String.format(getString(R.string.share_photo_email_subject),
+                        dbPhoto.getOwner());
+                EmailUtil.sharePhoto(getActivity(), subject, dbPhoto.getPath());
                 pw.dismiss();
             }
         });
