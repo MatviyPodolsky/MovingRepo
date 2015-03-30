@@ -56,8 +56,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
     public static final long MIN_TIME_BW_UPDATES = 10;
     public static final float MIN_DISTANCE_CHANGE_FOR_UPDATES = 10f;
     private boolean canGetLocation;
-    private String[] citiesList = {"Any city"};
-    private String[] specialtiesList = {"Any speciality"};
+    private String[] citiesList;
+    private String[] specialtiesList;
     private String[] countriesList;
     private int[] countryIds;
     private int[] citiesIds;
@@ -98,6 +98,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
         countriesList = getActivity().getResources().getStringArray(R.array.countries);
         countryIds = getActivity().getResources().getIntArray(R.array.country_ids);
         countryCodes = getActivity().getResources().getStringArray(R.array.iso_codes);
+        citiesList = new String[] {getString(R.string.any_city)};
+        specialtiesList = new String[] {getString(R.string.any_speciality)};
         setCurrentCountry(currentCountry);
         setSpecialties();
         setCurrentLocation();
@@ -189,17 +191,17 @@ public class SearchDoctorFragment extends BaseMainFragment {
         args.putString("Name", search.getText().toString());
         String countryName = country.getText().toString();
         String countryId = String.valueOf(getIdItemFromString(countryName, countriesList, REQUEST_GET_COUNTRY));
-        if (!countryName.equals("Any country")) {
+        if (!countryName.equals(getString(R.string.any_country))) {
             args.putString("Country", countryId);
         }
         String cityName = city.getText().toString();
         String cityId = String.valueOf(getIdItemFromString(cityName, citiesList, REQUEST_GET_CITY));
-        if (!cityName.equals("Any city")) {
+        if (!cityName.equals(getString(R.string.any_city))) {
             args.putString("City", cityId);
         }
         String specialityName = specialty.getText().toString();
         String specialityId = String.valueOf(getIdItemFromString(specialityName, specialtiesList, REQUEST_GET_SPECIALITY));
-        if (!specialityName.equals("Any speciality")) {
+        if (!specialityName.equals(getString(R.string.any_speciality))) {
             args.putString("Specialty", specialityId);
         }
         fragment.setArguments(args);
@@ -211,7 +213,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
         this.currentCountry = currentCountry;
         country.setText(countriesList[currentCountry]);
         setCities(countryCodes[currentCountry]);
-        city.setText("Any city");
+        city.setText(getString(R.string.any_city));
     }
 
     private int getIdItemFromString(String str, String[] list, int requestCode) {
@@ -336,7 +338,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
                     int sizeArray = cities.size() + 1;
                     citiesList = new String[sizeArray];
                     citiesIds = new int[sizeArray];
-                    citiesList[0] = "Any city";
+                    citiesList[0] = getString(R.string.any_city);
                     citiesIds[0] = 0;
 
                     for (int i = 0; i < cities.size(); i++) {
@@ -363,7 +365,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
                     int sizeArray = specialties.size() + 1;
                     specialtiesList = new String[sizeArray];
                     specialitiesIds = new int[sizeArray];
-                    specialtiesList[0] = "Any speciality";
+                    specialtiesList[0] = getString(R.string.any_speciality);
                     specialitiesIds[0] = 0;
 
                     for (int i = 0; i < specialties.size(); i++) {
