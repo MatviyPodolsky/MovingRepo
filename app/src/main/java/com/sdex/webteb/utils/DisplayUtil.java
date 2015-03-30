@@ -194,4 +194,10 @@ public class DisplayUtil {
         return px / (Resources.getSystem().getDisplayMetrics().scaledDensity);
     }
 
+    public static int getDp(final int px) {
+        final float scale = Resources.getSystem().getDisplayMetrics().density;
+        final int pixels = (int) (px * scale + 0.5f);
+        return pixels;
+    }
+
 }

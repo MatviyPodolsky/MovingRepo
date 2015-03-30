@@ -156,7 +156,6 @@
 
     <!--search doctor-->
     <string name="country">Country</string>
-    <string name="city">Any city</string>
     <string name="specialty">Speciality</string>
     <string name="doctor_name">Doctor name</string>
     <string name="search">Search</string>
@@ -165,6 +164,9 @@
     <string name="turn_location_options">Please, turn on location options if you want to select your current place as default for search</string>
     <string name="error_search_doctor_title">Error title</string>
     <string name="error_search_doctor_text">Error text</string>
+    <string name="any_country">Any country</string>
+    <string name="any_city">Any city</string>
+    <string name="any_speciality">Any speciality</string>
 
     <string-array name="countries">
         <item>Any country</item>

@@ -131,7 +131,7 @@
                         android:gravity="right|center_vertical"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
-                        android:text="@string/city"
+                        android:text="@string/any_city"
                         android:textColor="@color/button_text" />
 
                 </LinearLayout>

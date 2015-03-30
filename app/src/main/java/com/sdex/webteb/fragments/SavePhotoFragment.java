@@ -20,6 +20,7 @@ import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
+import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.WrapLinearLayoutManager;
 import com.squareup.picasso.Picasso;
@@ -63,6 +64,8 @@ public class SavePhotoFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         currentPhoto = Uri.parse(getArguments().getString(PHOTO_PATH));
+        final int pixels = DisplayUtil.getDp(10);
+        mDescription.setPadding(pixels, 0, pixels, 0);
         Picasso.with(getActivity())
                 .load(PhotoFragment.FILE_PREFIX + currentPhoto)
                 .noPlaceholder()

@@ -54,6 +54,8 @@
                 android:layout_height="85dp"
                 android:layout_marginTop="11dp"
                 android:layout_marginBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:hint="@string/hint_comment"
                 android:gravity="top|end"
                 android:inputType="textCapSentences"
