@@ -271,7 +271,6 @@ public class HomeFragment extends PhotoFragment {
                     if (mTimeNavAdapter != null) {
                         mTimeNavAdapter.hideLabels();
                     }
-                    hideNotification();
                     sendAnalyticsScreenName(R.string.screen_summary);
                 } else if (slideOffset == 0.0f) {
                     if (mTimeNavAdapter != null) {
