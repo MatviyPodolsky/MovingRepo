@@ -11,6 +11,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.SearchResultsAdapter;
@@ -86,6 +87,8 @@ public class SearchResultsFragment extends BaseMainFragment {
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     intent.setData(Uri.parse("tel:" + phoneNumber));
                     startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), "The doctor's phone number is absent!", Toast.LENGTH_LONG).show();
                 }
                 String label = doctor.getId() + " - " + doctor.getName();
                 sendInnerAnalyticsEvent(Events.CATEGORY_PHONE, Events.ACTION_CALL, label);
