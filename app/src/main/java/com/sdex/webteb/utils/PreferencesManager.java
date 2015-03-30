@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.sdex.webteb.rest.response.NotificationsResponse;
 
 /**
  * Created by Yuriy Mysochenko on 26.08.2014.
@@ -23,7 +24,8 @@ public class PreferencesManager {
     private static final String CURRENT_DATE = "current_date";
     private static final String CURRENT_DATE_TYPE = "current_date_type";
     private static final String LAST_NOTIFICATION_DATE = "last_notification_date";
-    private static final String WAS_LAUNCHED = "WAS_LAUNCHED";
+    private static final String WAS_LAUNCHED = "was_launched";
+    private static final String LAST_NOTIFICATION = "last_notification";
 
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;
@@ -152,6 +154,25 @@ public class PreferencesManager {
         long currentDate = System.currentTimeMillis();
         long date = mPref.getLong(LAST_NOTIFICATION_DATE, 0);
         return currentDate - date > 24 * 60 * 60 * 1000;
+    }
+
+    public void removeLastNotification() {
+        mPref.edit().remove(LAST_NOTIFICATION).commit();
+    }
+
+    public void setLastNotification(NotificationsResponse response) {
+        Gson gson = new Gson();
+        String toJson = gson.toJson(response);
+        mPref.edit().putString(LAST_NOTIFICATION, toJson).commit();
+    }
+
+    public NotificationsResponse getLastNotification() {
+        String json = mPref.getString(LAST_NOTIFICATION, null);
+        if (json != null) {
+            Gson gson = new Gson();
+            return gson.fromJson(json, NotificationsResponse.class);
+        }
+        return null;
     }
 
 }

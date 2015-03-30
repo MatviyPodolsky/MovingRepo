@@ -1,5 +1,6 @@
 package com.sdex.webteb.utils;
 
+import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -10,12 +11,18 @@ import android.view.ViewTreeObserver;
 public final class Utils {
 
     public static void removeGlobalLayoutListener(View view,
-            ViewTreeObserver.OnGlobalLayoutListener listener) {
+                                                  ViewTreeObserver.OnGlobalLayoutListener listener) {
         if (CompatibilityUtil.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+            removeGlobalLayoutListenerJellyBean(view, listener);
         } else {
             view.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private static void removeGlobalLayoutListenerJellyBean(View view,
+                                                            ViewTreeObserver.OnGlobalLayoutListener listener) {
+        view.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
     }
 
     public static String getDeviceName() {
