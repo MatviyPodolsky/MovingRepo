@@ -112,7 +112,7 @@ public class AlbumViewFragment extends BaseMainFragment {
     void share(View v) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View contentView = inflater.inflate(R.layout.pop_up_share, null);
-        final PopupWindow pw = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
+        final PopupWindow pw = new PopupWindow(contentView, DisplayUtil.dpToPx(80),
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
