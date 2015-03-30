@@ -167,6 +167,7 @@
     <string name="error_search_doctor_text">Error text</string>
 
     <string-array name="countries">
+        <item>Any country</item>
         <item>المملكة العربية السعودية</item>
         <item>مصر</item>
         <item>العراق</item>
@@ -191,6 +192,7 @@
         <item>جزر القمر</item>
     </string-array>
     <integer-array name="country_ids">
+        <item>-1</item>
         <item>59</item>
         <item>13</item>
         <item>52</item>
@@ -215,6 +217,7 @@
         <item>11</item>
     </integer-array>
     <string-array name="iso_codes">
+        <item>Any country</item>
         <item>SA</item>
         <item>EG</item>
         <item>IQ</item>

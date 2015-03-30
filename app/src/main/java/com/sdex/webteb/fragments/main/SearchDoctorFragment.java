@@ -63,7 +63,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
     private int[] citiesIds;
     private int[] specialitiesIds;
     private String[] countryCodes;
-    private int currentCountry = 3;//Jordan
+    private int currentCountry = 4;//Jordan
 
     private EventBus mEventBus = EventBus.getDefault();
 
