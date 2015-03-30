@@ -217,7 +217,7 @@ public class BirthDateFragment extends BaseFragment {
             return false;
         }
         if (mDateType == BabyProfileResponse.DATE_TYPE_LAST_PERIOD
-                && date.after(currentDate)) {
+                && DateUtil.compareDatesForLastPeriod(date, currentDate)) {
             Toast.makeText(getActivity(), getString(R.string.last_period_cant_be_in_future), Toast.LENGTH_SHORT).show();
             return false;
         }

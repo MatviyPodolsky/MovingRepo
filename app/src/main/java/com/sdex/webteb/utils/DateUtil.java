@@ -179,4 +179,16 @@ public class DateUtil {
             return false;
         }
     }
+
+    public static boolean compareDatesForLastPeriod(Date from, Date to) {
+        long diff = to.getTime() - from.getTime();
+        if (diff < 0) {
+            return true;
+        } else {
+            long oneDay = 24 * 60 * 60 * 1000;
+            int elapsedDays = (int) (diff / oneDay);
+//            last period should be more than 7 days before today
+            return elapsedDays < 8;
+        }
+    }
 }
