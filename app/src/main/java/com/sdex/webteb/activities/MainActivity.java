@@ -25,6 +25,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MenuAdapter;
 import com.sdex.webteb.dialogs.BaseDialog;
+import com.sdex.webteb.dialogs.PushNotificationDialog;
 import com.sdex.webteb.dialogs.WeekPushNotificationDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.main.AboutFragment;
@@ -425,16 +426,20 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         switch (type) {
             case NOTIFICATION_TYPE_TEST_SINGLE:
                 // open the test page in the app
+                pushNotificationDialog = PushNotificationDialog.newInstance();
                 break;
             case NOTIFICATION_TYPE_TEST_MULTIPLE:
                 // open “My Tests” page
+                pushNotificationDialog = PushNotificationDialog.newInstance();
                 setMenuItem(1);
                 break;
             case NOTIFICATION_TYPE_TIP:
                 // open the home page
+                pushNotificationDialog = PushNotificationDialog.newInstance();
                 break;
             case NOTIFICATION_TYPE_INACTIVE_USER:
                 // open the home page
+                pushNotificationDialog = PushNotificationDialog.newInstance();
                 break;
             case NOTIFICATION_TYPE_WEEK_38:
             case NOTIFICATION_TYPE_WEEK_40:
