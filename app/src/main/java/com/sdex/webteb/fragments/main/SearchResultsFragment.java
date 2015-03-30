@@ -3,6 +3,7 @@ package com.sdex.webteb.fragments.main;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.SearchResultsAdapter;
@@ -84,7 +86,9 @@ public class SearchResultsFragment extends BaseMainFragment {
             @Override
             public void onCallClick(Doctor doctor) {
                 String phoneNumber = doctor.getPhone();
-                if(!TextUtils.isEmpty(phoneNumber)) {
+                if(TextUtils.isEmpty(phoneNumber)) {
+                    Toast.makeText(getActivity(), "The doctor's phone number is absent!", Toast.LENGTH_LONG).show();
+                } else {
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     intent.setData(Uri.parse("tel:" + phoneNumber));
                     startActivity(intent);
@@ -96,8 +100,13 @@ public class SearchResultsFragment extends BaseMainFragment {
             @Override
             public void onSaveContactClick(Doctor doctor) {
                 String phoneNumber = doctor.getPhone();
-                if(!TextUtils.isEmpty(phoneNumber)) {
-//                    TODO save contact
+                if(TextUtils.isEmpty(phoneNumber)) {
+                    Toast.makeText(getActivity(), "The doctor's phone number is absent!", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(ContactsContract.Intents.SHOW_OR_CREATE_CONTACT,
+                            Uri.parse("tel:" + phoneNumber));
+                    intent.putExtra(ContactsContract.Intents.EXTRA_FORCE_CREATE, true);
+                    startActivity(intent);
                 }
                 String label = doctor.getId() + " - " + doctor.getName();
                 sendInnerAnalyticsEvent(Events.CATEGORY_PHONE, Events.ACTION_SAVE_CONTACT, label);
