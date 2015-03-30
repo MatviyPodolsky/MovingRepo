@@ -57,18 +57,29 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
-                <EditText
-                    style="@style/AppTheme.EditText"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/doctor_name"
-                    android:id="@+id/search"
-                    android:imeOptions="actionDone"
-                    android:singleLine="true"
-                    android:inputType="text"
-                    android:gravity="center_vertical|right"
-                    android:drawableLeft="@drawable/ic_doctor_search_grey"
-                    android:layout_marginTop="25dp" />
+                    android:background="@drawable/red_border"
+                    android:layout_marginTop="25dp">
+
+                    <EditText
+                        style="@style/AppTheme.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/doctor_name"
+                        android:id="@+id/search"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:inputType="text"
+                        android:background="@drawable/edit_text_without_border"
+                        android:gravity="center_vertical|right|end"
+                        android:drawableStart="@drawable/ic_doctor_search_grey"
+                        android:drawableLeft="@drawable/ic_doctor_search_grey" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/country"

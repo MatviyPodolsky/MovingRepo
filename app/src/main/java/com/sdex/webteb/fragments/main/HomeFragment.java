@@ -347,14 +347,21 @@ public class HomeFragment extends PhotoFragment {
         long currentTime = Calendar.getInstance().getTime().getTime();
         long birthDate = DateUtil.parseDate(babyProfileResponse.getDate()).getTime();
         long diffTime = currentTime - birthDate;
-        long month = diffTime / 1000 / 3600 / 24 / 30;
-        String dateType = getString(R.string.month);
-        mText.setText(String.format(dateType, month));
-        preferencesManager.setCurrentDate(String.valueOf(month),
+        long totalMonth = diffTime / 1000 / 3600 / 24 / 30;
+        String childAge;
+        if (totalMonth < 12) {
+            childAge = String.format(getString(R.string.age_in_month), totalMonth);
+        } else {
+            int years = (int) (totalMonth / 12);
+            int month = (int) (totalMonth % 12);
+            childAge = String.format(getString(R.string.age_in_years_and_month), years, month);
+        }
+        mText.setText(childAge);
+        preferencesManager.setCurrentDate(String.valueOf(totalMonth),
                 PreferencesManager.DATE_TYPE_MONTH);
-        RestClient.getApiService().getMonth((int) month, getMonthCallback);
+        RestClient.getApiService().getMonth((int) totalMonth, getMonthCallback);
         if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
-            setNavController((int) month);
+            setNavController((int) totalMonth);
         }
     }
 
@@ -380,8 +387,12 @@ public class HomeFragment extends PhotoFragment {
                         .into(summaryImage);
             }
             articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
-            if (testsList != null && testsList.size() > 0) {
+            int count = testsList.size();
+            if (testsList != null && count == 1) {
                 testTitle.setText(testsList.get(0).getContentPreview().getTitle());
+            } else if (testsList != null && count > 1) {
+                String testsCount = getString(R.string.n_tests);
+                testTitle.setText(String.format(testsCount, count));
             } else {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }
@@ -431,8 +442,12 @@ public class HomeFragment extends PhotoFragment {
                         .into(summaryImage);
             }
             articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
-            if (testsList != null && testsList.size() > 0) {
+            int count = testsList.size();
+            if (testsList != null && count == 1) {
                 testTitle.setText(testsList.get(0).getContentPreview().getTitle());
+            } else if (testsList != null && count > 1) {
+                String testsCount = getString(R.string.n_tests);
+                testTitle.setText(String.format(testsCount, count));
             } else {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }
@@ -472,7 +487,9 @@ public class HomeFragment extends PhotoFragment {
         gaveBirth = card.isGaveBirth();
 
         if (!gaveBirth) {
-            mText.setText(String.valueOf(currentWeek));
+            String pregnancyWeek;
+            pregnancyWeek = String.format(getString(R.string.age_in_week), currentWeek);
+            mText.setText(pregnancyWeek);
             ViewGroup.LayoutParams layoutParams = mProgress.getLayoutParams();
             int currentDays = (card.getTotalDays() - card.getDaysLeft());
             layoutParams.width = currentDays * DisplayUtil.getScreenWidth(getActivity()) / card.getTotalDays();

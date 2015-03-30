@@ -108,11 +108,11 @@ public class FacebookUtil {
         }
 
         if (currentSession.isOpened()) {
-            if (hasPublishPermission()) {
+//            if (hasPublishPermission()) {
                 publishFeedDialog(activity, appName, caption, description, link, picture);
-            } else {
-                currentSession.requestNewPublishPermissions(new Session.NewPermissionsRequest(activity, PERMISSION));
-            }
+//            } else {
+//                currentSession.requestNewPublishPermissions(new Session.NewPermissionsRequest(activity, PERMISSION));
+//            }
         } else if (!currentSession.isOpened()) {
             // Ask for username and password
             Session.OpenRequest op = new Session.OpenRequest(activity);
@@ -121,8 +121,7 @@ public class FacebookUtil {
             op.setCallback(null);
 
             List<String> permissions = new ArrayList<String>();
-            permissions.add("publish_action");
-            permissions.add("email");
+            permissions.add("publish_stream");
             op.setPermissions(permissions);
 
             Session session = new Session.Builder(activity).build();

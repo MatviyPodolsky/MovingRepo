@@ -95,6 +95,9 @@
     <string name="month">%1$s month</string>
     <string name="dialog_notification_week_confirm">Yes, I did</string>
     <string name="dialog_notification_week_cancel">Not yet</string>
+    <string name="age_in_week">Week %1$d</string>
+    <string name="age_in_month">Age %1$d month</string>
+    <string name="age_in_years_and_month">Age %1$d years %2$d month</string>
 
     <!--summary-->
     <string name="tests">Tests</string>
@@ -106,6 +109,7 @@
     <string name="no_tests">No tests</string>
     <string name="no_articles">No articles</string>
     <string name="close">Close</string>
+    <string name="n_tests">%1$d tests</string>
 
     <!--menu-->
     <string name="title_home">Home</string>
@@ -163,6 +167,7 @@
     <string name="error_search_doctor_text">Error text</string>
 
     <string-array name="countries">
+        <item>Any country</item>
         <item>المملكة العربية السعودية</item>
         <item>مصر</item>
         <item>العراق</item>
@@ -187,6 +192,7 @@
         <item>جزر القمر</item>
     </string-array>
     <integer-array name="country_ids">
+        <item>-1</item>
         <item>59</item>
         <item>13</item>
         <item>52</item>
@@ -211,6 +217,7 @@
         <item>11</item>
     </integer-array>
     <string-array name="iso_codes">
+        <item>Any country</item>
         <item>SA</item>
         <item>EG</item>
         <item>IQ</item>
