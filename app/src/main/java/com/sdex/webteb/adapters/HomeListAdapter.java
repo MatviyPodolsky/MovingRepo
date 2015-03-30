@@ -100,6 +100,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final PreviewViewHolder viewHolder = (PreviewViewHolder) holder;
             viewHolder.title.setText(preview.getTitle());
             viewHolder.text.setText(preview.getDescription());
+            viewHolder.category.setText(preview.getSectionName());
             if (preview.getImageUrl() != null) {
                 Picasso.with(context)
                         .load(preview.getImageUrl())
@@ -219,6 +220,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         RelativeLayout rootLayout;
         @InjectView(R.id.title)
         TextView title;
+        @InjectView(R.id.category)
+        TextView category;
         @InjectView(R.id.text)
         TextView text;
         @InjectView(R.id.icon)

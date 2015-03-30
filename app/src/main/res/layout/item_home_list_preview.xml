@@ -18,10 +18,11 @@
             app:typeface="DINNextLTArabicBold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="@string/test_text"
-            android:id="@+id/title"
+            tools:text="category "
+            android:id="@+id/category"
             android:textSize="20sp"
             android:textColor="@color/link"
+            android:gravity="right"
             android:layout_gravity="center_vertical"
             android:layout_weight="1" />
 
@@ -44,7 +45,7 @@
         android:maxWidth="120dp"
         android:adjustViewBounds="true"
         tools:src="@drawable/ic_header_2"
-        android:layout_below="@+id/title_container"
+        android:layout_below="@+id/title"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="8dp" />
@@ -59,7 +60,18 @@
         android:textSize="@dimen/default_text_size"
         android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/title_container"
+        android:layout_below="@+id/title"
         android:layout_toRightOf="@+id/image" />
+
+    <com.sdex.webteb.view.TypefaceTextView
+        app:typeface="DINNextLTArabicBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/test_text"
+        android:id="@+id/title"
+        android:gravity="right"
+        android:layout_below="@+id/title_container"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>
