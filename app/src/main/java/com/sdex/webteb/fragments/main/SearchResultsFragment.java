@@ -3,6 +3,7 @@ package com.sdex.webteb.fragments.main;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
@@ -11,10 +12,12 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.SearchResultsAdapter;
 import com.sdex.webteb.internal.analytics.Events;
+import com.sdex.webteb.internal.events.DoctorsNotFoundEvent;
 import com.sdex.webteb.model.Doctor;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -26,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
 
 /**
@@ -82,23 +86,30 @@ public class SearchResultsFragment extends BaseMainFragment {
             @Override
             public void onCallClick(Doctor doctor) {
                 String phoneNumber = doctor.getPhone();
-                if(!TextUtils.isEmpty(phoneNumber)) {
+                if(TextUtils.isEmpty(phoneNumber)) {
+                    Toast.makeText(getActivity(), "The doctor's phone number is absent!", Toast.LENGTH_LONG).show();
+                } else {
                     Intent intent = new Intent(Intent.ACTION_CALL);
                     intent.setData(Uri.parse("tel:" + phoneNumber));
                     startActivity(intent);
                 }
                 String label = doctor.getId() + " - " + doctor.getName();
-                sendInnerAnalyticsEvent(Events.ACTION_CALL, label);
+                sendInnerAnalyticsEvent(Events.CATEGORY_PHONE, Events.ACTION_CALL, label);
             }
 
             @Override
             public void onSaveContactClick(Doctor doctor) {
                 String phoneNumber = doctor.getPhone();
-                if(!TextUtils.isEmpty(phoneNumber)) {
-//                    TODO save contact
+                if(TextUtils.isEmpty(phoneNumber)) {
+                    Toast.makeText(getActivity(), "The doctor's phone number is absent!", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(ContactsContract.Intents.SHOW_OR_CREATE_CONTACT,
+                            Uri.parse("tel:" + phoneNumber));
+                    intent.putExtra(ContactsContract.Intents.EXTRA_FORCE_CREATE, true);
+                    startActivity(intent);
                 }
                 String label = doctor.getId() + " - " + doctor.getName();
-                sendInnerAnalyticsEvent(Events.ACTION_SAVE_CONTACT, label);
+                sendInnerAnalyticsEvent(Events.CATEGORY_PHONE, Events.ACTION_SAVE_CONTACT, label);
             }
 
             @Override
@@ -209,10 +220,12 @@ public class SearchResultsFragment extends BaseMainFragment {
     }
 
     private void showNoData() {
-        error.setText(getString(R.string.no_doctors_found));
-        error.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
-        mList.setVisibility(View.GONE);
+        EventBus.getDefault().post(new DoctorsNotFoundEvent());
+        getActivity().onBackPressed();
+//        error.setText(getString(R.string.no_doctors_found));
+//        error.setVisibility(View.VISIBLE);
+//        progress.setVisibility(View.GONE);
+//        mList.setVisibility(View.GONE);
     }
 
     private void showData() {

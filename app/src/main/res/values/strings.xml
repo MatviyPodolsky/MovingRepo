@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="TypographyDashes">
 
-    <string name="app_name">WebTeb</string>
+    <string name="app_name">BabyTime</string>
 
     <string name="facebook_app_id" translatable="false">326836307523571</string>
     <string name="ga_trackingId" translatable="false">UA-27175568-11</string>
@@ -95,6 +95,9 @@
     <string name="month">%1$s month</string>
     <string name="dialog_notification_week_confirm">Yes, I did</string>
     <string name="dialog_notification_week_cancel">Not yet</string>
+    <string name="age_in_week">Week %1$d</string>
+    <string name="age_in_month">Age %1$d month</string>
+    <string name="age_in_years_and_month">Age %1$d years %2$d month</string>
 
     <!--summary-->
     <string name="tests">Tests</string>
@@ -160,6 +163,9 @@
     <string name="found_n_doctors">Showing %1$d out of total %2$d</string>
     <string name="no_doctors_found">No doctors found</string>
     <string name="turn_location_options">Please, turn on location options if you want to select your current place as default for search</string>
+    <string name="error_search_doctor_title">Error title</string>
+    <string name="error_search_doctor_text">Error text</string>
+
     <string-array name="countries">
         <item>المملكة العربية السعودية</item>
         <item>مصر</item>
@@ -255,6 +261,7 @@
     <!--more articles-->
     <string name="more_articles_title">More articles</string>
     <string name="we_found_n_articles">We found (%1$d) articles</string>
+    <string name="showing_articles">(showing %1$d/%2$d) Articles</string>
 
     <!--settings-->
     <string name="settings_title">Settings</string>
@@ -291,6 +298,7 @@
     <string name="choose_email_client">Choose email client</string>
     <string name="no_email_client_error">There are no email clients installed.</string>
     <string name="not_support_printing_error">Your device does not support printing</string>
+    <string name="share_photo_email_subject">%1$s shared an image with you</string>
 
     <!--errors-->
     <string name="error_loading_data">Error loading data</string>

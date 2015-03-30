@@ -24,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Utility class for formatting and parsing the various date formats we expect
@@ -56,7 +55,7 @@ public class DateUtil {
                 };
 
         dateFormats = new SimpleDateFormat[possibleDateFormats.length];
-        TimeZone gmtTZ = TimeZone.getTimeZone("GMT");
+//        TimeZone gmtTZ = TimeZone.getTimeZone("GMT");
 
         for (int i = 0; i < possibleDateFormats.length; i++) {
         /* TODO: Support other locales? */

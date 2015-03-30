@@ -1,6 +1,7 @@
 package com.sdex.webteb.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,33 +62,40 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         holder.call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mCallback != null) {
+                if (mCallback != null) {
                     mCallback.onCallClick(item);
                 }
             }
         });
-        holder.saveContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mCallback != null) {
-                    mCallback.onSaveContactClick(item);
+        if (TextUtils.isEmpty(item.getPhone())) {
+            holder.call.setVisibility(View.GONE);
+            holder.saveContact.setVisibility(View.GONE);
+        } else {
+            holder.call.setVisibility(View.VISIBLE);
+            holder.saveContact.setVisibility(View.VISIBLE);
+            holder.saveContact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mCallback != null) {
+                        mCallback.onSaveContactClick(item);
+                    }
                 }
-            }
-        });
-        holder.saveContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mCallback != null) {
-                    mCallback.onSaveContactClick(item);
+            });
+            holder.saveContact.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mCallback != null) {
+                        mCallback.onSaveContactClick(item);
+                    }
                 }
-            }
-        });
+            });
+        }
         if (item.getLatitude() != null && item.getLongitude() != null) {
             holder.location.setVisibility(View.VISIBLE);
             holder.location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mCallback != null) {
+                    if (mCallback != null) {
                         mCallback.onShowLocationClick(item);
                     }
                 }

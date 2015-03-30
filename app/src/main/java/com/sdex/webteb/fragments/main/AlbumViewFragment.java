@@ -112,7 +112,7 @@ public class AlbumViewFragment extends BaseMainFragment {
     void share(View v) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View contentView = inflater.inflate(R.layout.pop_up_share, null);
-        final PopupWindow pw = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
+        final PopupWindow pw = new PopupWindow(contentView, DisplayUtil.dpToPx(80),
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
@@ -127,7 +127,9 @@ public class AlbumViewFragment extends BaseMainFragment {
             @Override
             public void onClick(View v) {
                 DbPhoto dbPhoto = data.get(mViewPager.getCurrentItem());
-                EmailUtil.sharePhoto(getActivity(), dbPhoto.getPath());
+                String subject = String.format(getString(R.string.share_photo_email_subject),
+                        dbPhoto.getOwner());
+                EmailUtil.sharePhoto(getActivity(), subject, dbPhoto.getPath());
                 pw.dismiss();
             }
         });
@@ -167,7 +169,7 @@ public class AlbumViewFragment extends BaseMainFragment {
     }
 
     private void setCurrentPhotoIndex(int position) {
-        mCurrentPhoto.setText(String.valueOf(position + 1));
+        mCurrentPhoto.setText(String.valueOf(data.size() - position));
     }
 
     public void onEvent(IntentDeletePhotoEvent event) {

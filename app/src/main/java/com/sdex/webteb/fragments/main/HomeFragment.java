@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -194,19 +195,25 @@ public class HomeFragment extends PhotoFragment {
         };
 
         boolean expired = preferencesManager.isNotificationDateExpired();
-        if (expired) {
-            boolean ignoreSettings = false;
-            RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
-                @Override
-                public void success(NotificationsResponse notificationsResponse, Response response) {
-                    setUpNotifications(notificationsResponse);
-                }
+        NotificationsResponse lastNotification = preferencesManager.getLastNotification();
+        if (lastNotification == null) {
+            if (expired) {
+                boolean ignoreSettings = false;
+                RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
+                    @Override
+                    public void success(NotificationsResponse notificationsResponse, Response response) {
+                        setUpNotifications(notificationsResponse);
+                        preferencesManager.setLastNotification(notificationsResponse);
+                    }
 
-                @Override
-                public void failure(RetrofitError error) {
+                    @Override
+                    public void failure(RetrofitError error) {
 
-                }
-            });
+                    }
+                });
+            }
+        } else {
+            setUpNotifications(lastNotification);
         }
 
 //        if baby got birth, send request to get birth date
@@ -270,7 +277,6 @@ public class HomeFragment extends PhotoFragment {
                     if (mTimeNavAdapter != null) {
                         mTimeNavAdapter.hideLabels();
                     }
-                    hideNotification();
                     sendAnalyticsScreenName(R.string.screen_summary);
                 } else if (slideOffset == 0.0f) {
                     if (mTimeNavAdapter != null) {
@@ -327,14 +333,21 @@ public class HomeFragment extends PhotoFragment {
         long currentTime = Calendar.getInstance().getTime().getTime();
         long birthDate = DateUtil.parseDate(babyProfileResponse.getDate()).getTime();
         long diffTime = currentTime - birthDate;
-        long month = diffTime / 1000 / 3600 / 24 / 30;
-        String dateType = getString(R.string.month);
-        mText.setText(String.format(dateType, month));
-        preferencesManager.setCurrentDate(String.valueOf(month),
+        long totalMonth = diffTime / 1000 / 3600 / 24 / 30;
+        String childAge;
+        if (totalMonth < 12) {
+            childAge = String.format(getString(R.string.age_in_month), totalMonth);
+        } else {
+            int years = (int) (totalMonth / 12);
+            int month = (int) (totalMonth % 12);
+            childAge = String.format(getString(R.string.age_in_years_and_month), years, month);
+        }
+        mText.setText(childAge);
+        preferencesManager.setCurrentDate(String.valueOf(totalMonth),
                 PreferencesManager.DATE_TYPE_MONTH);
-        RestClient.getApiService().getMonth((int) month, getMonthCallback);
+        RestClient.getApiService().getMonth((int) totalMonth, getMonthCallback);
         if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
-            setNavController((int) month);
+            setNavController((int) totalMonth);
         }
     }
 
@@ -460,7 +473,9 @@ public class HomeFragment extends PhotoFragment {
         gaveBirth = card.isGaveBirth();
 
         if (!gaveBirth) {
-            mText.setText(String.valueOf(currentWeek));
+            String pregnancyWeek;
+            pregnancyWeek = String.format(getString(R.string.age_in_week), currentWeek);
+            mText.setText(pregnancyWeek);
             ViewGroup.LayoutParams layoutParams = mProgress.getLayoutParams();
             int currentDays = (card.getTotalDays() - card.getDaysLeft());
             layoutParams.width = currentDays * DisplayUtil.getScreenWidth(getActivity()) / card.getTotalDays();
@@ -605,6 +620,7 @@ public class HomeFragment extends PhotoFragment {
     @OnClick(R.id.cancel_in_app_notification)
     void hideNotification() {
         if (mNotificationsContainer.getLayoutParams().height != 0) {
+            preferencesManager.removeLastNotification();
             int height = getResources().getDimensionPixelSize(R.dimen.notification_bar_height);
             ValueAnimator va = ValueAnimator.ofInt(height, 0);
             va.setDuration(500);
@@ -670,7 +686,16 @@ public class HomeFragment extends PhotoFragment {
 
     private void showPhotoPreview(String path) {
         Fragment fragment = SavePhotoFragment.newInstance(path);
-        addNestedFragment(R.id.fragment_container, fragment, SavePhotoFragment.NAME);
+        Fragment fragmentByTag = getChildFragmentManager().findFragmentByTag(AlbumFragment.NAME);
+        if (fragmentByTag != null) {
+            FragmentManager fragmentManager = getParentFragment().getChildFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, fragment, SavePhotoFragment.NAME)
+                    .addToBackStack(SavePhotoFragment.NAME)
+                    .commit();
+        } else {
+            addNestedFragment(R.id.fragment_container, fragment, SavePhotoFragment.NAME);
+        }
     }
 
     public void onEventMainThread(SavedPhotoEvent event) {

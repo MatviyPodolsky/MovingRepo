@@ -48,4 +48,9 @@ public class PushNotificationDialog extends BaseDialog {
         dismiss();
     }
 
+    @OnClick(R.id.cancel)
+    void cancel() {
+        dismiss();
+    }
+
 }

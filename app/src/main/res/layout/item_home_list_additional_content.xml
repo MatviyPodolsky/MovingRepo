@@ -21,7 +21,7 @@
             tools:text="@string/test_text"
             android:id="@+id/title"
             android:textSize="20sp"
-            android:textColor="@color/link"
+            android:textColor="@color/black"
             android:layout_gravity="center_vertical"
             android:layout_weight="1" />
 

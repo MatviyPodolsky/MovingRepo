@@ -1,5 +1,6 @@
 package com.sdex.webteb.fragments.main;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.dialogs.SearchFilterDialog;
+import com.sdex.webteb.internal.events.DoctorsNotFoundEvent;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -33,6 +35,8 @@ import java.util.Locale;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.Optional;
+import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
 
 /**
@@ -61,6 +65,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
     private String[] countryCodes;
     private int currentCountry = 3;//Jordan
 
+    private EventBus mEventBus = EventBus.getDefault();
+
     @InjectView(R.id.search)
     EditText search;
     @InjectView(R.id.country_text)
@@ -69,6 +75,13 @@ public class SearchDoctorFragment extends BaseMainFragment {
     TextView city;
     @InjectView(R.id.specialty_text)
     TextView specialty;
+
+    @InjectView(R.id.error_view)
+    View mErrorView;
+    @InjectView(R.id.error_title)
+    TextView mErrorTitle;
+    @InjectView(R.id.error_text)
+    TextView mErrorText;
 
     private RestCallback<List<CityResponse>> getCitiesCallback;
     private RestCallback<List<SpecialtiesResponse>> getSpecialtiesCallback;
@@ -93,6 +106,18 @@ public class SearchDoctorFragment extends BaseMainFragment {
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_search_doctor;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mEventBus.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mEventBus.unregister(this);
     }
 
     @Override
@@ -350,4 +375,45 @@ public class SearchDoctorFragment extends BaseMainFragment {
         };
         RestClient.getApiService().getSpecialties(getSpecialtiesCallback);
     }
+
+    public void onEvent(DoctorsNotFoundEvent event) {
+        showError();
+    }
+
+    private void showError() {
+        int height = getResources().getDimensionPixelSize(R.dimen.notification_bar_height);
+        ValueAnimator va = ValueAnimator.ofInt(0, height);
+        va.setDuration(500);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                if (mErrorView != null) {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    mErrorView.getLayoutParams().height = value;
+                    mErrorView.requestLayout();
+                }
+            }
+        });
+        va.start();
+    }
+
+    @Optional
+    @OnClick(R.id.hide_error)
+    void hideError() {
+        if (mErrorView.getLayoutParams().height != 0) {
+            int height = getResources().getDimensionPixelSize(R.dimen.notification_bar_height);
+            ValueAnimator va = ValueAnimator.ofInt(height, 0);
+            va.setDuration(500);
+            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    if (mErrorView != null) {
+                        Integer value = (Integer) animation.getAnimatedValue();
+                        mErrorView.getLayoutParams().height = value;
+                        mErrorView.requestLayout();
+                    }
+                }
+            });
+            va.start();
+        }
+    }
+
 }

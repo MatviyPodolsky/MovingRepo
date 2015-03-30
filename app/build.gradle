@@ -89,6 +89,7 @@ dependencies {
     compile 'uk.co.deanwild:flowtextview:2.0.2@aar'
     compile 'nl.qbusict:cupboard:2.1.1'
     compile 'com.google.android.gms:play-services-gcm:7.0.0'
+    compile 'com.google.android.gms:play-services-ads:7.0.0'
     compile 'com.google.android.gms:play-services-analytics:7.0.0'
     debugCompile 'im.dino:dbinspector:3.1.0@aar'
     debugCompile 'com.github.prashamtrivedi:sharedpreferenceinspector:2.0'

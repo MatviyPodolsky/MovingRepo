@@ -1,6 +1,7 @@
 package com.sdex.webteb.adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +46,9 @@ public class ArticlesAdapter extends ArrayAdapter<ContentLink> {
         holder.title.setText(item.getTitle());
         holder.text.setText(item.getDescription());
         //convert date to needed format
-        if (item.getPublishedDate() != null && !item.getPublishedDate().isEmpty()) {
-            holder.date.setText(DateUtil.formatDate(DateUtil.parseDate(item.getPublishedDate()), "mm/dd/yyyy"));
+        String publishedDate = item.getPublishedDate();
+        if (!TextUtils.isEmpty(publishedDate)) {
+            holder.date.setText(DateUtil.formatDate(DateUtil.parseDate(publishedDate), "d.M.yyyy"));
         } else {
             holder.date.setVisibility(View.GONE);
         }
