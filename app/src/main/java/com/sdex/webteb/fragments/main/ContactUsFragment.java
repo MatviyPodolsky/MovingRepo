@@ -17,6 +17,7 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.ContactUsRequest;
+import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.KeyboardUtils;
 
 import butterknife.InjectView;
@@ -45,6 +46,9 @@ public class ContactUsFragment extends BaseMainFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final int pixels = DisplayUtil.getDp(10);
+        mTitle.setPadding(pixels, 0, pixels, 0);
+        mText.setPadding(pixels, 0, pixels, 0);
         mTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -18,12 +18,12 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="4dp"
             android:hint="@string/contact_us_title_hint"
             android:imeOptions="flagNavigateNext"
             android:singleLine="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:ems="10"
             android:inputType="text"
             android:textColorHint="@color/hint"
@@ -34,28 +34,24 @@
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="145dp"
-            android:layout_below="@+id/title"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="9dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:hint="@string/contact_us_text_hint"
             android:background="@drawable/text_contact_field"
             android:imeOptions="actionDone"
             android:textSize="@dimen/default_text_size"
-            android:gravity="top|right" />
+            android:gravity="top|end|right" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_below="@+id/text"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@+id/send"
             android:layout_weight="1" />
 
         <Button
             style="@style/AppTheme.Button"
             android:id="@+id/send"
             android:text="@string/contact_us_btn_send"
-            android:layout_alignParentBottom="true"
             android:layout_marginTop="20dp"/>
 
     </LinearLayout>
