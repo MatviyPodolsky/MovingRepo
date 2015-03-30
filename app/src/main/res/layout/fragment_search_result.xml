@@ -49,17 +49,14 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/relativeLayoutTitle"
             android:paddingBottom="20dp"
-            android:listSelector="@drawable/doctors_list_selector"
-            >
+            android:listSelector="@drawable/doctors_list_selector" />
 
-            </ListView>
-
-        </RelativeLayout>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/progress"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:focusable="false"
         android:visibility="visible" />

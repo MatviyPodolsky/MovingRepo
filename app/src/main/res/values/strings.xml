@@ -159,6 +159,9 @@
     <string name="found_n_doctors">Showing %1$d out of total %2$d</string>
     <string name="no_doctors_found">No doctors found</string>
     <string name="turn_location_options">Please, turn on location options if you want to select your current place as default for search</string>
+    <string name="error_search_doctor_title">Error title</string>
+    <string name="error_search_doctor_text">Error text</string>
+
     <string-array name="countries">
         <item>المملكة العربية السعودية</item>
         <item>مصر</item>

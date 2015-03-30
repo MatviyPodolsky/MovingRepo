@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/notification_bar_height"
+    android:background="@drawable/ab_no_search_alert_bg">
+
+    <ImageView
+        android:id="@+id/ic_cancel"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:scaleType="center"
+        android:src="@drawable/ic_notfication_cancel" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="@dimen/notification_bar_height"
+        android:layout_height="@dimen/notification_bar_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/ab_no_search_alert_ic_bg"
+        android:padding="10dp"
+        android:src="@drawable/ic_search_doctor_alert" />
+
+    <TextView
+        android:id="@+id/error_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="11dp"
+        android:layout_toLeftOf="@+id/imageView7"
+        android:layout_toStartOf="@+id/imageView7"
+        android:textColor="@android:color/white"
+        android:text="@string/error_search_doctor_title"
+        tools:text="text text text" />
+
+    <TextView
+        android:id="@+id/error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/error_title"
+        android:layout_alignRight="@+id/error_title"
+        android:layout_below="@+id/error_title"
+        android:layout_toEndOf="@+id/ic_cancel"
+        android:layout_toRightOf="@+id/ic_cancel"
+        android:ellipsize="end"
+        android:gravity="right"
+        android:maxLines="2"
+        android:textColor="@android:color/white"
+        android:text="@string/error_search_doctor_text"
+        tools:text="New Text\nttcddb" />
+
+    <View
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/hide_error"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

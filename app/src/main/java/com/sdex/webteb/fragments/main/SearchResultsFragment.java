@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.SearchResultsAdapter;
 import com.sdex.webteb.internal.analytics.Events;
+import com.sdex.webteb.internal.events.DoctorsNotFoundEvent;
 import com.sdex.webteb.model.Doctor;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
 
 /**
@@ -209,10 +211,12 @@ public class SearchResultsFragment extends BaseMainFragment {
     }
 
     private void showNoData() {
-        error.setText(getString(R.string.no_doctors_found));
-        error.setVisibility(View.VISIBLE);
-        progress.setVisibility(View.GONE);
-        mList.setVisibility(View.GONE);
+        EventBus.getDefault().post(new DoctorsNotFoundEvent());
+        getActivity().onBackPressed();
+//        error.setText(getString(R.string.no_doctors_found));
+//        error.setVisibility(View.VISIBLE);
+//        progress.setVisibility(View.GONE);
+//        mList.setVisibility(View.GONE);
     }
 
     private void showData() {
