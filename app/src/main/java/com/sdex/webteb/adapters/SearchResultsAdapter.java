@@ -113,7 +113,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
                     .centerCrop()
                     .into(holder.image);
         } else {
-            holder.image.setImageBitmap(null);
+            holder.image.setImageResource(R.drawable.ic_search_doctor_default_male);
         }
 
         return convertView;
