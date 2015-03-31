@@ -1,7 +1,6 @@
 package com.sdex.webteb.adapters;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,8 +11,6 @@ import com.sdex.webteb.fragments.profile.BirthDateFragment;
 import com.sdex.webteb.fragments.profile.ChildInfoFragment;
 import com.sdex.webteb.fragments.profile.FamilyRelationFragment;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
-
-import org.parceler.Parcels;
 
 public class ProfilePageAdapter extends FragmentStatePagerAdapter {
 
@@ -51,12 +48,12 @@ public class ProfilePageAdapter extends FragmentStatePagerAdapter {
                 }
                 return birthDateFragment;
             case 2:
-                BaseFragment childInfoFragment = new ChildInfoFragment();
+                BaseFragment childInfoFragment;
+//                = new ChildInfoFragment();
                 if (profile != null) {
-                    Bundle args = new Bundle();
-                    Parcelable children = Parcels.wrap(profile.getChildren());
-                    args.putParcelable(SetupProfileActivity.CHILDREN, children);
-                    childInfoFragment.setArguments(args);
+                     childInfoFragment = ChildInfoFragment.newInstance(profile.getChildren(), true);
+                } else {
+                    childInfoFragment = ChildInfoFragment.newInstance(null, false);
                 }
                 return childInfoFragment;
             default:

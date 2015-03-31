@@ -28,12 +28,27 @@ import butterknife.OnClick;
  */
 public class ChildInfoFragment extends BaseFragment {
 
+    public static final String EDIT_MODE = "EDIT_MODE";
+    public static final String CHILDREN = "CHILDREN";
     private ChildrenAdapter mAdapter;
     @InjectView(R.id.title)
     TextView mTitle;
     @InjectView(R.id.childs_list)
     ListView mList;
     private List<Child> mChildren;
+    private boolean isInEditMode;
+
+    public static ChildInfoFragment newInstance(List<Child> children, boolean isInEditMode) {
+        ChildInfoFragment frag = new ChildInfoFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(EDIT_MODE, isInEditMode);
+        if (children != null) {
+            Parcelable parcChildren = Parcels.wrap(children);
+            args.putParcelable(SetupProfileActivity.CHILDREN, parcChildren);
+        }
+        frag.setArguments(args);
+        return frag;
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -43,19 +58,22 @@ public class ChildInfoFragment extends BaseFragment {
         final Bundle args = getArguments();
         if (args != null) {
             final Parcelable children = args.getParcelable(SetupProfileActivity.CHILDREN);
-            mChildren = Parcels.unwrap(children);
+            if (children != null) {
+                mChildren = Parcels.unwrap(children);
+            }
+            isInEditMode = args.getBoolean(EDIT_MODE);
         }
 
         mAdapter = new ChildrenAdapter(getActivity());
         mAdapter.setCallback(new ChildrenAdapter.Callback() {
             @Override
-            public void onDeleteChild(final Child child) {
+            public void onDeleteChild(final int position) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                         .setMessage(R.string.are_u_sure_u_want_to_delete_child)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mAdapter.removeChild(child);
+                                mAdapter.removeChild(position);
                                 updateChildrenCount();
                             }
                         })
@@ -73,6 +91,9 @@ public class ChildInfoFragment extends BaseFragment {
             mChildren.add(new Child());
         }
         mAdapter.setItems(mChildren);
+        if (isInEditMode) {
+            mAdapter.makeAllComplete();
+        }
         mList.setAdapter(mAdapter);
         updateChildrenCount();
     }
@@ -97,12 +118,12 @@ public class ChildInfoFragment extends BaseFragment {
         }
     }
 
-    private void updateChildrenCount(){
+    private void updateChildrenCount() {
         int count = mAdapter.getCount();
-        if(count == 1) {
+        if (count == 1) {
             mTitle.setText(R.string.child_count);
         }
-        if(count > 1) {
+        if (count > 1) {
             String title = getString(R.string.children_count);
             mTitle.setText(String.format(title, count));
         }

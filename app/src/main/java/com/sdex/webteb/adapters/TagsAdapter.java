@@ -21,15 +21,30 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
     private ArrayList<Item> mTags;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
+    private Callback mCallback;
 
     public TagsAdapter() {
         mTags = new ArrayList();
+    }
+
+    public interface Callback {
+        public void addTag();
+    }
+
+    public void setCallback(Callback mCallback) {
+        this.mCallback = mCallback;
     }
 
     public void setChildren(String children) {
         mTags.clear();
         mTags.addAll(generateChildren(children));
 
+        notifyDataSetChanged();
+    }
+
+    public void addTag(String name) {
+        Item tag = new Item(name);
+        mTags.add(tag);
         notifyDataSetChanged();
     }
 
@@ -59,12 +74,18 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
 
     private void onItemHolderClick(VerticalItemHolder itemHolder) {
         if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(null, itemHolder.itemView,
-                    itemHolder.getPosition(), itemHolder.getItemId());
+            if (itemHolder.getPosition() == 0) {
+                if (mCallback != null) {
+                    mCallback.addTag();
+                }
+            } else {
+                mOnItemClickListener.onItemClick(null, itemHolder.itemView,
+                        itemHolder.getPosition(), itemHolder.getItemId());
+            }
         }
     }
 
-    public static List<Item> generateChildren(String children) {
+    private List<Item> generateChildren(String children) {
         ArrayList<Item> items = new ArrayList<>();
         if (children != null && !children.isEmpty()) {
             String[] kids = children.split("/");
@@ -73,6 +94,8 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
                 items.add(new TagsAdapter.Item(kids[i]));
             }
         }
+        Item addTag = new Item("Add +");
+        items.add(addTag);
         Collections.reverse(items);
 
         Item me = new Item("Me");

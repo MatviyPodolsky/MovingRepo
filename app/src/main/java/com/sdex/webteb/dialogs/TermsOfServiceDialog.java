@@ -29,7 +29,7 @@ public class TermsOfServiceDialog extends BaseDialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        content.loadUrl("https://www.webteb.com/home/termsandconditions?UserID=&DeviceType=&NativeApi=1&utm_campaign=mobileapp&utm_source=mobileapp&utm_medium=link");
+        content.loadUrl("https://www.webteb.com/home/termsandconditions?UserID=&DeviceType=&NativeApi=1&utm_campaign=babyapp&utm_source=babyapp&utm_medium=link");
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
