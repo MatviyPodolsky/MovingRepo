@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,12 +101,12 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final PreviewViewHolder viewHolder = (PreviewViewHolder) holder;
             viewHolder.title.setText(preview.getTitle());
             viewHolder.text.setText(preview.getDescription());
-            if (preview.getSectionName() != null) {
+            if (!TextUtils.isEmpty(preview.getSectionName())) {
                 viewHolder.category.setText(preview.getSectionName());
             } else {
                 viewHolder.category.setVisibility(View.GONE);
             }
-            if (preview.getImageUrl() != null) {
+            if (!TextUtils.isEmpty(preview.getImageUrl())) {
                 Picasso.with(context)
                         .load(preview.getImageUrl())
                         .noPlaceholder()
@@ -121,7 +122,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 viewHolder.image.setVisibility(View.GONE);
             }
-            if (preview.getSectionIconUrl() != null) {
+            if (!TextUtils.isEmpty(preview.getSectionIconUrl())) {
                 Picasso.with(context)
                         .load(preview.getSectionIconUrl())
                         .noPlaceholder()
@@ -162,7 +163,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final AdditionalContentViewHolder viewHolder = (AdditionalContentViewHolder) holder;
             viewHolder.title.setText(content.getTitle());
             viewHolder.text.setText(content.getDescription());
-            if (content.getImageUrl() != null) {
+            if (!TextUtils.isEmpty(content.getImageUrl())) {
                 Picasso.with(context)
                         .load(content.getImageUrl())
                         .noPlaceholder()
