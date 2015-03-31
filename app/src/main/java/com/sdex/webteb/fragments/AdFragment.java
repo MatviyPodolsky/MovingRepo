@@ -31,8 +31,8 @@ public class AdFragment extends Fragment {
         mAdView = (PublisherAdView) view.findViewById(R.id.adView);
         mAdView.setAdSizes(AdSize.SMART_BANNER);
         Bundle args = getArguments();
+
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
-                //.addTestDevice("58D30D945873E3CEA5542FC70C5F304A")
                 .addNetworkExtras(new AdMobExtras(args))
                 .build();
         mAdView.loadAd(adRequest);

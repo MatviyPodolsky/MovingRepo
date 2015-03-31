@@ -100,7 +100,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final PreviewViewHolder viewHolder = (PreviewViewHolder) holder;
             viewHolder.title.setText(preview.getTitle());
             viewHolder.text.setText(preview.getDescription());
-            viewHolder.category.setText(preview.getSectionName());
+            if (preview.getSectionName() != null) {
+                viewHolder.category.setText(preview.getSectionName());
+            } else {
+                viewHolder.category.setVisibility(View.GONE);
+            }
             if (preview.getImageUrl() != null) {
                 Picasso.with(context)
                         .load(preview.getImageUrl())
@@ -117,10 +121,14 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 viewHolder.image.setVisibility(View.GONE);
             }
-            Picasso.with(context)
-                    .load(preview.getSectionIconUrl())
-                    .noPlaceholder()
-                    .into(viewHolder.icon);
+            if (preview.getSectionIconUrl() != null) {
+                Picasso.with(context)
+                        .load(preview.getSectionIconUrl())
+                        .noPlaceholder()
+                        .into(viewHolder.icon);
+            } else {
+                viewHolder.icon.setVisibility(View.GONE);
+            }
 
             viewHolder.rootLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
