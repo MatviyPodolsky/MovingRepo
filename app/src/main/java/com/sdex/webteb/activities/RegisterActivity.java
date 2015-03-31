@@ -19,6 +19,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.response.UserLoginResponse;
+import com.sdex.webteb.utils.KeyboardUtils;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.switchbutton.SwitchButton;
 
@@ -66,6 +67,13 @@ public class RegisterActivity extends FacebookAuthActivity {
 
             @Override
             public void success(UserLoginResponse s, Response response) {
+
+                if (mRegister == null) {
+                    return;
+                }
+
+                KeyboardUtils.hideKeyboard(mRegister);
+
                 final PreferencesManager preferencesManager = PreferencesManager.getInstance();
                 preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
                 String userName = s.getUserName();

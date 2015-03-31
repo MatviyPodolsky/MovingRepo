@@ -105,7 +105,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         }
 
         String url = item.getImageUrl();
-        if (url != null && !url.isEmpty()) {
+        if (!TextUtils.isEmpty(url)) {
             Picasso.with(getContext())
                     .load(url)
                     .placeholder(R.drawable.ic_transparent_placeholder)
@@ -113,7 +113,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
                     .centerCrop()
                     .into(holder.image);
         } else {
-            holder.image.setImageBitmap(null);
+            holder.image.setImageResource(R.drawable.ic_search_doctor_default_male);
         }
 
         return convertView;
