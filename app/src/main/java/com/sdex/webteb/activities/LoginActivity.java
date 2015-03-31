@@ -21,6 +21,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserLoginResponse;
+import com.sdex.webteb.utils.KeyboardUtils;
 import com.sdex.webteb.utils.PreferencesManager;
 
 import butterknife.InjectView;
@@ -60,6 +61,12 @@ public class LoginActivity extends FacebookAuthActivity {
 
             @Override
             public void success(UserLoginResponse s, Response response) {
+
+                if (mLogin == null) {
+                    return;
+                }
+
+                KeyboardUtils.hideKeyboard(mLogin);
                 final PreferencesManager preferencesManager = PreferencesManager.getInstance();
                 preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
                 mUserEmail = s.getUserName();

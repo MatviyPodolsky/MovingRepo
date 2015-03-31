@@ -58,8 +58,9 @@ public class AdditionalContentFragment extends BaseMainFragment {
 
         Bundle args = getArguments();
         final List<ContentLink> articles = Parcels.unwrap(args.getParcelable(ARG_ARTICLES_LIST));
-        String titleText = getString(R.string.we_found_n_articles);
-        title.setText(String.format(titleText, articles.size()));
+        String titleText = getString(R.string.showing_articles);
+        int listSize = articles.size();
+        title.setText(String.format(titleText, listSize, listSize));
         ArticlesAdapter mAdapter = new ArticlesAdapter(getActivity(), articles);
         mList.setAdapter(mAdapter);
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
