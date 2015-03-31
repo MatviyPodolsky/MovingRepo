@@ -93,7 +93,7 @@
                 android:paddingRight="10dp"
                 android:hint="@string/hint_comment"
                 android:gravity="top|end"
-                android:inputType="textCapSentences"
+                android:inputType="textCapSentences|textMultiLine"
                 android:imeOptions="actionDone" />
 
             <Button
