@@ -9,8 +9,8 @@
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:adUnitId="/6499/example/banner">
+        ads:adUnitId="/297879071/MobileAppBottom"
+        ads:adSize="BANNER">
 
     </com.google.android.gms.ads.doubleclick.PublisherAdView>
 
