@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TagsAdapter;
@@ -44,6 +45,10 @@ public class SavePhotoFragment extends BaseFragment {
     ImageView mPhotoView;
     @InjectView(R.id.tags)
     RecyclerView mRecyclerView;
+    @InjectView(R.id.add_tag_container)
+    RelativeLayout mNewTagContainer;
+    @InjectView(R.id.new_tag)
+    EditText mTag;
 
     private Uri currentPhoto;
     private TagsAdapter adapter;
@@ -79,6 +84,13 @@ public class SavePhotoFragment extends BaseFragment {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
         DbUser user = databaseHelper.getUser(mPreferencesManager.getEmail());
         String children = user.getChildren();
+        adapter.setCallback(new TagsAdapter.Callback() {
+            @Override
+            public void addTag() {
+                mRecyclerView.setVisibility(View.GONE);
+                mNewTagContainer.setVisibility(View.VISIBLE);
+            }
+        });
         adapter.setChildren(children);
         adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,6 +104,17 @@ public class SavePhotoFragment extends BaseFragment {
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_save_photo;
+    }
+
+    @OnClick(R.id.add_tag)
+    void addTag(){
+        mNewTagContainer.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        String tag = mTag.getText().toString();
+        if(!tag.isEmpty()) {
+            adapter.addTag(tag);
+        }
+        mTag.setText("");
     }
 
     @OnClick(R.id.save)

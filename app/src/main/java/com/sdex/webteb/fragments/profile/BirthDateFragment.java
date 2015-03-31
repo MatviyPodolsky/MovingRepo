@@ -49,6 +49,7 @@ public class BirthDateFragment extends BaseFragment {
     Button mBtnNext;
     private int mDateType = LAST_PERIOD;
     private String dateString;
+    private Date lastSelectedDate;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class BirthDateFragment extends BaseFragment {
             if (dateStr != null) {
                 Date date = DateUtil.parseDate(dateStr);
                 if (date != null) {
+                    lastSelectedDate = date;
                     dateStr = DateUtil.formatDate(date, "MMM dd, yyyy");
                 }
             }
@@ -98,24 +100,26 @@ public class BirthDateFragment extends BaseFragment {
                         if (isValidDate(time)) {
                             ((SetupProfileActivity) getActivity()).setBirthDate(requestDate);
                             mDate.setText(textDate);
-                            long selectedDate = time.getTime();
-                            long currentTime = Calendar.getInstance().getTime().getTime();
-                            long age = 0;
-                            long diffTime = Math.abs(currentTime - selectedDate);
-                            if(mDateType == BIRTH_DATE){
-                                age = diffTime / 1000 / 3600 / 24 / 30;
-                            } else {
-                                if(mDateType == LAST_PERIOD) {
-                                    age = diffTime / 1000 / 3600 / 24 / 7;
-                                } else {
-                                    long currentWeek = (280 - diffTime / 1000 / 3600 / 24) / 7;
-                                    age = (currentWeek < 0) ? 0 : currentWeek;
-                                }
-                            }
                             dateString = textDate;
-                            if (getActivity() instanceof SetupProfileActivity) {
-                                    ((SetupProfileActivity) getActivity()).setChildAge(String.valueOf(age));
-                            }
+                            lastSelectedDate = time;
+                            updateChildAge(time);
+//                            long selectedDate = time.getTime();
+//                            long currentTime = Calendar.getInstance().getTime().getTime();
+//                            long age = 0;
+//                            long diffTime = Math.abs(currentTime - selectedDate);
+//                            if(mDateType == BIRTH_DATE){
+//                                age = diffTime / 1000 / 3600 / 24 / 30;
+//                            } else {
+//                                if(mDateType == LAST_PERIOD) {
+//                                    age = diffTime / 1000 / 3600 / 24 / 7;
+//                                } else {
+//                                    long currentWeek = (280 - diffTime / 1000 / 3600 / 24) / 7;
+//                                    age = (currentWeek < 0) ? 0 : currentWeek;
+//                                }
+//                            }
+//                            if (getActivity() instanceof SetupProfileActivity) {
+//                                    ((SetupProfileActivity) getActivity()).setChildAge(String.valueOf(age));
+//                            }
                         }
                     }
                     break;
@@ -162,6 +166,26 @@ public class BirthDateFragment extends BaseFragment {
     @OnClick(R.id.category_3)
     public void selectThirdCategory(TextView v) {
         selectCategory(BIRTH_DATE);
+    }
+
+    private void updateChildAge(Date date){
+        long selectedDate = date.getTime();
+        long currentTime = Calendar.getInstance().getTime().getTime();
+        long age = 0;
+        long diffTime = Math.abs(currentTime - selectedDate);
+        if(mDateType == BIRTH_DATE){
+            age = diffTime / 1000 / 3600 / 24 / 30;
+        } else {
+            if(mDateType == LAST_PERIOD) {
+                age = diffTime / 1000 / 3600 / 24 / 7;
+            } else {
+                long currentWeek = (280 - diffTime / 1000 / 3600 / 24) / 7;
+                age = (currentWeek < 0) ? 0 : currentWeek;
+            }
+        }
+        if (getActivity() instanceof SetupProfileActivity) {
+            ((SetupProfileActivity) getActivity()).setChildAge(String.valueOf(age));
+        }
 
     }
 
@@ -202,6 +226,13 @@ public class BirthDateFragment extends BaseFragment {
                 break;
             default:
                 break;
+        }
+        if (lastSelectedDate != null) {
+            if (isValidDate(lastSelectedDate)) {
+                updateChildAge(lastSelectedDate);
+            } else {
+                ((SetupProfileActivity) getActivity()).setChildAge("");
+            }
         }
     }
 

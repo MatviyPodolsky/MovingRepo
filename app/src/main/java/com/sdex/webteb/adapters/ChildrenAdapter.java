@@ -26,6 +26,9 @@ import butterknife.InjectView;
 
 public class ChildrenAdapter extends BaseAdapter {
 
+    public static final int ITEM = R.string.item_id;
+    public static final int POSITION = R.string.position_id;
+
     private static final int RESOURCE = R.layout.item_child;
     public static final int MALE = 1;
     public static final int FEMALE = 2;
@@ -43,7 +46,7 @@ public class ChildrenAdapter extends BaseAdapter {
     }
 
     public interface Callback {
-        public void onDeleteChild(Child child);
+        public void onDeleteChild(int position);
     }
 
     public void setCallback(Callback callback) {
@@ -62,14 +65,26 @@ public class ChildrenAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void makeAllComplete(){
+        for (int i = 0; i < completedChildren.size(); i++) {
+            completedChildren.set(i, true);
+        }
+    }
+
     public void addChild(Child child) {
         data.add(child);
         completedChildren.add(false);
         notifyDataSetChanged();
     }
 
-    public void removeChild(Child child) {
-        data.remove(child);
+    public void removeChild(int position) {
+        if(data.size() > 1) {
+            completedChildren.remove(position);
+            data.remove(position);
+        } else {
+            data.set(position, new Child());
+            completedChildren.set(position, false);
+        }
         notifyDataSetChanged();
     }
 
@@ -99,7 +114,7 @@ public class ChildrenAdapter extends BaseAdapter {
             convertView = inflater.inflate(RESOURCE, parent, false);
             holder = new ViewHolder(convertView);
             holder.name.addTextChangedListener(new NameWatcher(convertView));
-            holder.name.setOnEditorActionListener(new OnCompleteChildListener(convertView));
+            holder.name.setOnEditorActionListener(new OnCompleteChildListener(holder));
             holder.containerFemale.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -128,27 +143,24 @@ public class ChildrenAdapter extends BaseAdapter {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getCount() < 2){
-                    holder.name.setText("");
-                } else {
-                    if (mCallback != null) {
-                        mCallback.onDeleteChild((Child) holder.name.getTag());
-                    }
+                if (mCallback != null) {
+                    mCallback.onDeleteChild((int) holder.name.getTag(POSITION));
                 }
             }
         });
 
-        holder.name.setTag(item);
+        holder.name.setTag(R.string.item_id, item);
+        holder.name.setTag(R.string.position_id, position);
         holder.name.setText(item.getName());
         setGender(holder, item.getGender());
-        updateCompleteChild(convertView, position);
+        updateCompleteChild(holder);
 
 
         return convertView;
     }
 
     private void setGender(ViewHolder holder, int gender) {
-        Child child = (Child) holder.name.getTag();
+        Child child = (Child) holder.name.getTag(ITEM);
         switch (gender) {
             case MALE:
                 child.setGender(MALE);
@@ -209,34 +221,31 @@ public class ChildrenAdapter extends BaseAdapter {
         holder.containerUnknown.setBackgroundColor(context.getResources().getColor(R.color.primary));
     }
 
-    private void updateCompleteChild(View view, int position){
-        if (completedChildren.get(position)) {
-            view.findViewById(R.id.name_container).setBackgroundColor(Color.parseColor("#D8D8D8"));
-            view.findViewById(R.id.delete).setVisibility(View.VISIBLE);
+    private void updateCompleteChild(ViewHolder holder) {
+        if (completedChildren.get((int)holder.name.getTag(POSITION))) {
+            holder.nameContainer.setBackgroundColor(Color.parseColor("#D8D8D8"));
+            holder.delete.setVisibility(View.VISIBLE);
         } else {
-            view.findViewById(R.id.name_container).setBackgroundResource(R.drawable.text_field);
-            view.findViewById(R.id.delete).setVisibility(View.GONE);
+            holder.nameContainer.setBackgroundResource(R.drawable.text_field);
+            holder.delete.setVisibility(View.GONE);
         }
 
     }
 
     public class OnCompleteChildListener implements TextView.OnEditorActionListener {
 
-        @InjectView(R.id.name)
-        EditText name;
-        View v;
+        ViewHolder holder;
 
-        private OnCompleteChildListener(final View view) {
-            ButterKnife.inject(this, view);
-            this.v = view;
+        private OnCompleteChildListener(ViewHolder holder) {
+            this.holder = holder;
         }
 
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                int position = getChildren().indexOf((Child) name.getTag());
+                int position = (int)holder.name.getTag(POSITION);
                 completedChildren.set(position, true);
-                updateCompleteChild(this.v, position);
+                updateCompleteChild(holder);
                 return false;
             }
             return false;
@@ -259,13 +268,15 @@ public class ChildrenAdapter extends BaseAdapter {
         }
 
         public void afterTextChanged(Editable s) {
-            Child child = (Child) name.getTag();
+            Child child = (Child) name.getTag(ITEM);
             child.setName(s.toString());
             return;
         }
     }
 
     static class ViewHolder {
+        @InjectView(R.id.name_container)
+        LinearLayout nameContainer;
         @InjectView(R.id.delete)
         ImageView delete;
         @InjectView(R.id.name)
