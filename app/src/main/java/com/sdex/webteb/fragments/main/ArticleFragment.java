@@ -42,6 +42,8 @@ public class ArticleFragment extends BaseMainFragment {
     @InjectView(R.id.share)
     ImageButton mShareButton;
 
+    private PopupWindow mSharePopUp;
+
     private List<ContentLink> data;
     private int currentPosition;
 
@@ -60,8 +62,52 @@ public class ArticleFragment extends BaseMainFragment {
         Bundle args = getArguments();
         data = Parcels.unwrap(args.getParcelable(ARG_ARTICLES));
         currentPosition = args.getInt(ARG_POSITION);
-
+        initSharingPopUp();
         loadData();
+    }
+
+    private void initSharingPopUp() {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final View contentView = inflater.inflate(R.layout.pop_up_share, null);
+        mSharePopUp = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        final ContentLink article = data.get(currentPosition);
+
+        contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FacebookUtil.publishArticle(getActivity(), article);
+                mSharePopUp.dismiss();
+            }
+        });
+        contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EmailUtil.shareText(getActivity(), article.getTitle(), article.getUrl());
+                mSharePopUp.dismiss();
+            }
+        });
+        contentView.findViewById(R.id.print).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PrintHelper.systemSupportsPrint()) {
+                    PrintUtil.printText(getActivity(), article.getTitle(), mContentView);
+                } else {
+                    Toast.makeText(getActivity(), R.string.not_support_printing_error,
+                            Toast.LENGTH_SHORT).show();
+                }
+                mSharePopUp.dismiss();
+            }
+        });
+        mSharePopUp.setBackgroundDrawable(new ColorDrawable());
+        mSharePopUp.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mShareButton.setEnabled(true);
+            }
+        });
+        mSharePopUp.setOutsideTouchable(true);
     }
 
     @Override
@@ -71,50 +117,8 @@ public class ArticleFragment extends BaseMainFragment {
 
     @OnClick(R.id.share)
     void share(View v) {
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        final View contentView = inflater.inflate(R.layout.pop_up_share, null);
-        final PopupWindow pw = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, true);
-
-        mShareButton.setEnabled(false);
-
-        final ContentLink article = data.get(currentPosition);
-
-        contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FacebookUtil.publishArticle(getActivity(), article);
-                pw.dismiss();
-            }
-        });
-        contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EmailUtil.shareText(getActivity(), article.getTitle(), article.getUrl());
-                pw.dismiss();
-            }
-        });
-        contentView.findViewById(R.id.print).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PrintHelper.systemSupportsPrint()) {
-                    PrintUtil.printText(getActivity(), article.getTitle(), mContentView);
-                } else {
-                    Toast.makeText(getActivity(), getString(R.string.not_support_printing_error),
-                            Toast.LENGTH_SHORT).show();
-                }
-                pw.dismiss();
-            }
-        });
-        pw.setBackgroundDrawable(new ColorDrawable());
-        pw.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                mShareButton.setEnabled(true);
-            }
-        });
-        pw.setOutsideTouchable(true);
-        pw.showAsDropDown(v);
+        v.setEnabled(false);
+        mSharePopUp.showAsDropDown(v);
     }
 
     @OnClick(R.id.btn_next_article)

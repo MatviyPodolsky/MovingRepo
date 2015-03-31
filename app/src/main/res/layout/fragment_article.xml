@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/btn_share_article_selector"
+            android:background="@drawable/btn_share_red_pressed"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
             android:paddingRight="5dp"
