@@ -272,6 +272,7 @@ public class SetupProfileActivity extends BaseActivity {
     }
 
     private void save() {
+        saveGender();
         sendRequest();
     }
 
@@ -316,6 +317,16 @@ public class SetupProfileActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    private void saveGender(){
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        if (request.getFamilyRelation() == 1 || request.getFamilyRelation() == 3
+                || request.getFamilyRelation() == 5 || request.getFamilyRelation() == 6) {
+            preferencesManager.setGender(PreferencesManager.MALE);
+        } else {
+            preferencesManager.setGender(PreferencesManager.FEMALE);
+        }
     }
 
     @Override

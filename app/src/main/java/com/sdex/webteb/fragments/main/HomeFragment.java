@@ -650,7 +650,8 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void setProfilePhoto() {
-        final String email = PreferencesManager.getInstance().getEmail();
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        final String email = preferencesManager.getEmail();
         DbUser user = databaseHelper.getUser(email);
         final String photoPath = user.getPhotoPath();
         if (photoPath != null) {
@@ -660,6 +661,12 @@ public class HomeFragment extends PhotoFragment {
                     .fit()
                     .centerCrop()
                     .into(mProfilePhoto);
+        } else {
+            if (preferencesManager.getGender() == PreferencesManager.MALE) {
+                mProfilePhoto.setImageResource(R.drawable.ic_profile_default_male);
+            } else {
+                mProfilePhoto.setImageResource(R.drawable.ic_profile_default_female);
+            }
         }
     }
 
