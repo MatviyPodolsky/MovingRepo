@@ -11,6 +11,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -264,7 +266,13 @@ public class SearchDoctorFragment extends BaseMainFragment {
 
                     if (!isGPSEnabled && !isNetworkEnabled) {
                         // no network provider is enabled
-                        Toast.makeText(getActivity(), getActivity().getString(R.string.turn_location_options), Toast.LENGTH_LONG).show();
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity(),
+                                        getActivity().getString(R.string.turn_location_options), Toast.LENGTH_LONG).show();
+                            }
+                        });
                     } else {
                         Geocoder geocoder = new Geocoder(getActivity(), defaultLocale);
                         canGetLocation = true;
