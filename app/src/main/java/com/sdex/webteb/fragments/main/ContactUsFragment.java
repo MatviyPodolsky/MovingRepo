@@ -141,13 +141,15 @@ public class ContactUsFragment extends BaseMainFragment {
 
     private boolean isValidData() {
         boolean isValid = true;
-        if (mTitle.getText().length() == 0) {
+        String titleText = mTitle.getText().toString().replaceAll("\\s+", "");
+        if (titleText.length() == 0) {
             isValid = false;
             mTitle.setError(getString(R.string.please_enter_title));
         } else {
             mTitle.setError(null);
         }
-        if (mText.getText().length() == 0) {
+        String bodyText = mText.getText().toString().replaceAll("\\s+", "");
+        if (bodyText.length() == 0) {
             isValid = false;
             mText.setError(getString(R.string.please_enter_message));
         } else {
