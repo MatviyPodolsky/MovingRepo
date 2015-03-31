@@ -151,19 +151,23 @@ public class TestsFragment extends BaseMainFragment {
         int sizeItems = tests.size();
         for (int itemPosition = 0; itemPosition < sizeItems; itemPosition++) {
             List<Range> listPeriods = tests.get(itemPosition).getRelatedPeriods();
-            int currentParseDate = Integer.parseInt(currentDate);
-            int lastDate = listPeriods.get(listPeriods.size() - 1).getTo();
+            if(listPeriods.isEmpty()) {
+                return 0;
+            } else {
+                int currentParseDate = Integer.parseInt(currentDate);
+                int lastDate = listPeriods.get(listPeriods.size() - 1).getTo();
 
-            if(mPreferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
-                int firstDate = listPeriods.get(listPeriods.size() - 1).getFrom();
-                if(currentParseDate <= lastDate && currentParseDate >= firstDate) {
-                    return itemPosition;
+                if(mPreferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
+                    int firstDate = listPeriods.get(listPeriods.size() - 1).getFrom();
+                    if(currentParseDate <= lastDate && currentParseDate >= firstDate) {
+                        return itemPosition;
+                    }
+
                 }
 
-            }
-
-            if(currentParseDate == lastDate) {
-                return itemPosition;
+                if(currentParseDate == lastDate) {
+                    return itemPosition;
+                }
             }
         }
         return 0;
