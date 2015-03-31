@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     public static final String NOTIFICATION_TYPE_TEST_MULTIPLE = "6";
 
     public static final String NOTIFICATION_ID = "notificationId";
+    public static final String NOTIFICATION_CONTENT_ID = "id";
     public static final String NOTIFICATION_TYPE = "type";
     public static final String NOTIFICATION_TITLE = "title";
     public static final String NOTIFICATION_CONTENT = "Content";
@@ -335,12 +336,19 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     }
 
     private void setMenuItem(final int position) {
+        setMenuItem(position, null);
+    }
+
+    private void setMenuItem(final int position, final Bundle args) {
         mOpenMenuItemTask = new Runnable() {
             @Override
             public void run() {
                 Fragment fragment = getFragmentByPosition(position);
                 if (fragment != null) {
                     mCurrentFragmentIndex = position;
+                    if (args != null) {
+                        fragment.setArguments(args);
+                    }
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.fragment_container, fragment, contentFragment)
@@ -426,12 +434,28 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         switch (type) {
             case NOTIFICATION_TYPE_TEST_SINGLE:
                 // open the test page in the app
+                final Bundle args = new Bundle();
+                String contentId = extras.getString(NOTIFICATION_CONTENT_ID);
+                args.putString(TestsFragment.ARG_TEST_ID, contentId);
                 pushNotificationDialog = PushNotificationDialog.newInstance();
+                pushNotificationDialog.setCallback(new BaseDialog.Callback.EmptyCallback() {
+                    @Override
+                    public void confirm() {
+                        super.confirm();
+                        setMenuItem(1, args);
+                    }
+                });
                 break;
             case NOTIFICATION_TYPE_TEST_MULTIPLE:
                 // open “My Tests” page
                 pushNotificationDialog = PushNotificationDialog.newInstance();
-                setMenuItem(1);
+                pushNotificationDialog.setCallback(new BaseDialog.Callback.EmptyCallback() {
+                    @Override
+                    public void confirm() {
+                        super.confirm();
+                        setMenuItem(1);
+                    }
+                });
                 break;
             case NOTIFICATION_TYPE_TIP:
                 // open the home page
@@ -439,7 +463,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 break;
             case NOTIFICATION_TYPE_INACTIVE_USER:
                 // open the home page
-                pushNotificationDialog = PushNotificationDialog.newInstance();
+                //pushNotificationDialog = PushNotificationDialog.newInstance();
                 break;
             case NOTIFICATION_TYPE_WEEK_38:
             case NOTIFICATION_TYPE_WEEK_40:

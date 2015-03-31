@@ -14,6 +14,27 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseDialog extends DialogFragment {
 
+    protected Callback callback;
+
+    public interface Callback {
+        void confirm();
+        void cancel();
+
+        class EmptyCallback implements Callback {
+
+            @Override
+            public void confirm() {
+
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        }
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -26,6 +47,14 @@ public abstract class BaseDialog extends DialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    public Callback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
     }
 
     public abstract int getLayoutResource();

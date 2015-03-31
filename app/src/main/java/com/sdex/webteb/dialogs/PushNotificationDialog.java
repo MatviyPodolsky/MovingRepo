@@ -46,11 +46,19 @@ public class PushNotificationDialog extends BaseDialog {
     @OnClick(R.id.ok)
     void ok() {
         dismiss();
+        if (callback != null) {
+            callback.confirm();
+        }
     }
 
     @OnClick(R.id.cancel)
     void cancel() {
         dismiss();
+        if (callback != null) {
+            callback.cancel();
+        }
     }
+
+
 
 }

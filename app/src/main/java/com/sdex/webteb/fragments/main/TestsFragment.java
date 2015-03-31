@@ -31,6 +31,8 @@ import retrofit.client.Response;
  */
 public class TestsFragment extends BaseMainFragment {
 
+    public static final String ARG_TEST_ID = "ARG_TEST_ID";
+
     private TestsAdapter mAdapter;
     @InjectView(R.id.list)
     ExpandableListView mList;
@@ -51,6 +53,13 @@ public class TestsFragment extends BaseMainFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            String contentId = args.getString(ARG_TEST_ID);
+            // scroll to
+        }
+
         mAdapter = new TestsAdapter(getActivity());
         mAdapter.setCallback(new TestsAdapter.Callback() {
             @Override
