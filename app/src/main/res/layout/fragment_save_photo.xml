@@ -40,6 +40,41 @@
                 tools:src="@drawable/avatar"
                 android:layout_marginTop="10dp" />
 
+            <RelativeLayout
+                android:id="@+id/add_tag_container"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="41dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="56dp"
+                android:layout_marginRight="56dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:background="@drawable/red_border"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/add_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/add"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/button_text"
+                    android:background="@drawable/btn_red_normal"/>
+
+                <EditText
+                    android:id="@+id/new_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/add_tag"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
+                    android:background="@drawable/edit_text_without_border"/>
+
+                </RelativeLayout>
+
             <com.sdex.webteb.view.CenteredRecyclerView
                 android:id="@+id/tags"
                 android:layout_width="wrap_content"

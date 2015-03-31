@@ -153,6 +153,9 @@
     <string name="take_photo_button_title">photo</string>
     <string name="save">Save</string>
     <string name="add_new_photo_title">Add image</string>
+    <string name="me">Me</string>
+    <string name="add_tag">add +</string>
+    <string name="add">Add</string>
 
     <!--search doctor-->
     <string name="country">Country</string>
