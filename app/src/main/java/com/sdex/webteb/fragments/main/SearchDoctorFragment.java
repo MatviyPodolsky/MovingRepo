@@ -63,7 +63,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
     private int[] citiesIds;
     private int[] specialitiesIds;
     private String[] countryCodes;
-    private int currentCountry = 4;//Jordan
+    private int currentCountry = 0;  //Any country
 
     private EventBus mEventBus = EventBus.getDefault();
 
@@ -254,7 +254,6 @@ public class SearchDoctorFragment extends BaseMainFragment {
             // getting network status
             boolean isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
