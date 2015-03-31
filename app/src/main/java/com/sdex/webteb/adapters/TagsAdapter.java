@@ -66,9 +66,6 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
 
     public static List<Item> generateChildren(String children) {
         ArrayList<Item> items = new ArrayList<>();
-        Item me = new Item("Me");
-        items.add(me);
-
         if (children != null && !children.isEmpty()) {
             String[] kids = children.split("/");
 
@@ -77,6 +74,10 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
             }
         }
         Collections.reverse(items);
+
+        Item me = new Item("Me");
+        items.add(0, me);
+
         return items;
     }
 
