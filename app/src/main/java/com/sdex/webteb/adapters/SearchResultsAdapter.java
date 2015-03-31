@@ -108,7 +108,8 @@ public class SearchResultsAdapter extends ArrayAdapter<Doctor> {
         if (!TextUtils.isEmpty(url)) {
             Picasso.with(getContext())
                     .load(url)
-                    .placeholder(R.drawable.ic_transparent_placeholder)
+                    .placeholder(R.drawable.ic_search_doctor_default_male)
+                    .error(R.drawable.ic_search_doctor_default_male)
                     .fit()
                     .centerCrop()
                     .into(holder.image);
