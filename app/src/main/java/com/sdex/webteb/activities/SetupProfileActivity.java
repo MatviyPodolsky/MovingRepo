@@ -45,6 +45,7 @@ public class SetupProfileActivity extends BaseActivity {
     public static final String DATE_TYPE = "DATE_TYPE";
     public static final String DATE = "DATE";
     public static final String CHILDREN = "CHILDREN";
+    public static final int WEEKS_DATE_TYPE = 0;
 
     private ProfilePageAdapter mAdapter;
     @InjectView(R.id.pager)
@@ -55,6 +56,8 @@ public class SetupProfileActivity extends BaseActivity {
     ImageView mProfilePhoto;
     @InjectView(R.id.progress)
     TextView mProgress;
+    @InjectView(R.id.textView5)
+    TextView mDate;
 
     private String username;
     private DatabaseHelper databaseHelper;
@@ -119,13 +122,27 @@ public class SetupProfileActivity extends BaseActivity {
             initViewPager();
         }
 
-
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         String userName = preferencesManager.getUsername();
         ((TextView) profileCard.findViewById(R.id.username)).setText(userName);
         if (preferencesManager.getCurrentDate() != null) {
-            String currentWeek = preferencesManager.getCurrentDate();
-            ((TextView) profileCard.findViewById(R.id.textView5)).setText(currentWeek);
+            int currentDateValue = Integer.parseInt(preferencesManager.getCurrentDate());
+            String currentDate;
+            if (preferencesManager.getCurrentDateType() == WEEKS_DATE_TYPE) {
+                currentDate = String.format(getString(R.string.age_in_week), currentDateValue);
+            } else {
+                if (currentDateValue < 12) {
+                    currentDate = String.format(getString(R.string.age_in_month), currentDateValue);
+                } else if (currentDateValue % 12 == 0) {
+                    int years = currentDateValue / 12;
+                    currentDate = String.format(getString(R.string.age_in_years), years);
+                } else {
+                    int years = currentDateValue / 12;
+                    int month = currentDateValue % 12;
+                    currentDate = String.format(getString(R.string.age_in_years_and_month), years, month);
+                }
+            }
+            mDate.setText(currentDate);
         }
     }
 
