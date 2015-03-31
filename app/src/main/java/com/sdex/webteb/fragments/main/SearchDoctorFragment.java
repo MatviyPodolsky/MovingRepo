@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -240,67 +241,82 @@ public class SearchDoctorFragment extends BaseMainFragment {
     }
 
     private void setCurrentLocation() {
-        Locale defaultLocale = getActivity().getResources().getConfiguration().locale;
 
-        LocationManager locationManager = (LocationManager) getActivity()
-                .getSystemService(Context.LOCATION_SERVICE);
-        double latitude = 0, longitude = 0;
-        Location location = null;
-        try {
-            // getting GPS status
-            boolean isGPSEnabled = locationManager
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+        new AsyncTask<Void, Void, List<Address>>() {
 
-            // getting network status
-            boolean isNetworkEnabled = locationManager
-                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            if (!isGPSEnabled && !isNetworkEnabled) {
-                // no network provider is enabled
-                Toast.makeText(getActivity(), getActivity().getString(R.string.turn_location_options), Toast.LENGTH_LONG).show();
-            } else {
-                Geocoder geocoder = new Geocoder(getActivity(), defaultLocale);
+            @Override
+            protected List<Address> doInBackground(Void... params) {
+                Locale defaultLocale = getActivity().getResources().getConfiguration().locale;
                 List<Address> addresses = null;
-                this.canGetLocation = true;
-                if (isNetworkEnabled) {
-                    locationManager.requestLocationUpdates(
-                            LocationManager.NETWORK_PROVIDER,
-                            MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
-                    Log.d("Network", "Network Enabled");
-                    if (locationManager != null) {
-                        location = locationManager
-                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                        }
-                    }
-                } else {
-                    // if GPS Enabled get lat/long using GPS Services
-                    if (location == null) {
-                        locationManager.requestLocationUpdates(
-                                LocationManager.GPS_PROVIDER,
-                                MIN_TIME_BW_UPDATES,
-                                MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
-                        Log.d("GPS", "GPS Enabled");
-                        if (locationManager != null) {
-                            location = locationManager
-                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (location != null) {
-                                latitude = location.getLatitude();
-                                longitude = location.getLongitude();
+
+                LocationManager locationManager = (LocationManager) getActivity()
+                        .getSystemService(Context.LOCATION_SERVICE);
+                double latitude = 0, longitude = 0;
+                Location location = null;
+                try {
+                    // getting GPS status
+                    boolean isGPSEnabled = locationManager
+                            .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                    // getting network status
+                    boolean isNetworkEnabled = locationManager
+                            .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+                    if (!isGPSEnabled && !isNetworkEnabled) {
+                        // no network provider is enabled
+                        Toast.makeText(getActivity(), getActivity().getString(R.string.turn_location_options), Toast.LENGTH_LONG).show();
+                    } else {
+                        Geocoder geocoder = new Geocoder(getActivity(), defaultLocale);
+                        canGetLocation = true;
+                        if (isNetworkEnabled) {
+                            locationManager.requestLocationUpdates(
+                                    LocationManager.NETWORK_PROVIDER,
+                                    MIN_TIME_BW_UPDATES,
+                                    MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+                            Log.d("Network", "Network Enabled");
+                            if (locationManager != null) {
+                                location = locationManager
+                                        .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                                if (location != null) {
+                                    latitude = location.getLatitude();
+                                    longitude = location.getLongitude();
+                                }
+                            }
+                        } else {
+                            // if GPS Enabled get lat/long using GPS Services
+                            if (location == null) {
+                                locationManager.requestLocationUpdates(
+                                        LocationManager.GPS_PROVIDER,
+                                        MIN_TIME_BW_UPDATES,
+                                        MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+                                Log.d("GPS", "GPS Enabled");
+                                if (locationManager != null) {
+                                    location = locationManager
+                                            .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                    if (location != null) {
+                                        latitude = location.getLatitude();
+                                        longitude = location.getLongitude();
+                                    }
+                                }
                             }
                         }
+                        addresses = geocoder.getFromLocation(latitude, longitude, 1);
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                checkoutCountry(addresses.get(0).getCountryCode());
+                return addresses;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+            @Override
+            protected void onPostExecute(List<Address> addressList) {
+                super.onPostExecute(addressList);
+                if (addressList != null) {
+                    checkoutCountry(addressList.get(0).getCountryCode());
+                }
+            }
+
+        }.execute();
     }
 
     private final LocationListener locationListener = new LocationListener() {
