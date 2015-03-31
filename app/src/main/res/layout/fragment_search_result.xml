@@ -49,6 +49,8 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/relativeLayoutTitle"
             android:paddingBottom="20dp"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
             android:listSelector="@drawable/doctors_list_selector" />
 
     </RelativeLayout>
