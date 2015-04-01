@@ -124,6 +124,7 @@ public class HomeFragment extends PhotoFragment {
     private RestCallback<MonthResponse> getMonthCallback;
     private RestCallback<BabyProfileResponse> getProfileCallback;
     private boolean gaveBirth;
+    private boolean isSummaryLoaded;
 
     private List<ContentLink> contentLinks;
     private List<BabyTestResponse> testsList;
@@ -180,6 +181,7 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(WeekResponse weekResponse, Response response) {
+                isSummaryLoaded = true;
                 showWeeks(weekResponse);
             }
         };
@@ -192,6 +194,7 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(MonthResponse monthResponse, Response response) {
+                isSummaryLoaded = true;
                 showMonths(monthResponse);
             }
         };
@@ -289,9 +292,15 @@ public class HomeFragment extends PhotoFragment {
                         MonthRange range = StaticDataProvider.getCurrentRange(numMonth);
                         String rangeTitle = getString(range.getTitle());
                         screenName = String.format(getString(R.string.screen_summary_baby), rangeTitle);
+                        if (!isSummaryLoaded) {
+                            RestClient.getApiService().getMonth(numMonth, getMonthCallback);
+                        }
                     } else {
                         String week = preferencesManager.getCurrentDate();
                         screenName = String.format(getString(R.string.screen_summary_weeks), week);
+                        if (!isSummaryLoaded) {
+                            RestClient.getApiService().getWeek(Integer.parseInt(week), getWeekCallback);
+                        }
                     }
                     sendAnalyticsScreenName(screenName);
                 } else if (slideOffset == 0.0f) {
@@ -355,7 +364,7 @@ public class HomeFragment extends PhotoFragment {
         mText.setText(childAge);
         preferencesManager.setCurrentDate(String.valueOf(totalMonth),
                 PreferencesManager.DATE_TYPE_MONTH);
-        RestClient.getApiService().getMonth((int) totalMonth, getMonthCallback);
+//        RestClient.getApiService().getMonth((int) totalMonth, getMonthCallback);
         if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
             setNavController((int) totalMonth);
         }
@@ -492,7 +501,7 @@ public class HomeFragment extends PhotoFragment {
             mProgress.requestLayout();
             preferencesManager.setCurrentDate(String.valueOf(currentWeek),
                     PreferencesManager.DATE_TYPE_WEEK);
-            RestClient.getApiService().getWeek(currentWeek, getWeekCallback);
+//            RestClient.getApiService().getWeek(currentWeek, getWeekCallback);
         } else {
             RestClient.getApiService().getBabyProfile(getProfileCallback);
             mProgress.setVisibility(View.GONE);
