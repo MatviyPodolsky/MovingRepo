@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.dialogs.SearchFilterDialog;
+import com.sdex.webteb.internal.events.DoctorsFoundEvent;
 import com.sdex.webteb.internal.events.DoctorsNotFoundEvent;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -403,6 +404,10 @@ public class SearchDoctorFragment extends BaseMainFragment {
 
     public void onEvent(DoctorsNotFoundEvent event) {
         showError();
+    }
+
+    public void onEvent(DoctorsFoundEvent event) {
+        hideError();
     }
 
     private void showError() {

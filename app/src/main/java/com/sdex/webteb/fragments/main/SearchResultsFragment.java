@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.SearchResultsAdapter;
 import com.sdex.webteb.internal.analytics.Events;
+import com.sdex.webteb.internal.events.DoctorsFoundEvent;
 import com.sdex.webteb.internal.events.DoctorsNotFoundEvent;
 import com.sdex.webteb.model.Doctor;
 import com.sdex.webteb.rest.RestCallback;
@@ -219,6 +220,7 @@ public class SearchResultsFragment extends BaseMainFragment {
     }
 
     private void showData() {
+        EventBus.getDefault().post(new DoctorsFoundEvent());
         progress.setVisibility(View.GONE);
         error.setVisibility(View.GONE);
         mList.setVisibility(View.VISIBLE);
