@@ -16,8 +16,8 @@ import com.sdex.webteb.adapters.TutorialPageAdapter;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.view.pageindicator.PageIndicatorAdapter;
 import com.viewpagerindicator.IconPageIndicator;
-import com.viewpagerindicator.PageIndicator;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -25,9 +25,8 @@ import butterknife.OnClick;
 /**
  * Created by MPODOLSKY on 02.02.2015.
  */
-public class WelcomeActivity extends FacebookAuthActivity implements PageIndicator {
+public class WelcomeActivity extends FacebookAuthActivity {
 
-    private TutorialPageAdapter mAdapter;
     @InjectView(R.id.pager)
     ViewPager mPager;
     @InjectView(R.id.indicator)
@@ -40,11 +39,18 @@ public class WelcomeActivity extends FacebookAuthActivity implements PageIndicat
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdapter = new TutorialPageAdapter(getSupportFragmentManager());
+        TutorialPageAdapter mAdapter = new TutorialPageAdapter(getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
         mIndicator.setViewPager(mPager);
-        mPager.setOnPageChangeListener(this);
+        mPager.setOnPageChangeListener(new PageIndicatorAdapter() {
+            @Override
+            public void onPageSelected(int position) {
+                mIndicator.setCurrentItem(position);
+                mIndicator.notifyDataSetChanged();
+            }
+        });
         mPager.setOffscreenPageLimit(3);
+        mPager.setCurrentItem(TutorialPageAdapter.sCount);
 
         showServerChooseDialog();
     }
@@ -76,47 +82,6 @@ public class WelcomeActivity extends FacebookAuthActivity implements PageIndicat
     public void showSA(final View v) {
         DialogFragment newFragment = TermsOfServiceDialog.newInstance();
         newFragment.show(getSupportFragmentManager(), null);
-    }
-
-    @Override
-    public void setViewPager(ViewPager viewPager) {
-
-    }
-
-    @Override
-    public void setViewPager(ViewPager viewPager, int i) {
-
-    }
-
-    @Override
-    public void setCurrentItem(int i) {
-
-    }
-
-    @Override
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener onPageChangeListener) {
-
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        mIndicator.setCurrentItem(position);
-        mIndicator.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
     }
 
     private void showServerChooseDialog() {

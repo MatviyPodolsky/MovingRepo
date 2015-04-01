@@ -30,7 +30,7 @@ public class TutorialPageAdapter extends FragmentStatePagerAdapter implements Ic
     public Fragment getItem(int position) {
         switch (position) {
             default:
-                return TutorialFragment.newInstance(position);
+                return TutorialFragment.newInstance(sCount - position - 1);
         }
     }
 
