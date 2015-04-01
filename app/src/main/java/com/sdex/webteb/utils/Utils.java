@@ -1,9 +1,13 @@
 package com.sdex.webteb.utils;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewTreeObserver;
+
+import com.sdex.webteb.R;
+import com.sdex.webteb.fragments.profile.BirthDateFragment;
 
 /**
  * Created by Yuriy Mysochenko on 11.03.2015.
@@ -45,6 +49,27 @@ public final class Utils {
         } else {
             return Character.toUpperCase(first) + s.substring(1);
         }
+    }
+
+    public static String dateBuilder(Context context, int currentDateValue, int dateType) {
+        String currentDate;
+        if (currentDateValue == BirthDateFragment.EMPTY_DATA) {
+            currentDate = "";
+        } else if (dateType == PreferencesManager.DATE_TYPE_WEEK) {
+            currentDate = String.format(context.getString(R.string.age_in_week), currentDateValue);
+        } else {
+            if (currentDateValue < 12) {
+                currentDate = String.format(context.getString(R.string.age_in_month), currentDateValue);
+            } else if (currentDateValue % 12 == 0) {
+                int years = currentDateValue / 12;
+                currentDate = String.format(context.getString(R.string.age_in_years), years);
+            } else {
+                int years = currentDateValue / 12;
+                int month = currentDateValue % 12;
+                currentDate = String.format(context.getString(R.string.age_in_years_and_month), years, month);
+            }
+        }
+        return currentDate;
     }
 
 }

@@ -17,6 +17,7 @@ import com.sdex.webteb.dialogs.DatePickerFragmentDialog;
 import com.sdex.webteb.fragments.BaseFragment;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.utils.DateUtil;
+import com.sdex.webteb.utils.PreferencesManager;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,7 @@ import butterknife.OnClick;
  */
 public class BirthDateFragment extends BaseFragment {
 
+    public static final int EMPTY_DATA = -1;
     public static final int REQUEST_GET_DATE = 0;
     public static final int LAST_PERIOD = 1;
     public static final int DUE_TO = 2;
@@ -168,23 +170,27 @@ public class BirthDateFragment extends BaseFragment {
         selectCategory(BIRTH_DATE);
     }
 
-    private void updateChildAge(Date date){
+    private void updateChildAge(Date date) {
         long selectedDate = date.getTime();
         long currentTime = Calendar.getInstance().getTime().getTime();
         long age = 0;
+        int dateFormat;
         long diffTime = Math.abs(currentTime - selectedDate);
-        if(mDateType == BIRTH_DATE){
+        if (mDateType == BIRTH_DATE) {
             age = diffTime / 1000 / 3600 / 24 / 30;
+            dateFormat = PreferencesManager.DATE_TYPE_MONTH;
         } else {
-            if(mDateType == LAST_PERIOD) {
+            if (mDateType == LAST_PERIOD) {
                 age = diffTime / 1000 / 3600 / 24 / 7;
+                dateFormat = PreferencesManager.DATE_TYPE_WEEK;
             } else {
                 long currentWeek = (280 - diffTime / 1000 / 3600 / 24) / 7;
                 age = (currentWeek < 0) ? 0 : currentWeek;
+                dateFormat = PreferencesManager.DATE_TYPE_WEEK;
             }
         }
         if (getActivity() instanceof SetupProfileActivity) {
-            ((SetupProfileActivity) getActivity()).setChildAge(String.valueOf(age));
+            ((SetupProfileActivity) getActivity()).setChildAge((int) age, dateFormat);
         }
 
     }
@@ -199,6 +205,7 @@ public class BirthDateFragment extends BaseFragment {
     }
 
     private void selectCategory(int category) {
+        int dateFormat = -1;
         switch (category) {
             case LAST_PERIOD:
                 clearCategories();
@@ -206,6 +213,7 @@ public class BirthDateFragment extends BaseFragment {
                 mFirstCategory.setBackgroundColor(getResources().getColor(R.color.primary));
                 mDescription.setText(getString(R.string.last_period_description));
                 mDateType = LAST_PERIOD;
+                dateFormat = PreferencesManager.DATE_TYPE_WEEK;
                 ((SetupProfileActivity) getActivity()).setDateType(mDateType);
                 break;
             case DUE_TO:
@@ -214,6 +222,7 @@ public class BirthDateFragment extends BaseFragment {
                 mSecondCategory.setBackgroundColor(getResources().getColor(R.color.primary));
                 mDescription.setText(getString(R.string.expected_birth_date_description));
                 mDateType = DUE_TO;
+                dateFormat = PreferencesManager.DATE_TYPE_WEEK;
                 ((SetupProfileActivity) getActivity()).setDateType(mDateType);
                 break;
             case BIRTH_DATE:
@@ -222,6 +231,7 @@ public class BirthDateFragment extends BaseFragment {
                 mThirdCategory.setBackgroundColor(getResources().getColor(R.color.primary));
                 mDescription.setText(getString(R.string.birth_date_description));
                 mDateType = BIRTH_DATE;
+                dateFormat = PreferencesManager.DATE_TYPE_MONTH;
                 ((SetupProfileActivity) getActivity()).setDateType(mDateType);
                 break;
             default:
@@ -231,7 +241,7 @@ public class BirthDateFragment extends BaseFragment {
             if (isValidDate(lastSelectedDate)) {
                 updateChildAge(lastSelectedDate);
             } else {
-                ((SetupProfileActivity) getActivity()).setChildAge("");
+                ((SetupProfileActivity) getActivity()).setChildAge(EMPTY_DATA, dateFormat);
             }
         }
     }
