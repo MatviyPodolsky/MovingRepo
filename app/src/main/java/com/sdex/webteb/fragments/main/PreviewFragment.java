@@ -34,7 +34,7 @@ public class PreviewFragment extends BaseMainFragment {
     private static final String ARG_PREVIEW = "ENTITY";
 
     @InjectView(R.id.content)
-    WebView contentView;
+    WebView mContentView;
     @InjectView(R.id.title)
     TextView title;
     @InjectView(R.id.progressBar)
@@ -58,6 +58,7 @@ public class PreviewFragment extends BaseMainFragment {
         Bundle args = getArguments();
         ContentPreview contentPreview = Parcels.unwrap(args.getParcelable(ARG_PREVIEW));
         if (contentPreview != null) {
+            setUpWebView(mContentView);
             EntityKey key = contentPreview.getKey();
             RestClient.getApiService().getEntity(key.getId(), key.getType(), key.getFieldName(),
                     new RestCallback<EntityResponse>() {
@@ -91,7 +92,7 @@ public class PreviewFragment extends BaseMainFragment {
                         EntityFieldBody entityFieldBody = bodies.get(0);
                         String content = entityFieldBody.getContent();
                         if (entityFieldBody.getTypeID() == EntityFieldBody.Html && content != null) {
-                            contentView.loadData(content, "text/html; charset=UTF-8", null);
+                            mContentView.loadData(content, "text/html; charset=UTF-8", null);
                         }
                     }
                 }
