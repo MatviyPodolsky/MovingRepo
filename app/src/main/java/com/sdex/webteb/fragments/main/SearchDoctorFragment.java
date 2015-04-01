@@ -53,6 +53,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
     public static final int REQUEST_GET_COUNTRY = 0;
     public static final int REQUEST_GET_CITY = 1;
     public static final int REQUEST_GET_SPECIALITY = 2;
+    public static final int ANY_SPECIALITY_ID = -99;
     public static final String LIST = "LIST";
     public static final String REQUEST = "REQUEST";
     public static final String REQUEST_STRING = "REQUEST_STRING";
@@ -201,6 +202,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
         String specialityId = String.valueOf(getIdItemFromString(specialityName, specialtiesList, REQUEST_GET_SPECIALITY));
         if (!specialityName.equals(getString(R.string.any_speciality))) {
             args.putString("Specialty", specialityId);
+        } else {
+            args.putString("Specialty", String.valueOf(ANY_SPECIALITY_ID));
         }
         fragment.setArguments(args);
 
@@ -384,7 +387,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
                     specialtiesList = new String[sizeArray];
                     specialitiesIds = new int[sizeArray];
                     specialtiesList[0] = getString(R.string.any_speciality);
-                    specialitiesIds[0] = 0;
+                    specialitiesIds[0] = ANY_SPECIALITY_ID;
 
                     for (int i = 0; i < specialties.size(); i++) {
                         specialtiesList[i + 1] = specialties.get(i).getName();

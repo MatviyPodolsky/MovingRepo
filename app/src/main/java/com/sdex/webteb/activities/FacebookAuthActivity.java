@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.facebook.LoggingBehavior;
 import com.facebook.Session;
+import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
-import com.facebook.Settings;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.sdex.webteb.R;
@@ -22,6 +21,8 @@ import com.sdex.webteb.rest.request.FacebookLoginRequest;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.utils.PreferencesManager;
+
+import java.util.Arrays;
 
 import butterknife.InjectView;
 import retrofit.client.Response;
@@ -44,13 +45,13 @@ public abstract class FacebookAuthActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        loginButton.setReadPermissions(Arrays.asList("email"));
-//        loginButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+        loginButton.setReadPermissions(Arrays.asList("email"));
+        loginButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
 
         uiHelper = new UiLifecycleHelper(this, callback);
         uiHelper.onCreate(savedInstanceState);
 
-        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+//        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 
         getBabyProfileCallback = new RestCallback<BabyProfileResponse>() {
             @Override
