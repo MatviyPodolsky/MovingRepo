@@ -2,9 +2,9 @@ package com.sdex.webteb.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sdex.webteb.WTApp;
 import com.sdex.webteb.rest.service.ApiService;
 import com.sdex.webteb.utils.PreferencesManager;
-import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -24,13 +24,11 @@ public class RestClient {
             .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
             .create();
 
-    private static final OkHttpClient okHttpClient = new OkHttpClient();
-
     public static final ChangeableEndpoint ENDPOINT = new ChangeableEndpoint(API_URL);
 
     private static final RestAdapter restAdapter = new RestAdapter.Builder()
             .setEndpoint(ENDPOINT)
-            .setClient(new OkClient(okHttpClient))
+            .setClient(new OkClient(WTApp.okHttpClient))
             .setRequestInterceptor(new SessionRequestInterceptor())
             .setLogLevel(RestAdapter.LogLevel.FULL)
             .setConverter(new GsonConverter(gson))
