@@ -15,6 +15,7 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
 import com.sdex.webteb.activities.WelcomeActivity;
 import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.ConfirmDialog;
 import com.sdex.webteb.dialogs.DialogCallback;
@@ -26,6 +27,8 @@ import com.sdex.webteb.rest.response.BabyGeneralResponse;
 import com.sdex.webteb.service.ApiActionService;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.switchbutton.SwitchButton;
+
+import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnCheckedChanged;
@@ -198,6 +201,10 @@ public class SettingsFragment extends BaseMainFragment {
                         final PreferencesManager preferencesManager = PreferencesManager.getInstance();
                         String email = preferencesManager.getEmail();
                         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
+                        List<DbPhoto> photos = databaseHelper.getPhotos(email);
+                        for (DbPhoto photo : photos) {
+                            databaseHelper.deletePhoto(photo);
+                        }
                         DbUser user = databaseHelper.getUser(email);
                         user.clearData();
                         databaseHelper.updateUser(user);
