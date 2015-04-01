@@ -27,16 +27,23 @@
             android:textColor="@android:color/white"
             android:background="@android:color/transparent" />
 
-        <TextView
+        <RelativeLayout
             android:layout_width="@dimen/time_navigation_controller_item_size"
             android:layout_height="@dimen/time_navigation_controller_item_size"
-            android:layout_marginLeft="@dimen/time_navigation_controller_item_padding"
-            android:layout_marginRight="@dimen/time_navigation_controller_item_padding"
-            android:gravity="center"
-            android:id="@+id/value"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:background="@android:color/transparent" />
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="@dimen/time_navigation_controller_circle_diameter"
+                android:layout_height="@dimen/time_navigation_controller_circle_diameter"
+                android:layout_marginLeft="@dimen/time_navigation_controller_item_padding"
+                android:layout_marginRight="@dimen/time_navigation_controller_item_padding"
+                android:gravity="center"
+                android:id="@+id/value"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:background="@android:color/transparent" />
+
+            </RelativeLayout>
 
     </LinearLayout>
 
