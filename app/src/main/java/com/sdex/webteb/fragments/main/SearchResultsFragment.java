@@ -95,9 +95,10 @@ public class SearchResultsFragment extends BaseMainFragment {
 
             @Override
             public void onSaveContactClick(Doctor doctor) {
-                Intent intent = new Intent(ContactsContract.Intents.SHOW_OR_CREATE_CONTACT,
-                Uri.parse("tel:" + doctor.getPhone()));
-                intent.putExtra(ContactsContract.Intents.EXTRA_FORCE_CREATE, true);
+                Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION, ContactsContract.Contacts.CONTENT_URI);
+                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                intent.putExtra(ContactsContract.Intents.Insert.NAME, doctor.getName());
+                intent.putExtra(ContactsContract.Intents.Insert.PHONE, doctor.getPhone());
                 startActivity(intent);
                 String label = doctor.getId() + " - " + doctor.getName();
                 sendInnerAnalyticsEvent(Events.CATEGORY_PHONE, Events.ACTION_SAVE_CONTACT, label);
