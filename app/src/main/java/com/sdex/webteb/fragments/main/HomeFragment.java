@@ -245,20 +245,22 @@ public class HomeFragment extends PhotoFragment {
         List<ExaminationPreview> tests = notificationsResponse.getTests();
         List<TipContent> tips = notificationsResponse.getTips();
         int amount = tests.size() + tips.size();
-        mNotificationsAmount.setText("1/" + amount);
+        if (amount > 0) {
+            mNotificationsAmount.setText("1/" + amount);
 
-        if (!tests.isEmpty()) {
-            ExaminationPreview examinationPreview = tests.get(0);
-            String name = examinationPreview.getName();
-            mNotificationsTitle.setText(name);
-        } else if (!tips.isEmpty()) {
-            TipContent tipContent = tips.get(0);
-            String text = tipContent.getText();
-            mNotificationsTitle.setText(text);
+            if (!tests.isEmpty()) {
+                ExaminationPreview examinationPreview = tests.get(0);
+                String name = examinationPreview.getName();
+                mNotificationsTitle.setText(name);
+            } else if (!tips.isEmpty()) {
+                TipContent tipContent = tips.get(0);
+                String text = tipContent.getText();
+                mNotificationsTitle.setText(text);
+            }
+
+            showNotification(notificationsResponse);
+            preferencesManager.setLastNotificationDate(System.currentTimeMillis());
         }
-
-        showNotification(notificationsResponse);
-        preferencesManager.setLastNotificationDate(System.currentTimeMillis());
     }
 
     private void setUpSummaryView() {
