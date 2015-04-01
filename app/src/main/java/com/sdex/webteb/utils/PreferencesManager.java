@@ -13,6 +13,8 @@ public class PreferencesManager {
 
     public static final int DATE_TYPE_WEEK = 0;
     public static final int DATE_TYPE_MONTH = 1;
+    public static final int MALE = 0;
+    public static final int FEMALE = 1;
 
     private static final String PREF_NAME = "settings";
 
@@ -20,7 +22,7 @@ public class PreferencesManager {
     private static final String TOKEN_TYPE = "token_type";
     private static final String EMAIL = "email";
     private static final String USERNAME = "username";
-    private static final String COMPLETE_SETUP = "complete_setup";
+    private static final String GENDER = "gender";
     private static final String CURRENT_DATE = "current_date";
     private static final String CURRENT_DATE_TYPE = "current_date_type";
     private static final String LAST_NOTIFICATION_DATE = "last_notification_date";
@@ -111,14 +113,14 @@ public class PreferencesManager {
         return mPref.getString(USERNAME, null);
     }
 
-    public void setCompleteSetup(boolean isComplete) {
+    public void setGender(int gender) {
         mPref.edit()
-                .putBoolean(COMPLETE_SETUP, isComplete)
+                .putInt(GENDER, gender)
                 .commit();
     }
 
-    public boolean isCompleteSetup() {
-        return mPref.getBoolean(COMPLETE_SETUP, false);
+    public int getGender() {
+        return mPref.getInt(GENDER, 0);
     }
 
     public void setWasLaunched(boolean wasLaunched) {

@@ -44,7 +44,11 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
 
     public void addTag(String name) {
         Item tag = new Item(name);
-        mTags.add(tag);
+        if (mTags.size() > 2) {
+            mTags.add(2, tag);
+        } else {
+            mTags.add(tag);
+        }
         notifyDataSetChanged();
     }
 
@@ -94,12 +98,11 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
                 items.add(new TagsAdapter.Item(kids[i]));
             }
         }
+        Item me = new Item("Me");
+        items.add(me);
         Item addTag = new Item("Add +");
         items.add(addTag);
         Collections.reverse(items);
-
-        Item me = new Item("Me");
-        items.add(0, me);
 
         return items;
     }
