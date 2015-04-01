@@ -203,7 +203,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
         if (!specialityName.equals(getString(R.string.any_speciality))) {
             args.putString("Specialty", specialityId);
         } else {
-//            args.putString("Specialty", String.valueOf(ANY_SPECIALITY_ID));
+            args.putString("Specialty", String.valueOf(ANY_SPECIALITY_ID));
         }
         fragment.setArguments(args);
 
