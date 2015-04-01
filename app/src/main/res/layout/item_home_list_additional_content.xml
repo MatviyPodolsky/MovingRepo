@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             tools:text="@string/test_text"
             android:id="@+id/title"
-            android:textSize="20sp"
+            android:textSize="18dp"
             android:textColor="@color/black"
             android:layout_gravity="center_vertical"
             android:layout_weight="1" />
