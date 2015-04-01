@@ -45,7 +45,7 @@ public class TypefaceTextView extends TextView {
         }
 
         Typeface typeface = TypefaceManager.obtainTypeface(context, typefaceValue);
-        setTypeface(typeface);
+//        setTypeface(typeface);
     }
 
 }
