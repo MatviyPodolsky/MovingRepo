@@ -73,23 +73,17 @@ public class SearchDoctorFragment extends BaseMainFragment {
     private EventBus mEventBus = EventBus.getDefault();
 
     @InjectView(R.id.search)
-    EditText search;
+    EditText mSearch;
     @InjectView(R.id.country_text)
-    TextView country;
+    TextView mCountry;
     @InjectView(R.id.city_text)
-    TextView city;
+    TextView mCity;
     @InjectView(R.id.specialty_text)
-    TextView specialty;
-
+    TextView mSpecialty;
     @InjectView(R.id.error_view)
     View mErrorView;
-    @InjectView(R.id.error_title)
-    TextView mErrorTitle;
-    @InjectView(R.id.error_text)
-    TextView mErrorText;
-
-    private RestCallback<List<CityResponse>> getCitiesCallback;
-    private RestCallback<List<SpecialtiesResponse>> getSpecialtiesCallback;
+    @InjectView(R.id.query)
+    TextView mQuery;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -133,19 +127,19 @@ public class SearchDoctorFragment extends BaseMainFragment {
             switch (requestCode) {
                 case REQUEST_GET_COUNTRY:
                     if (data != null) {
-                        country.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
+                        mCountry.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
                         currentCountry = data.getIntExtra(SearchFilterDialog.EXTRA_POSITION, 3);
                         setCurrentCountry(currentCountry);
                     }
                     break;
                 case REQUEST_GET_CITY:
                     if (data != null) {
-                        city.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
+                        mCity.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
                     }
                     break;
                 case REQUEST_GET_SPECIALITY:
                     if (data != null) {
-                        specialty.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
+                        mSpecialty.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
                     }
                     break;
             }
@@ -190,21 +184,21 @@ public class SearchDoctorFragment extends BaseMainFragment {
 
     @OnClick(R.id.btn_search)
     public void search() {
-        KeyboardUtils.hideKeyboard(search);
+        KeyboardUtils.hideKeyboard(mSearch);
         Fragment fragment = new SearchResultsFragment();
         Bundle args = new Bundle();
-        args.putString("Name", search.getText().toString());
-        String countryName = country.getText().toString();
+        args.putString("Name", mSearch.getText().toString());
+        String countryName = mCountry.getText().toString();
         String countryId = String.valueOf(getIdItemFromString(countryName, countriesList, REQUEST_GET_COUNTRY));
         if (!countryName.equals(getString(R.string.any_country))) {
             args.putString("Country", countryId);
         }
-        String cityName = city.getText().toString();
+        String cityName = mCity.getText().toString();
         String cityId = String.valueOf(getIdItemFromString(cityName, citiesList, REQUEST_GET_CITY));
         if (!cityName.equals(getString(R.string.any_city))) {
             args.putString("City", cityId);
         }
-        String specialityName = specialty.getText().toString();
+        String specialityName = mSpecialty.getText().toString();
         String specialityId = String.valueOf(getIdItemFromString(specialityName, specialtiesList, REQUEST_GET_SPECIALITY));
         if (!specialityName.equals(getString(R.string.any_speciality))) {
             args.putString("Specialty", specialityId);
@@ -218,9 +212,9 @@ public class SearchDoctorFragment extends BaseMainFragment {
 
     private void setCurrentCountry(int currentCountry) {
         this.currentCountry = currentCountry;
-        country.setText(countriesList[currentCountry]);
+        mCountry.setText(countriesList[currentCountry]);
         setCities(countryCodes[currentCountry]);
-        city.setText(getString(R.string.any_city));
+        mCity.setText(getString(R.string.any_city));
     }
 
     private int getIdItemFromString(String str, String[] list, int requestCode) {
@@ -353,7 +347,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
     };
 
     private void setCities(String isoCode) {
-        getCitiesCallback = new RestCallback<List<CityResponse>>() {
+        RestCallback<List<CityResponse>> getCitiesCallback = new RestCallback<List<CityResponse>>() {
             @Override
             public void failure(RestError restError) {
 
@@ -380,7 +374,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
     }
 
     private void setSpecialties() {
-        getSpecialtiesCallback = new RestCallback<List<SpecialtiesResponse>>() {
+        RestCallback<List<SpecialtiesResponse>> getSpecialtiesCallback = new RestCallback<List<SpecialtiesResponse>>() {
             @Override
             public void failure(RestError restError) {
 
@@ -406,11 +400,17 @@ public class SearchDoctorFragment extends BaseMainFragment {
     }
 
     public void onEvent(DoctorsNotFoundEvent event) {
-        showError();
+        mQuery.setText(mSearch.getText());
+        int height = getResources().getDimensionPixelSize(R.dimen.notification_bar_height);
+        mErrorView.getLayoutParams().height = height;
+        mErrorView.requestLayout();
     }
 
     public void onEvent(DoctorsFoundEvent event) {
-        hideError();
+        if (mErrorView.getLayoutParams().height != 0) {
+            mErrorView.getLayoutParams().height = 0;
+            mErrorView.requestLayout();
+        }
     }
 
     private void showError() {
