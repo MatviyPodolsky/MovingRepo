@@ -245,20 +245,22 @@ public class HomeFragment extends PhotoFragment {
         List<ExaminationPreview> tests = notificationsResponse.getTests();
         List<TipContent> tips = notificationsResponse.getTips();
         int amount = tests.size() + tips.size();
-        mNotificationsAmount.setText("1/" + amount);
+        if (amount > 0) {
+            mNotificationsAmount.setText("1/" + amount);
 
-        if (!tests.isEmpty()) {
-            ExaminationPreview examinationPreview = tests.get(0);
-            String name = examinationPreview.getName();
-            mNotificationsTitle.setText(name);
-        } else if (!tips.isEmpty()) {
-            TipContent tipContent = tips.get(0);
-            String text = tipContent.getText();
-            mNotificationsTitle.setText(text);
+            if (!tests.isEmpty()) {
+                ExaminationPreview examinationPreview = tests.get(0);
+                String name = examinationPreview.getName();
+                mNotificationsTitle.setText(name);
+            } else if (!tips.isEmpty()) {
+                TipContent tipContent = tips.get(0);
+                String text = tipContent.getText();
+                mNotificationsTitle.setText(text);
+            }
+
+            showNotification(notificationsResponse);
+            preferencesManager.setLastNotificationDate(System.currentTimeMillis());
         }
-
-        showNotification(notificationsResponse);
-        preferencesManager.setLastNotificationDate(System.currentTimeMillis());
     }
 
     private void setUpSummaryView() {
@@ -348,14 +350,8 @@ public class HomeFragment extends PhotoFragment {
         long birthDate = DateUtil.parseDate(babyProfileResponse.getDate()).getTime();
         long diffTime = currentTime - birthDate;
         long totalMonth = diffTime / 1000 / 3600 / 24 / 30;
-        String childAge;
-        if (totalMonth < 12) {
-            childAge = String.format(getString(R.string.age_in_month), totalMonth);
-        } else {
-            int years = (int) (totalMonth / 12);
-            int month = (int) (totalMonth % 12);
-            childAge = String.format(getString(R.string.age_in_years_and_month), years, month);
-        }
+        String childAge = Utils.dateBuilder(getActivity(),
+                (int) totalMonth, preferencesManager.getCurrentDateType());
         mText.setText(childAge);
         preferencesManager.setCurrentDate(String.valueOf(totalMonth),
                 PreferencesManager.DATE_TYPE_MONTH);
@@ -485,8 +481,8 @@ public class HomeFragment extends PhotoFragment {
         gaveBirth = card.isGaveBirth();
 
         if (!gaveBirth) {
-            String pregnancyWeek;
-            pregnancyWeek = String.format(getString(R.string.age_in_week), currentWeek);
+            String pregnancyWeek = Utils.dateBuilder(getActivity(),
+                    currentWeek, preferencesManager.getCurrentDateType());
             mText.setText(pregnancyWeek);
             ViewGroup.LayoutParams layoutParams = mProgress.getLayoutParams();
             int currentDays = (card.getTotalDays() - card.getDaysLeft());
