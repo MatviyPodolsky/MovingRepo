@@ -53,8 +53,8 @@
     <string-array name="relations">
         <item>Mother</item>
         <item>Father</item>
-        <item>Sister</item>
         <item>Brother</item>
+        <item>Sister</item>
         <item>Grandmother</item>
         <item>Grandfather</item>
         <item>Friend</item>

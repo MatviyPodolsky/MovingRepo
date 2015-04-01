@@ -23,7 +23,7 @@ import butterknife.OnClick;
 public class FamilyRelationFragment extends BaseFragment {
 
     public static final int REQUEST_GET_RELATION = 0;
-    public static final int DEFAULT_RELATION_POSITION = 0;
+    public static final int DEFAULT_RELATION_POSITION = 1; //Mother
     public static final String RELATIONS_LIST = "RELATIONS_LIST";
 
     @InjectView(R.id.family_relation)
@@ -41,12 +41,13 @@ public class FamilyRelationFragment extends BaseFragment {
         Bundle data = getArguments();
         String[] relations = getResources().getStringArray(R.array.relations);
         if (data != null && data.containsKey(SetupProfileActivity.FAMILY_RELATION)) {
-            relationPosition = data.getInt(SetupProfileActivity.FAMILY_RELATION, 0);
+            relationPosition = data.getInt(SetupProfileActivity.FAMILY_RELATION, 1);
         } else {
             relationPosition = DEFAULT_RELATION_POSITION;
         }
+        relationPosition = relationPosition < 1 ? 1 : relationPosition;
         ((SetupProfileActivity) getActivity()).setFamilyRelation(relationPosition);
-        relation.setText(relations[relationPosition]);
+        relation.setText(relations[relationPosition - 1]);
     }
 
     @Override
@@ -57,7 +58,8 @@ public class FamilyRelationFragment extends BaseFragment {
                     String extra = data.getStringExtra(FamilyRelationDialog.EXTRA_RELATION);
                     relation.setText(extra);
                     int relationPosition = data.getIntExtra(FamilyRelationDialog.EXTRA_POSITION, 0);
-                    ((SetupProfileActivity) getActivity()).setFamilyRelation(relationPosition);
+                    //relation IDs begins from 1. 0 means "Not set".
+                    ((SetupProfileActivity) getActivity()).setFamilyRelation(relationPosition + 1);
                     break;
             }
         }
