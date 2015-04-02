@@ -9,6 +9,7 @@ import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.request.ChangePasswordRequest;
 import com.sdex.webteb.rest.request.ContactUsRequest;
 import com.sdex.webteb.rest.request.FacebookLoginRequest;
+import com.sdex.webteb.rest.request.NotificationReceivedRequest;
 import com.sdex.webteb.rest.request.NotificationTappedRequest;
 import com.sdex.webteb.rest.request.PushTokenRequest;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
@@ -54,140 +55,127 @@ public interface ApiService {
 
     @POST("/Token")
     @FormUrlEncoded
-    public void login(@Field("grant_type") String grantType, @Field("username") String username,
+    void login(@Field("grant_type") String grantType, @Field("username") String username,
                       @Field("password") String password, Callback<UserLoginResponse> callback);
 
     @POST("/Account/FacebookLogin")
-    public void facebookLogin(@Body FacebookLoginRequest body, Callback<UserLoginResponse> callback);
+    void facebookLogin(@Body FacebookLoginRequest body, Callback<UserLoginResponse> callback);
 
     @POST("/Account/Register")
-    public void register(@Body RegisterAccountRequest body, Callback<String> callback);
+    void register(@Body RegisterAccountRequest body, Callback<String> callback);
 
     @POST("/Account/ForgotPassword")
-    public void restorePassword(@Query("email") String email, Callback<String> callback);
+    void restorePassword(@Query("email") String email, Callback<String> callback);
 
     @POST("/Account/ChangePassword")
-    public void changePassword(@Body ChangePasswordRequest body, Callback<String> callback);
+    void changePassword(@Body ChangePasswordRequest body, Callback<String> callback);
 
     @POST("/Account/SetPassword")
-    public void setPassword(@Body SetPasswordRequest body, Callback<String> callback);
+    void setPassword(@Body SetPasswordRequest body, Callback<String> callback);
 
     @POST("/Account/Logout")
-    public void logout(Callback<String> callback);
+    void logout(Callback<String> callback);
 
     @POST("/baby/settings/profile")
-    public void setBabyProfile(@Body BabyProfileRequest body, Callback<String> callback);
+    void setBabyProfile(@Body BabyProfileRequest body, Callback<String> callback);
 
     @GET("/baby/settings/profile")
-    public void getBabyProfile(Callback<BabyProfileResponse> callback);
+    void getBabyProfile(Callback<BabyProfileResponse> callback);
 
     @DELETE("/baby/settings")
-    public void deleteSettings(Callback<String> callback);
+    void deleteSettings(Callback<String> callback);
 
     @GET("/Account/UserInfo")
-    public void getUserInfo(Callback<UserInfoResponse> callback);
+    void getUserInfo(Callback<UserInfoResponse> callback);
 
     @GET("/baby/home")
-    public void getBabyHome(Callback<BabyHomeResponse> callback);
+    void getBabyHome(Callback<BabyHomeResponse> callback);
 
     @POST("/baby/settings/general")
-    public void setBabyGeneral(@Body BabyGeneralRequest body, Callback<String> callback);
+    void setBabyGeneral(@Body BabyGeneralRequest body, Callback<String> callback);
 
     @POST("/baby/settings/general")
-    public String setBabyGeneral(@Body BabyGeneralRequest body);
+    String setBabyGeneral(@Body BabyGeneralRequest body);
 
     @GET("/baby/settings/general")
-    public void getBabyGeneral(Callback<BabyGeneralResponse> callback);
+    void getBabyGeneral(Callback<BabyGeneralResponse> callback);
 
     @POST("/baby/settings/gotbirth")
-    public void setBabyGotbirth(@Body BabyGotbirthRequest body, Callback<String> callback);
+    void setBabyGotbirth(@Body BabyGotbirthRequest body, Callback<String> callback);
 
     @POST("/baby/tests/Reminder")
-    public void setBabyReminder(@Body BabyReminderRequest body, Callback<String> callback);
+    void setBabyReminder(@Body BabyReminderRequest body, Callback<String> callback);
 
     @DELETEWITHBODY("/baby/tests/Reminder")
-    public void deleteBabyReminder(@Body BabyReminderRequest body, Callback<String> callback);
+    void deleteBabyReminder(@Body BabyReminderRequest body, Callback<String> callback);
 
     @POST("/baby/tests/Done")
-    public void makeTestDone(@Body BabyTestDoneRequest body, Callback<String> callback);
+    void makeTestDone(@Body BabyTestDoneRequest body, Callback<String> callback);
 
     @DELETEWITHBODY("/baby/tests/Done")
-    public void makeTestUndone(@Body BabyTestDoneRequest body, Callback<String> callback);
+    void makeTestUndone(@Body BabyTestDoneRequest body, Callback<String> callback);
 
     @GET("/baby/tests")
-    public void getBabyTests(Callback<List<BabyTestResponse>> callback);
+    void getBabyTests(Callback<List<BabyTestResponse>> callback);
 
     @POST("/Users/Register")
-    public void makeTestDone(@Body RegisterUserRequest body, Callback<String> callback);
+    void makeTestDone(@Body RegisterUserRequest body, Callback<String> callback);
 
     @GET("/Users/Retrieve?userId={userId}")
-    public void retrieveUser(@Path("userId") String userId, Callback<UserRetrieveResponse> callback);
+    void retrieveUser(@Path("userId") String userId, Callback<UserRetrieveResponse> callback);
 
     @GET("/Users/UnreadEntities?userId={userId}")
-    public void getUnreadEntities(@Path("userId") String userId,
+    void getUnreadEntities(@Path("userId") String userId,
                                   Callback<List<UnreadEntitiesResponse>> callback);
 
     @GET("/Users/GetUrl?EntityType={EntityType}&EntityID={EntityID}")
-    public void getUnreadEntities(@Path("EntityType") String entityType,
+    void getUnreadEntities(@Path("EntityType") String entityType,
                                   @Path("EntityID") String entityID, Callback<String> callback);
 
     @GET("/GetPromotedApps")
-    public void getPromotedApps(Callback<PromotedAppsResponse> callback);
+    void getPromotedApps(Callback<PromotedAppsResponse> callback);
 
     @GET("/lookups/specialties/baby")
-    public void getSpecialties(Callback<List<SpecialtiesResponse>> callback);
+    void getSpecialties(Callback<List<SpecialtiesResponse>> callback);
 
     @GET("/lookups/cities/bycountry")
-    public void getCities(@Query("isoCode") String isoCode, Callback<List<CityResponse>> callback);
+    void getCities(@Query("isoCode") String isoCode, Callback<List<CityResponse>> callback);
 
     @GET("/SearchDoctors")
-    public void searchDoctor(@QueryMap Map<String, String> options,
+    void searchDoctor(@QueryMap Map<String, String> options,
                              RestCallback<SearchDoctorResponse> callback);
 
     @GET("/baby/articles/latest")
-    public void getArticles(@Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize,
+    void getArticles(@Query("pageIndex") int pageIndex, @Query("pageSize") int pageSize,
                             Callback<ArticlesResponse> callback);
 
     @GET("/baby/week")
-    public void getWeek(@Query("weekNumber") int weekNumber, Callback<WeekResponse> callback);
+    void getWeek(@Query("weekNumber") int weekNumber, Callback<WeekResponse> callback);
 
     @GET("/baby/month")
-    public void getMonth(@Query("ageInMonths") int ageInMonths, Callback<MonthResponse> callback);
+    void getMonth(@Query("ageInMonths") int ageInMonths, Callback<MonthResponse> callback);
 
     @GET("/GetEntity")
-    public void getEntity(@Query("ID") int id, @Query("Type") String type,
+    void getEntity(@Query("ID") int id, @Query("Type") String type,
                           @Query("FieldName") String fieldName, Callback<EntityResponse> callback);
 
     @POST("/ContactUs")
-    public void contactUs(@Body ContactUsRequest body, Callback<String> callback);
+    void contactUs(@Body ContactUsRequest body, Callback<String> callback);
 
     @POST("/SendEvent")
-    public void sendEvent(@Body SendEventRequest body, Callback<String> callback);
+    void sendEvent(@Body SendEventRequest body, Callback<String> callback);
 
-    //    notifications
     @GET("/baby/notifications")
-    public void getNotifications(@Query("ignoreSettings") boolean ignoreSettings,
+    void getNotifications(@Query("ignoreSettings") boolean ignoreSettings,
                                  Callback<NotificationsResponse> callback);
 
     @POST("/baby/notifications/tapped")
-    public void postNotificationTapped(@Body NotificationTappedRequest body, Callback<String> callback);
+    void postNotificationTapped(@Body NotificationTappedRequest body, Callback<String> callback);
+
+    @POST("/baby/notifications/received")
+    String postNotificationReceived(@Body NotificationReceivedRequest body);
 
     @POST("/baby/settings/pushtoken")
-    public void postPushToken(@Body PushTokenRequest body, Callback<String> callback);
-
-    @POST("/baby/pushtests/test")
-    public void pushTest(Callback<String> callback);
-
-    @POST("/baby/pushtests/tip")
-    public void pushTip(Callback<String> callback);
-
-    @POST("/baby/pushtests/enactiveuser")
-    public void pushEnactiveUser(Callback<String> callback);
-
-    @POST("/baby/pushtests/week38")
-    public void pushWeek38(Callback<String> callback);
-
-    @POST("/baby/pushtests/week40")
-    public void pushWeek40(Callback<String> callback);
+    void postPushToken(@Body PushTokenRequest body, Callback<String> callback);
 
 }

@@ -32,6 +32,8 @@ import retrofit.client.Response;
 public class TestsFragment extends BaseMainFragment {
 
     public static final String ARG_TEST_ID = "ARG_TEST_ID";
+    public static final String ARG_TEST_TYPE = "ARG_TEST_TYPE";
+    public static final int INVALID_SCROLL_INDEX = -1;
 
     private TestsAdapter mAdapter;
     @InjectView(R.id.list)
@@ -46,6 +48,9 @@ public class TestsFragment extends BaseMainFragment {
     private final PreferencesManager mPreferencesManager = PreferencesManager.getInstance();
     private final String currentDate = mPreferencesManager.getCurrentDate();
 
+    private String mItemId;
+    private String mItemType;
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -58,8 +63,8 @@ public class TestsFragment extends BaseMainFragment {
 
         Bundle args = getArguments();
         if (args != null) {
-            String contentId = args.getString(ARG_TEST_ID);
-            // scroll to
+            mItemId = args.getString(ARG_TEST_ID);
+            mItemType = args.getString(ARG_TEST_TYPE);
         }
 
         mAdapter = new TestsAdapter(getActivity());
@@ -104,15 +109,39 @@ public class TestsFragment extends BaseMainFragment {
                     return;
                 }
 
-                //TODO
                 mAdapter.setItems(tests);
                 mAdapter.notifyDataSetChanged();
                 progress.setVisibility(View.GONE);
                 mList.setVisibility(View.VISIBLE);
-                mList.setSelection(getPositionWithAge(tests));
+
                 title.setText(String.format(getString(R.string.we_found_n_tests), mAdapter.getGroupCount()));
+
+                if (shouldScroll()) {
+                    int position = getScrollToPosition(tests);
+                    if (position != INVALID_SCROLL_INDEX) {
+                        mList.setSelection(position);
+                        mList.expandGroup(position, true);
+                    }
+                } else {
+                    mList.setSelection(getPositionWithAge(tests));
+                }
             }
         });
+    }
+
+    private boolean shouldScroll() {
+        return mItemId != null && mItemType != null;
+    }
+
+    private int getScrollToPosition(List<BabyTestResponse> tests) {
+        final int id = Integer.parseInt(mItemId);
+        for (BabyTestResponse test : tests) {
+            EntityKey key = test.getContentPreview().getKey();
+            if (id == key.getId() && mItemType.equals(key.getType())) {
+                return tests.indexOf(test);
+            }
+        }
+        return INVALID_SCROLL_INDEX;
     }
 
     protected void sendAnalyticsTestDone(BabyTestResponse item) {
@@ -163,21 +192,21 @@ public class TestsFragment extends BaseMainFragment {
         int sizeItems = tests.size();
         for (int itemPosition = 0; itemPosition < sizeItems; itemPosition++) {
             List<Range> listPeriods = tests.get(itemPosition).getRelatedPeriods();
-            if(listPeriods.isEmpty()) {
+            if (listPeriods.isEmpty()) {
                 return 0;
             } else {
                 int currentParseDate = Integer.parseInt(currentDate);
                 int lastDate = listPeriods.get(listPeriods.size() - 1).getTo();
 
-                if(mPreferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
+                if (mPreferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
                     int firstDate = listPeriods.get(listPeriods.size() - 1).getFrom();
-                    if(currentParseDate <= lastDate && currentParseDate >= firstDate) {
+                    if (currentParseDate <= lastDate && currentParseDate >= firstDate) {
                         return itemPosition;
                     }
 
                 }
 
-                if(currentParseDate == lastDate) {
+                if (currentParseDate == lastDate) {
                     return itemPosition;
                 }
             }
