@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/error_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    android:background="@color/default_background">
+
+    <LinearLayout
+        android:id="@+id/error_text_container"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_loading_title"
+            android:id="@+id/error_title"
+            android:textSize="26sp"
+            android:textColor="#8c8c8c" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error_loading_text"
+            android:id="@+id/error_text"
+            android:layout_marginTop="10dp"
+            android:textSize="21sp"
+            android:textColor="#8c8c8c" />
+    </LinearLayout>
+
+    <Button
+        style="@style/AppTheme.Button"
+        android:layout_width="124dp"
+        android:layout_height="wrap_content"
+        android:text="@string/retry"
+        android:id="@+id/btn_retry"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="83dp"
+        android:textSize="15sp" />
+
+</RelativeLayout>

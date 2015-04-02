@@ -19,7 +19,6 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_below="@+id/error"
             android:layout_alignParentRight="true"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp" />
@@ -38,21 +37,13 @@
             android:visibility="gone" />
 
         <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:focusable="false"
-            android:visibility="visible" />
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
-        <TextView
-            android:id="@+id/error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:focusable="false"
-            android:text="@string/error_loading_data"
-            android:visibility="gone" />
+        <include layout="@layout/layout_error" />
 
     </RelativeLayout>
 </FrameLayout>

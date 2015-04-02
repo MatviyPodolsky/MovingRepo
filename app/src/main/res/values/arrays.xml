@@ -108,24 +108,5 @@
         <item>MR</item>
         <item>KM</item>
     </string-array>
-    <string-array name="cities">
-        <item>Cairo</item>
-        <item>Baghdad</item>
-        <item>Riyadh</item>
-        <item>Jeddah</item>
-        <item>Dammam</item>
-        <item>Damascus</item>
-        <item>Casablanca</item>
-        <item>Aleppo</item>
-        <item>Alexandria</item>
-    </string-array>
-    <string-array name="specialities">
-        <item>Dermatologist</item>
-        <item>Gynaecologist‎</item>
-        <item>Endocrinologist</item>
-        <item>Oncologist</item>
-        <item>Venereologist</item>
-        <item>Psychiatrist</item>
-    </string-array>
 
 </resources>

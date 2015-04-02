@@ -171,8 +171,8 @@
 
     <!--contact us-->
     <string name="contact_us_title">"اتصل بنا"</string>
-    <string name="contact_us_title_hint">Title...</string>
-    <string name="contact_us_text_hint">"رسالة..."</string>
+    <string name="contact_us_title_hint">Title…</string>
+    <string name="contact_us_text_hint">"رسالة…"</string>
     <string name="contact_us_btn_send">Send</string>
     <string name="your_message_was_sent">Your message was sent successfully</string>
     <string name="error_sending_message">Oops, we failed to send your message, please click close and retry</string>
@@ -245,10 +245,7 @@
     <string name="month_61_145_title">"المدرسة"</string>
     <string name="month_145_216_title">"النضوج"</string>
 
-    <!--debug text-->
-    <string name="test_text" translatable="false">Text text text text text text text text text text text text text
-    text text text text text text text text text text text text text text text text text text
-    text text text text text text text text text text text text text text text text text text </string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
+    <string name="retry">Retry</string>
 
 </resources>
