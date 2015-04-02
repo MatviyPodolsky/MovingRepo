@@ -433,7 +433,7 @@ public class HomeFragment extends PhotoFragment {
                         .fit()
                         .into(summaryImage);
             }
-            articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
+            articlesCount.setText(getString(R.string.articles_count) + " " + contentLinks.size());
             int count = testsList.size();
             if (testsList != null && count == 1) {
                 testTitle.setText(testsList.get(0).getContentPreview().getTitle());
@@ -495,7 +495,7 @@ public class HomeFragment extends PhotoFragment {
                 String testsCount = getString(R.string.n_tests);
                 testTitle.setText(String.format(testsCount, count));
             } else {
-                testTitle.setText(getActivity().getString(R.string.no_tests));
+                testTitle.setText(getString(R.string.no_tests));
             }
             String email = PreferencesManager.getInstance().getEmail();
             String date = DbPhoto.LABEL_WEEK + "-" + weekResponse.getWeekNumber();
