@@ -27,4 +27,7 @@
     <string name="screen_register">Account/Register</string>
     <string name="screen_forgot_password">Account/ForgotPassword</string>
 
+    <string name="dimension_register_type_server">Server</string>
+    <string name="dimension_register_type_facebook">Facebook</string>
+
 </resources>

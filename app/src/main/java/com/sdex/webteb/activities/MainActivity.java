@@ -85,6 +85,9 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     public static final String NOTIFICATION_TITLE = "title";
     public static final String NOTIFICATION_CONTENT = "Content";
 
+    public static final String NOTIFICATION_ITEM_ID = "ItemId";
+    public static final String NOTIFICATION_ITEM_TYPE = "ItemType";
+
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @InjectView(R.id.drawer_list)
@@ -429,20 +432,23 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     private void handlePushNotification(Bundle extras) {
         String type = extras.getString(NOTIFICATION_TYPE).trim();
-        String notificationId = extras.getString(NOTIFICATION_ID);
+        final String notificationId = extras.getString(NOTIFICATION_ID);
         BaseDialog pushNotificationDialog = null;
         switch (type) {
             case NOTIFICATION_TYPE_TEST_SINGLE:
                 // open the test page in the app
                 final Bundle args = new Bundle();
-                String contentId = extras.getString(NOTIFICATION_CONTENT_ID);
-                args.putString(TestsFragment.ARG_TEST_ID, contentId);
+                String itemId = extras.getString(NOTIFICATION_ITEM_ID);
+                String itemType = extras.getString(NOTIFICATION_ITEM_TYPE);
+                args.putString(TestsFragment.ARG_TEST_ID, itemId);
+                args.putString(TestsFragment.ARG_TEST_TYPE, itemType);
                 pushNotificationDialog = PushNotificationDialog.newInstance();
                 pushNotificationDialog.setCallback(new BaseDialog.Callback.EmptyCallback() {
                     @Override
                     public void confirm() {
                         super.confirm();
                         setMenuItem(1, args);
+                        postNotificationTapped(notificationId);
                     }
                 });
                 break;
@@ -454,12 +460,20 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                     public void confirm() {
                         super.confirm();
                         setMenuItem(1);
+                        postNotificationTapped(notificationId);
                     }
                 });
                 break;
             case NOTIFICATION_TYPE_TIP:
                 // open the home page
                 pushNotificationDialog = PushNotificationDialog.newInstance();
+                pushNotificationDialog.setCallback(new BaseDialog.Callback.EmptyCallback() {
+                    @Override
+                    public void confirm() {
+                        super.confirm();
+                        postNotificationTapped(notificationId);
+                    }
+                });
                 break;
             case NOTIFICATION_TYPE_INACTIVE_USER:
                 // open the home page
@@ -469,6 +483,13 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             case NOTIFICATION_TYPE_WEEK_40:
                 // open the home page
                 pushNotificationDialog = WeekPushNotificationDialog.newInstance();
+                pushNotificationDialog.setCallback(new BaseDialog.Callback.EmptyCallback() {
+                    @Override
+                    public void confirm() {
+                        super.confirm();
+                        postNotificationTapped(notificationId);
+                    }
+                });
                 break;
         }
 
@@ -476,7 +497,9 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             pushNotificationDialog.setArguments(extras);
             pushNotificationDialog.show(getSupportFragmentManager(), "dialog");
         }
+    }
 
+    private void postNotificationTapped(String notificationId) {
         NotificationTappedRequest request = new NotificationTappedRequest(notificationId);
         RestClient.getApiService().postNotificationTapped(request, new Callback<String>() {
             @Override
