@@ -33,8 +33,6 @@ public class SummaryTestsFragment extends TestsFragment {
     ProgressBar progress;
     @InjectView(R.id.error)
     TextView error;
-    @InjectView(R.id.title)
-    TextView title;
 
     public static Fragment newInstance(List<BabyTestResponse> testsList) {
         Fragment fragment = new SummaryTestsFragment();
@@ -59,7 +57,6 @@ public class SummaryTestsFragment extends TestsFragment {
         final List<BabyTestResponse> tests = Parcels.unwrap(args.getParcelable(ARG_TESTS_LIST));
         String titleText = getString(R.string.we_found_n_tests);
         int size = tests.size();
-        title.setText(String.format(titleText, size));
         TestsAdapter mAdapter = new TestsAdapter(getActivity());
         mList.setAdapter(mAdapter);
         mAdapter.setItems(tests);

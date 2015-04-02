@@ -42,8 +42,6 @@ public class TestsFragment extends BaseMainFragment {
     ProgressBar progress;
     @InjectView(R.id.error)
     TextView error;
-    @InjectView(R.id.title)
-    TextView title;
 
     private final PreferencesManager mPreferencesManager = PreferencesManager.getInstance();
     private final String currentDate = mPreferencesManager.getCurrentDate();
@@ -114,8 +112,6 @@ public class TestsFragment extends BaseMainFragment {
                 progress.setVisibility(View.GONE);
                 mList.setVisibility(View.VISIBLE);
 
-                title.setText(String.format(getString(R.string.we_found_n_tests), mAdapter.getGroupCount()));
-
                 if (shouldScroll()) {
                     int position = getScrollToPosition(tests);
                     if (position != INVALID_SCROLL_INDEX) {
@@ -125,6 +121,7 @@ public class TestsFragment extends BaseMainFragment {
                 } else {
                     mList.setSelection(getPositionWithAge(tests));
                 }
+
             }
         });
     }
