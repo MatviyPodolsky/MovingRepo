@@ -121,6 +121,13 @@ public class RegisterActivity extends FacebookAuthActivity {
 
             @Override
             public void success(String s, Response response) {
+
+                if (mRegister == null) {
+                    return;
+                }
+                PreferencesManager.getInstance().getPreferences().edit()
+                        .putBoolean(PreferencesManager.ADS_SHOW_KEY, false).apply();
+
                 sendAnalyticsDimension(R.string.screen_register, 3, getString(R.string.dimension_register_type_server));
                 RestClient.getApiService().login("password",
                         email, password,

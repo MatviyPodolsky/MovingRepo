@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -22,6 +23,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
+import com.google.android.gms.ads.mediation.admob.AdMobExtras;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.TimeNavigationAdapter;
@@ -144,11 +149,12 @@ public class HomeFragment extends PhotoFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        databaseHelper = DatabaseHelper.getInstance(getActivity());
+        preferencesManager = PreferencesManager.getInstance();
 
         showProgress();
 
-        databaseHelper = DatabaseHelper.getInstance(getActivity());
-        preferencesManager = PreferencesManager.getInstance();
+        initAdvertisement();
 
         setUpSummaryView();
 
@@ -238,6 +244,43 @@ public class HomeFragment extends PhotoFragment {
                 setUpProfileView(babyProfileResponse);
             }
         };
+    }
+
+    private void initAdvertisement() {
+        // TODO add counter
+        boolean showInterstitialAd = preferencesManager.getPreferences()
+                .getBoolean(PreferencesManager.ADS_SHOW_KEY, true);
+        int counter = preferencesManager.getPreferences()
+                .getInt(PreferencesManager.ADS_SHOWS_COUNTER_KEY, 0);
+        if (showInterstitialAd && counter < 2) {
+            preferencesManager.getPreferences().edit()
+                    .putInt(PreferencesManager.ADS_SHOWS_COUNTER_KEY, ++counter)
+            .apply();
+            final PublisherInterstitialAd mPublisherInterstitialAd =
+                    new PublisherInterstitialAd(getActivity());
+            mPublisherInterstitialAd.setAdUnitId("/6499/example/interstitial");
+            mPublisherInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    mPublisherInterstitialAd.show();
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    Log.d("AD", "Failed to load ad. Code: " + errorCode);
+                }
+            });
+            Bundle args = new Bundle();
+            args.putString("mobileapp", "baby");
+            args.putString("screenname", getString(R.string.screen_home));
+            PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
+                    .addNetworkExtras(new AdMobExtras(args))
+                    .build();
+            mPublisherInterstitialAd.loadAd(adRequest);
+        } else {
+            preferencesManager.getPreferences().edit()
+                    .putBoolean(PreferencesManager.ADS_SHOW_KEY, true).apply();
+        }
     }
 
     private void setUpNotifications(NotificationsResponse notificationsResponse) {

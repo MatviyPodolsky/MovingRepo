@@ -156,7 +156,10 @@ public class SettingsFragment extends BaseMainFragment {
     }
 
     private void logout() {
-        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().clear().commit();
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().clear().apply();
+        PreferencesManager.getInstance().getPreferences().edit()
+                .remove(PreferencesManager.ADS_SHOWS_COUNTER_KEY)
+                .apply();
         RestClient.getApiService().logout(new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {

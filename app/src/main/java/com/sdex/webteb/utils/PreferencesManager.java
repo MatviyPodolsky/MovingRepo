@@ -29,6 +29,9 @@ public class PreferencesManager {
     private static final String WAS_LAUNCHED = "was_launched";
     private static final String LAST_NOTIFICATION = "last_notification";
 
+    public static final String ADS_SHOW_KEY = "show_interstitial_ad";
+    public static final String ADS_SHOWS_COUNTER_KEY = "ads_shows_counter_key";
+
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;
 
