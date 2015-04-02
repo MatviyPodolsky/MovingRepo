@@ -38,6 +38,7 @@ public class WelcomeActivity extends FacebookAuthActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_welcome);
 
         TutorialPageAdapter mAdapter = new TutorialPageAdapter(getSupportFragmentManager());
         mPager.setAdapter(mAdapter);

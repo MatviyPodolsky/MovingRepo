@@ -1,5 +1,6 @@
 package com.sdex.webteb.adapters;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +22,6 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
     public static final int MODE_WEEKS = 0;
     public static final int MODE_MONTHS = 1;
 
-    private static final int MODE_WEEKS_COUNT = 40;
     private static final int MODE_MONTHS_COUNT = 24;
 
     private ArrayList<Item> data;
@@ -29,10 +29,10 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
-    public TimeNavigationAdapter(int mode) {
+    public TimeNavigationAdapter(Context context, int mode) {
         data = new ArrayList<>();
         if (mode == MODE_WEEKS) {
-            data.addAll(generateWeeksData(MODE_WEEKS_COUNT));
+            data.addAll(generateWeeksData(context));
         } else if (mode == MODE_MONTHS) {
             data.addAll(generateMonthsData(MODE_MONTHS_COUNT));
         }
@@ -102,6 +102,12 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
             this.value = value;
         }
 
+        public Item(String value, String label, int color, boolean showLabel) {
+            this.value = value;
+            this.label = label;
+            this.color = color;
+            this.showLabel = showLabel;
+        }
     }
 
     public static class VerticalItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -171,23 +177,64 @@ public class TimeNavigationAdapter extends RecyclerView.Adapter<TimeNavigationAd
         return items;
     }
 
-    private static List<Item> generateWeeksData(int count) {
+    private static List<Item> generateWeeksData(Context context) {
+        String month = context.getString(R.string.month);
+
         ArrayList<Item> items = new ArrayList<>();
-        int sectionColor = 0;
-        int currentSection = 0;
-        int sectionCount = count / 4 + 1;
-        for (int i = count; i > 0; i--) {
-            Item item = new Item(String.valueOf(i));
-            if (i % 4 == 0) {
-                sectionColor = Color.parseColor(colors[currentSection % colors.length]);
-                currentSection++;
-            } else if (i % 4 == 1) {
-                item.label = "month " + (sectionCount - currentSection);
-                item.showLabel = true;
-            }
-            item.color = sectionColor;
-            items.add(item);
-        }
+
+        int color0 = Color.parseColor(colors[0]);
+        int color1 = Color.parseColor(colors[1]);
+        int color2 = Color.parseColor(colors[2]);
+        int color3 = Color.parseColor(colors[3]);
+
+        items.add(new Item("40", null, color0, false));
+        items.add(new Item("39", null, color0, false));
+        items.add(new Item("38", null, color0, false));
+        items.add(new Item("37", null, color0, false));
+        items.add(new Item("36", String.format(month, "9"), color0, true));
+
+        items.add(new Item("35", null, color3, false));
+        items.add(new Item("34", null, color3, false));
+        items.add(new Item("33", null, color3, false));
+        items.add(new Item("32", null, color3, false));
+        items.add(new Item("31", String.format(month, "8"), color3, true));
+
+        items.add(new Item("30", null, color2, false));
+        items.add(new Item("29", null, color2, false));
+        items.add(new Item("28", null, color2, false));
+        items.add(new Item("27", String.format(month, "7"), color2, true));
+
+        items.add(new Item("26", null, color1, false));
+        items.add(new Item("25", null, color1, false));
+        items.add(new Item("24", null, color1, false));
+        items.add(new Item("23", null, color1, false));
+        items.add(new Item("22", String.format(month, "6"), color1, true));
+
+        items.add(new Item("21", null, color0, false));
+        items.add(new Item("20", null, color0, false));
+        items.add(new Item("19", null, color0, false));
+        items.add(new Item("18", String.format(month, "5"), color0, true));
+
+        items.add(new Item("17", null, color3, false));
+        items.add(new Item("16", null, color3, false));
+        items.add(new Item("15", null, color3, false));
+        items.add(new Item("14", String.format(month, "4"), color3, true));
+
+        items.add(new Item("13", null, color2, false));
+        items.add(new Item("12", null, color2, false));
+        items.add(new Item("11", null, color2, false));
+        items.add(new Item("10", null, color2, false));
+        items.add(new Item("9", String.format(month, "3"), color2, true));
+
+        items.add(new Item("8", null, color1, false));
+        items.add(new Item("7", null, color1, false));
+        items.add(new Item("6", null, color1, false));
+        items.add(new Item("5", String.format(month, "2"), color1, true));
+
+        items.add(new Item("4", null, color0, false));
+        items.add(new Item("3", null, color0, false));
+        items.add(new Item("2", null, color0, false));
+        items.add(new Item("1", String.format(month, "1"), color0, true));
 
         return items;
     }

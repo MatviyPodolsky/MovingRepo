@@ -50,6 +50,7 @@ public class NewbornActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_congratulations);
         enableFullscreen();
         mAdapter = new NewbornAdapter(NewbornActivity.this);
         mAdapter.setCallback(new NewbornAdapter.Callback() {

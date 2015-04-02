@@ -512,7 +512,7 @@ public class HomeFragment extends PhotoFragment {
         int mode = gaveBirth ? TimeNavigationAdapter.MODE_MONTHS :
                 TimeNavigationAdapter.MODE_WEEKS;
 
-        mTimeNavAdapter = new TimeNavigationAdapter(mode);
+        mTimeNavAdapter = new TimeNavigationAdapter(getActivity(), mode);
 
         mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

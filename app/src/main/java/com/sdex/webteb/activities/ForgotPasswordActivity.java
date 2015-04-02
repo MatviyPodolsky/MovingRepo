@@ -25,6 +25,7 @@ public class ForgotPasswordActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_forgot_password);
     }
 
     @Override
