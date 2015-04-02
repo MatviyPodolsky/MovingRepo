@@ -55,7 +55,7 @@ public class LoginActivity extends FacebookAuthActivity {
                 mLogin.setEnabled(true);
                 String text = "failure :(";
                 if (restError != null) {
-                    text = "Error:" + restError.getStrMessage();
+                    text = "Error:" + restError.getErrorDescription();
                 }
                 Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
             }
