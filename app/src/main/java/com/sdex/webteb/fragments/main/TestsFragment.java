@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TestsAdapter;
+import com.sdex.webteb.fragments.Errorable;
 import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.model.EntityKey;
@@ -24,27 +26,44 @@ import com.sdex.webteb.utils.PreferencesManager;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import retrofit.client.Response;
 
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public class TestsFragment extends BaseMainFragment {
+public class TestsFragment extends BaseMainFragment implements Errorable {
 
     public static final String ARG_TEST_ID = "ARG_TEST_ID";
+    public static final String ARG_TEST_TYPE = "ARG_TEST_TYPE";
+    public static final int INVALID_SCROLL_INDEX = -1;
 
     private TestsAdapter mAdapter;
     @InjectView(R.id.list)
     ExpandableListView mList;
     @InjectView(R.id.progress)
-    ProgressBar progress;
-    @InjectView(R.id.error)
-    TextView error;
-    @InjectView(R.id.title)
-    TextView title;
+    ProgressBar mProgress;
+
+    // Start errors
+    @InjectView(R.id.error_title)
+    TextView mErrorTitle;
+    @InjectView(R.id.error_text)
+    TextView mErrorText;
+    @InjectView(R.id.error_text_container)
+    View mErrorTextContainer;
+    @InjectView(R.id.error_view)
+    View mErrorView;
+    @InjectView(R.id.btn_retry)
+    Button mBtnRetry;
+    // End errors
+
+    private RestCallback<List<BabyTestResponse>> restCallback;
 
     private final PreferencesManager mPreferencesManager = PreferencesManager.getInstance();
     private final String currentDate = mPreferencesManager.getCurrentDate();
+
+    private String mItemId;
+    private String mItemType;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -58,8 +77,8 @@ public class TestsFragment extends BaseMainFragment {
 
         Bundle args = getArguments();
         if (args != null) {
-            String contentId = args.getString(ARG_TEST_ID);
-            // scroll to
+            mItemId = args.getString(ARG_TEST_ID);
+            mItemType = args.getString(ARG_TEST_TYPE);
         }
 
         mAdapter = new TestsAdapter(getActivity());
@@ -88,14 +107,13 @@ public class TestsFragment extends BaseMainFragment {
             }
         });
         mList.setAdapter(mAdapter);
-        RestClient.getApiService().getBabyTests(new RestCallback<List<BabyTestResponse>>() {
+        restCallback = new RestCallback<List<BabyTestResponse>>() {
             @Override
             public void failure(RestError restError) {
                 if (getActivity() == null) {
                     return;
                 }
-                progress.setVisibility(View.GONE);
-                error.setVisibility(View.VISIBLE);
+                showError();
             }
 
             @Override
@@ -104,15 +122,39 @@ public class TestsFragment extends BaseMainFragment {
                     return;
                 }
 
-                //TODO
                 mAdapter.setItems(tests);
                 mAdapter.notifyDataSetChanged();
-                progress.setVisibility(View.GONE);
-                mList.setVisibility(View.VISIBLE);
-                mList.setSelection(getPositionWithAge(tests));
-                title.setText(String.format(getString(R.string.we_found_n_tests), mAdapter.getGroupCount()));
+
+                showData();
+
+                if (shouldScroll()) {
+                    int position = getScrollToPosition(tests);
+                    if (position != INVALID_SCROLL_INDEX) {
+                        mList.setSelection(position);
+                        mList.expandGroup(position, true);
+                    }
+                } else {
+                    mList.setSelection(getPositionWithAge(tests));
+                }
+
             }
-        });
+        };
+        loadData();
+    }
+
+    private boolean shouldScroll() {
+        return mItemId != null && mItemType != null;
+    }
+
+    private int getScrollToPosition(List<BabyTestResponse> tests) {
+        final int id = Integer.parseInt(mItemId);
+        for (BabyTestResponse test : tests) {
+            EntityKey key = test.getContentPreview().getKey();
+            if (id == key.getId() && mItemType.equals(key.getType())) {
+                return tests.indexOf(test);
+            }
+        }
+        return INVALID_SCROLL_INDEX;
     }
 
     protected void sendAnalyticsTestDone(BabyTestResponse item) {
@@ -163,21 +205,21 @@ public class TestsFragment extends BaseMainFragment {
         int sizeItems = tests.size();
         for (int itemPosition = 0; itemPosition < sizeItems; itemPosition++) {
             List<Range> listPeriods = tests.get(itemPosition).getRelatedPeriods();
-            if(listPeriods.isEmpty()) {
+            if (listPeriods.isEmpty()) {
                 return 0;
             } else {
                 int currentParseDate = Integer.parseInt(currentDate);
                 int lastDate = listPeriods.get(listPeriods.size() - 1).getTo();
 
-                if(mPreferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
+                if (mPreferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
                     int firstDate = listPeriods.get(listPeriods.size() - 1).getFrom();
-                    if(currentParseDate <= lastDate && currentParseDate >= firstDate) {
+                    if (currentParseDate <= lastDate && currentParseDate >= firstDate) {
                         return itemPosition;
                     }
 
                 }
 
-                if(currentParseDate == lastDate) {
+                if (currentParseDate == lastDate) {
                     return itemPosition;
                 }
             }
@@ -188,6 +230,41 @@ public class TestsFragment extends BaseMainFragment {
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_tests;
+    }
+
+    @Override
+    public void showProgress() {
+        mProgress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        mProgress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError() {
+        hideProgress();
+        mErrorView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideError() {
+        mErrorView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showData() {
+        hideError();
+        hideProgress();
+        mList.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.btn_retry)
+    public void loadData() {
+        hideError();
+        showProgress();
+        RestClient.getApiService().getBabyTests(restCallback);
     }
 
 }

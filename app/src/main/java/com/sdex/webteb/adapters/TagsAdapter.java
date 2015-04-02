@@ -1,5 +1,6 @@
 package com.sdex.webteb.adapters;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,13 +19,15 @@ import java.util.List;
 
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHolder> {
 
+    private Context mContext;
     private ArrayList<Item> mTags;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
     private Callback mCallback;
 
-    public TagsAdapter() {
+    public TagsAdapter(Context context) {
         mTags = new ArrayList();
+        mContext = context;
     }
 
     public interface Callback {
@@ -44,8 +47,8 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
 
     public void addTag(String name) {
         Item tag = new Item(name);
-        if (mTags.size() > 2) {
-            mTags.add(2, tag);
+        if (mTags.size() > 1) {
+            mTags.add(1, tag);
         } else {
             mTags.add(tag);
         }
@@ -98,9 +101,9 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
                 items.add(new TagsAdapter.Item(kids[i]));
             }
         }
-        Item me = new Item("Me");
+        Item me = new Item(mContext.getString(R.string.me));
         items.add(me);
-        Item addTag = new Item("Add +");
+        Item addTag = new Item(mContext.getString(R.string.add_tag));
         items.add(addTag);
         Collections.reverse(items);
 

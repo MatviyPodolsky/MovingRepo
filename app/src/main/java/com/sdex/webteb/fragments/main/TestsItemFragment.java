@@ -44,8 +44,7 @@ public class TestsItemFragment extends BaseMainFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContentView.getSettings().setLoadWithOverviewMode(true);
-        mContentView.getSettings().setUseWideViewPort(true);
+        setUpWebView(mContentView);
         Bundle args = getArguments();
         BabyTestResponse item = Parcels.unwrap(args.getParcelable(ARG_ITEM));
         if (item != null) {
@@ -54,7 +53,10 @@ public class TestsItemFragment extends BaseMainFragment {
             mTitle.setText(title);
             mContentView.loadUrl(url);
 
-            sendAnalyticsScreenName(String.format(getString(R.string.screen_test), title));
+            String name = String.format(getString(R.string.screen_test), title);
+            sendAnalyticsScreenName(name);
+
+            showAd(name, null);
         }
     }
 

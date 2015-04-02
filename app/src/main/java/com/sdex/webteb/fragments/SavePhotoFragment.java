@@ -80,7 +80,7 @@ public class SavePhotoFragment extends BaseFragment {
         final WrapLinearLayoutManager layoutManager = new WrapLinearLayoutManager(getActivity(),
                 LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        adapter = new TagsAdapter();
+        adapter = new TagsAdapter(getActivity());
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(getActivity());
         DbUser user = databaseHelper.getUser(mPreferencesManager.getEmail());
         String children = user.getChildren();

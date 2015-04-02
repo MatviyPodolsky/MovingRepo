@@ -124,6 +124,7 @@ public class HomeFragment extends PhotoFragment {
     private RestCallback<MonthResponse> getMonthCallback;
     private RestCallback<BabyProfileResponse> getProfileCallback;
     private boolean gaveBirth;
+    private boolean isSummaryLoaded;
     private String albumLabel;
 
     private List<ContentLink> contentLinks;
@@ -144,11 +145,12 @@ public class HomeFragment extends PhotoFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        databaseHelper = DatabaseHelper.getInstance(getActivity());
+        preferencesManager = PreferencesManager.getInstance();
 
         showProgress();
 
-        databaseHelper = DatabaseHelper.getInstance(getActivity());
-        preferencesManager = PreferencesManager.getInstance();
+        initAdvertisement();
 
         setUpSummaryView();
 
@@ -181,6 +183,7 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(WeekResponse weekResponse, Response response) {
+                isSummaryLoaded = true;
                 showWeeks(weekResponse);
             }
         };
@@ -193,6 +196,7 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(MonthResponse monthResponse, Response response) {
+                isSummaryLoaded = true;
                 showMonths(monthResponse);
             }
         };
@@ -236,6 +240,43 @@ public class HomeFragment extends PhotoFragment {
                 setUpProfileView(babyProfileResponse);
             }
         };
+    }
+
+    private void initAdvertisement() {
+        // TODO add counter
+        boolean showInterstitialAd = preferencesManager.getPreferences()
+                .getBoolean(PreferencesManager.ADS_SHOW_KEY, true);
+        int counter = preferencesManager.getPreferences()
+                .getInt(PreferencesManager.ADS_SHOWS_COUNTER_KEY, 0);
+        if (showInterstitialAd && counter < 2) {
+            preferencesManager.getPreferences().edit()
+                    .putInt(PreferencesManager.ADS_SHOWS_COUNTER_KEY, ++counter)
+            .apply();
+            final PublisherInterstitialAd mPublisherInterstitialAd =
+                    new PublisherInterstitialAd(getActivity());
+            mPublisherInterstitialAd.setAdUnitId("/6499/example/interstitial");
+            mPublisherInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    mPublisherInterstitialAd.show();
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    Log.d("AD", "Failed to load ad. Code: " + errorCode);
+                }
+            });
+            Bundle args = new Bundle();
+            args.putString("mobileapp", "baby");
+            args.putString("screenname", getString(R.string.screen_home));
+            PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
+                    .addNetworkExtras(new AdMobExtras(args))
+                    .build();
+            mPublisherInterstitialAd.loadAd(adRequest);
+        } else {
+            preferencesManager.getPreferences().edit()
+                    .putBoolean(PreferencesManager.ADS_SHOW_KEY, true).apply();
+        }
     }
 
     private void setUpNotifications(NotificationsResponse notificationsResponse) {
@@ -290,9 +331,15 @@ public class HomeFragment extends PhotoFragment {
                         MonthRange range = StaticDataProvider.getCurrentRange(numMonth);
                         String rangeTitle = getString(range.getTitle());
                         screenName = String.format(getString(R.string.screen_summary_baby), rangeTitle);
+                        if (!isSummaryLoaded) {
+                            RestClient.getApiService().getMonth(numMonth, getMonthCallback);
+                        }
                     } else {
                         String week = preferencesManager.getCurrentDate();
                         screenName = String.format(getString(R.string.screen_summary_weeks), week);
+                        if (!isSummaryLoaded) {
+                            RestClient.getApiService().getWeek(Integer.parseInt(week), getWeekCallback);
+                        }
                     }
                     sendAnalyticsScreenName(screenName);
                 } else if (slideOffset == 0.0f) {
@@ -356,7 +403,7 @@ public class HomeFragment extends PhotoFragment {
         mText.setText(childAge);
         preferencesManager.setCurrentDate(String.valueOf(totalMonth),
                 PreferencesManager.DATE_TYPE_MONTH);
-        RestClient.getApiService().getMonth((int) totalMonth, getMonthCallback);
+//        RestClient.getApiService().getMonth((int) totalMonth, getMonthCallback);
         if (preferencesManager.getCurrentDateType() == PreferencesManager.DATE_TYPE_MONTH) {
             setNavController((int) totalMonth);
         }
@@ -497,7 +544,7 @@ public class HomeFragment extends PhotoFragment {
             mProgress.requestLayout();
             preferencesManager.setCurrentDate(String.valueOf(currentWeek),
                     PreferencesManager.DATE_TYPE_WEEK);
-            RestClient.getApiService().getWeek(currentWeek, getWeekCallback);
+//            RestClient.getApiService().getWeek(currentWeek, getWeekCallback);
         } else {
             RestClient.getApiService().getBabyProfile(getProfileCallback);
             mProgress.setVisibility(View.GONE);
@@ -508,7 +555,7 @@ public class HomeFragment extends PhotoFragment {
         int mode = gaveBirth ? TimeNavigationAdapter.MODE_MONTHS :
                 TimeNavigationAdapter.MODE_WEEKS;
 
-        mTimeNavAdapter = new TimeNavigationAdapter(mode);
+        mTimeNavAdapter = new TimeNavigationAdapter(getActivity(), mode);
 
         mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

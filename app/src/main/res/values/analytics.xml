@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="screen_home">Home</string>
-    <string name="screen_summary_weeks">Summary/weeks/%1$s</string>
-    <string name="screen_summary_baby">Summary/baby/%1$s</string>
-    <string name="screen_my_tests">Tests</string>
-    <string name="screen_test">Tests/%1$s</string>
-    <string name="screen_my_album">Album</string>
-    <string name="screen_search_doctor">Doctors</string>
-    <string name="screen_search_doctor_result">Doctors/Result</string>
-    <string name="screen_more_articles">Articles</string>
-    <string name="screen_article">Articles/%1$s</string>
-    <string name="screen_settings">Settings</string>
-    <string name="screen_profile_family_relation">Profile/FamilyRelation</string>
-    <string name="screen_profile_birth_date">Profile/BirthDate</string>
-    <string name="screen_profile_children">Profile/Children</string>
-    <string name="screen_about">About</string>
-    <string name="screen_contact_us">ContactUs</string>
+    <string name="screen_home" translatable="false">Home</string>
+    <string name="screen_summary_weeks" translatable="false">Summary/weeks/%1$s</string>
+    <string name="screen_summary_baby" translatable="false">Summary/baby/%1$s</string>
+    <string name="screen_my_tests" translatable="false">Tests</string>
+    <string name="screen_test" translatable="false">Tests/%1$s</string>
+    <string name="screen_my_album" translatable="false">Album</string>
+    <string name="screen_search_doctor" translatable="false">Doctors</string>
+    <string name="screen_search_doctor_result" translatable="false">Doctors/Result</string>
+    <string name="screen_more_articles" translatable="false">Articles</string>
+    <string name="screen_article" translatable="false">Articles/%1$s</string>
+    <string name="screen_settings" translatable="false">Settings</string>
+    <string name="screen_profile_family_relation" translatable="false">Profile/FamilyRelation</string>
+    <string name="screen_profile_birth_date" translatable="false">Profile/BirthDate</string>
+    <string name="screen_profile_children" translatable="false">Profile/Children</string>
+    <string name="screen_about" translatable="false">About</string>
+    <string name="screen_contact_us" translatable="false">ContactUs</string>
+
+    <string name="screen_summary_weeks_articles" translatable="false">Summary/weeks/%1$s/Articles</string>
+    <string name="screen_summary_weeks_tests" translatable="false">Summary/weeks/%1$s/Tests</string>
+
+    <string name="screen_congratulations" translatable="false">Congratulations</string>
+    <string name="screen_welcome" translatable="false">Intro</string>
+    <string name="screen_login" translatable="false">Account/Logon</string>
+    <string name="screen_register" translatable="false">Account/Register</string>
+    <string name="screen_forgot_password" translatable="false">Account/ForgotPassword</string>
+
+    <string name="dimension_register_type_server" translatable="false">Server</string>
+    <string name="dimension_register_type_facebook" translatable="false">Facebook</string>
 
 </resources>

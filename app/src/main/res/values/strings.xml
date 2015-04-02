@@ -50,15 +50,6 @@
     <string name="done">Done</string>
     <string name="family_relation">Family relation</string>
     <string name="click_to_select_family_relation">click to select family relation</string>
-    <string-array name="relations">
-        <item>Mother</item>
-        <item>Father</item>
-        <item>Sister</item>
-        <item>Brother</item>
-        <item>Grandmother</item>
-        <item>Grandfather</item>
-        <item>Friend</item>
-    </string-array>
     <string name="last_period_first_day">Last period</string>
     <string name="expected_birth_date">Expected birth date</string>
     <string name="birth_date">Birth date</string>
@@ -73,9 +64,9 @@
     <string name="please_select_correct_date">Please, select correct date</string>
     <string name="please_select_relation">Please, select family relation</string>
     <string name="birth_date_cant_be_in_future">Birth date can\'t be in future.</string>
-    <string name="last_period_cant_be_in_future">Last period can\'t be in future.</string>
+    <string name="last_period_cant_be_in_future">The last period date must be at least before 8 days.</string>
     <string name="expected_birth_date_cant_be_in_past">Expected birth date can\'t be in past.</string>
-    <string name="last_period_description">Last period can\'t be in future.</string>
+    <string name="last_period_description">The last period date must be at least before 8 days.</string>
     <string name="expected_birth_date_description">Expected birth date can\'t be in past.</string>
     <string name="birth_date_description">Birth date can\'t be in future.</string>
     <string name="children_count">%1$d children</string>
@@ -114,28 +105,6 @@
     <string name="close">Close</string>
     <string name="n_tests">%1$d tests</string>
 
-    <!--menu-->
-    <string name="title_home">Home</string>
-    <string-array name="menu_item_titles">
-        <item>My tests</item>
-        <item>My Album</item>
-        <item>Search doctor</item>
-        <item>More articles</item>
-        <item>Settings screen</item>
-        <item>About</item>
-        <item>Contact us</item>
-    </string-array>
-
-    <string-array name="menu_item_icons">
-        <item>@drawable/ic_ad_1</item>
-        <item>@drawable/ic_ad_2</item>
-        <item>@drawable/ic_ad_3</item>
-        <item>@drawable/ic_ad_4</item>
-        <item>@drawable/ic_ad_5</item>
-        <item>@drawable/ic_ad_6</item>
-        <item>@drawable/ic_ad_7</item>
-    </string-array>
-
     <!--my tests-->
     <string name="my_tests_title">My tests</string>
     <string name="read_more">Read more</string>
@@ -168,106 +137,11 @@
     <string name="found_n_doctors">Showing %1$d out of total %2$d</string>
     <string name="no_doctors_found">No doctors found</string>
     <string name="turn_location_options">Please, turn on location options if you want to select your current place as default for search</string>
-    <string name="error_search_doctor_title">Error title</string>
-    <string name="error_search_doctor_text">Error text</string>
     <string name="any_country">Any country</string>
     <string name="any_city">Any city</string>
     <string name="any_speciality">Any speciality</string>
-
-    <string-array name="countries">
-        <item>Any country</item>
-        <item>المملكة العربية السعودية</item>
-        <item>مصر</item>
-        <item>العراق</item>
-        <item>الأردن</item>
-        <item>الامارات العربية المتحدة</item>
-        <item>الكويت</item>
-        <item>فلسطين</item>
-        <item>السودان</item>
-        <item>الجزائر</item>
-        <item>المغرب</item>
-        <item>تونس</item>
-        <item>البحرين</item>
-        <item>لبنان</item>
-        <item>سلطنة عمان</item>
-        <item>قطر</item>
-        <item>الصومال</item>
-        <item>اليمن</item>
-        <item>سوريا</item>
-        <item>ليبيا</item>
-        <item>جيبوتي</item>
-        <item>موريتانيا</item>
-        <item>جزر القمر</item>
-    </string-array>
-    <integer-array name="country_ids">
-        <item>-1</item>
-        <item>59</item>
-        <item>13</item>
-        <item>52</item>
-        <item>54</item>
-        <item>60</item>
-        <item>55</item>
-        <item>202</item>
-        <item>41</item>
-        <item>1</item>
-        <item>30</item>
-        <item>44</item>
-        <item>49</item>
-        <item>56</item>
-        <item>57</item>
-        <item>58</item>
-        <item>39</item>
-        <item>61</item>
-        <item>62</item>
-        <item>24</item>
-        <item>50</item>
-        <item>28</item>
-        <item>11</item>
-    </integer-array>
-    <string-array name="iso_codes">
-        <item>Any country</item>
-        <item>SA</item>
-        <item>EG</item>
-        <item>IQ</item>
-        <item>JO</item>
-        <item>AE</item>
-        <item>KW</item>
-        <item>PS</item>
-        <item>SD</item>
-        <item>DZ</item>
-        <item>MA</item>
-        <item>TN</item>
-        <item>BH</item>
-        <item>LB</item>
-        <item>OM</item>
-        <item>QA</item>
-        <item>SO</item>
-        <item>YE</item>
-        <item>SY</item>
-        <item>LY</item>
-        <item>DJ</item>
-        <item>MR</item>
-        <item>KM</item>
-    </string-array>
-    <string-array name="cities">
-        <item>Cairo</item>
-        <item>Baghdad</item>
-        <item>Riyadh</item>
-        <item>Jeddah</item>
-        <item>Dammam</item>
-        <item>Damascus</item>
-        <item>Casablanca</item>
-        <item>Aleppo</item>
-        <item>Alexandria</item>
-    </string-array>
-    <string-array name="specialities">
-        <item>Dermatologist</item>
-        <item>Gynaecologist‎</item>
-        <item>Endocrinologist</item>
-        <item>Oncologist</item>
-        <item>Venereologist</item>
-        <item>Psychiatrist</item>
-    </string-array>
+    <string name="error_not_found_title">"ابحث عن طبيب"</string>
+    <string name="error_not_found_text">"لم نحصل على نتائح للبحث على"</string>
 
     <!--more articles-->
     <string name="more_articles_title">More articles</string>
@@ -297,8 +171,8 @@
 
     <!--contact us-->
     <string name="contact_us_title">Contact us</string>
-    <string name="contact_us_title_hint">Title...</string>
-    <string name="contact_us_text_hint">Message...</string>
+    <string name="contact_us_title_hint">Title…</string>
+    <string name="contact_us_text_hint">Message…</string>
     <string name="contact_us_btn_send">Send</string>
     <string name="your_message_was_sent">Your message was sent successfully</string>
     <string name="error_sending_message">Oops, we failed to send your message, please click close and retry</string>
@@ -371,10 +245,14 @@
     <string name="month_61_145_title">"المدرسة"</string>
     <string name="month_145_216_title">"النضوج"</string>
 
+    <string name="loading">Loading…</string>
+    <string name="retry">Retry</string>
+
     <!--debug text-->
     <string name="test_text" translatable="false">Text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text
     text text text text text text text text text text text text text text text text text text </string>
-    <string name="loading">Loading...</string>
+    <string name="error_loading_title">Oops!</string>
+    <string name="error_loading_text">Unable to load data</string>
 
 </resources>

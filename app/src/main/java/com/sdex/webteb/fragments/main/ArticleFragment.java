@@ -62,6 +62,7 @@ public class ArticleFragment extends BaseMainFragment {
         Bundle args = getArguments();
         data = Parcels.unwrap(args.getParcelable(ARG_ARTICLES));
         currentPosition = args.getInt(ARG_POSITION);
+        setUpWebView(mContentView);
         initSharingPopUp();
         loadData();
     }
@@ -134,11 +135,12 @@ public class ArticleFragment extends BaseMainFragment {
         ContentLink article = data.get(currentPosition);
         String title = article.getTitle();
         mTitle.setText(title);
-        mContentView.getSettings().setLoadWithOverviewMode(true);
-        mContentView.getSettings().setUseWideViewPort(true);
+
         mContentView.loadUrl(article.getUrl());
 
-        sendAnalyticsScreenName(String.format(getString(R.string.screen_article), title));
+        String name = String.format(getString(R.string.screen_article), title);
+        sendAnalyticsScreenName(name);
+        showAd(name, null);
     }
 
 }

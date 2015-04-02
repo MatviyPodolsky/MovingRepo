@@ -1,5 +1,6 @@
 package com.sdex.webteb.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -8,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -63,6 +66,21 @@ public abstract class BaseFragment extends Fragment {
             Tracker tracker = ((WTApp) getActivity().getApplication()).getTracker();
             tracker.setScreenName(name);
             tracker.send(new HitBuilders.ScreenViewBuilder()
+                    .setNewSession()
+                    .build());
+        }
+    }
+
+    protected void sendAnalyticsDimension(@StringRes int screenName, int index, String dimension) {
+        sendAnalyticsDimension(getString(screenName), index, dimension);
+    }
+
+    protected void sendAnalyticsDimension(String screenName, int index, String dimension) {
+        if (isAdded()) {
+            Tracker tracker = ((WTApp) getActivity().getApplication()).getTracker();
+            tracker.setScreenName(screenName);
+            tracker.send(new HitBuilders.ScreenViewBuilder()
+                    .setCustomDimension(index, dimension)
                     .build());
         }
     }
@@ -93,10 +111,21 @@ public abstract class BaseFragment extends Fragment {
             @Override
             public void success(String s, Response response) {
             }
+
             @Override
             public void failure(RetrofitError error) {
             }
         });
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    protected void setUpWebView(WebView webView) {
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setDomStorageEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
     }
 
 }

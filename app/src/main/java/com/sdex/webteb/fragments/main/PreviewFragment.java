@@ -9,12 +9,10 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.fragments.AdFragment;
 import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.model.EntityField;
 import com.sdex.webteb.model.EntityFieldBody;
 import com.sdex.webteb.model.EntityKey;
-import com.sdex.webteb.model.Targeting;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -34,7 +32,7 @@ public class PreviewFragment extends BaseMainFragment {
     private static final String ARG_PREVIEW = "ENTITY";
 
     @InjectView(R.id.content)
-    WebView contentView;
+    WebView mContentView;
     @InjectView(R.id.title)
     TextView title;
     @InjectView(R.id.progressBar)
@@ -58,6 +56,7 @@ public class PreviewFragment extends BaseMainFragment {
         Bundle args = getArguments();
         ContentPreview contentPreview = Parcels.unwrap(args.getParcelable(ARG_PREVIEW));
         if (contentPreview != null) {
+            setUpWebView(mContentView);
             EntityKey key = contentPreview.getKey();
             RestClient.getApiService().getEntity(key.getId(), key.getType(), key.getFieldName(),
                     new RestCallback<EntityResponse>() {
@@ -91,32 +90,12 @@ public class PreviewFragment extends BaseMainFragment {
                         EntityFieldBody entityFieldBody = bodies.get(0);
                         String content = entityFieldBody.getContent();
                         if (entityFieldBody.getTypeID() == EntityFieldBody.Html && content != null) {
-                            contentView.loadData(content, "text/html; charset=UTF-8", null);
+                            mContentView.loadData(content, "text/html; charset=UTF-8", null);
                         }
                     }
                 }
             }
         }
-    }
-
-    private void showAd(String screenName, List<Targeting> targetings) {
-        Bundle args = new Bundle();
-        args.putString("mobileapp", "baby");
-        args.putString("screenname", screenName);
-
-        if (targetings != null) {
-            for (Targeting targeting : targetings) {
-                args.putString(targeting.getName(), targeting.getValue());
-            }
-        }
-
-        AdFragment adFragment = new AdFragment();
-        adFragment.setArguments(args);
-
-        getChildFragmentManager()
-                .beginTransaction()
-                .add(R.id.ad_container, adFragment)
-                .commit();
     }
 
     @Override

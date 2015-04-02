@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ads:adUnitId="/297879071/MobileAppBottom"
-        ads:adSize="BANNER">
+        ads:adSize="SMART_BANNER">
 
     </com.google.android.gms.ads.doubleclick.PublisherAdView>
 
