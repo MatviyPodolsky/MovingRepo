@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -22,6 +23,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
+import com.google.android.gms.ads.mediation.admob.AdMobExtras;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.TimeNavigationAdapter;
@@ -125,7 +130,7 @@ public class HomeFragment extends PhotoFragment {
     private RestCallback<BabyProfileResponse> getProfileCallback;
     private boolean gaveBirth;
     private boolean isSummaryLoaded;
-    private String albumLabel;
+    private String albumLabel = "";
 
     private List<ContentLink> contentLinks;
     private List<BabyTestResponse> testsList;
