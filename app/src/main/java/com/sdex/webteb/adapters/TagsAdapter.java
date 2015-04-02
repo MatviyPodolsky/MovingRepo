@@ -47,8 +47,8 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
 
     public void addTag(String name) {
         Item tag = new Item(name);
-        if (mTags.size() > 2) {
-            mTags.add(2, tag);
+        if (mTags.size() > 1) {
+            mTags.add(1, tag);
         } else {
             mTags.add(tag);
         }
