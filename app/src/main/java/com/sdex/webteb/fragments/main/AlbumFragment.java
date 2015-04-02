@@ -31,6 +31,7 @@ import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -43,6 +44,8 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
 
     public static final String NAME = AlbumFragment.class.getSimpleName();
 
+    private static final String ALBUM_DISPLAYED_DATE = "ALBUM_DISPLAYED_DATE";
+
     @InjectView(R.id.grid_view)
     StickyGridHeadersGridView mGridView;
     @InjectView(R.id.btn_delete_photo)
@@ -54,8 +57,17 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
 
     private AlbumAdapter mAdapter;
     private List<DbPhoto> data;
+    private List<String> headers;
     private DatabaseHelper databaseHelper;
     private FragmentManager fragmentManager;
+
+    public static Fragment newInstance(String date) {
+        Fragment fragment = new AlbumFragment();
+        Bundle args = new Bundle();
+        args.putString(ALBUM_DISPLAYED_DATE, date);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -78,6 +90,19 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         }
         fragmentManager.addOnBackStackChangedListener(this);
 
+        getHeadersCount();
+
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.getString(ALBUM_DISPLAYED_DATE) != null) {
+            String returnedDate = bundle.getString(ALBUM_DISPLAYED_DATE);
+            for (int i = 0; i < headers.size(); i++) {
+                if (returnedDate.equals(headers.get(i))) {
+//                    mGridView.setSelection((NUM_OF_HEADERS + NUM_OF_ROWS) * NUM_OF_COLUMS);
+                    mGridView.setSelection((i + i) * 4);
+                }
+            }
+        }
+
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -93,6 +118,26 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         String childNames = children.replaceAll("/", ", ");
         String formattedTitle = String.format(title, childNames);
         mTitle.setText(Html.fromHtml(formattedTitle));
+    }
+
+    private void getHeadersCount() {
+        headers = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            DbPhoto first = data.get(i);
+            String firstDate = first.getDisplayedDate();
+            for (int j = i + 1; j < data.size(); j++) {
+                DbPhoto second = data.get(j);
+                String secondDate = second.getDisplayedDate();
+                if (first.getDisplayedDate().equals(second.getDisplayedDate())) {
+                    String str = "";
+                } else {
+                    headers.add(first.getDisplayedDate());
+                    i = j - 1;
+                    break;
+                }
+            }
+        }
+        headers.add(data.get(data.size() - 1).getDisplayedDate());
     }
 
     private void loadPhotos() {
