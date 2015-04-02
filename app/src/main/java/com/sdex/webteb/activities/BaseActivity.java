@@ -1,6 +1,7 @@
 package com.sdex.webteb.activities;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -90,6 +91,19 @@ public abstract class BaseActivity extends ActionBarActivity {
         Tracker tracker = ((WTApp) getApplication()).getTracker();
         tracker.setScreenName(name);
         tracker.send(new HitBuilders.ScreenViewBuilder()
+                .setNewSession()
+                .build());
+    }
+
+    protected void sendAnalyticsDimension(@StringRes int screenName, int index, String dimension) {
+        sendAnalyticsDimension(getString(screenName), index, dimension);
+    }
+
+    protected void sendAnalyticsDimension(String screenName, int index, String dimension) {
+        Tracker tracker = ((WTApp) getApplication()).getTracker();
+        tracker.setScreenName(screenName);
+        tracker.send(new HitBuilders.ScreenViewBuilder()
+                .setCustomDimension(index, dimension)
                 .build());
     }
 

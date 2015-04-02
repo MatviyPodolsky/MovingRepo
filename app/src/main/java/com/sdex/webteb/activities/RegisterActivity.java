@@ -128,7 +128,7 @@ public class RegisterActivity extends FacebookAuthActivity {
 
             @Override
             public void success(String s, Response response) {
-                Toast.makeText(RegisterActivity.this, "Register successful. Login...", Toast.LENGTH_SHORT).show();
+                sendAnalyticsDimension(R.string.screen_register, 3, getString(R.string.dimension_register_type_server));
                 RestClient.getApiService().login("password",
                         email, password,
                         loginCallback);

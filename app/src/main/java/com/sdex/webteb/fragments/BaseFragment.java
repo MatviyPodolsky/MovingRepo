@@ -66,6 +66,21 @@ public abstract class BaseFragment extends Fragment {
             Tracker tracker = ((WTApp) getActivity().getApplication()).getTracker();
             tracker.setScreenName(name);
             tracker.send(new HitBuilders.ScreenViewBuilder()
+                    .setNewSession()
+                    .build());
+        }
+    }
+
+    protected void sendAnalyticsDimension(@StringRes int screenName, int index, String dimension) {
+        sendAnalyticsDimension(getString(screenName), index, dimension);
+    }
+
+    protected void sendAnalyticsDimension(String screenName, int index, String dimension) {
+        if (isAdded()) {
+            Tracker tracker = ((WTApp) getActivity().getApplication()).getTracker();
+            tracker.setScreenName(screenName);
+            tracker.send(new HitBuilders.ScreenViewBuilder()
+                    .setCustomDimension(index, dimension)
                     .build());
         }
     }
@@ -96,6 +111,7 @@ public abstract class BaseFragment extends Fragment {
             @Override
             public void success(String s, Response response) {
             }
+
             @Override
             public void failure(RetrofitError error) {
             }
