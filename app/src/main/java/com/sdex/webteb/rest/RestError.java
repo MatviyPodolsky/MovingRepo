@@ -24,6 +24,9 @@ public class RestError {
     @SerializedName("error_message")
     private String strMessage;
 
+    @SerializedName("error_description")
+    private String errorDescription;
+
     @SerializedName("Message")
     private String message;
 

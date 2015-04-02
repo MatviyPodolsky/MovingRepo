@@ -60,7 +60,7 @@ public class RegisterActivity extends FacebookAuthActivity {
             public void failure(RestError restError) {
                 String error = "failure :(";
                 if (restError != null) {
-                    error = "Error:" + restError.getStrMessage();
+                    error = "Error:" + restError.getMessage();
                 }
                 Toast.makeText(RegisterActivity.this, error, Toast.LENGTH_SHORT).show();
             }
@@ -100,30 +100,23 @@ public class RegisterActivity extends FacebookAuthActivity {
             @Override
             public void failure(RestError restError) {
                 mRegister.setEnabled(true);
-                String text = restError.getMessage();
+                String errorMessage = restError.getMessage();
                 RestError.ModelState modelState = restError.getModelState();
-                if (modelState != null) {
-                    StringBuilder stringBuilder = new StringBuilder();
+                if (modelState != null && (modelState.getModelEmail() != null || modelState.getModelPassword() != null)) {
                     List<String> errors = new ArrayList<>();
                     List<String> modelEmail = modelState.getModelEmail();
                     List<String> modelPassword = modelState.getModelPassword();
-                    if (modelEmail != null) {
+                    if (modelEmail != null && !modelEmail.isEmpty()) {
                         errors.addAll(modelEmail);
+                        mEmail.setError(buildMessageFromErrorsList(modelEmail));
                     }
-                    if (modelPassword != null) {
+                    if (modelPassword != null && !modelPassword.isEmpty()) {
                         errors.addAll(modelState.getModelPassword());
+                        mPassword.setError(buildMessageFromErrorsList(modelPassword));
                     }
-                    int i = 0;
-                    for (String error : errors) {
-                        if (i != 0) {
-                            stringBuilder.append("\n");
-                        }
-                        stringBuilder.append(error);
-                        i++;
-                    }
-                    text = stringBuilder.toString();
+                    errorMessage = buildMessageFromErrorsList(errors);
                 }
-                Toast.makeText(RegisterActivity.this, text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -178,6 +171,19 @@ public class RegisterActivity extends FacebookAuthActivity {
         request.name = mName.getText().toString();
 
         RestClient.getApiService().register(request, registerCallback);
+    }
+
+    private String buildMessageFromErrorsList(List<String> errors){
+        StringBuilder stringBuilder = new StringBuilder();
+        int i = 0;
+        for (String error : errors) {
+            if (i != 0) {
+                stringBuilder.append("\n");
+            }
+            stringBuilder.append(error);
+            i++;
+        }
+        return stringBuilder.toString();
     }
 
     private void launchMainActivity(boolean completedProfile) {
