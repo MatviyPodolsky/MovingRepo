@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -113,9 +114,19 @@ public class ChildInfoFragment extends BaseFragment {
     @OnClick(R.id.done)
     public void done() {
         if (getActivity() instanceof SetupProfileActivity) {
-            ((SetupProfileActivity) getActivity()).setChildren(mAdapter.getChildren());
+            ((SetupProfileActivity) getActivity()).setChildren(getChilds());
             ((SetupProfileActivity) getActivity()).saveChanges();
         }
+    }
+
+    private List<Child> getChilds() {
+        for(Child child : mAdapter.getChildren()){
+            String childName = child.getName().replaceAll("\\s+", "");
+            if (TextUtils.isEmpty(childName)) {
+                mAdapter.getChildren().remove(child);
+            }
+        }
+        return mAdapter.getChildren();
     }
 
     private void updateChildrenCount() {
