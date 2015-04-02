@@ -9,12 +9,10 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.fragments.AdFragment;
 import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.model.EntityField;
 import com.sdex.webteb.model.EntityFieldBody;
 import com.sdex.webteb.model.EntityKey;
-import com.sdex.webteb.model.Targeting;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -98,26 +96,6 @@ public class PreviewFragment extends BaseMainFragment {
                 }
             }
         }
-    }
-
-    private void showAd(String screenName, List<Targeting> targetings) {
-        Bundle args = new Bundle();
-        args.putString("mobileapp", "baby");
-        args.putString("screenname", screenName);
-
-        if (targetings != null) {
-            for (Targeting targeting : targetings) {
-                args.putString(targeting.getName(), targeting.getValue());
-            }
-        }
-
-        AdFragment adFragment = new AdFragment();
-        adFragment.setArguments(args);
-
-        getChildFragmentManager()
-                .beginTransaction()
-                .add(R.id.ad_container, adFragment)
-                .commit();
     }
 
     @Override

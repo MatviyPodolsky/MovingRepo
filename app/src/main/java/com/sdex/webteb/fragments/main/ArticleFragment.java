@@ -138,7 +138,9 @@ public class ArticleFragment extends BaseMainFragment {
 
         mContentView.loadUrl(article.getUrl());
 
-        sendAnalyticsScreenName(String.format(getString(R.string.screen_article), title));
+        String name = String.format(getString(R.string.screen_article), title);
+        sendAnalyticsScreenName(name);
+        showAd(name, null);
     }
 
 }

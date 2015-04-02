@@ -30,7 +30,7 @@ public class AdFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mAdView = (PublisherAdView) view.findViewById(R.id.adView);
         mAdView.setAdSizes(AdSize.SMART_BANNER);
-        mAdView.setAdUnitId("/297879071/MobileAppBottom");
+//        mAdView.setAdUnitId("/297879071/MobileAppBottom");
         Bundle args = getArguments();
 
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
