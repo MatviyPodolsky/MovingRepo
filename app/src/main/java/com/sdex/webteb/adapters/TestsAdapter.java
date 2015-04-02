@@ -22,6 +22,7 @@ import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.utils.PreferencesManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -328,22 +329,56 @@ public class TestsAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    private static String parseRange(List<Range> ranges) {
+    private String parseRange(List<Range> ranges) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int rangePos = ranges.size() - 1; rangePos >= 0; rangePos--) {
             Range range = ranges.get(rangePos);
             if (range.getFrom() == range.getTo()) {
-                stringBuilder.append(range.getFrom());
+                return getRangesConsecutive(ranges);
             } else {
                 stringBuilder.append(range.getTo());
-                stringBuilder.append(" - ");
+                stringBuilder.append("-");
                 stringBuilder.append(range.getFrom());
-
             }
             stringBuilder.append(", ");
         }
         stringBuilder.setLength(stringBuilder.length() - 2);
         return stringBuilder.toString();
+    }
+
+    private String getRangesConsecutive(List<Range> ranges) {
+        int i = ranges.size() - 1;
+        boolean isConsecutive = false;
+        List<String> list = new ArrayList<>();
+        if(i == 0) {
+            return String.valueOf(ranges.get(i).getFrom());
+        } else {
+            list.add(String.valueOf(ranges.get(i).getFrom()));
+            for (; i > 0; i--) {
+                int current = ranges.get(i).getFrom();
+                int prev = ranges.get(i - 1).getFrom();
+                if(current - 1 == prev) {
+                    isConsecutive = true;
+                    list.add("-");
+                }
+                list.add(String.valueOf(prev));
+            }
+        }
+        StringBuilder strBuild = new StringBuilder();
+        String arrayStr = Arrays.toString(list.toArray());
+        if(isConsecutive) {
+            String [] splittedStr = arrayStr.substring(1, arrayStr.length() - 1).split(", -, ");
+            strBuild.append(splittedStr[0]);
+            for (int j = 0; j < splittedStr.length - 1; j++) {
+                if(splittedStr[j].contains(", ")) {
+                    strBuild.append("-");
+                    strBuild.append(splittedStr[j]);
+                }
+            }
+            return strBuild.append("-").append(splittedStr[splittedStr.length - 1]).toString();
+        } else {
+            return arrayStr.substring(1, arrayStr.length() - 1);
+        }
     }
 
     static class ViewHolderGroup {
