@@ -18,4 +18,13 @@
     <string name="screen_about">About</string>
     <string name="screen_contact_us">ContactUs</string>
 
+    <string name="screen_summary_weeks_articles">Summary/weeks/%1$s/Articles</string>
+    <string name="screen_summary_weeks_tests">Summary/weeks/%1$s/Tests</string>
+
+    <string name="screen_congratulations">Congratulations</string>
+    <string name="screen_welcome">Intro</string>
+    <string name="screen_login">Account/Logon</string>
+    <string name="screen_register">Account/Register</string>
+    <string name="screen_forgot_password">Account/ForgotPassword</string>
+
 </resources>

@@ -52,7 +52,7 @@ public class RegisterActivity extends FacebookAuthActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        sendAnalyticsScreenName(R.string.screen_register);
         mNewslettersSwitch.setChecked(true);
 
         loginCallback = new RestCallback<UserLoginResponse>() {

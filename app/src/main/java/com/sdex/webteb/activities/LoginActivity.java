@@ -47,6 +47,7 @@ public class LoginActivity extends FacebookAuthActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sendAnalyticsScreenName(R.string.screen_login);
 
         loginCallback = new RestCallback<UserLoginResponse>() {
             @Override
