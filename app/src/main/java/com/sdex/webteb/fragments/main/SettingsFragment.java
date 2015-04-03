@@ -158,7 +158,10 @@ public class SettingsFragment extends BaseMainFragment {
     private void logout() {
         PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().clear().apply();
         PreferencesManager.getInstance().getPreferences().edit()
+                .remove(PreferencesManager.ADS_SHOW_KEY)
                 .remove(PreferencesManager.ADS_SHOWS_COUNTER_KEY)
+                .remove(PreferencesManager.SEND_CURRENT_DATE)
+                .remove(PreferencesManager.SEND_FAMILY_RELATION)
                 .apply();
         RestClient.getApiService().logout(new RestCallback<String>() {
             @Override
