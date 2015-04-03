@@ -7,12 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TagsAdapter;
@@ -29,6 +32,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -112,9 +116,9 @@ public class SavePhotoFragment extends BaseFragment {
     }
 
     @OnClick(R.id.add_tag)
-    void addTag(){
+    void addTag() {
         String tag = mTag.getText().toString();
-        if(!tag.isEmpty()) {
+        if (!tag.isEmpty()) {
             adapter.addTag(tag);
         }
         hideTag();
@@ -157,14 +161,27 @@ public class SavePhotoFragment extends BaseFragment {
         getActivity().onBackPressed();
     }
 
-    public void hideTag(){
+    public void hideTag() {
         mNewTagContainer.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
         mTag.setText("");
+        KeyboardUtils.hideKeyboard(mTag);
         isAddingTag = false;
     }
 
     public boolean isAddingTag() {
         return isAddingTag;
+    }
+
+    @OnEditorAction(R.id.new_tag)
+    boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+        if (event == null && actionId == EditorInfo.IME_ACTION_DONE) {
+            String tag = mTag.getText().toString();
+            if (!tag.isEmpty()) {
+                adapter.addTag(tag);
+            }
+            hideTag();
+        }
+        return true;
     }
 }
