@@ -30,7 +30,8 @@
     <string name="agree_to_newsletter">Agree to newsletter</string>
     <string name="please_enter_username">Please enter your username</string>
     <string name="please_enter_email">Please enter your email</string>
-    <string name="password_must_contain_at_least_4_characters">Password must contain at least 4 characters</string>
+    <string name="please_enter_password">Please enter your password</string>
+    <string name="password_must_contain_at_least_6_characters">Password must contain at least 6 characters</string>
     <string name="link_text"><u>link text</u></string>
     <string name="text"> text </string>
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TestsAdapter;
+import com.sdex.webteb.fragments.BaseFragment;
 import com.sdex.webteb.fragments.Errorable;
 import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.model.ContentPreview;
@@ -98,12 +99,12 @@ public class TestsFragment extends BaseMainFragment implements Errorable {
             @Override
             public void onAddReminderBtnClick(BabyTestResponse item, int groupId) {
                 mList.collapseGroup(groupId);
-                sendAnalyticsTestReminder(item);
+                sendAnalyticsTestReminder(TestsFragment.this, item);
             }
 
             @Override
             public void onTestDoneClick(BabyTestResponse item) {
-                sendAnalyticsTestDone(item);
+                sendAnalyticsTestDone(TestsFragment.this, item);
             }
         });
         mList.setAdapter(mAdapter);
@@ -157,7 +158,7 @@ public class TestsFragment extends BaseMainFragment implements Errorable {
         return INVALID_SCROLL_INDEX;
     }
 
-    protected void sendAnalyticsTestDone(BabyTestResponse item) {
+    public static void sendAnalyticsTestDone(BaseFragment fragment, BabyTestResponse item) {
         UserTest userTest = item.getUserTest();
         final boolean isDone;
         if (userTest != null) {
@@ -176,10 +177,10 @@ public class TestsFragment extends BaseMainFragment implements Errorable {
         } else {
             action = Events.ACTION_ADD_DOME;
         }
-        sendAnalyticsEvent(Events.CATEGORY_TESTS, action, label);
+        fragment.sendAnalyticsEvent(Events.CATEGORY_TESTS, action, label);
     }
 
-    protected void sendAnalyticsTestReminder(BabyTestResponse item) {
+    public static void sendAnalyticsTestReminder(BaseFragment fragment, BabyTestResponse item) {
         UserTest userTest = item.getUserTest();
         final boolean hasReminder;
         if (userTest != null) {
@@ -198,7 +199,7 @@ public class TestsFragment extends BaseMainFragment implements Errorable {
         } else {
             action = Events.ACTION_ADD_REMINDER;
         }
-        sendAnalyticsEvent(Events.CATEGORY_TESTS, action, label);
+        fragment.sendAnalyticsEvent(Events.CATEGORY_TESTS, action, label);
     }
 
     private int getPositionWithAge(List<BabyTestResponse> tests) {
