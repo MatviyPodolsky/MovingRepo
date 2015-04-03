@@ -127,8 +127,7 @@ public class ContactUsFragment extends BaseMainFragment {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        SelectMenuItemEvent event = new SelectMenuItemEvent();
-                                        event.setPosition(0);
+                                        SelectMenuItemEvent event = new SelectMenuItemEvent(0);
                                         EventBus.getDefault().post(event);
                                     }
                                 });

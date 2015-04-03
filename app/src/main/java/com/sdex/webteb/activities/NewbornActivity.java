@@ -1,7 +1,7 @@
 package com.sdex.webteb.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +36,7 @@ import retrofit.client.Response;
 public class NewbornActivity extends BaseActivity {
 
     public static final int BIRTH_DATE = 3;
+    public static final int NEWBORN_ACTIVITY_REQUEST_CODE = 19937;
 
     private NewbornAdapter mAdapter;
     @InjectView(R.id.children_list)
@@ -82,13 +83,17 @@ public class NewbornActivity extends BaseActivity {
 
             @Override
             public void success(BabyProfileResponse babyProfileResponse, Response response) {
-                if(babyProfileResponse != null && babyProfileResponse.getChildren() != null){
+                List<Child> children = babyProfileResponse.getChildren();
+                if(babyProfileResponse != null && children != null){
                     request.setFamilyRelation(babyProfileResponse.getFamilyRelation());
                     request.setDateType(BIRTH_DATE);
                     Date currentDate = Calendar.getInstance().getTime();
                     String requestDate = DateUtil.formatDate(currentDate, "yyyy-MM-dd'T'HH:mm:ssZ");
                     request.setDate(requestDate);
-                    mAdapter.setItems(babyProfileResponse.getChildren());
+                    if (children.isEmpty()) {
+                        children.add(new Child());
+                    }
+                    mAdapter.setItems(children);
                     mList.setAdapter(mAdapter);
                 }
             }
@@ -126,6 +131,8 @@ public class NewbornActivity extends BaseActivity {
             @Override
             public void success(String s, Response response) {
                 mSave.setEnabled(true);
+                PreferencesManager.getInstance().setCurrentDate(String.valueOf(0),
+                        PreferencesManager.DATE_TYPE_MONTH);
                 DatabaseHelper databaseHelper = DatabaseHelper.getInstance(NewbornActivity.this);
                 DbUser user = databaseHelper.getUser(PreferencesManager.getInstance().getEmail());
                 String children = "";
@@ -143,9 +150,9 @@ public class NewbornActivity extends BaseActivity {
         });
     }
 
-    public static void launch(Context context) {
-        Intent launch = new Intent(context, NewbornActivity.class);
-        context.startActivity(launch);
+    public static void launch(Activity activity) {
+        Intent launch = new Intent(activity, NewbornActivity.class);
+        activity.startActivityForResult(launch, NEWBORN_ACTIVITY_REQUEST_CODE);
     }
 
 }

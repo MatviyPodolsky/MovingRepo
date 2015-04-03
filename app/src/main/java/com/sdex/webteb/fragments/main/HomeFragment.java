@@ -28,13 +28,16 @@ import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
 import com.google.android.gms.ads.mediation.admob.AdMobExtras;
 import com.sdex.webteb.R;
+import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.TimeNavigationAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
+import com.sdex.webteb.dialogs.BaseDialog;
 import com.sdex.webteb.dialogs.NotificationDialog;
 import com.sdex.webteb.dialogs.PhotoDialog;
+import com.sdex.webteb.dialogs.WeekPushNotificationDialog;
 import com.sdex.webteb.extras.SimpleDividerItemDecoration;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
@@ -569,6 +572,22 @@ public class HomeFragment extends PhotoFragment {
             mProgress.requestLayout();
             preferencesManager.setCurrentDate(String.valueOf(currentWeek),
                     PreferencesManager.DATE_TYPE_WEEK);
+            if (currentWeek == 38 || currentWeek == 40) {
+                BaseDialog pushNotificationDialog = WeekPushNotificationDialog.newInstance();
+                pushNotificationDialog.setCallback(new BaseDialog.Callback.EmptyCallback() {
+                    @Override
+                    public void confirm() {
+                        super.confirm();
+                    }
+                });
+                String title = String.format(getString(R.string.week_n),
+                        currentWeek);
+                Bundle extras = new Bundle();
+                extras.putString(MainActivity.NOTIFICATION_TITLE, title);
+                extras.putString(MainActivity.NOTIFICATION_CONTENT, getString(R.string.had_you_already_born));
+                pushNotificationDialog.setArguments(extras);
+                pushNotificationDialog.show(getFragmentManager(), "dialog");
+            }
 //            RestClient.getApiService().getWeek(currentWeek, getWeekCallback);
         } else {
             RestClient.getApiService().getBabyProfile(getProfileCallback);

@@ -7,6 +7,10 @@ public class SelectMenuItemEvent {
 
     private int position;
 
+    public SelectMenuItemEvent(int position) {
+        this.position = position;
+    }
+
     public int getPosition() {
         return position;
     }

@@ -301,6 +301,10 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             }
         }
 
+        if (requestCode == NewbornActivity.NEWBORN_ACTIVITY_REQUEST_CODE) {
+            setMenuItem(0);
+        }
+
         if ((requestCode == FACEBOOK_APP_REQUEST_CODE || requestCode == FACEBOOK_WEB_REQUEST_CODE)
                 && resultCode == RESULT_OK) {
             if (FacebookUtil.isFacebookInstalled(this)
