@@ -183,7 +183,7 @@ public class LoginActivity extends FacebookAuthActivity {
         }
         if (mUsername.getText().length() == 0) {
             isValid = false;
-            mUsername.setError(getString(R.string.please_enter_username));
+            mUsername.setError(getString(R.string.please_enter_email));
         } else {
             mUsername.setError(null);
         }

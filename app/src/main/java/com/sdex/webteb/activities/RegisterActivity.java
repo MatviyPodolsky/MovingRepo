@@ -135,7 +135,7 @@ public class RegisterActivity extends FacebookAuthActivity {
                         loginCallback);
             }
         };
-        
+
         final int pixels = DisplayUtil.getDp(10);
         mName.setPadding(pixels, 0, pixels, 0);
         mEmail.setPadding(pixels, 0, pixels, 0);
@@ -220,7 +220,7 @@ public class RegisterActivity extends FacebookAuthActivity {
 //        }
         if (mPassword.getText().length() == 0) {
             isValid = false;
-            mPassword.setError(getString(R.string.please_enter_email));
+            mPassword.setError(getString(R.string.please_enter_password));
         } else {
             mPassword.setError(null);
         }
