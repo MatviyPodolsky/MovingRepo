@@ -644,7 +644,7 @@ public class HomeFragment extends PhotoFragment {
 
     @OnClick(R.id.summary_photos)
     public void showAlbum() {
-        Fragment fragment = new AlbumFragment().newInstance(getAlbumLabel());
+        Fragment fragment = AlbumFragment.newInstance(getAlbumLabel());
         addNestedFragment(R.id.fragment_container, fragment, AlbumFragment.NAME);
     }
 
