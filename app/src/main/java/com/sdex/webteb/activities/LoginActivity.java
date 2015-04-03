@@ -3,6 +3,7 @@ package com.sdex.webteb.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -181,18 +182,24 @@ public class LoginActivity extends FacebookAuthActivity {
 
     private boolean isValidData() {
         boolean isValid = true;
-        if (mPassword.getText().length() < 6) {
-            isValid = false;
-            mPassword.setError(getString(R.string.password_must_contain_at_least_6_characters));
-        } else {
-            mPassword.setError(null);
-        }
-        if (mUsername.getText().length() == 0) {
+
+        if (TextUtils.isEmpty(mUsername.getText())) {
             isValid = false;
             mUsername.setError(getString(R.string.please_enter_email));
         } else {
             mUsername.setError(null);
         }
+
+        if (TextUtils.isEmpty(mPassword.getText())) {
+            isValid = false;
+            mPassword.setError(getString(R.string.please_enter_password));
+        } else if (mPassword.getText().length() < 6) {
+            isValid = false;
+            mPassword.setError(getString(R.string.password_must_contain_at_least_6_characters));
+        } else {
+            mPassword.setError(null);
+        }
+
         return isValid;
     }
 
