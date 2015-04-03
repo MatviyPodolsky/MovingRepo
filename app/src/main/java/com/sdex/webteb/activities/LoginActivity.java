@@ -175,9 +175,9 @@ public class LoginActivity extends FacebookAuthActivity {
 
     private boolean isValidData() {
         boolean isValid = true;
-        if (mPassword.getText().length() < 4) {
+        if (mPassword.getText().length() < 6) {
             isValid = false;
-            mPassword.setError(getString(R.string.password_must_contain_at_least_4_characters));
+            mPassword.setError(getString(R.string.password_must_contain_at_least_6_characters));
         } else {
             mPassword.setError(null);
         }
