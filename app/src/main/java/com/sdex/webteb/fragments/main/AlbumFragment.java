@@ -31,6 +31,9 @@ import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -42,6 +45,8 @@ import butterknife.OnClick;
 public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBackStackChangedListener {
 
     public static final String NAME = AlbumFragment.class.getSimpleName();
+    public static final String ALBUM_DISPLAYED_DATE = "ALBUM_DISPLAYED_DATE";
+    public static final int COLUMNS_IN_GRID = 4;
 
     @InjectView(R.id.grid_view)
     StickyGridHeadersGridView mGridView;
@@ -54,8 +59,21 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
 
     private AlbumAdapter mAdapter;
     private List<DbPhoto> data;
+    private List<String> headers;
+    private List<Integer> rows;
     private DatabaseHelper databaseHelper;
     private FragmentManager fragmentManager;
+
+    public static Fragment newInstance(String date) {
+        Fragment fragment = new AlbumFragment();
+        Bundle args = new Bundle();
+        args.putString(ALBUM_DISPLAYED_DATE, date);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public AlbumFragment() {
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -77,6 +95,18 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
             fragmentManager = getChildFragmentManager();
         }
         fragmentManager.addOnBackStackChangedListener(this);
+
+        getGridInfo();
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.getString(ALBUM_DISPLAYED_DATE) != null) {
+            String scrolledDate = bundle.getString(ALBUM_DISPLAYED_DATE);
+            for (int i = 0; i < headers.size(); i++) {
+                if (scrolledDate.equals(headers.get(i))) {
+                    mGridView.setSelection((i + rowsBefore(i)) * COLUMNS_IN_GRID);
+                    break;
+                }
+            }
+        }
 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -134,6 +164,50 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
             }
         });
         dialog.show(getChildFragmentManager(), "dialog");
+    }
+
+    private void getGridInfo() {
+        getHeaders();
+        calculateRows();
+    }
+
+    private void getHeaders() {
+        HashSet<String> bucket = new LinkedHashSet<>();
+        for (DbPhoto photo : data) {
+            bucket.add(photo.getDisplayedDate());
+        }
+        headers = new ArrayList<>(bucket);
+    }
+
+    private void calculateRows() {
+        rows = new ArrayList<>();
+        for (String header : headers) {
+            int photosCounter = 0;
+            int rowsCounter;
+
+            for (DbPhoto photo : data) {
+                if (header.equals(photo.getDisplayedDate())) {
+                    photosCounter ++;
+                }
+            }
+            if (photosCounter <= 4) {
+                rowsCounter = 1;
+            } else {
+                rowsCounter = photosCounter / 4;
+                if (photosCounter % 4 > 0) {
+                    rowsCounter ++;
+                }
+            }
+            rows.add(rowsCounter);
+        }
+    }
+
+    private int rowsBefore(int position) {
+        int rowsCounter = 0;
+        for (int i = 0; i < position; i++) {
+            rowsCounter += rows.get(i);
+        }
+        return rowsCounter;
     }
 
     public void onEvent(DeletePhotoEvent event) {
