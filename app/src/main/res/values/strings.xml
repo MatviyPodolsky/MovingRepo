@@ -220,6 +220,8 @@
     <string name="newborn_title">Congratulation with new child</string>
     <string name="newborn_text">new child new child new child new child new child new child
     new child new child new child new child</string>
+    <string name="week_n">Week %1$d</string>
+    <string name="had_you_already_born">It’s important for us to know if you already had your birth</string>
 
     <string name="month_0_1">First Month</string>
     <string name="month_1_3">Month 1-3</string>
