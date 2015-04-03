@@ -120,13 +120,14 @@ public class ChildInfoFragment extends BaseFragment {
     }
 
     private List<Child> getChilds() {
-        for(Child child : mAdapter.getChildren()){
-            String childName = child.getName().replaceAll("\\s+", "");
+        List<Child> childs = new ArrayList<>(mAdapter.getChildren());
+        for (int i = 0; i < childs.size(); i++) {
+            String childName = childs.get(i).getName().replaceAll("\\s+", "");
             if (TextUtils.isEmpty(childName)) {
-                mAdapter.getChildren().remove(child);
+                childs.remove(i);
             }
         }
-        return mAdapter.getChildren();
+        return childs;
     }
 
     private void updateChildrenCount() {
