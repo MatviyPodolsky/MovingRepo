@@ -19,6 +19,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.response.UserLoginResponse;
+import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.KeyboardUtils;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.switchbutton.SwitchButton;
@@ -134,6 +135,11 @@ public class RegisterActivity extends FacebookAuthActivity {
                         loginCallback);
             }
         };
+
+        final int pixels = DisplayUtil.getDp(10);
+        mName.setPadding(pixels, 0, pixels, 0);
+        mEmail.setPadding(pixels, 0, pixels, 0);
+        mPassword.setPadding(pixels, 0, pixels, 0);
     }
 
     @Override
@@ -214,7 +220,7 @@ public class RegisterActivity extends FacebookAuthActivity {
 //        }
         if (mPassword.getText().length() == 0) {
             isValid = false;
-            mPassword.setError(getString(R.string.please_enter_email));
+            mPassword.setError(getString(R.string.please_enter_password));
         } else {
             mPassword.setError(null);
         }
@@ -224,7 +230,8 @@ public class RegisterActivity extends FacebookAuthActivity {
         } else {
             mEmail.setError(null);
         }
-        if (mName.getText().length() == 0) {
+        String mUserName = mName.getText().toString().replaceAll("\\s+", "");
+        if (mUserName.length() == 0) {
             isValid = false;
             mName.setError(getString(R.string.please_enter_username));
         } else {

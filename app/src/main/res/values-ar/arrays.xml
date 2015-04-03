@@ -25,7 +25,7 @@
 
     <string-array name="relations">
         <item>"الأم"</item>
-        <item>Father</item>
+        <item>"الاب"</item>
         <item>"الاخ"</item>
         <item>"الاخت"</item>
         <item>"الجدة"</item>
@@ -34,7 +34,7 @@
     </string-array>
 
     <string-array name="countries">
-        <item>Any country</item>
+        <item>"كل الدول"</item>
         <item>المملكة العربية السعودية</item>
         <item>مصر</item>
         <item>العراق</item>
@@ -84,7 +84,7 @@
         <item>11</item>
     </integer-array>
     <string-array name="iso_codes">
-        <item>Any country</item>
+        <item>"كل الدول"</item>
         <item>SA</item>
         <item>EG</item>
         <item>IQ</item>

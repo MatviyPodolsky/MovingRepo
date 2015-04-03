@@ -30,7 +30,8 @@
     <string name="agree_to_newsletter">Agree to newsletter</string>
     <string name="please_enter_username">Please enter your username</string>
     <string name="please_enter_email">Please enter your email</string>
-    <string name="password_must_contain_at_least_4_characters">Password must contain at least 4 characters</string>
+    <string name="please_enter_password">Please enter your password</string>
+    <string name="password_must_contain_at_least_6_characters">Password must contain at least 6 characters</string>
     <string name="link_text"><u>link text</u></string>
     <string name="text"> text </string>
 
@@ -208,10 +209,6 @@
     <string name="dialog_edit_profile_message">You have changed your profile information, are you sure you want to update it?</string>
     <string name="dialog_edit_profile_confirm">Update</string>
     <string name="dialog_edit_profile_cancel">Cancel</string>
-    <string name="dialog_exit_title">Exit</string>
-    <string name="dialog_exit_message">Are you sure want to exit?</string>
-    <string name="dialog_exit_confirm">Yes</string>
-    <string name="dialog_exit_cancel">No</string>
 
     <!--save_photo-->
     <string name="hint_comment">a moment to remember, type few words about it</string>

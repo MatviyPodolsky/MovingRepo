@@ -133,6 +133,7 @@ public class HomeFragment extends PhotoFragment {
     private RestCallback<BabyProfileResponse> getProfileCallback;
     private boolean gaveBirth;
     private boolean isSummaryLoaded;
+    private String albumLabel;
 
     private List<ContentLink> contentLinks;
     private List<BabyTestResponse> testsList;
@@ -447,6 +448,8 @@ public class HomeFragment extends PhotoFragment {
                 testTitle.setText(getActivity().getString(R.string.no_tests));
             }
             String email = PreferencesManager.getInstance().getEmail();
+            String dateType = getString(R.string.month);
+            setAlbumLabel(String.format(dateType, monthResponse.getAgeInMonths()));
             String date = DbPhoto.LABEL_MONTH + "-" + monthResponse.getAgeInMonths();
             List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
             int size = data.size();
@@ -501,6 +504,8 @@ public class HomeFragment extends PhotoFragment {
                 testTitle.setText(getString(R.string.no_tests));
             }
             String email = PreferencesManager.getInstance().getEmail();
+            String dateType = getString(R.string.week);
+            setAlbumLabel(String.format(dateType, weekResponse.getWeekNumber()));
             String date = DbPhoto.LABEL_WEEK + "-" + weekResponse.getWeekNumber();
             List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
             int size = data.size();
@@ -658,7 +663,7 @@ public class HomeFragment extends PhotoFragment {
 
     @OnClick(R.id.summary_photos)
     public void showAlbum() {
-        Fragment fragment = new AlbumFragment();
+        Fragment fragment = AlbumFragment.newInstance(getAlbumLabel());
         addNestedFragment(R.id.fragment_container, fragment, AlbumFragment.NAME);
     }
 
@@ -667,6 +672,14 @@ public class HomeFragment extends PhotoFragment {
         if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
             mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }
+    }
+
+    private void setAlbumLabel(String label) {
+        albumLabel = label;
+    }
+
+    private String getAlbumLabel() {
+        return albumLabel;
     }
 
     private void showNotification(final NotificationsResponse notificationsResponse) {
