@@ -162,6 +162,9 @@ public class HomeFragment extends PhotoFragment {
 
         setUpSummaryView();
 
+        setProfilePhoto();
+        showLastPhoto();
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -574,8 +577,6 @@ public class HomeFragment extends PhotoFragment {
             mProgress.setVisibility(View.GONE);
         }
 
-        setProfilePhoto();
-        showLastPhoto();
         int mode = gaveBirth ? TimeNavigationAdapter.MODE_MONTHS :
                 TimeNavigationAdapter.MODE_WEEKS;
 
