@@ -20,7 +20,6 @@
     <com.sdex.webteb.view.TypefaceTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         app:typeface="DINNextLTArabicLight"
         android:text="@string/hello"
         android:textColor="@android:color/white"
@@ -28,8 +27,9 @@
         android:textStyle="bold"
         android:gravity="right"
         android:textSize="@dimen/default_text_size"
-        android:layout_marginTop="0dp"
-        android:layout_toLeftOf="@+id/avatar" />
+        android:layout_alignTop="@+id/avatar"
+        android:layout_alignRight="@+id/username"
+        android:layout_alignEnd="@+id/username" />
 
     <com.sdex.webteb.view.TypefaceTextView
         android:layout_width="wrap_content"
