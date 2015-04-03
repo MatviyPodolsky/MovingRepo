@@ -101,7 +101,8 @@ public class RegisterActivity extends FacebookAuthActivity {
             @Override
             public void failure(RestError restError) {
                 mRegister.setEnabled(true);
-                String errorMessage = restError.getMessage();
+//                String errorMessage = restError.getMessage();
+                String errorMessage = getString(R.string.error_email_already_registered);
                 RestError.ModelState modelState = restError.getModelState();
                 if (modelState != null && (modelState.getModelEmail() != null || modelState.getModelPassword() != null)) {
                     List<String> errors = new ArrayList<>();
