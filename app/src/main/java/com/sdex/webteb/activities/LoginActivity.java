@@ -127,6 +127,12 @@ public class LoginActivity extends FacebookAuthActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        clearFields();
+    }
+
+    @Override
     protected int getLayoutResource() {
         return R.layout.activity_login;
     }
@@ -199,6 +205,14 @@ public class LoginActivity extends FacebookAuthActivity {
             startActivity(intent);
         }
         finish();
+    }
+
+    private void clearFields() {
+        mUsername.setText("");
+        mUsername.setError(null);
+        mUsername.requestFocus();
+        mPassword.setText("");
+        mPassword.setError(null);
     }
 
 }
