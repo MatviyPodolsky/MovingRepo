@@ -1,8 +1,10 @@
 package com.sdex.webteb.activities;
 
 import android.os.Bundle;
-import android.view.View;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sdex.webteb.R;
@@ -13,6 +15,7 @@ import com.sdex.webteb.utils.DisplayUtil;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import retrofit.client.Response;
 
 /**
@@ -38,7 +41,7 @@ public class ForgotPasswordActivity extends BaseActivity {
     }
 
     @OnClick(R.id.restore)
-    public void restore(View v) {
+    public void restore() {
         RestClient.getApiService().restorePassword(mEmail.getText().toString(), new RestCallback<String>() {
             @Override
             public void failure(RestError restError) {
@@ -53,4 +56,13 @@ public class ForgotPasswordActivity extends BaseActivity {
             }
         });
     }
+
+    @OnEditorAction(R.id.email)
+    boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+        if (event == null && actionId == EditorInfo.IME_ACTION_DONE) {
+            restore();
+        }
+        return true;
+    }
+
 }
