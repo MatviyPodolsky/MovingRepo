@@ -21,13 +21,12 @@
             android:layout_marginTop="4dp"
             android:hint="@string/contact_us_title_hint"
             android:imeOptions="flagNavigateNext"
-            android:singleLine="true"
+            android:maxLines="1"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:ems="10"
-            android:inputType="text"
             android:textColorHint="@color/hint"
             android:background="@drawable/text_contact_field"
+            android:gravity="center_vertical"
             android:textSize="@dimen/default_text_size" />
 
         <EditText
@@ -41,7 +40,7 @@
             android:background="@drawable/text_contact_field"
             android:imeOptions="actionDone"
             android:textSize="@dimen/default_text_size"
-            android:gravity="top|end|right" />
+            android:gravity="top" />
 
         <View
             android:layout_width="match_parent"
