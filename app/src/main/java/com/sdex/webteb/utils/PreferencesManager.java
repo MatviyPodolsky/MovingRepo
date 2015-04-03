@@ -31,6 +31,8 @@ public class PreferencesManager {
 
     public static final String ADS_SHOW_KEY = "show_interstitial_ad";
     public static final String ADS_SHOWS_COUNTER_KEY = "ads_shows_counter_key";
+    public static final String SEND_FAMILY_RELATION = "send_family_relation";
+    public static final String SEND_CURRENT_DATE = "send_current_date";
 
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;

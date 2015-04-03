@@ -183,6 +183,26 @@ public class HomeFragment extends PhotoFragment {
             public void success(BabyHomeResponse babyHomeResponse, Response response) {
                 setUpHomeView(babyHomeResponse);
                 hideProgress();
+
+                boolean sendFamilyRelation = preferencesManager.getPreferences()
+                        .getBoolean(PreferencesManager.SEND_FAMILY_RELATION, true);
+                if (sendFamilyRelation) {
+                    preferencesManager.getPreferences().edit()
+                            .putBoolean(PreferencesManager.SEND_FAMILY_RELATION, false).apply();
+
+                    sendAnalyticsDimension(R.string.screen_home,
+                            1, babyHomeResponse.getCard().getFamilyRelation());
+                }
+
+                boolean sendCurrentDate = preferencesManager.getPreferences()
+                        .getBoolean(PreferencesManager.SEND_CURRENT_DATE, true);
+                if (sendCurrentDate) {
+                    preferencesManager.getPreferences().edit()
+                            .putBoolean(PreferencesManager.SEND_CURRENT_DATE, false).apply();
+
+                    sendAnalyticsDimension(R.string.screen_home,
+                            2, String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
+                }
             }
         });
 
