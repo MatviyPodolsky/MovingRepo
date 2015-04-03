@@ -19,6 +19,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.RegisterAccountRequest;
 import com.sdex.webteb.rest.response.UserLoginResponse;
+import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.KeyboardUtils;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.switchbutton.SwitchButton;
@@ -134,6 +135,11 @@ public class RegisterActivity extends FacebookAuthActivity {
                         loginCallback);
             }
         };
+        
+        final int pixels = DisplayUtil.getDp(10);
+        mName.setPadding(pixels, 0, pixels, 0);
+        mEmail.setPadding(pixels, 0, pixels, 0);
+        mPassword.setPadding(pixels, 0, pixels, 0);
     }
 
     @Override
