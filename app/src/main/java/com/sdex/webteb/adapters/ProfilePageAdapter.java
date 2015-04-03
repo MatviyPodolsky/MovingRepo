@@ -49,7 +49,6 @@ public class ProfilePageAdapter extends FragmentStatePagerAdapter {
                 return birthDateFragment;
             case 2:
                 BaseFragment childInfoFragment;
-//                = new ChildInfoFragment();
                 if (profile != null) {
                      childInfoFragment = ChildInfoFragment.newInstance(profile.getChildren(), true);
                 } else {

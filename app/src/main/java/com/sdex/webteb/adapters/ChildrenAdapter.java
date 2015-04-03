@@ -13,10 +13,12 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.model.Child;
+import com.sdex.webteb.utils.KeyboardUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ public class ChildrenAdapter extends BaseAdapter {
     private List<Boolean> completedChildren = new ArrayList<>();
     private LayoutInflater inflater;
     private Callback mCallback;
+    private int focusedPosition;
 
     public ChildrenAdapter(Context context) {
         this.context = context;
@@ -115,6 +118,14 @@ public class ChildrenAdapter extends BaseAdapter {
             holder = new ViewHolder(convertView);
             holder.name.addTextChangedListener(new NameWatcher(convertView));
             holder.name.setOnEditorActionListener(new OnCompleteChildListener(holder));
+            holder.name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        focusedPosition = position;
+                    }
+                }
+            });
             holder.containerFemale.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -224,12 +235,16 @@ public class ChildrenAdapter extends BaseAdapter {
     private void updateCompleteChild(ViewHolder holder) {
         if (completedChildren.get((int)holder.name.getTag(POSITION))) {
             holder.nameContainer.setBackgroundColor(Color.parseColor("#D8D8D8"));
-            holder.delete.setVisibility(View.VISIBLE);
+//            holder.delete.setVisibility(View.VISIBLE);
         } else {
             holder.nameContainer.setBackgroundResource(R.drawable.text_field);
-            holder.delete.setVisibility(View.GONE);
+//            holder.delete.setVisibility(View.GONE);
         }
 
+    }
+
+    public int getFocusedPosition() {
+        return focusedPosition;
     }
 
     public class OnCompleteChildListener implements TextView.OnEditorActionListener {
@@ -246,7 +261,8 @@ public class ChildrenAdapter extends BaseAdapter {
                 int position = (int)holder.name.getTag(POSITION);
                 completedChildren.set(position, true);
                 updateCompleteChild(holder);
-                return false;
+                KeyboardUtils.hideKeyboard(holder.name);
+                return true;
             }
             return false;
         }
@@ -276,7 +292,7 @@ public class ChildrenAdapter extends BaseAdapter {
 
     static class ViewHolder {
         @InjectView(R.id.name_container)
-        LinearLayout nameContainer;
+        RelativeLayout nameContainer;
         @InjectView(R.id.delete)
         ImageView delete;
         @InjectView(R.id.name)

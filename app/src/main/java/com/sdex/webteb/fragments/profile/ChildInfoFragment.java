@@ -7,7 +7,9 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
@@ -38,6 +40,9 @@ public class ChildInfoFragment extends BaseFragment {
     ListView mList;
     private List<Child> mChildren;
     private boolean isInEditMode;
+    @InjectView(R.id.parent)
+    RelativeLayout mParentLayout;
+    private boolean isOpened;
 
     public static ChildInfoFragment newInstance(List<Child> children, boolean isInEditMode) {
         ChildInfoFragment frag = new ChildInfoFragment();
@@ -97,6 +102,7 @@ public class ChildInfoFragment extends BaseFragment {
         }
         mList.setAdapter(mAdapter);
         updateChildrenCount();
+//        setListenerToRootView();
     }
 
     @Override
@@ -138,5 +144,27 @@ public class ChildInfoFragment extends BaseFragment {
             String title = getString(R.string.children_count);
             mTitle.setText(String.format(title, count));
         }
+    }
+
+    public void setListenerToRootView(){
+        mParentLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int height = isOpened ? 0 : getResources().getDimensionPixelSize(R.dimen.profile_height);
+                int heightDiff = mParentLayout.getRootView().getHeight() - mParentLayout.getHeight();
+                if (heightDiff > (250 + height)) { // 99% of the time the height diff will be due to a keyboard.
+                    if(isOpened == false){
+                        ((SetupProfileActivity)getActivity()).hideProfileCard();
+                        int position = (mAdapter.getFocusedPosition() - mList.getFirstVisiblePosition()) > (mList.getChildCount() - 1) ? 0 : mAdapter.getFocusedPosition() - mList.getFirstVisiblePosition();
+                        View child = mList.getChildAt(mList.getLastVisiblePosition());
+                        child.findViewById(R.id.name).requestFocus();
+                    }
+                    isOpened = true;
+                }else if(isOpened == true){
+                    ((SetupProfileActivity)getActivity()).showProfileCard();
+                    isOpened = false;
+                }
+            }
+        });
     }
 }

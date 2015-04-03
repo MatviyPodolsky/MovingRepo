@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,17 +18,18 @@
         android:layout_alignParentTop="true"
         android:text="@string/title_childs" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/titleChilds"
         android:layout_above="@+id/done">
 
+        <!--android:layout_above="@+id/done"-->
+        <!--android:layout_below="@id/title"-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/done"
-            android:layout_below="@id/title"
+
             android:orientation="vertical">
 
             <ListView
@@ -35,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.1"
+                android:descendantFocusability="afterDescendants"
                 android:layout_marginBottom="13dp"/>
             <Button
                 android:id="@+id/add"
@@ -60,9 +63,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-
-
+    </RelativeLayout>
 
     <Button
         style="@style/AppTheme.Button"

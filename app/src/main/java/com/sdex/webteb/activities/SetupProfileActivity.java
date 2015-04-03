@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,8 @@ public class SetupProfileActivity extends BaseActivity {
     public static final String CHILDREN = "CHILDREN";
 
     private ProfilePageAdapter mAdapter;
+    @InjectView(R.id.parent)
+    RelativeLayout mParentLayout;
     @InjectView(R.id.pager)
     ViewPager mPager;
     @InjectView(R.id.profile_card)
@@ -69,6 +73,8 @@ public class SetupProfileActivity extends BaseActivity {
     private List<Child> oldChildren;
     private BabyProfileRequest request = new BabyProfileRequest();
     private RestCallback<BabyProfileResponse> getBabyProfileCallback;
+
+    private boolean isOpened;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -133,6 +139,8 @@ public class SetupProfileActivity extends BaseActivity {
             String currentDate = Utils.dateBuilder(SetupProfileActivity.this, currentDateValue, dateFormat);
             mDate.setText(currentDate);
         }
+
+//        setListenerToRootView();
     }
 
     private void initViewPager() {
@@ -320,6 +328,99 @@ public class SetupProfileActivity extends BaseActivity {
         } else {
             preferencesManager.setGender(PreferencesManager.FEMALE);
         }
+    }
+
+    public void setListenerToRootView(){
+        mParentLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                int heightDiff = mParentLayout.getRootView().getHeight() - mParentLayout.getHeight();
+                if (heightDiff > 100 ) { // 99% of the time the height diff will be due to a keyboard.
+                    if(isOpened == false){
+                        hideProfileCard();
+                    }
+                    isOpened = true;
+                }else if(isOpened == true){
+                    showProfileCard();
+                    isOpened = false;
+                }
+            }
+        });
+    }
+
+    public void showProfileCard() {
+        profileCard.setVisibility(View.VISIBLE);
+//        int height = getResources().getDimensionPixelSize(R.dimen.profile_height);
+//        ValueAnimator va = ValueAnimator.ofInt(0, height);
+//        va.setDuration(500);
+//        va.addListener(new Animator.AnimatorListener() {
+//            @Override
+//            public void onAnimationStart(Animator animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationCancel(Animator animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animator animation) {
+//
+//            }
+//        });
+//        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//                if (profileCard != null) {
+//                    Integer value = (Integer) animation.getAnimatedValue();
+//                    profileCard.getLayoutParams().height = value;
+//                    profileCard.requestLayout();
+//                }
+//            }
+//        });
+//        va.start();
+    }
+
+    public void hideProfileCard() {
+        profileCard.setVisibility(View.GONE);
+//        int height = getResources().getDimensionPixelSize(R.dimen.profile_height);
+//        ValueAnimator va = ValueAnimator.ofInt(height, 0);
+//        va.setDuration(500);
+//        va.addListener(new Animator.AnimatorListener() {
+//            @Override
+//            public void onAnimationStart(Animator animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationCancel(Animator animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animator animation) {
+//
+//            }
+//        });
+//        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//                if (profileCard != null) {
+//                    Integer value = (Integer) animation.getAnimatedValue();
+//                    profileCard.getLayoutParams().height = value;
+//                    profileCard.requestLayout();
+//                }
+//            }
+//        });
+//        va.start();
     }
 
     @Override
