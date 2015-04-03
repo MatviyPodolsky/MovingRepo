@@ -208,10 +208,6 @@
     <string name="dialog_edit_profile_message">"لقد قمت بتغيير المعلومات في البروفيل، هل انت متأكدة من هذا التعديل؟"</string>
     <string name="dialog_edit_profile_confirm">"تحديث"</string>
     <string name="dialog_edit_profile_cancel">"الغاء"</string>
-    <string name="dialog_exit_title">Exit</string>
-    <string name="dialog_exit_message">Are you sure want to exit?</string>
-    <string name="dialog_exit_confirm">"نعم"</string>
-    <string name="dialog_exit_cancel">"كلا"</string>
 
     <!--save_photo-->
     <string name="hint_comment">a moment to remember, type few words about it</string>
