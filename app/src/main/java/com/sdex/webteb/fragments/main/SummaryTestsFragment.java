@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TestsAdapter;
@@ -31,8 +30,6 @@ public class SummaryTestsFragment extends TestsFragment {
     ExpandableListView mList;
     @InjectView(R.id.progress)
     ProgressBar progress;
-    @InjectView(R.id.error)
-    TextView error;
 
     public static Fragment newInstance(List<BabyTestResponse> testsList) {
         Fragment fragment = new SummaryTestsFragment();
@@ -51,7 +48,6 @@ public class SummaryTestsFragment extends TestsFragment {
 
         mList.setVisibility(View.VISIBLE);
         progress.setVisibility(View.GONE);
-        error.setVisibility(View.GONE);
 
         Bundle args = getArguments();
         final List<BabyTestResponse> tests = Parcels.unwrap(args.getParcelable(ARG_TESTS_LIST));
