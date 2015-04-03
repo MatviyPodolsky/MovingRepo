@@ -21,6 +21,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.UserLoginResponse;
+import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.KeyboardUtils;
 import com.sdex.webteb.utils.PreferencesManager;
 
@@ -119,6 +120,10 @@ public class LoginActivity extends FacebookAuthActivity {
                 }
             }
         };
+
+        final int pixels = DisplayUtil.getDp(10);
+        mUsername.setPadding(pixels, 0, pixels, 0);
+        mPassword.setPadding(pixels, 0, pixels, 0);
     }
 
     @Override
@@ -170,9 +175,9 @@ public class LoginActivity extends FacebookAuthActivity {
 
     private boolean isValidData() {
         boolean isValid = true;
-        if (mPassword.getText().length() < 4) {
+        if (mPassword.getText().length() < 6) {
             isValid = false;
-            mPassword.setError(getString(R.string.password_must_contain_at_least_4_characters));
+            mPassword.setError(getString(R.string.password_must_contain_at_least_6_characters));
         } else {
             mPassword.setError(null);
         }
