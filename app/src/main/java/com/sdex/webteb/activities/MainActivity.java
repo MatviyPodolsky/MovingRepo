@@ -28,7 +28,6 @@ import com.sdex.webteb.dialogs.BaseDialog;
 import com.sdex.webteb.dialogs.PushNotificationDialog;
 import com.sdex.webteb.dialogs.WeekPushNotificationDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
-import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.fragments.main.AboutFragment;
 import com.sdex.webteb.fragments.main.AlbumFragment;
 import com.sdex.webteb.fragments.main.ContactUsFragment;
@@ -246,13 +245,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             EventBus.getDefault().removeAllStickyEvents();
             Fragment curFragment = getSupportFragmentManager().findFragmentByTag(contentFragment);
             if (curFragment != null && curFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
-                Fragment firstFragment = curFragment.getChildFragmentManager().getFragments().get(0);
-                if (firstFragment instanceof SavePhotoFragment &&
-                        ((SavePhotoFragment) firstFragment).isAddingTag()) {
-                    ((SavePhotoFragment) firstFragment).hideTag();
-                } else {
-                    curFragment.getChildFragmentManager().popBackStack();
-                }
+                curFragment.getChildFragmentManager().popBackStack();
             } else {
                 super.onBackPressed();
             }

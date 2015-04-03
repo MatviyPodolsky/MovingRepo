@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TagsAdapter;
@@ -23,6 +22,7 @@ import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.view.AddTagView;
 import com.sdex.webteb.view.WrapLinearLayoutManager;
 import com.squareup.picasso.Picasso;
 
@@ -46,10 +46,7 @@ public class SavePhotoFragment extends BaseFragment {
     @InjectView(R.id.tags)
     RecyclerView mRecyclerView;
     @InjectView(R.id.add_tag_container)
-    RelativeLayout mNewTagContainer;
-    @InjectView(R.id.new_tag)
-    EditText mTag;
-    private boolean isAddingTag;
+    AddTagView mAddTagView;
 
     private Uri currentPhoto;
     private TagsAdapter adapter;
@@ -88,9 +85,7 @@ public class SavePhotoFragment extends BaseFragment {
         adapter.setCallback(new TagsAdapter.Callback() {
             @Override
             public void addTag() {
-                mRecyclerView.setVisibility(View.GONE);
-                mNewTagContainer.setVisibility(View.VISIBLE);
-                isAddingTag = true;
+                mAddTagView.show();
             }
         });
         adapter.setChildren(children);
@@ -101,20 +96,21 @@ public class SavePhotoFragment extends BaseFragment {
             }
         });
         mRecyclerView.setAdapter(adapter);
+
+        mAddTagView.setOnAddTagListener(new AddTagView.OnAddTagListener() {
+            @Override
+            public void onAddTag(String tag) {
+                if (!tag.isEmpty()) {
+                    adapter.addTag(tag);
+                    mAddTagView.dismiss();
+                }
+            }
+        });
     }
 
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_save_photo;
-    }
-
-    @OnClick(R.id.add_tag)
-    void addTag(){
-        String tag = mTag.getText().toString();
-        if(!tag.isEmpty()) {
-            adapter.addTag(tag);
-        }
-        hideTag();
     }
 
     @OnClick(R.id.save)
@@ -154,14 +150,4 @@ public class SavePhotoFragment extends BaseFragment {
         getActivity().onBackPressed();
     }
 
-    public void hideTag(){
-        mNewTagContainer.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mTag.setText("");
-        isAddingTag = false;
-    }
-
-    public boolean isAddingTag() {
-        return isAddingTag;
-    }
 }
