@@ -5,11 +5,14 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.utils.KeyboardUtils;
 
 /**
  * Author: Yuriy Mysochenko
@@ -42,6 +45,17 @@ public class AddTagView extends FrameLayout {
     private void initView(Context context) {
         View.inflate(context, R.layout.layout_add_tag, this);
         mTagValue = (EditText) findViewById(R.id.tag_value);
+        mTagValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (event == null && actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (mOnAddTagListener != null) {
+                        mOnAddTagListener.onAddTag(getTagValue());
+                    }
+                }
+                return true;
+            }
+        });
         Button mAddTag = (Button) findViewById(R.id.add_tag);
         mAddTag.setOnClickListener(new OnClickListener() {
             @Override
@@ -91,9 +105,11 @@ public class AddTagView extends FrameLayout {
     public void show() {
         setVisibility(View.VISIBLE);
         requestFocus();
+        KeyboardUtils.showKeyboard(this);
     }
 
     public void dismiss() {
+        KeyboardUtils.hideKeyboard(this);
         setVisibility(GONE);
         mTagValue.setText(null);
     }

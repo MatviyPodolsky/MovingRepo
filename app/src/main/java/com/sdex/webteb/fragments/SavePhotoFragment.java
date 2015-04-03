@@ -47,6 +47,8 @@ public class SavePhotoFragment extends BaseFragment {
     RecyclerView mRecyclerView;
     @InjectView(R.id.add_tag_container)
     AddTagView mAddTagView;
+    @InjectView(R.id.fake_view)
+    View mFakeView;
 
     private Uri currentPhoto;
     private TagsAdapter adapter;
@@ -103,6 +105,7 @@ public class SavePhotoFragment extends BaseFragment {
                 if (!tag.isEmpty()) {
                     adapter.addTag(tag);
                     mAddTagView.dismiss();
+                    mFakeView.requestFocus();
                 }
             }
         });
