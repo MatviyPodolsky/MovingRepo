@@ -230,7 +230,8 @@ public class RegisterActivity extends FacebookAuthActivity {
         } else {
             mEmail.setError(null);
         }
-        if (mName.getText().length() == 0) {
+        String mUserName = mName.getText().toString().replaceAll("\\s+", "");
+        if (mUserName.length() == 0) {
             isValid = false;
             mName.setError(getString(R.string.please_enter_username));
         } else {
