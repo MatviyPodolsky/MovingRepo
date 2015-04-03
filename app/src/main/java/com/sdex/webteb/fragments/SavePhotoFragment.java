@@ -22,6 +22,7 @@ import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.utils.DisplayUtil;
+import com.sdex.webteb.utils.KeyboardUtils;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.view.WrapLinearLayoutManager;
 import com.squareup.picasso.Picasso;
@@ -90,6 +91,8 @@ public class SavePhotoFragment extends BaseFragment {
             public void addTag() {
                 mRecyclerView.setVisibility(View.GONE);
                 mNewTagContainer.setVisibility(View.VISIBLE);
+                mTag.requestFocus();
+                KeyboardUtils.showKeyboard(mTag);
                 isAddingTag = true;
             }
         });
