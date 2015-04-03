@@ -9,7 +9,9 @@ import android.widget.ProgressBar;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TestsAdapter;
+import com.sdex.webteb.fragments.BaseFragment;
 import com.sdex.webteb.rest.response.BabyTestResponse;
+import com.sdex.webteb.utils.PreferencesManager;
 
 import org.parceler.Parcels;
 
@@ -20,7 +22,7 @@ import butterknife.InjectView;
 /**
  * Created by MPODOLSKY on 23.03.2015.
  */
-public class SummaryTestsFragment extends TestsFragment {
+public class SummaryTestsFragment extends BaseFragment {
 
     public static final String NAME = SummaryTestsFragment.class.getSimpleName();
 
@@ -43,6 +45,21 @@ public class SummaryTestsFragment extends TestsFragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        int currentDateType = preferencesManager.getCurrentDateType();
+        String currentDate = preferencesManager.getCurrentDate();
+        String screenName;
+        if (currentDateType == PreferencesManager.DATE_TYPE_WEEK) {
+            screenName = String.format(getString(R.string.screen_summary_weeks_tests), currentDate);
+        } else {
+            screenName = String.format(getString(R.string.screen_summary_months_tests), currentDate);
+        }
+        sendAnalyticsScreenName(screenName);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -51,7 +68,6 @@ public class SummaryTestsFragment extends TestsFragment {
 
         Bundle args = getArguments();
         final List<BabyTestResponse> tests = Parcels.unwrap(args.getParcelable(ARG_TESTS_LIST));
-        String titleText = getString(R.string.we_found_n_tests);
         int size = tests.size();
         TestsAdapter mAdapter = new TestsAdapter(getActivity());
         mList.setAdapter(mAdapter);
@@ -72,12 +88,12 @@ public class SummaryTestsFragment extends TestsFragment {
             @Override
             public void onAddReminderBtnClick(BabyTestResponse item, int groupId) {
                 mList.collapseGroup(groupId);
-                sendAnalyticsTestReminder(item);
+                TestsFragment.sendAnalyticsTestReminder(SummaryTestsFragment.this, item);
             }
 
             @Override
             public void onTestDoneClick(BabyTestResponse item) {
-                sendAnalyticsTestDone(item);
+                TestsFragment.sendAnalyticsTestDone(SummaryTestsFragment.this, item);
             }
         });
         if (size == 1) {

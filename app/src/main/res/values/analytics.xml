@@ -19,7 +19,9 @@
     <string name="screen_contact_us" translatable="false">ContactUs</string>
 
     <string name="screen_summary_weeks_articles" translatable="false">Summary/weeks/%1$s/Articles</string>
+    <string name="screen_summary_months_articles" translatable="false">Summary/months/%1$s/Articles</string>
     <string name="screen_summary_weeks_tests" translatable="false">Summary/weeks/%1$s/Tests</string>
+    <string name="screen_summary_months_tests" translatable="false">Summary/months/%1$s/Tests</string>
 
     <string name="screen_congratulations" translatable="false">Congratulations</string>
     <string name="screen_welcome" translatable="false">Intro</string>

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ArticlesAdapter;
 import com.sdex.webteb.model.ContentLink;
+import com.sdex.webteb.utils.PreferencesManager;
 
 import org.parceler.Parcels;
 
@@ -46,6 +47,21 @@ public class AdditionalContentFragment extends BaseMainFragment {
     }
 
     public AdditionalContentFragment() {
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        int currentDateType = preferencesManager.getCurrentDateType();
+        String currentDate = preferencesManager.getCurrentDate();
+        String screenName;
+        if (currentDateType == PreferencesManager.DATE_TYPE_WEEK) {
+            screenName = String.format(getString(R.string.screen_summary_weeks_articles), currentDate);
+        } else {
+            screenName = String.format(getString(R.string.screen_summary_months_articles), currentDate);
+        }
+        sendAnalyticsScreenName(screenName);
     }
 
     @Override

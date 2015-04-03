@@ -89,7 +89,7 @@ public abstract class BaseFragment extends Fragment {
         sendAnalyticsEvent(category, action, null);
     }
 
-    protected void sendAnalyticsEvent(String category, String action, String label) {
+    public void sendAnalyticsEvent(String category, String action, String label) {
         if (isAdded()) {
             Tracker t = ((WTApp) getActivity().getApplication()).getTracker();
             HitBuilders.EventBuilder eventBuilder = new HitBuilders.EventBuilder();
