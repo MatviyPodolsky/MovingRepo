@@ -32,7 +32,6 @@
     <string name="please_enter_email">"الرجاء ادخال عنوان بريدك الالكتروني"</string>
     <string name="please_enter_password">Please enter your password</string>
     <string name="password_must_contain_at_least_6_characters">"على كلمة المرور ان تكون مؤلفة من 4 أحرف على الاقل"</string>
-    <string name="error_email_alreadry_registered">This email has been already registered</string>
 
     <!--restore password-->
     <string name="positive_restore_message">"لقد تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
