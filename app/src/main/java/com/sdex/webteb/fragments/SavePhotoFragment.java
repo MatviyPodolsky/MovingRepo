@@ -49,6 +49,7 @@ public class SavePhotoFragment extends BaseFragment {
     RelativeLayout mNewTagContainer;
     @InjectView(R.id.new_tag)
     EditText mTag;
+    private boolean isAddingTag;
 
     private Uri currentPhoto;
     private TagsAdapter adapter;
@@ -89,6 +90,7 @@ public class SavePhotoFragment extends BaseFragment {
             public void addTag() {
                 mRecyclerView.setVisibility(View.GONE);
                 mNewTagContainer.setVisibility(View.VISIBLE);
+                isAddingTag = true;
             }
         });
         adapter.setChildren(children);
@@ -108,13 +110,11 @@ public class SavePhotoFragment extends BaseFragment {
 
     @OnClick(R.id.add_tag)
     void addTag(){
-        mNewTagContainer.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
         String tag = mTag.getText().toString();
         if(!tag.isEmpty()) {
             adapter.addTag(tag);
         }
-        mTag.setText("");
+        hideTag();
     }
 
     @OnClick(R.id.save)
@@ -154,4 +154,14 @@ public class SavePhotoFragment extends BaseFragment {
         getActivity().onBackPressed();
     }
 
+    public void hideTag(){
+        mNewTagContainer.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mTag.setText("");
+        isAddingTag = false;
+    }
+
+    public boolean isAddingTag() {
+        return isAddingTag;
+    }
 }
