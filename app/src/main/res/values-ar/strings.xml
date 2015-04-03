@@ -12,32 +12,30 @@
 
     <!--login & registration-->
     <string name="login">"الدخول"</string>
-    <string name="register">Register</string>
-    <string name="username">Username</string>
+    <string name="register">"التسجيل"</string>
+    <string name="username">"اسم المستخدم"</string>
     <string name="title_forgot_password">"نسيت كلمة المرور"</string>
-    <string name="confirm_username">Confirm username</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="confirm_password">Confirm password</string>
-    <string name="sign_up">Sign up</string>
-    <string name="login_with_facebook">Login with facebook</string>
+    <string name="confirm_username">"الموافقة على اسم المستخدم"</string>
+    <string name="email">"البريد الالكتروني"</string>
+    <string name="password">"كلمة المرور"</string>
+    <string name="confirm_password">"الموافقة على كلمة المرور"</string>
+    <string name="sign_up">"سجل"</string>
+    <string name="login_with_facebook">"الدخول عبر حسابك بالفيسبوك"</string>
     <string name="forgot_password"><u>"نسيت كلمة المرور"</u></string>
-    <string name="type_your_email_here">Type your email here</string>
+    <string name="type_your_email_here">"الرجاء تسجيل بريدك الالكتروني هنا"</string>
     <string name="restore_password">"استعادة كلمة المرور"</string>
-    <string name="create_your_profile">Create your profile</string>
-    <string name="email_is_not_registered">Email is not registered</string>
-    <string name="your_password_was_sent_to_your_email">Your password was sent to your email</string>
-    <string name="agree_to_newsletter">Agree to newsletter</string>
-    <string name="please_enter_username">Please enter your username</string>
-    <string name="please_enter_email">Please enter your email</string>
+    <string name="create_your_profile">"انشاء ملفك شخصي"</string>
+    <string name="email_is_not_registered">"البريد الالكتروني غير مسجل"</string>
+    <string name="your_password_was_sent_to_your_email">"لقد تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
+    <string name="agree_to_newsletter">"المواقة على النشرة الالكترونية"</string>
+    <string name="please_enter_username">"الرجاء ادخال اسم المستخدم"</string>
+    <string name="please_enter_email">"الرجاء ادخال عنوان بريدك الالكتروني"</string>
     <string name="please_enter_password">Please enter your password</string>
-    <string name="password_must_contain_at_least_6_characters">Password must contain at least 6 characters</string>
-    <string name="link_text"><u>link text</u></string>
-    <string name="text"> text </string>
+    <string name="password_must_contain_at_least_6_characters">"على كلمة المرور ان تكون مؤلفة من 4 أحرف على الاقل"</string>
 
     <!--restore password-->
-    <string name="positive_restore_message">We sent your password to your email</string>
-    <string name="negative_restore_message">We couldn\'t identify your email</string>
+    <string name="positive_restore_message">"لقد تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
+    <string name="negative_restore_message">"لم نتمكن من التحقق من بريدك الالكتروني"</string>
 
     <!--terms of use-->
     <string name="in_the_registration_process_agree_on">في عملية التسجيل الاتفاق على</string>
@@ -46,166 +44,166 @@
     <string name="security_agreement"><u>الاتفاقية الأمنية</u></string>
 
     <!--profile card-->
-    <string name="hello">Hello,</string>
-    <string name="next">Next</string>
+    <string name="hello">"مرحباً"</string>
+    <string name="next">"التالي"</string>
     <string name="done">"انهاء"</string>
-    <string name="family_relation">Family relation</string>
-    <string name="click_to_select_family_relation">click to select family relation</string>
-    <string name="last_period_first_day">Last period</string>
+    <string name="family_relation">"العلاقة العائلية"</string>
+    <string name="click_to_select_family_relation">"اضغطي لاختيار العلاقة العائلية"</string>
+    <string name="last_period_first_day">"الدورة الشهرية (الحيض) الأخيرة"</string>
     <string name="expected_birth_date">"تاريخ الولادة المتوقع"</string>
     <string name="birth_date">"تاريخ الميلاد"</string>
     <string name="date">"تاريخ الميلاد"</string>
-    <string name="click_to_select_date">Click to select date…</string>
-    <string name="type_child_name">Type child name…</string>
-    <string name="add_child">Add child</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
-    <string name="none">None</string>
-    <string name="please_select_date">Please, select date</string>
-    <string name="please_select_correct_date">Please, select correct date</string>
-    <string name="please_select_relation">Please, select family relation</string>
-    <string name="birth_date_cant_be_in_future">Birth date can\'t be in future.</string>
-    <string name="last_period_cant_be_in_future">Last period can\'t be in future.</string>
-    <string name="expected_birth_date_cant_be_in_past">Expected birth date can\'t be in past.</string>
-    <string name="last_period_description">Last period can\'t be in future.</string>
-    <string name="expected_birth_date_description">Expected birth date can\'t be in past.</string>
-    <string name="birth_date_description">Birth date can\'t be in future.</string>
-    <string name="children_count">%1$d children</string>
+    <string name="click_to_select_date">"اضغطي لاختيار التاريخ"</string>
+    <string name="type_child_name">"كتابة أسم الطفل"</string>
+    <string name="add_child">"أضافة طفل"</string>
+    <string name="male">"ذكر"</string>
+    <string name="female">"انثى"</string>
+    <string name="none">"لا شيء"</string>
+    <string name="please_select_date">"الرجاء اختيار التاريخ"</string>
+    <string name="please_select_correct_date">"الرجاء اختيار تاريخ صحيح"</string>
+    <string name="please_select_relation">"الرجاء اختيار العلاقة العائلية"</string>
+    <string name="birth_date_cant_be_in_future">"تاريخ الميلاد لا يمكن ان يكون بالمستقبل"</string>
+    <string name="last_period_cant_be_in_future">"تاريخ الدورة الشهرية لا يمكن ان يكون بالمستقبل"</string>
+    <string name="expected_birth_date_cant_be_in_past">"تاريخ الولادة المتوقع لا يمكن ان يكون بالماضي"</string>
+    <string name="last_period_description">"تاريخ آخر يوم في الدورة الشهرية لا يمكن ان يكون بالمستقبل"</string>
+    <string name="expected_birth_date_description">"تاريخ الولادة المتوقع لا يمكن ان يكون بالماضي"</string>
+    <string name="birth_date_description">"تاريخ الميلاد لا يمكن ان يكون بالمستقبل"</string>
+    <string name="children_count">"%1$d طفل"</string>
     <string name="child_count">1 child</string>
-    <string name="title_childs">Children</string>
+    <string name="title_childs">"طفل"</string>
     <string name="yes">"نعم"</string>
     <string name="no">"كلا"</string>
-    <string name="are_u_sure_u_want_to_delete_child">Are you sure you want to delete child?</string>
+    <string name="are_u_sure_u_want_to_delete_child">"هل انت متأكدة انك تريدين حذف الطفل؟"</string>
     <string name="item_id">item id</string>
     <string name="position_id">position id</string>
 
     <!--home-->
-    <string name="in_app_notification_btn_back">back</string>
-    <string name="in_app_notification_btn_next">next</string>
-    <string name="profile_progress_text">days %1$d</string>
+    <string name="in_app_notification_btn_back">"العودة"</string>
+    <string name="in_app_notification_btn_next">"التالي"</string>
+    <string name="profile_progress_text">"%1$d أيام"</string>
     <string name="notification_counters" translatable="false">%1$d/%2$d</string>
-    <string name="notification_tip_title">Tip</string>
+    <string name="notification_tip_title">"نصيحة"</string>
     <string name="week">"%1$s الاسبوع"</string>
-    <string name="month">%1$s month</string>
-    <string name="dialog_notification_week_confirm">Yes, I did</string>
-    <string name="dialog_notification_week_cancel">Not yet</string>
+    <string name="month">"%1$s أشهر"</string>
+    <string name="dialog_notification_week_confirm">"أجل، قمت بهذا"</string>  
+    <string name="dialog_notification_week_cancel">"ليس بعد"</string>
     <string name="age_in_week">"%1$d الاسبوع"</string>
-    <string name="age_in_month">Age %1$d month</string>
+    <string name="age_in_month">Age %1$d month</string>   
     <string name="age_in_years">Age %1$d years</string>
     <string name="age_in_years_and_month">Age %1$d years %2$d month</string>
 
     <!--summary-->
-    <string name="tests">Tests</string>
-    <string name="articles_count">Articles count</string>
+    <string name="tests">"فحوصات"</string>
+    <string name="articles_count">"عدد المقالات"</string>
     <string name="articles">"مقالات"</string>
     <string name="album">"ألبوم الصور"</string>
-    <string name="go_to_album">Go to album</string>
-    <string name="no_photos">No photos</string>
-    <string name="no_tests">No tests</string>
-    <string name="no_articles">No articles</string>
-    <string name="close">Close</string>
-    <string name="n_tests">%1$d tests</string>
+    <string name="go_to_album">"اذهب الى ألبوم الصور"</string>
+    <string name="no_photos">"لا يوجد صور"</string>
+    <string name="no_tests">"لا توجد فحوصات"</string>
+    <string name="no_articles">"لا توجد مقالات"</string>
+    <string name="close">"اغلاق"</string>
+    <string name="n_tests">"%1$d فحوصات"</string>
 
     <!--my tests-->
     <string name="my_tests_title">"فحوصاتي"</string>
-    <string name="read_more">Read more</string>
+    <string name="read_more">"اقرأ المزيد"</string>
     <string name="search_doctor">"البحث عن طبيب"</string>
     <string name="add_reminder">"أضف منبه"</string>
-    <string name="delete_reminder">Delete reminder</string>
-    <string name="done_test">Done test</string>
-    <string name="undone_test">Undone test</string>
-    <string name="reminder">Reminder</string>
+    <string name="delete_reminder">"الغاء التنبيه"</string>
+    <string name="done_test">"اجريت الفحص"</string>
+    <string name="undone_test">"لم اقم بالفحص"</string>
+    <string name="reminder">"تذكير"</string>
     <string name="we_found_n_tests">We found (%1$d) tests</string>
 
     <!--album-->
-    <string name="take_photo">Take photo</string>
+    <string name="take_photo">"التقط صورة"</string>
     <string name="select_photo">"اختر صورة"</string>
     <string name="cancel">"الغاء"</string>
     <string name="album_title"><![CDATA[My <b>%1$s</b> album]]></string>
-    <string name="album_empty_text">Album is empty</string>
-    <string name="take_photo_button_title">photo</string>
-    <string name="save">Save</string>
-    <string name="add_new_photo_title">Add image</string>
+    <string name="album_empty_text">"ألبوم الصور فارغ"</string>
+    <string name="take_photo_button_title">"صورة"</string>
+    <string name="save">"حفظ"</string>
+    <string name="add_new_photo_title">"أضف صورة"</string>
     <string name="me">"أنا"</string>
-    <string name="add_tag">add +</string>
-    <string name="add">Add</string>
+    <string name="add_tag">"+ أضف"</string>
+    <string name="add">"أضف"</string>
 
     <!--search doctor-->
-    <string name="country">Country</string>
-    <string name="specialty">Speciality</string>
-    <string name="doctor_name">Doctor name</string>
-    <string name="search">Search</string>
-    <string name="found_n_doctors">Showing %1$d out of total %2$d</string>
-    <string name="no_doctors_found">No doctors found</string>
-    <string name="turn_location_options">Please, turn on location options if you want to select your current place as default for search</string>
-    <string name="any_country">Any country</string>
-    <string name="any_city">Any city</string>
-    <string name="any_speciality">Any speciality</string>
+    <string name="country">"البلد"</string>
+    <string name="specialty">"التخصص"</string>
+    <string name="doctor_name">"اسم الطبيب"</string>
+    <string name="search">"بحث"</string>
+    <string name="found_n_doctors">Showing %1$d out of total %2$d</string> 
+    <string name="no_doctors_found">"لم نعثر على طبيب"</string>
+    <string name="turn_location_options">"الرجاء قم بتشغيل امكانية "تحديد الموقع" في الجهاز ان اردت اختيار البحث في موقعك الحالي دائماً"</string>
+    <string name="any_country">"كل الدول"</string>
+    <string name="any_city">"كل المدن"</string>
+    <string name="any_speciality">"كل التخصصات"</string>
     <string name="error_not_found_title">"ابحث عن طبيب"</string>
     <string name="error_not_found_text">"لم نحصل على نتائح للبحث على"</string>
 
     <!--more articles-->
     <string name="more_articles_title">"المزيد من المقالات"</string>
-    <string name="we_found_n_articles">"We found (%1$d) articles"</string>
-    <string name="showing_articles">"(showing %1$d/%2$d) Articles"</string>
+    <string name="we_found_n_articles">"(1%$d) وجدنا مقالة"</string>
+    <string name="showing_articles">"%1$d/%2$d اظهار مقالة"</string>
 
     <!--settings-->
     <string name="settings_title">"اعدادات"</string>
     <string name="settings_title_1">Settings title 1</string>
-    <string name="profile_settings">Profile settings</string>
-    <string name="weekly_tips_notifications">Weekly tips notifications</string>
-    <string name="tests_reminders">Tests reminders</string>
-    <string name="once_a_day">Once a day</string>
-    <string name="once_time_only">Once time only</string>
-    <string name="newsletter">Newsletter</string>
-    <string name="my_profile">My profile</string>
-    <string name="edit">Edit</string>
-    <string name="reset_data">Reset data</string>
-    <string name="reset">Reset</string>
+    <string name="profile_settings">"اعدادت البروفيل"</string>
+    <string name="weekly_tips_notifications">"اشعارات للنصائح الاسبوعية"</string>
+    <string name="tests_reminders">"منبه الفحوصات"</string>
+    <string name="once_a_day">"مرة باليوم"</string>
+    <string name="once_time_only">"مرة واحدة فقط"</string>
+    <string name="newsletter">"النشرة الإلكترونية"</string>
+    <string name="my_profile">"الملف الشخصي"</string>
+    <string name="edit">"تعديل"</string>
+    <string name="reset_data">"إعادة ضبط المعلومات"</string>
+    <string name="reset">"إعادة الضبط"</string>
     <string name="logout">"خروج"</string>
 
     <!--about-->
     <string name="about_title">"حول التطبيق"</string>
-    <string name="about_app_version">1.1.0 application version</string>
+    <string name="about_app_version">"1.1.0 نسخة التطبيق"</string>
     <string name="logo_text">logo text</string>
     <string name="about_text">Long about text with app description or other stuff. Long about text with app description or other stuff.</string>
 
     <!--contact us-->
     <string name="contact_us_title">"اتصل بنا"</string>
     <string name="contact_us_title_hint">Title…</string>
-    <string name="contact_us_text_hint">"رسالة…"</string>
-    <string name="contact_us_btn_send">Send</string>
-    <string name="your_message_was_sent">Your message was sent successfully</string>
-    <string name="error_sending_message">Oops, we failed to send your message, please click close and retry</string>
-    <string name="please_enter_title">Please enter title</string>
-    <string name="please_enter_message">Please enter message</string>
+    <string name="contact_us_text_hint">"…رسالة"</string>
+    <string name="contact_us_btn_send">"ارسل"</string>
+    <string name="your_message_was_sent">"تم ارسال رسالتك بنجاح"</string>
+    <string name="error_sending_message">"عذراً، لم نتمكن من ارسال رسالتك، الرجاء المحاولة من جديد"</string>
+    <string name="please_enter_title">"الرجاء كتابة العنوان"</string>
+    <string name="please_enter_message">"الرجاء كتابة الرسالة"</string>
 
     <!--sharing-->
-    <string name="choose_email_client">Choose email client</string>
-    <string name="no_email_client_error">There are no email clients installed.</string>
-    <string name="not_support_printing_error">Your device does not support printing</string>
+    <string name="choose_email_client">"اختر حساب البريد الالكتروني"</string>
+    <string name="no_email_client_error">"لا يوجد حساب بريد إلكتروني على جهازك"</string>
+    <string name="not_support_printing_error">"جهازك لا يملك امكانية الطباعة"</string>
     <string name="share_photo_email_subject">%1$s shared an image with you</string>
 
     <!--errors-->
-    <string name="error_loading_data">Error loading data</string>
-    <string name="empty_loaded_data">Empty loaded data</string>
+    <string name="error_loading_data">"خطأ في تحميل المعلومات"</string>
+    <string name="empty_loaded_data">"لا يوجد معلومات"</string>
     <string name="no_connection">"الرجاء التأكد ان كان التواصل بالشبكة سليم والمحاولة من جديد"</string>
     <string name="error_with_description">"%1$s خطأ"</string>
 
     <!--confirm dialogs-->
-    <string name="dialog_delete_photo_title">Delete photo</string>
-    <string name="dialog_delete_photo_message">Are you sure you want to delete the photo?</string>
-    <string name="dialog_delete_photo_confirm">Delete</string>
+    <string name="dialog_delete_photo_title">"حذف الصورة"</string>
+    <string name="dialog_delete_photo_message">"هل انت متأكدة انك تريدين حذف الطفل؟"</string>
+    <string name="dialog_delete_photo_confirm">"حذف"</string>
     <string name="dialog_delete_photo_cancel">"الغاء"</string>
     <string name="dialog_logout_title">"خروج"</string>
     <string name="dialog_logout_message">يؤسفنا انك تنوين الخروج، هل انت متأكدة من انك تريدين الخروج؟</string>
     <string name="dialog_logout_confirm">"خروج"</string>
     <string name="dialog_logout_cancel">"الغاء"</string>
-    <string name="dialog_reset_title">Reset data</string>
+    <string name="dialog_reset_title">"إعادة ضبط المعلومات"</string>
     <string name="dialog_reset_message">"هل تريد إعادة ضبط معلومات التطبيق؟ الموفقة على هذه الخطوة سوف تؤدي الى اختفاء جميع محتويات التطبيق."</string>
     <string name="dialog_reset_confirm">"اعادة ضبط التطبيق"</string>
     <string name="dialog_reset_cancel">"الغاء"</string>
-    <string name="dialog_edit_profile_title">Save changes</string>
+    <string name="dialog_edit_profile_title">"حفظ التغيرات"</string>
     <string name="dialog_edit_profile_message">"لقد قمت بتغيير المعلومات في البروفيل، هل انت متأكدة من هذا التعديل؟"</string>
     <string name="dialog_edit_profile_confirm">"تحديث"</string>
     <string name="dialog_edit_profile_cancel">"الغاء"</string>
@@ -214,7 +212,7 @@
     <string name="hint_comment">a moment to remember, type few words about it</string>
 
     <!--newborn-->
-    <string name="newborn_title">Congratulation with new child</string>
+    <string name="newborn_title">"مبروك مولودك الجديد"</string>
     <string name="newborn_text">new child new child new child new child new child new child
     new child new child new child new child</string>
 
@@ -242,7 +240,10 @@
     <string name="month_61_145_title">"المدرسة"</string>
     <string name="month_145_216_title">"النضوج"</string>
 
-    <string name="loading">Loading…</string>
-    <string name="retry">Retry</string>
+    <string name="loading">"جاري التحميل…"</string>
+    <string name="retry">"إعادة المحاولة"</string>
+
+	<string name="error_loading_title">Oops!</string>
+    <string name="error_loading_text">Unable to load data</string>
 
 </resources>
