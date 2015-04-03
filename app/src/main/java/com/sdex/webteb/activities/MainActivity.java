@@ -247,7 +247,11 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             if (curFragment != null && curFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
                 curFragment.getChildFragmentManager().popBackStack();
             } else {
-                super.onBackPressed();
+                if (curFragment instanceof HomeFragment) {
+                    super.onBackPressed();
+                } else {
+                    setMenuItem(0);
+                }
             }
         }
     }
