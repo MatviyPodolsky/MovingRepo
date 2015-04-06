@@ -100,7 +100,7 @@ public class DbPhoto implements Comparable {
                 Integer.parseInt(thisDate) < Integer.parseInt(date)) {
             return -1;
         } else {
-            return thisDate.compareTo(date);
+            return 0;
         }
 
     }
