@@ -51,7 +51,7 @@
         android:textColor="@color/primary"
         android:textSize="16sp"
         android:visibility="visible"
-        android:text="Cancel" />
+        android:text="@string/done" />
 
 
 </RelativeLayout>
