@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -119,9 +120,17 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         String title = getString(R.string.album_title);
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         DbUser user = databaseHelper.getUser(preferencesManager.getEmail());
-        String children = user.getChildren();
-        String childNames = children.replaceAll("/", ", ");
-        String formattedTitle = String.format(title, childNames);
+        String[] childsArray = user.getChildren().split("/");
+        String titleString = "";
+        for (int i = 0; i < childsArray.length; i++) {
+            String childName = childsArray[i].replaceAll("\\s+", "");
+            if (!TextUtils.isEmpty(childName)) {
+                titleString = titleString + childName + ", ";
+            }
+        }
+        int lastIndex = titleString.lastIndexOf(",");
+        String childs = titleString.substring(0, lastIndex);
+        String formattedTitle = String.format(title, childs);
         mTitle.setText(Html.fromHtml(formattedTitle));
     }
 
