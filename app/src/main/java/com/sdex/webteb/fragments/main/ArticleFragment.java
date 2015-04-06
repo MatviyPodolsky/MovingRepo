@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -41,6 +42,8 @@ public class ArticleFragment extends BaseMainFragment {
     TextView mTitle;
     @InjectView(R.id.share)
     ImageButton mShareButton;
+    @InjectView(R.id.btn_next_article)
+    Button mNextArticle;
 
     private PopupWindow mSharePopUp;
 
@@ -128,6 +131,8 @@ public class ArticleFragment extends BaseMainFragment {
             currentPosition++;
             loadData();
             sendAnalyticsEvent(Events.CATEGORY_NAVIGATION, Events.ACTION_NEXT);
+        } else if(currentPosition == data.size() - 1) {
+            mNextArticle.setVisibility(View.GONE);
         }
     }
 
