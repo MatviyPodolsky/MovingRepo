@@ -349,7 +349,9 @@ public class TestsAdapter extends BaseExpandableListAdapter {
             }
             stringBuilder.append(", ");
         }
-        stringBuilder.setLength(stringBuilder.length() - 2);
+        if(stringBuilder.length() > 1) {
+            stringBuilder.setLength(stringBuilder.length() - 2);
+        }
         return stringBuilder.toString();
     }
 
