@@ -281,6 +281,19 @@ public class ChildrenAdapter extends BaseAdapter {
                 KeyboardUtils.hideKeyboard(v);
                 v.clearFocus();
                 updateCompleteChild(holder);
+
+                switch(data.get(position).getGender()) {
+                    case MALE :
+                        selectMale(holder);
+                        break;
+                    case FEMALE :
+                        selectFemale(holder);
+                        break;
+                    default:
+                        selectUnknown(holder);
+                        break;
+                }
+
                 return false;
             }
             return false;

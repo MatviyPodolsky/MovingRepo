@@ -217,6 +217,7 @@ public class TestsAdapter extends BaseExpandableListAdapter {
     private void refreshStatus(final BabyTestResponse item, final ViewHolderGroup holder) {
         UserTest test = item.getUserTest();
         if (test != null) {
+            boolean isSetReminder = false;
             int currentDate = Integer.parseInt(mPreferencesManager.getCurrentDate());
             List<Range> relatedPeriods = item.getRelatedPeriods();
             for (int i = 0; i < relatedPeriods.size(); i++) {
@@ -224,15 +225,23 @@ public class TestsAdapter extends BaseExpandableListAdapter {
                         currentDate <= relatedPeriods.get(i).getTo()) &&
                         test.isReminderStatus()) {
                     holder.reminder.setVisibility(View.VISIBLE);
+                    isSetReminder = true;
                     break;
                 } else {
                     holder.reminder.setVisibility(View.GONE);
+                    isSetReminder = false;
                 }
             }
             if (test.isTestDone()) {
                 holder.done.setVisibility(View.VISIBLE);
+                if (isSetReminder) {
+                    holder.reminder.setVisibility(View.GONE);
+                }
             } else {
                 holder.done.setVisibility(View.GONE);
+                if (isSetReminder) {
+                    holder.reminder.setVisibility(View.VISIBLE);
+                }
             }
         } else {
             holder.reminder.setVisibility(View.GONE);
@@ -349,7 +358,9 @@ public class TestsAdapter extends BaseExpandableListAdapter {
             }
             stringBuilder.append(", ");
         }
-        stringBuilder.setLength(stringBuilder.length() - 2);
+        if(stringBuilder.length() > 1) {
+            stringBuilder.setLength(stringBuilder.length() - 2);
+        }
         return stringBuilder.toString();
     }
 

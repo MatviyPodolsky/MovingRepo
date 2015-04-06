@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.rest.response.BabyTestResponse;
@@ -25,8 +24,6 @@ public class TestsItemFragment extends BaseMainFragment {
 
     @InjectView(R.id.content)
     WebView mContentView;
-    @InjectView(R.id.title)
-    TextView mTitle;
 
     public static Fragment newInstance(BabyTestResponse item) {
         TestsItemFragment fragment = new TestsItemFragment();
@@ -50,7 +47,6 @@ public class TestsItemFragment extends BaseMainFragment {
         if (item != null) {
             String title = item.getContentPreview().getTitle();
             String url = item.getContentPreview().getKey().getUrl();
-            mTitle.setText(title);
             mContentView.loadUrl(url);
 
             String name = String.format(getString(R.string.screen_test), title);
