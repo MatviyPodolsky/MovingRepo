@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ad_view_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.google.android.gms.ads.doubleclick.PublisherAdView
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ads:adUnitId="/297879071/MobileAppBottom"
-        ads:adSize="SMART_BANNER">
-
-    </com.google.android.gms.ads.doubleclick.PublisherAdView>
 
 </RelativeLayout>

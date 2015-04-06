@@ -22,6 +22,7 @@ import com.sdex.webteb.activities.MainActivity;
 import com.sdex.webteb.internal.events.NotificationEvent;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.request.NotificationReceivedRequest;
+import com.sdex.webteb.utils.PreferencesManager;
 
 import de.greenrobot.event.EventBus;
 
@@ -84,8 +85,11 @@ public class GcmIntentService extends IntentService {
         String title = extras.getString(MainActivity.NOTIFICATION_TITLE);
         String message = extras.getString(MainActivity.NOTIFICATION_CONTENT);
 
-        NotificationReceivedRequest receivedRequest = new NotificationReceivedRequest(id);
-        RestClient.getApiService().postNotificationReceived(receivedRequest);
+        boolean notifyOnReceiveNotification = PreferencesManager.getInstance().isNotifyOnReceiveNotification();
+        if (notifyOnReceiveNotification) {
+            NotificationReceivedRequest receivedRequest = new NotificationReceivedRequest(id);
+            RestClient.getApiService().postNotificationReceived(receivedRequest);
+        }
 
         if (eventBus.hasSubscriberForEvent(NotificationEvent.class)) {
             NotificationEvent event = new NotificationEvent(extras);

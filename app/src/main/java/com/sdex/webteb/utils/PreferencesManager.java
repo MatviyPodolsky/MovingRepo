@@ -29,6 +29,9 @@ public class PreferencesManager {
     private static final String WAS_LAUNCHED = "was_launched";
     private static final String LAST_NOTIFICATION = "last_notification";
 
+    private static final String ADS_SERVER_ID = "ads_server_id";
+    private static final String NOTIFY_ON_RECEIVE_NOTIFICATION = "notify_on_receive_notification";
+
     public static final String ADS_SHOW_KEY = "show_interstitial_ad";
     public static final String ADS_SHOWS_COUNTER_KEY = "ads_shows_counter_key";
     public static final String SEND_FAMILY_RELATION = "send_family_relation";
@@ -180,6 +183,26 @@ public class PreferencesManager {
             return gson.fromJson(json, NotificationsResponse.class);
         }
         return null;
+    }
+
+    public void setAdsServerId(String serverId) {
+        mPref.edit()
+                .putString(ADS_SERVER_ID, serverId)
+                .commit();
+    }
+
+    public String getAdsServerId() {
+        return mPref.getString(ADS_SERVER_ID, null);
+    }
+
+    public void setNotifyOnReceiveNotification(boolean notifyOnReceiveNotification) {
+        mPref.edit()
+                .putBoolean(NOTIFY_ON_RECEIVE_NOTIFICATION, notifyOnReceiveNotification)
+                .commit();
+    }
+
+    public boolean isNotifyOnReceiveNotification() {
+        return mPref.getBoolean(NOTIFY_ON_RECEIVE_NOTIFICATION, false);
     }
 
 }

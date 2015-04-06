@@ -17,6 +17,7 @@ import com.sdex.webteb.rest.request.RegisterUserRequest;
 import com.sdex.webteb.rest.request.SendEventRequest;
 import com.sdex.webteb.rest.request.SetPasswordRequest;
 import com.sdex.webteb.rest.response.ArticlesResponse;
+import com.sdex.webteb.rest.response.BabyConfigResponse;
 import com.sdex.webteb.rest.response.BabyGeneralResponse;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
@@ -177,5 +178,8 @@ public interface ApiService {
 
     @POST("/baby/settings/pushtoken")
     void postPushToken(@Body PushTokenRequest body, Callback<String> callback);
+
+    @GET("/baby/config")
+    void getBabyConfig(Callback<BabyConfigResponse> callback);
 
 }

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.sdex.webteb.R;
 import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.model.ContentLink;
+import com.sdex.webteb.utils.AdUtil;
 import com.sdex.webteb.utils.EmailUtil;
 import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.PrintUtil;
@@ -146,6 +147,7 @@ public class ArticleFragment extends BaseMainFragment {
         String name = String.format(getString(R.string.screen_article), title);
         sendAnalyticsScreenName(name);
         showAd(name, null);
+        AdUtil.initInterstitialAd(getActivity(), name);
     }
 
 }
