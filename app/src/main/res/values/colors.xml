@@ -14,6 +14,8 @@
     <color name="gray_background">#D8D8D8</color>
     <color name="action_bar_text_color">#FFFFFF</color>
     <color name="divider">#AAAAAA</color>
+    <color name="added_child">#D8D8D8</color>
+    <color name="added_child_selected">#808080</color>
 
     <color name="primary">#EC1561</color>
     <color name="primary_dark">#C5115B</color>
