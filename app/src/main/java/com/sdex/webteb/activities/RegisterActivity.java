@@ -144,6 +144,12 @@ public class RegisterActivity extends FacebookAuthActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        clearFields();
+    }
+
+    @Override
     protected int getLayoutResource() {
         return R.layout.activity_register;
     }
@@ -245,6 +251,16 @@ public class RegisterActivity extends FacebookAuthActivity {
         Intent intent = new Intent(RegisterActivity.this, SetupProfileActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void clearFields() {
+        mName.setText("");
+        mName.setError(null);
+        mName.requestFocus();
+        mEmail.setText("");
+        mEmail.setError(null);
+        mPassword.setText("");
+        mPassword.setError(null);
     }
 
 }
