@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -58,20 +59,24 @@ public class PreviewFragment extends BaseMainFragment {
         if (contentPreview != null) {
             setUpWebView(mContentView);
             EntityKey key = contentPreview.getKey();
-            RestClient.getApiService().getEntity(key.getId(), key.getType(), key.getFieldName(),
-                    new RestCallback<EntityResponse>() {
-                        @Override
-                        public void failure(RestError restError) {
-                            if (isAdded()) {
-                                mProgressBar.setVisibility(View.GONE);
+            if (TextUtils.isEmpty(key.getUrl())) {
+                RestClient.getApiService().getEntity(key.getId(), key.getType(), key.getFieldName(),
+                        new RestCallback<EntityResponse>() {
+                            @Override
+                            public void failure(RestError restError) {
+                                if (isAdded()) {
+                                    mProgressBar.setVisibility(View.GONE);
+                                }
                             }
-                        }
 
-                        @Override
-                        public void success(EntityResponse entityResponse, Response response) {
-                            showData(entityResponse);
-                        }
-                    });
+                            @Override
+                            public void success(EntityResponse entityResponse, Response response) {
+                                showData(entityResponse);
+                            }
+                        });
+            } else {
+                showData(contentPreview);
+            }
         }
     }
 
@@ -95,6 +100,16 @@ public class PreviewFragment extends BaseMainFragment {
                     }
                 }
             }
+        }
+    }
+
+    private void showData(ContentPreview content) {
+        if (isAdded()) {
+            mProgressBar.setVisibility(View.GONE);
+            String name = content.getTitle();
+            title.setText(name);
+            showAd(name, content.getTargeting());
+            mContentView.loadUrl(content.getKey().getUrl());
         }
     }
 
