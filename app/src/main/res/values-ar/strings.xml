@@ -119,7 +119,8 @@
     <string name="take_photo">"التقط صورة"</string>
     <string name="select_photo">"اختر صورة"</string>
     <string name="cancel">"الغاء"</string>
-    <string name="album_title"><![CDATA[My <b>%1$s</b> album]]></string>
+    <string name="album_title"><![CDATA[My <b>%1$s</b>]]></string>
+    <string name="album_text">" album"</string>
     <string name="album_empty_text">"ألبوم الصور فارغ"</string>
     <string name="take_photo_button_title">"صورة"</string>
     <string name="save">"حفظ"</string>

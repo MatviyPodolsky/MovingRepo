@@ -276,7 +276,7 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         if (count > numOfFragments) {
             mDeletePhoto.setVisibility(View.VISIBLE);
         } else {
-            mDeletePhoto.setVisibility(View.INVISIBLE);
+            mDeletePhoto.setVisibility(View.GONE);
         }
     }
 
