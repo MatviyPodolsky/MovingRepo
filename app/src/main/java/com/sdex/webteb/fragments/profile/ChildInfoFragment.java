@@ -106,7 +106,9 @@ public class ChildInfoFragment extends BaseFragment {
 
     @OnClick(R.id.add)
     public void addChild() {
-        mAdapter.addChild(new Child());
+        Child child = new Child();
+        child.setName("");
+        mAdapter.addChild(child);
         mAdapter.notifyDataSetChanged();
         updateChildrenCount();
     }
@@ -120,11 +122,12 @@ public class ChildInfoFragment extends BaseFragment {
     }
 
     private List<Child> getChilds() {
-        List<Child> childs = new ArrayList<>(mAdapter.getChildren());
-        for (int i = 0; i < childs.size(); i++) {
-            String childName = childs.get(i).getName().replaceAll("\\s+", "");
-            if (TextUtils.isEmpty(childName)) {
-                childs.remove(i);
+        List<Child> childs = new ArrayList<>();
+        for (int i = 0; i < mAdapter.getChildren().size(); i++) {
+            Child child = mAdapter.getChildren().get(i);
+            String childName = child.getName().replaceAll("\\s+", "");
+            if (!TextUtils.isEmpty(childName)) {
+                childs.add(child);
             }
         }
         return childs;

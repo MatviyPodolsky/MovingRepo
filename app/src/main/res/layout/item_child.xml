@@ -18,7 +18,7 @@
             android:padding="10dp"
             android:src="@drawable/ic_cross_light_delete" />
 
-        <EditText
+        <com.sdex.webteb.view.PanEditText
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

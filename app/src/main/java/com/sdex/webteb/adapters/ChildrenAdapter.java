@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.model.Child;
+import com.sdex.webteb.utils.KeyboardUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,7 @@ public class ChildrenAdapter extends BaseAdapter {
     }
 
     public void removeChild(int position) {
-        if(data.size() > 1) {
+        if (data.size() > 1) {
             completedChildren.remove(position);
             data.remove(position);
         } else {
@@ -112,6 +113,16 @@ public class ChildrenAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(RESOURCE, parent, false);
             holder = new ViewHolder(convertView);
+            holder.name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        ((EditText)v).setHint("");
+                    } else {
+                        ((EditText)v).setHint(context.getString(R.string.type_child_name));
+                    }
+                }
+            });
             holder.name.addTextChangedListener(new NameWatcher(convertView));
             holder.name.setOnEditorActionListener(new OnCompleteChildListener(holder));
             holder.containerFemale.setOnClickListener(new View.OnClickListener() {
@@ -267,6 +278,8 @@ public class ChildrenAdapter extends BaseAdapter {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 int position = (int)holder.name.getTag(POSITION);
                 completedChildren.set(position, true);
+                KeyboardUtils.hideKeyboard(v);
+                v.clearFocus();
                 updateCompleteChild(holder);
                 return false;
             }
