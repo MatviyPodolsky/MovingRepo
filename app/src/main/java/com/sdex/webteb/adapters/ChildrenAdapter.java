@@ -78,7 +78,7 @@ public class ChildrenAdapter extends BaseAdapter {
     }
 
     public void removeChild(int position) {
-        if(data.size() > 1) {
+        if (data.size() > 1) {
             completedChildren.remove(position);
             data.remove(position);
         } else {

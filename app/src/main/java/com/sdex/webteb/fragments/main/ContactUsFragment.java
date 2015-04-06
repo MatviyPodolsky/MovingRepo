@@ -90,8 +90,8 @@ public class ContactUsFragment extends BaseMainFragment {
 
     @OnClick(R.id.send)
     void send(View v) {
+        KeyboardUtils.hideKeyboard(v);
         if (isValidData()) {
-            KeyboardUtils.hideKeyboard(v);
             final String title = mTitle.getText().toString();
             final String text = mText.getText().toString();
             ContactUsRequest request = new ContactUsRequest();
