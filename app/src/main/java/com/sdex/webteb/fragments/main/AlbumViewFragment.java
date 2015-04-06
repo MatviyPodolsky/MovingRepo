@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.print.PrintHelper;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.PhotoPagerAdapter;
+import com.sdex.webteb.adapters.PhotoTagsAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.internal.events.ClickPhotoEvent;
@@ -28,6 +31,7 @@ import com.sdex.webteb.utils.EmailUtil;
 import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.utils.PrintUtil;
+import com.sdex.webteb.view.WrapLinearLayoutManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -57,8 +61,11 @@ public class AlbumViewFragment extends BaseMainFragment {
     TextView mAllPhoto;
     @InjectView(R.id.photo_info_container)
     View mPhotoInfo;
+    @InjectView(R.id.tags_list)
+    RecyclerView mTagsList;
     private PhotoPagerAdapter mAdapter;
     private List<DbPhoto> data;
+    private PhotoTagsAdapter mTagsAdapter;
 
     public static AlbumViewFragment newInstance(int currentPhoto) {
         AlbumViewFragment fragment = new AlbumViewFragment();
@@ -76,6 +83,10 @@ public class AlbumViewFragment extends BaseMainFragment {
         data = databaseHelper.getPhotos(email);
         mAllPhoto.setText(String.valueOf(data.size()));
         mAdapter = new PhotoPagerAdapter(getChildFragmentManager(), data);
+        final WrapLinearLayoutManager layoutManager = new WrapLinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false);
+        mTagsList.setLayoutManager(layoutManager);
+        mTagsAdapter = new PhotoTagsAdapter();
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(2);
         final int currentPhoto = getArguments().getInt("current_photo");
@@ -89,6 +100,7 @@ public class AlbumViewFragment extends BaseMainFragment {
                 showPhotoInfo(position);
             }
         });
+        mTagsList.setAdapter(mTagsAdapter);
     }
 
     @Override
@@ -164,6 +176,7 @@ public class AlbumViewFragment extends BaseMainFragment {
             DbPhoto photo = data.get(position);
             mDescription.setText(photo.getDescription());
             mDate.setText(photo.getDisplayedDate());
+            mTagsAdapter.setChildren(photo.getTags());
             setCurrentPhotoIndex(position);
         }
     }

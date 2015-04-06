@@ -21,20 +21,40 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <Button
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:text="Share"
-            android:id="@+id/btn_share"
-            android:textSize="@dimen/default_text_size"
-            android:textColor="@android:color/white"
-            android:background="@color/primary"
-            android:drawableRight="@drawable/ic_share"
-            android:drawablePadding="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="Share"
+                android:id="@+id/btn_share"
+                android:textSize="@dimen/default_text_size"
+                android:textColor="@android:color/white"
+                android:background="@color/primary"
+                android:drawableRight="@drawable/ic_share"
+                android:drawablePadding="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/btn_share">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/tags_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/bottom_bar"
