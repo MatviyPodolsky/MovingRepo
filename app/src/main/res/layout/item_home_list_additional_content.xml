@@ -18,15 +18,15 @@
             app:typeface="DINNextLTArabicBold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="@string/test_text"
+            tools:text="Test text"
             android:id="@+id/title"
-            android:textSize="18dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:layout_gravity="center_vertical"
             android:layout_weight="1" />
 
     </LinearLayout>
-
 
     <ImageView
         android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         app:typeface="DINNextLTArabicLight"
         android:id="@+id/text"
         android:gravity="start"
-        android:textSize="@dimen/default_text_size"
+        android:textSize="11sp"
         android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/title_container"

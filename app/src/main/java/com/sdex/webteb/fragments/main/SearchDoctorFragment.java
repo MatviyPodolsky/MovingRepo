@@ -160,14 +160,16 @@ public class SearchDoctorFragment extends BaseMainFragment {
 
     @OnClick(R.id.city)
     public void selectCity() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        DialogFragment dialog = new SearchFilterDialog();
-        Bundle args = new Bundle();
-        args.putStringArray(LIST, citiesList);
-        args.putInt(REQUEST, REQUEST_GET_CITY);
-        dialog.setArguments(args);
-        dialog.setTargetFragment(this, REQUEST_GET_CITY);
-        dialog.show(ft, "dialog");
+        if(citiesList.length > 1) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            DialogFragment dialog = new SearchFilterDialog();
+            Bundle args = new Bundle();
+            args.putStringArray(LIST, citiesList);
+            args.putInt(REQUEST, REQUEST_GET_CITY);
+            dialog.setArguments(args);
+            dialog.setTargetFragment(this, REQUEST_GET_CITY);
+            dialog.show(ft, "dialog");
+        }
     }
 
     @OnClick(R.id.specialty)
