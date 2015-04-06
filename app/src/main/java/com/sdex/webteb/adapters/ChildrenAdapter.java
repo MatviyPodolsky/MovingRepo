@@ -1,7 +1,6 @@
 package com.sdex.webteb.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -182,19 +181,31 @@ public class ChildrenAdapter extends BaseAdapter {
     private void clearFemale(ViewHolder holder) {
         holder.textFemale.setVisibility(View.GONE);
         holder.imageFemale.setImageResource(R.drawable.ic_female_normal);
-        holder.containerFemale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+        if(completedChildren.get((int)holder.name.getTag(POSITION))) {
+            holder.containerFemale.setBackgroundColor(context.getResources().getColor(R.color.added_child));
+        } else {
+            holder.containerFemale.setBackgroundResource(R.drawable.red_border);
+        }
     }
 
     private void clearMale(ViewHolder holder) {
         holder.textMale.setVisibility(View.GONE);
         holder.imageMale.setImageResource(R.drawable.ic_male_normal);
-        holder.containerMale.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+        if(completedChildren.get((int)holder.name.getTag(POSITION))) {
+            holder.containerMale.setBackgroundColor(context.getResources().getColor(R.color.added_child));
+        } else {
+            holder.containerMale.setBackgroundResource(R.drawable.red_border);
+        }
     }
 
     private void clearUnknown(ViewHolder holder) {
         holder.textUnknown.setVisibility(View.GONE);
         holder.imageUnknown.setImageResource(R.drawable.ic_question_mark_normal);
-        holder.containerUnknown.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+        if(completedChildren.get((int)holder.name.getTag(POSITION))) {
+            holder.containerUnknown.setBackgroundColor(context.getResources().getColor(R.color.added_child));
+        } else {
+            holder.containerUnknown.setBackgroundResource(R.drawable.red_border);
+        }
     }
 
     private void selectFemale(ViewHolder holder) {
@@ -202,7 +213,11 @@ public class ChildrenAdapter extends BaseAdapter {
         clearUnknown(holder);
         holder.textFemale.setVisibility(View.VISIBLE);
         holder.imageFemale.setImageResource(R.drawable.ic_female_pressed);
-        holder.containerFemale.setBackgroundColor(context.getResources().getColor(R.color.primary));
+        if(completedChildren.get((int)holder.name.getTag(POSITION))) {
+            holder.containerFemale.setBackgroundColor(context.getResources().getColor(R.color.added_child_selected));
+        } else {
+            holder.containerFemale.setBackgroundColor(context.getResources().getColor(R.color.primary));
+        }
     }
 
     private void selectMale(ViewHolder holder) {
@@ -210,7 +225,11 @@ public class ChildrenAdapter extends BaseAdapter {
         clearUnknown(holder);
         holder.textMale.setVisibility(View.VISIBLE);
         holder.imageMale.setImageResource(R.drawable.ic_male_pressed);
-        holder.containerMale.setBackgroundColor(context.getResources().getColor(R.color.primary));
+        if(completedChildren.get((int)holder.name.getTag(POSITION))) {
+            holder.containerMale.setBackgroundColor(context.getResources().getColor(R.color.added_child_selected));
+        } else {
+            holder.containerMale.setBackgroundColor(context.getResources().getColor(R.color.primary));
+        }
     }
 
     private void selectUnknown(ViewHolder holder) {
@@ -218,18 +237,21 @@ public class ChildrenAdapter extends BaseAdapter {
         clearMale(holder);
         holder.textUnknown.setVisibility(View.VISIBLE);
         holder.imageUnknown.setImageResource(R.drawable.ic_question_mark_selected);
-        holder.containerUnknown.setBackgroundColor(context.getResources().getColor(R.color.primary));
+        if(completedChildren.get((int)holder.name.getTag(POSITION))) {
+            holder.containerUnknown.setBackgroundColor(context.getResources().getColor(R.color.added_child_selected));
+        } else {
+            holder.containerUnknown.setBackgroundColor(context.getResources().getColor(R.color.primary));
+        }
     }
 
     private void updateCompleteChild(ViewHolder holder) {
         if (completedChildren.get((int)holder.name.getTag(POSITION))) {
-            holder.nameContainer.setBackgroundColor(Color.parseColor("#D8D8D8"));
+            holder.nameContainer.setBackgroundColor(context.getResources().getColor(R.color.added_child));
             holder.delete.setVisibility(View.VISIBLE);
         } else {
             holder.nameContainer.setBackgroundResource(R.drawable.text_field);
             holder.delete.setVisibility(View.GONE);
         }
-
     }
 
     public class OnCompleteChildListener implements TextView.OnEditorActionListener {
