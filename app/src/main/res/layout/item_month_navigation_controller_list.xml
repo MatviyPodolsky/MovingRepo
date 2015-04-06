@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:background="@android:color/transparent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/item_time"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/time_navigation_controller_month_line_height"
+            android:gravity="center"
+            android:id="@+id/label"
+            android:visibility="invisible"
+            android:layout_marginLeft="@dimen/time_navigation_controller_item_padding"
+            android:layout_marginRight="@dimen/time_navigation_controller_item_padding"
+            tools:text="label"
+            android:textSize="10sp"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/time_navigation_controller_item_size"
+            tools:background="@color/primary"
+            android:background="@color/primary"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/time_navigation_controller_circle_diameter"
+                android:layout_marginLeft="@dimen/time_navigation_controller_item_padding"
+                android:layout_marginRight="@dimen/time_navigation_controller_item_padding"
+                android:gravity="center"
+                android:id="@+id/value"
+                tools:text="lolololololol"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                android:textSize="15sp"
+                tools:background="@drawable/btn_navigation_period"
+                android:textColor="@android:color/white"
+                android:background="@android:color/transparent" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

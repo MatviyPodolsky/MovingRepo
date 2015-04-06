@@ -29,7 +29,9 @@ import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
 import com.google.android.gms.ads.mediation.admob.AdMobExtras;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.HomeListAdapter;
+import com.sdex.webteb.adapters.MonthNavigationAdapter;
 import com.sdex.webteb.adapters.TimeNavigationAdapter;
+import com.sdex.webteb.adapters.WeekNavigationAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
@@ -568,42 +570,43 @@ public class HomeFragment extends PhotoFragment {
             int currentDays = (card.getTotalDays() - card.getDaysLeft());
             layoutParams.width = currentDays * DisplayUtil.getScreenWidth(getActivity()) / card.getTotalDays();
             String progressTitle = getString(R.string.profile_progress_text);
+            mProgress.setVisibility(View.VISIBLE);
             mProgress.setText(String.format(progressTitle, card.getDaysLeft()));
             mProgress.requestLayout();
             preferencesManager.setCurrentDate(String.valueOf(currentWeek),
                     PreferencesManager.DATE_TYPE_WEEK);
-//            RestClient.getApiService().getWeek(currentWeek, getWeekCallback);
         } else {
             RestClient.getApiService().getBabyProfile(getProfileCallback);
             mProgress.setVisibility(View.GONE);
         }
 
-        int mode = gaveBirth ? TimeNavigationAdapter.MODE_MONTHS :
-                TimeNavigationAdapter.MODE_WEEKS;
-
-        mTimeNavAdapter = new TimeNavigationAdapter(getActivity(), mode);
-
-        mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mTimeNavigationRecyclerView.smoothScrollToView(view);
-                mTimeNavAdapter.setSelectedItem(position);
-                if (gaveBirth) {
-                    RestClient.getApiService().getMonth(mTimeNavAdapter.getItemCount() - position, getMonthCallback);
-                } else {
+        if (gaveBirth) {
+            mTimeNavAdapter = new MonthNavigationAdapter();
+            mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    int month = StaticDataProvider.MONTH_RANGES
+                            .get(mTimeNavAdapter.getItemCount() - position - 1).getFrom();
+                    RestClient.getApiService().getMonth(month, getMonthCallback);
+                    updateSelectedTimeNavigationItem(view, position);
+                }
+            });
+        } else {
+            mTimeNavAdapter = new WeekNavigationAdapter(getActivity());
+            mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     RestClient.getApiService().getWeek(mTimeNavAdapter.getItemCount() - position, getWeekCallback);
+                    updateSelectedTimeNavigationItem(view, position);
                 }
-                if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                }
-            }
-        });
+            });
+        }
         mTimeNavigationRecyclerView.setAdapter(mTimeNavAdapter);
 
-        if (mode == TimeNavigationAdapter.MODE_WEEKS) {
+        if (!gaveBirth) {
+            LinearLayoutManager layoutManager = (LinearLayoutManager) mTimeNavigationRecyclerView.getLayoutManager();
             int itemsCount = mTimeNavAdapter.getItemCount();
             int currentIndex = itemsCount - currentWeek;
-            LinearLayoutManager layoutManager = (LinearLayoutManager) mTimeNavigationRecyclerView.getLayoutManager();
             layoutManager.scrollToPositionWithOffset(currentIndex, getTimeNavigationControllerItemOffset());
             mTimeNavAdapter.setSelectedItem(currentIndex);
         }
@@ -636,8 +639,17 @@ public class HomeFragment extends PhotoFragment {
         mRecyclerView.setAdapter(adapter);
     }
 
+    private void updateSelectedTimeNavigationItem(View view, int position) {
+        mTimeNavigationRecyclerView.smoothScrollToView(view);
+        mTimeNavAdapter.setSelectedItem(position);
+        if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        }
+    }
+
     private void setNavController(int month) {
-        int index = mTimeNavAdapter.getItemCount() - month;
+        MonthRange currentRange = StaticDataProvider.getCurrentRange(month);
+        int index = mTimeNavAdapter.getItemCount() - StaticDataProvider.MONTH_RANGES.indexOf(currentRange);
         LinearLayoutManager layoutManager = (LinearLayoutManager) mTimeNavigationRecyclerView.getLayoutManager();
         layoutManager.scrollToPositionWithOffset(index, getTimeNavigationControllerItemOffset());
         mTimeNavAdapter.setSelectedItem(index);

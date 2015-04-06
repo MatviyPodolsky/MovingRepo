@@ -131,6 +131,7 @@
             android:text="@string/profile_progress_text"
             android:background="@color/primary_dark"
             android:id="@+id/progress"
+            android:visibility="gone"
             android:paddingLeft="3dp"
             android:paddingRight="3dp" />
     </LinearLayout>
