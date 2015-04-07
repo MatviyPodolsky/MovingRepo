@@ -137,7 +137,7 @@ public class WeekNavigationAdapter extends TimeNavigationAdapter<WeekNavigationA
         public void setSelected(boolean selected) {
             if (selected) {
                 mValue.setBackgroundResource(R.drawable.ic_footer_nbr_selected);
-                mValue.setTextColor(Color.BLACK);
+                mValue.setTextColor(Color.parseColor("#EC1561"));
             } else {
                 mValue.setBackgroundResource(R.drawable.ic_footer_nbr_normal);
                 mValue.setTextColor(Color.WHITE);

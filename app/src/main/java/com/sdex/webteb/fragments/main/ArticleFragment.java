@@ -17,7 +17,12 @@ import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.internal.analytics.Events;
+import com.sdex.webteb.internal.events.AddArticlesEvent;
 import com.sdex.webteb.model.ContentLink;
+import com.sdex.webteb.rest.RestCallback;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.RestError;
+import com.sdex.webteb.rest.response.ArticlesResponse;
 import com.sdex.webteb.utils.AdUtil;
 import com.sdex.webteb.utils.EmailUtil;
 import com.sdex.webteb.utils.FacebookUtil;
@@ -29,6 +34,8 @@ import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+import retrofit.client.Response;
 
 public class ArticleFragment extends BaseMainFragment {
 
@@ -36,6 +43,8 @@ public class ArticleFragment extends BaseMainFragment {
 
     private static final String ARG_ARTICLES = "ARG_ARTICLES";
     private static final String ARG_POSITION = "ARG_POSITION";
+    private static final String ARG_PAGE = "ARG_PAGE";
+    private static final String ARG_TOTAL_COUNT = "ARG_TOTAL_COUNT";
 
     @InjectView(R.id.content)
     WebView mContentView;
@@ -45,17 +54,22 @@ public class ArticleFragment extends BaseMainFragment {
     ImageButton mShareButton;
     @InjectView(R.id.btn_next_article)
     Button mNextArticle;
+    private RestCallback<ArticlesResponse> getArticlesCallback;
 
     private PopupWindow mSharePopUp;
 
-    private List<ContentLink> data;
+    private List<ContentLink> mData;
     private int currentPosition;
+    private int page;
+    private int totalCount;
 
-    public static Fragment newInstance(List<ContentLink> data, int position) {
+    public static Fragment newInstance(List<ContentLink> data, int position, int page, int totalCount) {
         ArticleFragment fragment = new ArticleFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_ARTICLES, Parcels.wrap(data));
         args.putInt(ARG_POSITION, position);
+        args.putInt(ARG_PAGE, page);
+        args.putInt(ARG_TOTAL_COUNT, totalCount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,10 +78,36 @@ public class ArticleFragment extends BaseMainFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle args = getArguments();
-        data = Parcels.unwrap(args.getParcelable(ARG_ARTICLES));
+        mData = Parcels.unwrap(args.getParcelable(ARG_ARTICLES));
         currentPosition = args.getInt(ARG_POSITION);
+        page = args.getInt(ARG_PAGE);
+        totalCount = args.getInt(ARG_TOTAL_COUNT);
         setUpWebView(mContentView);
         initSharingPopUp();
+        getArticlesCallback = new RestCallback<ArticlesResponse>() {
+            @Override
+            public void failure(RestError restError) {
+                if (getActivity() == null) {
+                    mNextArticle.setVisibility(View.VISIBLE);
+                    return;
+                }
+            }
+
+            @Override
+            public void success(ArticlesResponse articlesResponse, Response response) {
+
+                if (getActivity() == null) {
+                    return;
+                }
+
+                List<ContentLink> articles = articlesResponse.getArticles();
+                page++;
+                if (articles != null && !articles.isEmpty()) {
+                    mData.addAll(articles);
+                }
+                mNextArticle.setVisibility(View.VISIBLE);
+            }
+        };
         loadData();
     }
 
@@ -77,7 +117,7 @@ public class ArticleFragment extends BaseMainFragment {
         mSharePopUp = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
-        final ContentLink article = data.get(currentPosition);
+        final ContentLink article = mData.get(currentPosition);
 
         contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,17 +168,20 @@ public class ArticleFragment extends BaseMainFragment {
 
     @OnClick(R.id.btn_next_article)
     void setNextArticle() {
-        if (currentPosition < data.size() - 1) {
+        if (currentPosition < mData.size() - 1) {
             currentPosition++;
             loadData();
             sendAnalyticsEvent(Events.CATEGORY_NAVIGATION, Events.ACTION_NEXT);
-        } else if(currentPosition == data.size() - 1) {
+        } else {
             mNextArticle.setVisibility(View.GONE);
+            if(mData.size() < totalCount) {
+                RestClient.getApiService().getArticles(page, MoreArticlesFragment.PAGE_SIZE, getArticlesCallback);
+            }
         }
     }
 
     private void loadData() {
-        ContentLink article = data.get(currentPosition);
+        ContentLink article = mData.get(currentPosition);
         String title = article.getTitle();
         mTitle.setText(title);
 
@@ -150,4 +193,9 @@ public class ArticleFragment extends BaseMainFragment {
         AdUtil.initInterstitialAd(getActivity(), name);
     }
 
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().post(new AddArticlesEvent(page));
+        super.onDestroy();
+    }
 }

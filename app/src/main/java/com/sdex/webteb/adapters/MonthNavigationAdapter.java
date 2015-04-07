@@ -91,8 +91,8 @@ public class MonthNavigationAdapter extends TimeNavigationAdapter<MonthNavigatio
 
         public void setSelected(boolean selected) {
             if (selected) {
-                mValue.setBackgroundResource(R.drawable.btn_navigation_period);
-                mValue.setTextColor(Color.BLACK);
+                mValue.setBackgroundResource(R.drawable.btn_navigation_period_selected);
+                mValue.setTextColor(Color.parseColor("#EC1561"));
             } else {
                 mValue.setBackgroundResource(R.drawable.btn_navigation_period);
                 mValue.setTextColor(Color.WHITE);
