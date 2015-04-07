@@ -236,18 +236,18 @@ public class BirthDateFragment extends BaseFragment {
         }
         Date currentDate = Calendar.getInstance().getTime();
         if (mDateType == BabyProfileResponse.DATE_TYPE_BIRTH_DATE
-                && DateUtil.compareDatesWithToday(date, currentDate)) {
-            Toast.makeText(getActivity(), getString(R.string.birth_date_cant_be_in_future), Toast.LENGTH_SHORT).show();
+                && DateUtil.compareDatesWithToday(date, currentDate, true)) {
+            Toast.makeText(getActivity(), getString(R.string.please_select_correct_date), Toast.LENGTH_SHORT).show();
             return false;
         }
         if (mDateType == BabyProfileResponse.DATE_TYPE_LAST_PERIOD
                 && DateUtil.compareDatesForLastPeriod(date, currentDate)) {
-            Toast.makeText(getActivity(), getString(R.string.last_period_cant_be_in_future), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.please_select_correct_date), Toast.LENGTH_SHORT).show();
             return false;
         }
         if (mDateType == BabyProfileResponse.DATE_TYPE_DUE_TO
-                && DateUtil.compareDatesWithToday(currentDate, date)) {
-            Toast.makeText(getActivity(), getString(R.string.expected_birth_date_cant_be_in_past), Toast.LENGTH_SHORT).show();
+                && DateUtil.compareDatesWithToday(currentDate, date, false)) {
+            Toast.makeText(getActivity(), getString(R.string.please_select_correct_date), Toast.LENGTH_SHORT).show();
             return false;
         }
 
