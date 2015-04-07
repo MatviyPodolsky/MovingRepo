@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ArticlesAdapter;
+import com.sdex.webteb.internal.events.AddArticlesEvent;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
 
 /**
@@ -43,10 +45,12 @@ public class MoreArticlesFragment extends BaseMainFragment {
     TextView error;
     @InjectView(R.id.title)
     TextView title;
-    private RestCallback<ArticlesResponse> getArticles;
+    private RestCallback<ArticlesResponse> getArticlesCallback;
     private int lastPage = 1;
-    private int totalPages = 1;
+    private int totalCount;
     private boolean isLoading;
+
+    private EventBus BUS = EventBus.getDefault();
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -67,7 +71,7 @@ public class MoreArticlesFragment extends BaseMainFragment {
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = ArticleFragment.newInstance(mData, position);
+                Fragment fragment = ArticleFragment.newInstance(mData, position, lastPage, totalCount);
                 addNestedFragment(R.id.fragment_container, fragment, ArticleFragment.NAME);
             }
         });
@@ -86,17 +90,17 @@ public class MoreArticlesFragment extends BaseMainFragment {
                 if (isLoading) {
                     return;
                 }
-                if (lastPage > totalPages) {
+                if (mData.size() == totalCount) {
                     return;
                 }
                 if (firstVisibleItem + visibleItemCount >= totalItemCount) {
                     isLoading = true;
-                    RestClient.getApiService().getArticles(lastPage, PAGE_SIZE, getArticles);
+                    RestClient.getApiService().getArticles(lastPage, PAGE_SIZE, getArticlesCallback);
                 }
             }
         });
 
-        getArticles = new RestCallback<ArticlesResponse>() {
+        getArticlesCallback = new RestCallback<ArticlesResponse>() {
             @Override
             public void failure(RestError restError) {
 
@@ -118,7 +122,7 @@ public class MoreArticlesFragment extends BaseMainFragment {
                 int totalCount = articlesResponse.getTotalItems();
                 List<ContentLink> articles = articlesResponse.getArticles();
                 lastPage++;
-                totalPages = articlesResponse.getTotalItems();
+                MoreArticlesFragment.this.totalCount = articlesResponse.getTotalItems();
                 if (articles != null && !articles.isEmpty()) {
                     mAdapter.addAll(articles);
                     mAdapter.notifyDataSetChanged();
@@ -130,18 +134,36 @@ public class MoreArticlesFragment extends BaseMainFragment {
                 }
             }
         };
-        RestClient.getApiService().getArticles(lastPage, PAGE_SIZE, getArticles);
+        RestClient.getApiService().getArticles(lastPage, PAGE_SIZE, getArticlesCallback);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        BUS.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        BUS.unregister(this);
+        super.onStop();
     }
 
     @Override
     public void onDestroy() {
+        getArticlesCallback.cancel();
         super.onDestroy();
-        getArticles.cancel();
     }
 
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_more_articles;
+    }
+
+    public void onEvent(AddArticlesEvent event) {
+        String titleText = getString(R.string.showing_articles);
+        title.setText(String.format(titleText, mAdapter.getCount(), totalCount));
+        lastPage = event.getPage();
     }
 
 }

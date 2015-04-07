@@ -66,6 +66,7 @@ import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -143,6 +144,7 @@ public class HomeFragment extends PhotoFragment {
     private ProgressDialog mProgressDialog;
     private List<BabyPeriod> babyPeriods;
     private int maxPregnancyWeeks;
+    private int toMonth = 0;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -478,17 +480,30 @@ public class HomeFragment extends PhotoFragment {
             }
             String email = PreferencesManager.getInstance().getEmail();
             String dateType = getString(R.string.month);
-            setAlbumLabel(String.format(dateType, monthResponse.getAgeInMonths()));
-            String date = DbPhoto.LABEL_MONTH + "-" + monthResponse.getAgeInMonths();
-            List<DbPhoto> data = databaseHelper.getPhotos(3, email, date);
-            int size = data.size();
-            if (size == 0) {
+
+            int fromMonth =  monthResponse.getAgeInMonths();
+            List<DbPhoto> data = new ArrayList<>();
+
+            if (toMonth == 0) {
+                toMonth = fromMonth;
+            }
+
+            for (int i = toMonth; i >= fromMonth; i--) {
+                String date = DbPhoto.LABEL_MONTH + "-" + i;
+                data = databaseHelper.getPhotos(3, email, date);
+                if (!data.isEmpty()) {
+                    setAlbumLabel(String.format(dateType, i));
+                    break;
+                }
+            }
+
+            if (data.isEmpty()) {
                 sumPhotoContainer.setVisibility(View.GONE);
                 noPhotos.setVisibility(View.VISIBLE);
             } else {
                 sumPhotoContainer.setVisibility(View.VISIBLE);
                 noPhotos.setVisibility(View.GONE);
-                for (int i = 0; i < size; i++) {
+                for (int i = 0; i < data.size(); i++) {
                     Picasso.with(getActivity())
                             .load(PhotoFragment.FILE_PREFIX + data.get(i).getPath())
                             .placeholder(R.drawable.ic_transparent_placeholder)
@@ -592,8 +607,9 @@ public class HomeFragment extends PhotoFragment {
             mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int month = babyPeriods.get(mTimeNavAdapter.getItemCount() - position - 1).getFromMonth();
-                    RestClient.getApiService().getMonth(month, getMonthCallback);
+                    int fromMonth = babyPeriods.get(position).getFromMonth();
+                    toMonth = babyPeriods.get(position).getToMonth();
+                    RestClient.getApiService().getMonth(fromMonth, getMonthCallback);
                     updateSelectedTimeNavigationItem(view, position);
                 }
             });
@@ -631,7 +647,7 @@ public class HomeFragment extends PhotoFragment {
         adapter.setCallback(new HomeListAdapter.OnItemClickCallback() {
             @Override
             public void onAdditionalContentClick(ContentLink content, int position) {
-                Fragment fragment = ArticleFragment.newInstance(additionalContent, position);
+                Fragment fragment = ArticleFragment.newInstance(additionalContent, position, -1 , -1);
                 addNestedFragment(R.id.fragment_container, fragment, ArticleFragment.NAME);
             }
 

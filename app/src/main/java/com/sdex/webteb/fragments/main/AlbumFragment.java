@@ -122,14 +122,17 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         DbUser user = databaseHelper.getUser(preferencesManager.getEmail());
         String[] childsArray = user.getChildren().split("/");
         String titleString = "";
+        String childs = "";
         for (int i = 0; i < childsArray.length; i++) {
             String childName = childsArray[i].replaceAll("\\s+", "");
             if (!TextUtils.isEmpty(childName)) {
                 titleString = titleString + childName + ", ";
             }
         }
-        int lastIndex = titleString.lastIndexOf(",");
-        String childs = titleString.substring(0, lastIndex);
+        if (!TextUtils.isEmpty(titleString)) {
+            int lastIndex = titleString.lastIndexOf(",");
+            childs = titleString.substring(0, lastIndex);
+        }
         String formattedTitle = String.format(title, childs);
         mTitle.setText(Html.fromHtml(formattedTitle));
     }
