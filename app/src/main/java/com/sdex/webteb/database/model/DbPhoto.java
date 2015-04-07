@@ -97,8 +97,12 @@ public class DbPhoto implements Comparable {
             return 1;
         } else if (thisDateType.equals(LABEL_WEEK) && dateType.equals(LABEL_MONTH)) {
             return -1;
+        } else if (Integer.parseInt(thisDate) > Integer.parseInt(date)) {
+            return 1;
+        } else if (Integer.parseInt(thisDate) < Integer.parseInt(date)) {
+            return -1;
         } else {
-            return thisDate.compareTo(date);
+            return 0;
         }
 
     }

@@ -18,6 +18,7 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.EntityResponse;
+import com.sdex.webteb.utils.AdUtil;
 
 import org.parceler.Parcels;
 
@@ -86,6 +87,7 @@ public class PreviewFragment extends BaseMainFragment {
             String name = entityResponse.getName();
             title.setText(name);
             showAd(name, entityResponse.getTargeting());
+            AdUtil.initInterstitialAd(getActivity(), name);
             List<EntityField> fields = entityResponse.getFields();
             if (fields != null && fields.size() > 0) {
                 EntityField entityField = fields.get(0);

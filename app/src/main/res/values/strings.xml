@@ -81,7 +81,7 @@
     <!--home-->
     <string name="in_app_notification_btn_back">back</string>
     <string name="in_app_notification_btn_next">next</string>
-    <string name="profile_progress_text">days %1$d</string>
+    <string name="profile_progress_text">%1$d days</string>
     <string name="notification_counters" translatable="false">%1$d/%2$d</string>
     <string name="notification_tip_title">Tip</string>
     <string name="week">%1$s week</string>
@@ -120,7 +120,8 @@
     <string name="take_photo">Take photo</string>
     <string name="select_photo">Select photo</string>
     <string name="cancel">Cancel</string>
-    <string name="album_title"><![CDATA[My <b>%1$s</b> album]]></string>
+    <string name="album_title"><![CDATA[My <b>%1$s</b>]]></string>
+    <string name="album_text">" album"</string>
     <string name="album_empty_text">Album is empty</string>
     <string name="take_photo_button_title">photo</string>
     <string name="save">Save</string>

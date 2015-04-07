@@ -24,8 +24,8 @@ public class WeekNavigationAdapter extends TimeNavigationAdapter<WeekNavigationA
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
-    public WeekNavigationAdapter(Context context) {
-        data = new ArrayList<>(generateWeeksData(context));
+    public WeekNavigationAdapter(Context context, int maxWeek) {
+        data = new ArrayList<>(generateWeeksData(context, maxWeek));
     }
 
     @Override
@@ -137,7 +137,7 @@ public class WeekNavigationAdapter extends TimeNavigationAdapter<WeekNavigationA
         public void setSelected(boolean selected) {
             if (selected) {
                 mValue.setBackgroundResource(R.drawable.ic_footer_nbr_selected);
-                mValue.setTextColor(Color.BLACK);
+                mValue.setTextColor(Color.parseColor("#EC1561"));
             } else {
                 mValue.setBackgroundResource(R.drawable.ic_footer_nbr_normal);
                 mValue.setTextColor(Color.WHITE);
@@ -146,7 +146,8 @@ public class WeekNavigationAdapter extends TimeNavigationAdapter<WeekNavigationA
 
     }
 
-    private static List<Item> generateWeeksData(Context context) {
+    private static List<Item> generateWeeksData(Context context, int maxWeek) {
+        // TODO implement max week
         String month = context.getString(R.string.month);
 
         ArrayList<Item> items = new ArrayList<>();

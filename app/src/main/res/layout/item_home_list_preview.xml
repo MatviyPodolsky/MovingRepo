@@ -57,7 +57,7 @@
         app:typeface="DINNextLTArabicLight"
         android:id="@+id/text"
         android:gravity="start"
-        android:textSize="@dimen/default_text_size"
+        android:textSize="11sp"
         android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/title"
@@ -67,12 +67,13 @@
         app:typeface="DINNextLTArabicBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/test_text"
+        tools:text="Test text"
         android:id="@+id/title"
         android:gravity="right"
         android:layout_below="@+id/title_container"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
 </RelativeLayout>

@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -23,10 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
-import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
-import com.google.android.gms.ads.mediation.admob.AdMobExtras;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.MonthNavigationAdapter;
@@ -40,24 +35,28 @@ import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.extras.SimpleDividerItemDecoration;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
-import com.sdex.webteb.internal.StaticDataProvider;
+import com.sdex.webteb.internal.RangeUtil;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
-import com.sdex.webteb.internal.model.MonthRange;
+import com.sdex.webteb.model.Ad;
+import com.sdex.webteb.model.BabyPeriod;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.model.ExaminationPreview;
+import com.sdex.webteb.model.Notifications;
 import com.sdex.webteb.model.TipContent;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
+import com.sdex.webteb.rest.response.BabyConfigResponse;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.rest.response.MonthResponse;
 import com.sdex.webteb.rest.response.NotificationsResponse;
 import com.sdex.webteb.rest.response.WeekResponse;
+import com.sdex.webteb.utils.AdUtil;
 import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
@@ -142,6 +141,8 @@ public class HomeFragment extends PhotoFragment {
 
     private TimeNavigationAdapter mTimeNavAdapter;
     private ProgressDialog mProgressDialog;
+    private List<BabyPeriod> babyPeriods;
+    private int maxPregnancyWeeks;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -155,6 +156,41 @@ public class HomeFragment extends PhotoFragment {
         databaseHelper = DatabaseHelper.getInstance(getActivity());
         preferencesManager = PreferencesManager.getInstance();
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
+                getActivity(), R.drawable.divider_home_list));
+        photoContainer.setVisibility(View.VISIBLE);
+
+        final LinearLayoutManager timeNavControllerLayoutManager =
+                new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mTimeNavigationRecyclerView.setLayoutManager(timeNavControllerLayoutManager);
+
+        RestClient.getApiService().getBabyConfig(new Callback<BabyConfigResponse>() {
+            @Override
+            public void success(BabyConfigResponse babyConfigResponse, Response response) {
+                Ad ads = babyConfigResponse.getAds();
+                String serverId = ads.getServerId();
+                babyPeriods = babyConfigResponse.getBabyPeriods();
+                maxPregnancyWeeks = babyConfigResponse.getMaxPregnancyWeeks();
+                Notifications notifications = babyConfigResponse.getNotifications();
+                boolean notifyOnReceive = notifications.isNotifyOnReceive();
+
+                preferencesManager.setAdsServerId(serverId);
+                preferencesManager.setNotifyOnReceiveNotification(notifyOnReceive);
+
+                init();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+    }
+
+    private void init() {
         showProgress();
 
         initAdvertisement();
@@ -163,13 +199,6 @@ public class HomeFragment extends PhotoFragment {
 
         setProfilePhoto();
         showLastPhoto();
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
-                getActivity(), R.drawable.divider_home_list));
-        photoContainer.setVisibility(View.VISIBLE);
 
         RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
             @Override
@@ -282,27 +311,7 @@ public class HomeFragment extends PhotoFragment {
             preferencesManager.getPreferences().edit()
                     .putInt(PreferencesManager.ADS_SHOWS_COUNTER_KEY, ++counter)
                     .apply();
-            final PublisherInterstitialAd mPublisherInterstitialAd =
-                    new PublisherInterstitialAd(getActivity());
-            mPublisherInterstitialAd.setAdUnitId("/6499/example/interstitial");
-            mPublisherInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdLoaded() {
-                    mPublisherInterstitialAd.show();
-                }
-
-                @Override
-                public void onAdFailedToLoad(int errorCode) {
-                    Log.d("AD", "Failed to load ad. Code: " + errorCode);
-                }
-            });
-            Bundle args = new Bundle();
-            args.putString("mobileapp", "baby");
-            args.putString("screenname", getString(R.string.screen_home));
-            PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
-                    .addNetworkExtras(new AdMobExtras(args))
-                    .build();
-            mPublisherInterstitialAd.loadAd(adRequest);
+            AdUtil.initInterstitialAd(getActivity(), R.string.screen_home);
         } else {
             preferencesManager.getPreferences().edit()
                     .putBoolean(PreferencesManager.ADS_SHOW_KEY, true).apply();
@@ -336,10 +345,6 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void setUpSummaryView() {
-        final LinearLayoutManager timeNavControllerLayoutManager =
-                new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        mTimeNavigationRecyclerView.setLayoutManager(timeNavControllerLayoutManager);
-
         mSlidingUpPanelLayout.setOverlayed(true);
         mSlidingUpPanelLayout.setCoveredFadeColor(0x00000000);
 
@@ -353,16 +358,18 @@ public class HomeFragment extends PhotoFragment {
                     if (mTimeNavAdapter != null) {
                         mTimeNavAdapter.hideLabels();
                     }
-                    String screenName;
+                    String screenName = null;
                     int currentDateType = preferencesManager.getCurrentDateType();
                     if (currentDateType == PreferencesManager.DATE_TYPE_MONTH) {
                         String month = preferencesManager.getCurrentDate();
                         int numMonth = Integer.parseInt(month);
-                        MonthRange range = StaticDataProvider.getCurrentRange(numMonth);
-                        String rangeTitle = getString(range.getTitle());
-                        screenName = String.format(getString(R.string.screen_summary_baby), rangeTitle);
-                        if (!isSummaryLoaded) {
-                            RestClient.getApiService().getMonth(numMonth, getMonthCallback);
+                        BabyPeriod currentRange = RangeUtil.getCurrentRange(babyPeriods, numMonth);
+                        if (currentRange != null) {
+                            String rangeTitle = currentRange.getTitle();
+                            screenName = String.format(getString(R.string.screen_summary_baby), rangeTitle);
+                            if (!isSummaryLoaded) {
+                                RestClient.getApiService().getMonth(numMonth, getMonthCallback);
+                            }
                         }
                     } else {
                         String week = preferencesManager.getCurrentDate();
@@ -581,18 +588,17 @@ public class HomeFragment extends PhotoFragment {
         }
 
         if (gaveBirth) {
-            mTimeNavAdapter = new MonthNavigationAdapter();
+            mTimeNavAdapter = new MonthNavigationAdapter(babyPeriods);
             mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int month = StaticDataProvider.MONTH_RANGES
-                            .get(mTimeNavAdapter.getItemCount() - position - 1).getFrom();
+                    int month = babyPeriods.get(mTimeNavAdapter.getItemCount() - position - 1).getFromMonth();
                     RestClient.getApiService().getMonth(month, getMonthCallback);
                     updateSelectedTimeNavigationItem(view, position);
                 }
             });
         } else {
-            mTimeNavAdapter = new WeekNavigationAdapter(getActivity());
+            mTimeNavAdapter = new WeekNavigationAdapter(getActivity(), maxPregnancyWeeks);
             mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -640,19 +646,23 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void updateSelectedTimeNavigationItem(View view, int position) {
-        mTimeNavigationRecyclerView.smoothScrollToView(view);
-        mTimeNavAdapter.setSelectedItem(position);
-        if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-            mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        if (position < mTimeNavAdapter.getItemCount()) {
+            mTimeNavigationRecyclerView.smoothScrollToView(view);
+            mTimeNavAdapter.setSelectedItem(position);
+            if (mSlidingUpPanelLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            }
         }
     }
 
     private void setNavController(int month) {
-        MonthRange currentRange = StaticDataProvider.getCurrentRange(month);
-        int index = mTimeNavAdapter.getItemCount() - StaticDataProvider.MONTH_RANGES.indexOf(currentRange);
-        LinearLayoutManager layoutManager = (LinearLayoutManager) mTimeNavigationRecyclerView.getLayoutManager();
-        layoutManager.scrollToPositionWithOffset(index, getTimeNavigationControllerItemOffset());
-        mTimeNavAdapter.setSelectedItem(index);
+        BabyPeriod currentRange = RangeUtil.getCurrentRange(babyPeriods, month);
+        if (currentRange != null) {
+            int index = babyPeriods.indexOf(currentRange);
+            LinearLayoutManager layoutManager = (LinearLayoutManager) mTimeNavigationRecyclerView.getLayoutManager();
+            layoutManager.scrollToPositionWithOffset(index, getTimeNavigationControllerItemOffset());
+            mTimeNavAdapter.setSelectedItem(index);
+        }
     }
 
     @OnClick(R.id.summary_show_tests)

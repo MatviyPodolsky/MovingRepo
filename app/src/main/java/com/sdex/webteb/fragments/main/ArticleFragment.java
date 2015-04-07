@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.internal.analytics.Events;
-import com.sdex.webteb.internal.events.AddArticlesEvent;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -33,8 +32,6 @@ import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
-import de.greenrobot.event.EventBus;
-import retrofit.client.Response;
 
 public class ArticleFragment extends BaseMainFragment {
 
@@ -189,6 +186,7 @@ public class ArticleFragment extends BaseMainFragment {
         String name = String.format(getString(R.string.screen_article), title);
         sendAnalyticsScreenName(name);
         showAd(name, null);
+        AdUtil.initInterstitialAd(getActivity(), name);
     }
 
     @Override
