@@ -11,7 +11,6 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.model.Child;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class PhotoTagsAdapter extends RecyclerView.Adapter<PhotoTagsAdapter.ItemHolder> {
@@ -60,7 +59,6 @@ public class PhotoTagsAdapter extends RecyclerView.Adapter<PhotoTagsAdapter.Item
                 childrenList.add(child);
             }
         }
-        Collections.reverse(childrenList);
 
         return childrenList;
     }

@@ -148,7 +148,17 @@ public class DateUtil {
         return new SimpleDateFormat(dateFormat, Locale.US).format(date);
     }
 
-    public static boolean compareDatesWithToday(Date from, Date to) {
+    public static boolean   compareDatesWithToday(Date from, Date to, boolean isBorn) {
+
+        if (!isBorn) {
+            long diff = to.getTime() - from.getTime();
+            long oneDay = 24 * 60 * 60 * 1000;
+            int elapsedDays = (int) (diff / oneDay);
+            if(elapsedDays > 280) {
+                return true;
+            }
+        }
+
         Calendar c = Calendar.getInstance();
 
         c.setTime(from);
@@ -187,8 +197,8 @@ public class DateUtil {
         } else {
             long oneDay = 24 * 60 * 60 * 1000;
             int elapsedDays = (int) (diff / oneDay);
-//            last period should be more than 7 days before today
-            return elapsedDays < 8;
+//            last period should be more than 7 and less than 280 days before today
+            return elapsedDays < 8 || elapsedDays > 280;
         }
     }
 }
