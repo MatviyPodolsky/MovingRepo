@@ -24,8 +24,8 @@ public class WeekNavigationAdapter extends TimeNavigationAdapter<WeekNavigationA
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
-    public WeekNavigationAdapter(Context context) {
-        data = new ArrayList<>(generateWeeksData(context));
+    public WeekNavigationAdapter(Context context, int maxWeek) {
+        data = new ArrayList<>(generateWeeksData(context, maxWeek));
     }
 
     @Override
@@ -146,7 +146,8 @@ public class WeekNavigationAdapter extends TimeNavigationAdapter<WeekNavigationA
 
     }
 
-    private static List<Item> generateWeeksData(Context context) {
+    private static List<Item> generateWeeksData(Context context, int maxWeek) {
+        // TODO implement max week
         String month = context.getString(R.string.month);
 
         ArrayList<Item> items = new ArrayList<>();

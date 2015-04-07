@@ -9,11 +9,10 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.internal.StaticDataProvider;
-import com.sdex.webteb.internal.model.MonthRange;
+import com.sdex.webteb.model.BabyPeriod;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Author: Yuriy Mysochenko
@@ -21,13 +20,13 @@ import java.util.Collections;
  */
 public class MonthNavigationAdapter extends TimeNavigationAdapter<MonthNavigationAdapter.VerticalItemHolder> {
 
-    private ArrayList<MonthRange> data;
+    private List<BabyPeriod> data;
     private int selectedItem;
 
     private AdapterView.OnItemClickListener mOnItemClickListener;
 
-    public MonthNavigationAdapter() {
-        data = new ArrayList<>(StaticDataProvider.MONTH_RANGES);
+    public MonthNavigationAdapter(List<BabyPeriod> data) {
+        this.data = data;
         Collections.reverse(data);
     }
 
@@ -40,7 +39,7 @@ public class MonthNavigationAdapter extends TimeNavigationAdapter<MonthNavigatio
 
     @Override
     public void onBindViewHolder(VerticalItemHolder itemHolder, int position) {
-        MonthRange item = data.get(position);
+        BabyPeriod item = data.get(position);
         itemHolder.setSelected(position == selectedItem);
         itemHolder.bindView(item);
     }
@@ -86,7 +85,7 @@ public class MonthNavigationAdapter extends TimeNavigationAdapter<MonthNavigatio
             mAdapter.onItemHolderClick(this);
         }
 
-        public void bindView(MonthRange item) {
+        public void bindView(BabyPeriod item) {
             mValue.setText(item.getTitle());
         }
 
@@ -101,7 +100,5 @@ public class MonthNavigationAdapter extends TimeNavigationAdapter<MonthNavigatio
         }
 
     }
-
-    private static final String[] colors = {"#EC1561", "#EA2E83", "#E84C8F", "#E52987"};
 
 }
