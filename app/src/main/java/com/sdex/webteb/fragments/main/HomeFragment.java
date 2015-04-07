@@ -607,8 +607,8 @@ public class HomeFragment extends PhotoFragment {
             mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int fromMonth = babyPeriods.get(mTimeNavAdapter.getItemCount() - position - 1).getFromMonth();
-                    toMonth = babyPeriods.get(mTimeNavAdapter.getItemCount() - position - 1).getToMonth();
+                    int fromMonth = babyPeriods.get(position).getFromMonth();
+                    toMonth = babyPeriods.get(position).getToMonth();
                     RestClient.getApiService().getMonth(fromMonth, getMonthCallback);
                     updateSelectedTimeNavigationItem(view, position);
                 }
