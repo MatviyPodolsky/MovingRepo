@@ -34,7 +34,6 @@ public class WelcomeActivity extends FacebookAuthActivity {
     @InjectView(R.id.info)
     TextView userInfoTextView;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,13 +75,13 @@ public class WelcomeActivity extends FacebookAuthActivity {
     @OnClick(R.id.link1)
     public void showTOC(final View v) {
         DialogFragment newFragment = TermsOfServiceDialog.newInstance();
-        newFragment.show(getSupportFragmentManager(), null);
+        newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
     @OnClick(R.id.link2)
     public void showSA(final View v) {
         DialogFragment newFragment = TermsOfServiceDialog.newInstance();
-        newFragment.show(getSupportFragmentManager(), null);
+        newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
     private void showServerChooseDialog() {
