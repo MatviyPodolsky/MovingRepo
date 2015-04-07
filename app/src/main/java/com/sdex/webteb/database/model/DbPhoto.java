@@ -93,11 +93,13 @@ public class DbPhoto implements Comparable {
         String dateType = split[0];
         String date = split[1];
 
-        if (thisDateType.equals(LABEL_MONTH) && dateType.equals(LABEL_WEEK) ||
-                Integer.parseInt(thisDate) > Integer.parseInt(date)) {
+        if (thisDateType.equals(LABEL_MONTH) && dateType.equals(LABEL_WEEK)) {
             return 1;
-        } else if (thisDateType.equals(LABEL_WEEK) && dateType.equals(LABEL_MONTH) ||
-                Integer.parseInt(thisDate) < Integer.parseInt(date)) {
+        } else if (thisDateType.equals(LABEL_WEEK) && dateType.equals(LABEL_MONTH)) {
+            return -1;
+        } else if (Integer.parseInt(thisDate) > Integer.parseInt(date)) {
+            return 1;
+        } else if (Integer.parseInt(thisDate) < Integer.parseInt(date)) {
             return -1;
         } else {
             return 0;
