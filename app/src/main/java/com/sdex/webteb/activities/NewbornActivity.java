@@ -150,6 +150,10 @@ public class NewbornActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     public static void launch(Activity activity) {
         Intent launch = new Intent(activity, NewbornActivity.class);
         activity.startActivityForResult(launch, NEWBORN_ACTIVITY_REQUEST_CODE);
