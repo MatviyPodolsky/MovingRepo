@@ -17,11 +17,13 @@ import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.internal.analytics.Events;
+import com.sdex.webteb.internal.events.AddArticlesEvent;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.ArticlesResponse;
+import com.sdex.webteb.utils.AdUtil;
 import com.sdex.webteb.utils.EmailUtil;
 import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.PrintUtil;
@@ -32,6 +34,8 @@ import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+import retrofit.client.Response;
 
 public class ArticleFragment extends BaseMainFragment {
 
