@@ -29,7 +29,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Content"
+        android:text="@string/had_you_already_born"
         android:id="@+id/content"
         android:layout_below="@+id/close"
         android:layout_alignParentRight="true"
