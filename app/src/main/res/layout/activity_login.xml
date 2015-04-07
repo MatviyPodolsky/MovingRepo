@@ -132,7 +132,9 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/and"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/small_text" />
+                    android:textSize="@dimen/small_text"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
 
                 <com.sdex.webteb.view.TypefaceTextView
                     android:id="@+id/link2"
