@@ -25,6 +25,7 @@ import com.sdex.webteb.rest.response.UserLoginResponse;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.KeyboardUtils;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.Utils;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -186,6 +187,9 @@ public class LoginActivity extends FacebookAuthActivity {
         if (TextUtils.isEmpty(mUsername.getText())) {
             isValid = false;
             mUsername.setError(getString(R.string.please_enter_email));
+        } else if (!Utils.isEmailValid(mUsername.getText().toString())) {
+            isValid = false;
+            mUsername.setError(getString(R.string.invalid_email));
         } else {
             mUsername.setError(null);
         }
