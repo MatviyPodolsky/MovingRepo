@@ -132,7 +132,7 @@
     <string name="specialty">Speciality</string>
     <string name="doctor_name">Doctor name</string>
     <string name="search">Search</string>
-    <string name="found_n_doctors">Showing %1$d out of total %2$d</string>
+    <string name="found_n_doctors">%1$d/%2$d</string>
     <string name="no_doctors_found">No doctors found</string>
     <string name="turn_location_options">Please, turn on location options if you want to select your current place as default for search</string>
     <string name="any_country">Any country</string>
@@ -144,7 +144,8 @@
     <!--more articles-->
     <string name="more_articles_title">More articles</string>
     <string name="we_found_n_articles">We found (%1$d) articles</string>
-    <string name="showing_articles">(showing %1$d/%2$d) Articles</string>
+    <string name="showing_articles_title">Articles</string>
+    <string name="showing_articles">%1$d/%2$d</string>
 
     <!--settings-->
     <string name="settings_title">Settings</string>

@@ -43,7 +43,7 @@ public class MoreArticlesFragment extends BaseMainFragment {
     ProgressBar progress;
     @InjectView(R.id.error)
     TextView error;
-    @InjectView(R.id.title)
+    @InjectView(R.id.found_articles_count)
     TextView title;
     private RestCallback<ArticlesResponse> getArticlesCallback;
     private int lastPage = 1;
