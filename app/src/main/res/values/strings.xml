@@ -101,6 +101,7 @@
     <string name="no_articles">No articles</string>
     <string name="close">Close</string>
     <string name="n_tests">%1$d tests</string>
+    <string name="summary_read_more">Read more</string>
 
     <!--my tests-->
     <string name="my_tests_title">My tests</string>

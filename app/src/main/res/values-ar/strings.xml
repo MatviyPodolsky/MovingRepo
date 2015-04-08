@@ -103,12 +103,13 @@
     <string name="articles_count">"عدد المقالات"</string>
     <string name="articles">"مقالات"</string>
     <string name="album">"ألبوم الصور"</string>
-    <string name="go_to_album">"اذهب الى ألبوم الصور"</string>
+    <string name="go_to_album">"صور"</string>
     <string name="no_photos">"لا يوجد صور"</string>
     <string name="no_tests">"لا توجد فحوصات"</string>
     <string name="no_articles">"لا توجد مقالات"</string>
     <string name="close">"إغلاق"</string>
     <string name="n_tests">"%1$d فحوصات"</string>
+    <string name="summary_read_more">إقرأ</string>
 
     <!--my tests-->
     <string name="my_tests_title">"فحوصاتي"</string>
