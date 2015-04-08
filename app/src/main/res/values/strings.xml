@@ -3,8 +3,6 @@
 
     <string name="app_name">BabyTime</string>
 
-
-
     <!--welcome-->
     <string name="welcome_text">Test text to test data display on the screen of the mobile device</string>
     <string name="welcome_subtext">Test subtext to test data display on the screen of the mobile device</string>
