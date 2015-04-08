@@ -2,6 +2,7 @@ package com.sdex.webteb.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -82,6 +83,16 @@ public final class Utils {
         Matcher matcher = pattern.matcher(email);
 
         return matcher.matches();
+    }
+
+    public static boolean isConnected(Context context) {
+        ConnectivityManager manager = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (manager.getActiveNetworkInfo() != null) {
+            return (manager.getActiveNetworkInfo().isAvailable() && manager
+                    .getActiveNetworkInfo().isConnected());
+        }
+        return false;
     }
 
 }
