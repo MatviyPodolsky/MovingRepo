@@ -17,20 +17,18 @@
     <string name="password">"كلمة المرور"</string>
     <string name="confirm_password">"الموافقة على كلمة المرور"</string>
     <string name="sign_up">"سجل"</string>
-    <string name="login_with_facebook">"الدخول عبر حسابك بالفيسبوك"</string>
+    <string name="login_with_facebook">"الدخول من خلال الفيس بوك"</string>
     <string name="forgot_password"><u>"نسيت كلمة المرور"</u></string>
     <string name="type_your_email_here">"الرجاء تسجيل بريدك الالكتروني هنا"</string>
     <string name="restore_password">"استعادة كلمة المرور"</string>
     <string name="create_your_profile">"انشاء ملفك شخصي"</string>
     <string name="email_is_not_registered">"البريد الالكتروني غير مسجل"</string>
-    <string name="your_password_was_sent_to_your_email">"لقد تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
+    <string name="your_password_was_sent_to_your_email">"تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
     <string name="agree_to_newsletter">"المواقة على النشرة الالكترونية"</string>
     <string name="please_enter_username">"الرجاء ادخال اسم المستخدم"</string>
-    <string name="please_enter_email">"الرجاء ادخال عنوان بريدك الالكتروني"</string>
-    <string name="please_enter_password">Please enter your password</string>
-    <string name="password_must_contain_at_least_6_characters">"على كلمة المرور ان تكون مؤلفة من 4 أحرف على الاقل"</string>
-    <string name="error_email_already_registered">This email has been already registered</string>
-    <string name="invalid_email">Invalid email</string>
+    <string name="please_enter_email">"أدخل بريدك الألكتروني""</string>
+    <string name="please_enter_password">"اكتبي الكلمة السرية"</string>
+    <string name="password_must_contain_at_least_6_characters">"على كلمة المرور ان تكون مؤلفة من 6 أحرف على الاقل"</string>
 
     <!--restore password-->
     <string name="positive_restore_message">"لقد تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
@@ -56,7 +54,7 @@
     <string name="last_period_first_day">"الدورة الشهرية (الحيض) الأخيرة"</string>
     <string name="expected_birth_date">"تاريخ الولادة المتوقع"</string>
     <string name="birth_date">"تاريخ الميلاد"</string>
-    <string name="date">"تاريخ الميلاد"</string>
+    <string name="date">"يوم"</string>
     <string name="click_to_select_date">"اضغطي لاختيار التاريخ"</string>
     <string name="type_child_name">"كتابة أسم الطفل"</string>
     <string name="add_child">"أضافة طفل"</string>
@@ -72,9 +70,9 @@
     <string name="last_period_description">"تاريخ آخر يوم في الدورة الشهرية لا يمكن ان يكون بالمستقبل"</string>
     <string name="expected_birth_date_description">"تاريخ الولادة المتوقع لا يمكن ان يكون بالماضي"</string>
     <string name="birth_date_description">"تاريخ الميلاد لا يمكن ان يكون بالمستقبل"</string>
-    <string name="children_count">"%1$d طفل"</string>
-    <string name="child_count">1 child</string>
-    <string name="title_childs">"طفل"</string>
+    <string name="children_count">%1$d "أطفال"</string>
+    <string name="child_count">1 "طفل"</string>
+    <string name="title_childs">"أطفال"</string>
     <string name="yes">"نعم"</string>
     <string name="no">"كلا"</string>
     <string name="are_u_sure_u_want_to_delete_child">"هل انت متأكدة انك تريدين حذف الطفل؟"</string>
@@ -104,14 +102,14 @@
     <string name="no_photos">"لا يوجد صور"</string>
     <string name="no_tests">"لا توجد فحوصات"</string>
     <string name="no_articles">"لا توجد مقالات"</string>
-    <string name="close">"اغلاق"</string>
+    <string name="close">"إغلاق"</string>
     <string name="n_tests">"%1$d فحوصات"</string>
 
     <!--my tests-->
     <string name="my_tests_title">"فحوصاتي"</string>
     <string name="read_more">"اقرأ المزيد"</string>
     <string name="search_doctor">"البحث عن طبيب"</string>
-    <string name="add_reminder">"أضف منبه"</string>
+    <string name="add_reminder">"اضيفي تذكير"</string>
     <string name="delete_reminder">"الغاء التنبيه"</string>
     <string name="done_test">"اجريت الفحص"</string>
     <string name="undone_test">"لم اقم بالفحص"</string>
@@ -122,8 +120,8 @@
     <string name="take_photo">"التقط صورة"</string>
     <string name="select_photo">"اختر صورة"</string>
     <string name="cancel">"الغاء"</string>
-    <string name="album_title"><![CDATA[My <b>%1$s</b>]]></string>
-    <string name="album_text">" album"</string>
+    <string name="album_title"><![CDATA["الخاص بي" <b>%1$s</b>]]></string>
+    <string name="album_text">"ألبوم الصور"</string>
     <string name="album_empty_text">"ألبوم الصور فارغ"</string>
     <string name="take_photo_button_title">"صورة"</string>
     <string name="save">"حفظ"</string>
@@ -133,7 +131,7 @@
     <string name="add">"أضف"</string>
 
     <!--search doctor-->
-    <string name="country">"البلد"</string>
+    <string name="country">"الدولة"</string>
     <string name="specialty">"التخصص"</string>
     <string name="doctor_name">"اسم الطبيب"</string>
     <string name="search">"بحث"</string>
@@ -161,9 +159,9 @@
     <string name="once_time_only">"مرة واحدة فقط"</string>
     <string name="newsletter">"النشرة الإلكترونية"</string>
     <string name="my_profile">"الملف الشخصي"</string>
-    <string name="edit">"تعديل"</string>
+    <string name="edit">"عرض"</string>
     <string name="reset_data">"إعادة ضبط المعلومات"</string>
-    <string name="reset">"إعادة الضبط"</string>
+    <string name="reset">"اعادة ضبط"</string>
     <string name="logout">"خروج"</string>
 
     <!--about-->
@@ -174,7 +172,7 @@
 
     <!--contact us-->
     <string name="contact_us_title">"اتصل بنا"</string>
-    <string name="contact_us_title_hint">Title…</string>
+    <string name="contact_us_title_hint">"عنوان"</string>
     <string name="contact_us_text_hint">"…رسالة"</string>
     <string name="contact_us_btn_send">"ارسل"</string>
     <string name="your_message_was_sent">"تم ارسال رسالتك بنجاح"</string>
@@ -186,7 +184,7 @@
     <string name="choose_email_client">"اختر حساب البريد الالكتروني"</string>
     <string name="no_email_client_error">"لا يوجد حساب بريد إلكتروني على جهازك"</string>
     <string name="not_support_printing_error">"جهازك لا يملك امكانية الطباعة"</string>
-    <string name="share_photo_email_subject">%1$s shared an image with you</string>
+    <string name="share_photo_email_subject">%1$s "قامت بمشاركتك بهذه الصورة"</string>
 
     <!--errors-->
     <string name="error_loading_data">"خطأ في تحميل المعلومات"</string>
@@ -213,18 +211,18 @@
     <string name="dialog_edit_profile_cancel">"الغاء"</string>
 
     <!--save_photo-->
-    <string name="hint_comment">a moment to remember, type few words about it</string>
+    <string name="hint_comment">"لحظة لا تنتسي، اوصفي بكلمات قليلة افكارك عن هذه اللحظة "</string>
 
     <!--newborn-->
-    <string name="week_n">Week %1$d</string>
+    <string name="week_n">%1$d "الاسبوع"</string>
     <string name="had_you_already_born">It’s important for us to know if you already had your birth</string>
     <string name="newborn_title">"مبروك مولودك الجديد"</string>
     <string name="newborn_text">new child new child new child new child new child new child
     new child new child new child new child</string>
 
     <string name="loading">"جاري التحميل…"</string>
-    <string name="retry">"إعادة المحاولة"</string>
-	<string name="error_loading_title">Oops!</string>
+    <string name="retry">"المحاولة من جديد"</string>
+    <string name="error_loading_title">Oops!</string>
     <string name="error_loading_text">Unable to load data</string>
 
 </resources>
