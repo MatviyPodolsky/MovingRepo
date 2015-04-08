@@ -182,7 +182,7 @@ public class AlbumViewFragment extends BaseMainFragment {
     }
 
     private void setCurrentPhotoIndex(int position) {
-        mCurrentPhoto.setText(String.valueOf(data.size() - position));
+        mCurrentPhoto.setText(String.valueOf(position + 1));
     }
 
     public void onEvent(IntentDeletePhotoEvent event) {
