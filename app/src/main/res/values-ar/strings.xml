@@ -137,7 +137,7 @@
     <string name="specialty">"التخصص"</string>
     <string name="doctor_name">"اسم الطبيب"</string>
     <string name="search">"بحث"</string>
-    <string name="found_n_doctors">Showing %1$d out of total %2$d</string>
+    <string name="found_n_doctors">%1$d/%2$d</string>
     <string name="no_doctors_found">"لم نعثر على طبيب"</string>
     <string name="turn_location_options">"الرجاء قم بتشغيل امكانية "تحديد الموقع" في الجهاز ان اردت اختيار البحث في موقعك الحالي دائماً"</string>
     <string name="any_country">"كل الدول"</string>
@@ -149,7 +149,8 @@
     <!--more articles-->
     <string name="more_articles_title">"المزيد من المقالات"</string>
     <string name="we_found_n_articles">"(1%$d) وجدنا مقالة"</string>
-    <string name="showing_articles">"%1$d/%2$d اظهار مقالة"</string>
+    <string name="showing_articles_title">"مقالة"</string>
+    <string name="showing_articles">"%1$d/%2$d"</string>
 
     <!--settings-->
     <string name="settings_title">"اعدادات"</string>

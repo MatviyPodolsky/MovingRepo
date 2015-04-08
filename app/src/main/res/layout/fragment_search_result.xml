@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background">
@@ -15,31 +16,30 @@
             android:layout_alignParentTop="true"
             android:background="@drawable/bg_header_line_blue">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:gravity="right"
+                android:text="@string/search_doctor"
+                android:textColor="@color/button_text"
+                android:textSize="@dimen/large_text"
                 android:paddingRight="10dp"
-                android:orientation="vertical">
+                android:paddingLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true" />
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:text="@string/search_doctor"
-                    android:textColor="@color/button_text"
-                    android:textSize="@dimen/large_text" />
+            <TextView
+                android:id="@+id/titleResults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                tools:text="text"
+                android:textColor="@color/button_text"
+                android:textSize="@dimen/extra_small_text"
+                android:layout_alignBottom="@+id/title"
+                android:layout_toLeftOf="@+id/title" />
 
-                <TextView
-                    android:id="@+id/titleResults"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:textColor="@color/button_text"
-                    android:textSize="@dimen/extra_small_text" />
-
-            </LinearLayout>
         </RelativeLayout>
 
 

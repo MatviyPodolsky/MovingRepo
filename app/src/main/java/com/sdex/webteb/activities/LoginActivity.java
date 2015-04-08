@@ -152,14 +152,18 @@ public class LoginActivity extends FacebookAuthActivity {
         if (!isValidData()) {
             return;
         }
-        mLogin.setEnabled(false);
 
-        String username = mUsername.getText().toString();
-        String password = mPassword.getText().toString();
+        if (Utils.isConnected(LoginActivity.this)) {
+            mLogin.setEnabled(false);
 
-        RestClient.getApiService().login("password",
-                username, password,
-                loginCallback);
+            String username = mUsername.getText().toString();
+            String password = mPassword.getText().toString();
+
+            RestClient.getApiService().login("password", username,
+                    password, loginCallback);
+        } else {
+            Toast.makeText(LoginActivity.this, getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+        }
 
     }
 

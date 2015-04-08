@@ -13,6 +13,7 @@ import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.utils.DisplayUtil;
+import com.sdex.webteb.utils.Utils;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -43,20 +44,25 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     @OnClick(R.id.restore)
     public void restore() {
-        if(isValidData()) {
-            RestClient.getApiService().restorePassword(mEmail.getText().toString(), new RestCallback<String>() {
-                @Override
-                public void failure(RestError restError) {
-                    Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.negative_restore_message),
-                            Toast.LENGTH_SHORT).show();
-                }
+        if (Utils.isConnected(ForgotPasswordActivity.this)) {
+            if (isValidData()) {
+                RestClient.getApiService().restorePassword(mEmail.getText().toString(), new RestCallback<String>() {
+                    @Override
+                    public void failure(RestError restError) {
+                        Toast.makeText(ForgotPasswordActivity.this, getString(R.string.negative_restore_message),
+                                Toast.LENGTH_SHORT).show();
+                    }
 
-                @Override
-                public void success(String s, Response response) {
-                    Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.positive_restore_message),
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+                    @Override
+                    public void success(String s, Response response) {
+                        Toast.makeText(ForgotPasswordActivity.this, getString(R.string.positive_restore_message),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        } else {
+            Toast.makeText(ForgotPasswordActivity.this, getString(R.string.no_connection),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
