@@ -158,6 +158,8 @@ public class HomeFragment extends PhotoFragment {
         databaseHelper = DatabaseHelper.getInstance(getActivity());
         preferencesManager = PreferencesManager.getInstance();
 
+        showProgress();
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -172,6 +174,9 @@ public class HomeFragment extends PhotoFragment {
         RestClient.getApiService().getBabyConfig(new Callback<BabyConfigResponse>() {
             @Override
             public void success(BabyConfigResponse babyConfigResponse, Response response) {
+                if (!isAdded()) {
+                    return;
+                }
                 Ad ads = babyConfigResponse.getAds();
                 String serverId = ads.getServerId();
                 babyPeriods = babyConfigResponse.getBabyPeriods();
@@ -193,7 +198,6 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void init() {
-        showProgress();
 
         initAdvertisement();
 

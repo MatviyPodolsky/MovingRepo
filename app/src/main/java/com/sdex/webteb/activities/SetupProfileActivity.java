@@ -293,6 +293,15 @@ public class SetupProfileActivity extends BaseActivity {
 
             @Override
             public void success(String s, Response response) {
+
+                if (mPager == null) {
+                    return;
+                }
+
+                String[] relations = getResources().getStringArray(R.array.relations);
+                String relation = relations[request.getFamilyRelation() - 1];
+                sendAnalyticsDimension(R.string.screen_profile_family_relation, 1, relation);
+
                 DbUser user = databaseHelper.getUser(username);
                 user.setCompletedProfile(true);
                 String children = "";
