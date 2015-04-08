@@ -143,6 +143,12 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 }
             }
         });
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            handlePushNotification(extras);
+        }
+
     }
 
     private void initSideMenu() {
