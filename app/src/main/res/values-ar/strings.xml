@@ -4,8 +4,11 @@
     <string name="app_name">BabyTime</string>
 
     <!--welcome-->
-    <string name="welcome_text">Test text to test data display on the screen of the mobile device</string>
-    <string name="welcome_subtext">Test subtext to test data display on the screen of the mobile device</string>
+        <string name="welcome_text">"دليل الفحوصات الطبية المنتظمة
+اكتشف فحوصاتك الطبية"</string>
+    <string name="welcome_subtext">"دليل الفحوصات الطبية المنتظمة تساعدك على
+تشخيص المشاكل الطبية مبكرا.
+"</string>
 
     <!--login & registration-->
     <string name="login">"الدخول"</string>
@@ -170,7 +173,7 @@
     <!--about-->
     <string name="about_title">"حول التطبيق"</string>
     <string name="about_app_version">"%1$s نسخة التطبيق"</string>
-    <string name="logo_text">logo text</string>
+    <string name="logo_text">"من اصدار"</string>
     <string name="about_text">"على الرغم من أن الاعتقاد السائد بأن هذه التغيرات هي غير عكسية، ففي كثير
 من الحالات فان الإقلاع عن التدخين يمكن أن يعمل على "تنظيف الرئتين عند
 المدخنين" والتقليل من تأثير سنوات التدخين على الرغم من أن الاعتقاد
