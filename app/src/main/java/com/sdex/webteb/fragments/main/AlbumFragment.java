@@ -1,17 +1,24 @@
 package com.sdex.webteb.fragments.main;
 
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.print.PrintHelper;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.AlbumAdapter;
@@ -29,9 +36,14 @@ import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
+import com.sdex.webteb.utils.EmailUtil;
+import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.PrintUtil;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -57,6 +69,12 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
     View mEmptyView;
     @InjectView(R.id.title)
     TextView mTitle;
+    @InjectView(R.id.btn_share)
+    ImageButton mShareButton;
+    @InjectView(R.id.btn_take_photo)
+    Button mTakePhoto;
+
+    private PopupWindow mSharePopUp;
 
     private AlbumAdapter mAdapter;
     private List<DbPhoto> data;
@@ -87,7 +105,7 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         super.onViewCreated(view, savedInstanceState);
         databaseHelper = DatabaseHelper.getInstance(getActivity());
         loadPhotos();
-
+        initSharingPopUp();
         showOrHideEmptyView();
 
         if (getParentFragment() != null) {
@@ -269,6 +287,74 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         addNestedFragment(R.id.fragment_container, fragment, SavePhotoFragment.NAME);
     }
 
+    @OnClick(R.id.btn_share)
+    void share(View v) {
+        v.setEnabled(false);
+        mSharePopUp.showAsDropDown(v);
+    }
+
+    private void initSharingPopUp() {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final View contentView = inflater.inflate(R.layout.pop_up_share, null);
+        mSharePopUp = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DbPhoto photo = getCurrentPhoto();
+                FacebookUtil.publishPhoto(getActivity(), photo.getPath());
+                mSharePopUp.dismiss();
+            }
+        });
+        contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DbPhoto photo = getCurrentPhoto();
+                String subject = String.format(getString(R.string.share_photo_email_subject),
+                        PreferencesManager.getInstance().getUsername());
+                EmailUtil.sharePhoto(getActivity(), subject, photo.getPath());
+                mSharePopUp.dismiss();
+            }
+        });
+        contentView.findViewById(R.id.print).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PrintHelper.systemSupportsPrint()) {
+                    try {
+                        DbPhoto photo = getCurrentPhoto();
+                        PrintUtil.printPhoto(getActivity(), photo.getDescription(),
+                                Uri.fromFile(new File(photo.getPath())));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.not_support_printing_error),
+                            Toast.LENGTH_SHORT).show();
+                }
+                mSharePopUp.dismiss();
+            }
+        });
+        mSharePopUp.setBackgroundDrawable(new ColorDrawable());
+        mSharePopUp.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mShareButton.setEnabled(true);
+            }
+        });
+        mSharePopUp.setOutsideTouchable(true);
+    }
+
+    @Nullable
+    private DbPhoto getCurrentPhoto() {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        AlbumViewFragment fragment = (AlbumViewFragment) fragmentManager.findFragmentByTag(AlbumViewFragment.NAME);
+        if (fragment != null) {
+            return fragment.getCurrentPhoto();
+        }
+        return null;
+    }
+
     @Override
     public void onBackStackChanged() {
         final int count = fragmentManager.getBackStackEntryCount();
@@ -278,8 +364,12 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         }
         if (count > numOfFragments) {
             mDeletePhoto.setVisibility(View.VISIBLE);
+            mShareButton.setVisibility(View.VISIBLE);
+            mTakePhoto.setVisibility(View.INVISIBLE);
         } else {
-            mDeletePhoto.setVisibility(View.GONE);
+            mDeletePhoto.setVisibility(View.INVISIBLE);
+            mShareButton.setVisibility(View.INVISIBLE);
+            mTakePhoto.setVisibility(View.VISIBLE);
         }
     }
 

@@ -133,7 +133,6 @@ public class HomeFragment extends PhotoFragment {
     private RestCallback<MonthResponse> getMonthCallback;
     private RestCallback<BabyProfileResponse> getProfileCallback;
     private boolean gaveBirth;
-    private boolean isSummaryLoaded;
     private String albumLabel;
 
     private List<ContentLink> contentLinks;
@@ -160,6 +159,8 @@ public class HomeFragment extends PhotoFragment {
         databaseHelper = DatabaseHelper.getInstance(getActivity());
         preferencesManager = PreferencesManager.getInstance();
 
+        showProgress();
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -174,6 +175,9 @@ public class HomeFragment extends PhotoFragment {
         RestClient.getApiService().getBabyConfig(new Callback<BabyConfigResponse>() {
             @Override
             public void success(BabyConfigResponse babyConfigResponse, Response response) {
+                if (!isAdded()) {
+                    return;
+                }
                 Ad ads = babyConfigResponse.getAds();
                 String serverId = ads.getServerId();
                 babyPeriods = babyConfigResponse.getBabyPeriods();
@@ -195,7 +199,6 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void init() {
-        showProgress();
 
         initAdvertisement();
 
@@ -246,7 +249,6 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(WeekResponse weekResponse, Response response) {
-                isSummaryLoaded = true;
                 showWeeks(weekResponse);
             }
         };
@@ -259,7 +261,6 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(MonthResponse monthResponse, Response response) {
-                isSummaryLoaded = true;
                 showMonths(monthResponse);
             }
         };
@@ -371,16 +372,10 @@ public class HomeFragment extends PhotoFragment {
                         if (currentRange != null) {
                             String rangeTitle = currentRange.getTitle();
                             screenName = String.format(getString(R.string.screen_summary_baby), rangeTitle);
-                            if (!isSummaryLoaded) {
-                                RestClient.getApiService().getMonth(numMonth, getMonthCallback);
-                            }
                         }
                     } else {
                         String week = preferencesManager.getCurrentDate();
                         screenName = String.format(getString(R.string.screen_summary_weeks), week);
-                        if (!isSummaryLoaded) {
-                            RestClient.getApiService().getWeek(Integer.parseInt(week), getWeekCallback);
-                        }
                     }
                     sendAnalyticsScreenName(screenName);
                 } else if (slideOffset == 0.0f) {

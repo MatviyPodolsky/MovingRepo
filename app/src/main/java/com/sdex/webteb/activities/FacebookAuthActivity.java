@@ -127,16 +127,16 @@ public abstract class FacebookAuthActivity extends BaseActivity {
                 }
 
                 @Override
-                public void success(UserLoginResponse s, retrofit.client.Response response) {
+                public void success(UserLoginResponse userLoginResponse, retrofit.client.Response response) {
                     final PreferencesManager preferencesManager = PreferencesManager.getInstance();
-                    preferencesManager.setTokenData(s.getAccessToken(), s.getTokenType());
-                    mUserEmail = s.getUserName();
+                    preferencesManager.setTokenData(userLoginResponse.getAccessToken(), userLoginResponse.getTokenType());
+                    mUserEmail = userLoginResponse.getUserName();
                     preferencesManager.setEmail(mUserEmail);
                     DatabaseHelper databaseHelper = DatabaseHelper.getInstance(FacebookAuthActivity.this);
                     DbUser user = databaseHelper.getUser(mUserEmail);
                     if (user == null) {
                         DbUser newUser = new DbUser();
-                        newUser.setEmail(s.getUserName());
+                        newUser.setEmail(userLoginResponse.getUserName());
                         databaseHelper.addUser(newUser);
 
                         RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
@@ -147,6 +147,11 @@ public abstract class FacebookAuthActivity extends BaseActivity {
                             launchMainActivity(false);
                         }
                     }
+
+                    if (userLoginResponse.isUserRegister()) {
+                        sendAnalyticsDimension(R.string.screen_register, 3, getString(R.string.dimension_register_type_facebook));
+                    }
+
                     mProgressDialog.dismiss();
                 }
             });

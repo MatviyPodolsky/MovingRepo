@@ -31,5 +31,8 @@ public class UserLoginResponse extends ApiResponse {
     @SerializedName(".expires")
     @Expose
     private String expires;
+    @SerializedName("IsUserRegister")
+    @Expose
+    private boolean isUserRegister;
 
 }
