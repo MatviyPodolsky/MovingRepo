@@ -18,6 +18,7 @@ public class SplashActivity extends BaseActivity {
 	*/
 
     private static final int AUTO_HIDE_DELAY_MILLIS = 2000;
+    private final PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     private Handler mHandler;
     private Runnable mInvokeMainActivityTask;
@@ -28,19 +29,19 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        boolean wasLaunched = PreferencesManager.getInstance().wasLaunched();
+        boolean wasLaunched = preferencesManager.wasLaunched();
         String action;
         if (wasLaunched) {
             action = Events.ACTION_REGULAR_LAUNCH;
         } else {
             action = Events.ACTION_FIRST_LAUNCH;
-            PreferencesManager.getInstance().setWasLaunched(true);
+            preferencesManager.setWasLaunched(true);
         }
         sendAnalyticsEvent(Events.CATEGORY_LAUNCH_EVENTS, action);
 
         databaseHelper = DatabaseHelper.getInstance(this);
 
-        isLoggedIn = (PreferencesManager.getInstance().getAccessToken() != null);
+        isLoggedIn = (preferencesManager.getAccessToken() != null);
 
         mHandler = new Handler();
         mInvokeMainActivityTask = new Runnable() {
@@ -50,6 +51,12 @@ public class SplashActivity extends BaseActivity {
             }
         };
         mHandler.postDelayed(mInvokeMainActivityTask, AUTO_HIDE_DELAY_MILLIS);
+
+        preferencesManager.getPreferences()
+                .edit()
+                .putBoolean(PreferencesManager.ADS_SHOW_KEY, true)
+                .putInt(PreferencesManager.ADS_SHOWS_COUNTER_KEY, 0)
+                .apply();
     }
 
     @Override
@@ -68,7 +75,7 @@ public class SplashActivity extends BaseActivity {
             startActivity(new Intent(this, WelcomeActivity.class));
             finish();
         } else {
-            DbUser user = databaseHelper.getUser(PreferencesManager.getInstance().getEmail());
+            DbUser user = databaseHelper.getUser(preferencesManager.getEmail());
             if (user != null && user.isCompletedProfile()) {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 SplashActivity.this.finish();

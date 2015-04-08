@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="@string/read_more" />
+                android:text="@string/summary_read_more" />
 
             <TextView
                 android:id="@+id/summary_test_text"
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="@string/read_more" />
+                android:text="@string/summary_read_more" />
 
             <TextView
                 android:id="@+id/summary_articles_text"

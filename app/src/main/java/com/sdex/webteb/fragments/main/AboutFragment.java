@@ -38,7 +38,7 @@ public class AboutFragment extends BaseMainFragment {
             Log.e(TAG, "Try to get version name: " + e.getMessage());
             e.printStackTrace();
         }
-        appVersion.setText(versionName + " application version");
+        appVersion.setText(String.format(getString(R.string.about_app_version), versionName));
     }
 
     @Override

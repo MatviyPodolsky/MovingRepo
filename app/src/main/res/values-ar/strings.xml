@@ -4,8 +4,11 @@
     <string name="app_name">BabyTime</string>
 
     <!--welcome-->
-    <string name="welcome_text">Test text to test data display on the screen of the mobile device</string>
-    <string name="welcome_subtext">Test subtext to test data display on the screen of the mobile device</string>
+        <string name="welcome_text">"دليل الفحوصات الطبية المنتظمة
+اكتشف فحوصاتك الطبية"</string>
+    <string name="welcome_subtext">"دليل الفحوصات الطبية المنتظمة تساعدك على
+تشخيص المشاكل الطبية مبكرا.
+"</string>
 
     <!--login & registration-->
     <string name="login">"الدخول"</string>
@@ -91,9 +94,9 @@
     <string name="dialog_notification_week_confirm">"أجل، قمت بهذا"</string>
     <string name="dialog_notification_week_cancel">"ليس بعد"</string>
     <string name="age_in_week">"%1$d الاسبوع"</string>
-    <string name="age_in_month">Age %1$d month</string>
-    <string name="age_in_years">Age %1$d years</string>
-    <string name="age_in_years_and_month">Age %1$d years %2$d month</string>
+    <string name="age_in_month">"العمر %1$d شهر"</string>
+    <string name="age_in_years">"العمر %1$d سنوات"</string>
+    <string name="age_in_years_and_month">"العمر %1$d سنوات  %2$d شهر"</string>
     <string name="first_month">الشهر الاول</string>
 
     <!--summary-->
@@ -101,12 +104,13 @@
     <string name="articles_count">"عدد المقالات"</string>
     <string name="articles">"مقالات"</string>
     <string name="album">"ألبوم الصور"</string>
-    <string name="go_to_album">"اذهب الى ألبوم الصور"</string>
+    <string name="go_to_album">"صور"</string>
     <string name="no_photos">"لا يوجد صور"</string>
     <string name="no_tests">"لا توجد فحوصات"</string>
     <string name="no_articles">"لا توجد مقالات"</string>
     <string name="close">"إغلاق"</string>
     <string name="n_tests">"%1$d فحوصات"</string>
+    <string name="summary_read_more">إقرأ</string>
 
     <!--my tests-->
     <string name="my_tests_title">"فحوصاتي"</string>
@@ -155,7 +159,7 @@
 
     <!--settings-->
     <string name="settings_title">"اعدادات"</string>
-    <string name="settings_title_1">Settings title 1</string>
+    <string name="settings_title_1">"الإعدادات"</string>
     <string name="profile_settings">"اعدادت البروفيل"</string>
     <string name="weekly_tips_notifications">"اشعارات للنصائح الاسبوعية"</string>
     <string name="tests_reminders">"منبه الفحوصات"</string>
@@ -170,9 +174,14 @@
 
     <!--about-->
     <string name="about_title">"حول التطبيق"</string>
-    <string name="about_app_version">"1.1.0 نسخة التطبيق"</string>
-    <string name="logo_text">logo text</string>
-    <string name="about_text">Long about text with app description or other stuff. Long about text with app description or other stuff.</string>
+    <string name="about_app_version">"%1$s نسخة التطبيق"</string>
+    <string name="logo_text">"من اصدار"</string>
+    <string name="about_text">"على الرغم من أن الاعتقاد السائد بأن هذه التغيرات هي غير عكسية، ففي كثير
+من الحالات فان الإقلاع عن التدخين يمكن أن يعمل على "تنظيف الرئتين عند
+المدخنين" والتقليل من تأثير سنوات التدخين على الرغم من أن الاعتقاد
+السائد بأن هذه التغيرات هي غير عكسية، ففي كثير
+من الحالات فان الإقلاع عن التدخين يمكن أن يعمل على "تنظيف الرئتين عند
+المدخنين" والتقليل من تأثير سنوات التدخين الطويلة!اليكم التفاصيل"</string>
 
     <!--contact us-->
     <string name="contact_us_title">"اتصل بنا"</string>
@@ -221,8 +230,8 @@
     <string name="week_n">%1$d "الاسبوع"</string>
     <string name="had_you_already_born">It’s important for us to know if you already had your birth</string>
     <string name="newborn_title">"مبروك مولودك الجديد"</string>
-    <string name="newborn_text">new child new child new child new child new child new child
-    new child new child new child new child</string>
+    <string name="newborn_text">" رجاءُ اكتب تفاصيل ابنك هنا وعببي الخانات
+لكي نستطيع ان نساعدك ونكمل الطريق معاً بالاشهر والسنين الأولى من الولادة"</string>
 
     <string name="loading">"جاري التحميل…"</string>
     <string name="retry">"المحاولة من جديد"</string>

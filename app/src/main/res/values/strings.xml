@@ -102,6 +102,7 @@
     <string name="no_articles">No articles</string>
     <string name="close">Close</string>
     <string name="n_tests">%1$d tests</string>
+    <string name="summary_read_more">Read more</string>
 
     <!--my tests-->
     <string name="my_tests_title">My tests</string>
@@ -165,7 +166,7 @@
 
     <!--about-->
     <string name="about_title">About</string>
-    <string name="about_app_version">1.1.0 application version</string>
+    <string name="about_app_version">%1$s application version</string>
     <string name="logo_text">logo text</string>
     <string name="about_text">Long about text with app description or other stuff. Long about text with app description or other stuff.</string>
 
