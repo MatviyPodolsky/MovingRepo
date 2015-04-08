@@ -51,7 +51,7 @@ public class BirthDateFragment extends BaseFragment {
     Button mBtnNext;
     private int mDateType = LAST_PERIOD;
     private String dateString;
-    private Date lastSelectedDate;
+    private Calendar lastSelectedDate;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class BirthDateFragment extends BaseFragment {
             if (dateStr != null) {
                 Date date = DateUtil.parseDate(dateStr);
                 if (date != null) {
-                    lastSelectedDate = date;
+                    lastSelectedDate = DateUtil.getCalendarFromDate(date);
                     dateStr = DateUtil.formatDate(date, "MMM dd, yyyy");
                 }
             }
@@ -99,12 +99,12 @@ public class BirthDateFragment extends BaseFragment {
                         Date time = date.getTime();
                         String requestDate = DateUtil.formatDate(time, "yyyy-MM-dd'T'HH:mm:ssZ");
                         String textDate = DateUtil.formatDate(time, "MMM dd, yyyy");
-                        if (isValidDate(time)) {
+                        if (isValidDate(date)) {
                             ((SetupProfileActivity) getActivity()).setBirthDate(requestDate);
                             mDate.setText(textDate);
                             dateString = textDate;
-                            lastSelectedDate = time;
-                            updateChildAge(time);
+                            lastSelectedDate = date;
+                            updateChildAge(date);
                         }
                     }
                     break;
@@ -116,7 +116,7 @@ public class BirthDateFragment extends BaseFragment {
     public void scrollToNextPage() {
         if (getActivity() instanceof SetupProfileActivity) {
             Date date = DateUtil.parseDate(mDate.getText().toString());
-            if (date != null && isValidDate(date)) {
+            if (date != null && isValidDate(DateUtil.getCalendarFromDate(date))) {
                 ((SetupProfileActivity) getActivity()).scrollToNextPage();
             }
         }
@@ -153,13 +153,19 @@ public class BirthDateFragment extends BaseFragment {
         selectCategory(BIRTH_DATE);
     }
 
-    private void updateChildAge(Date date) {
-        long selectedDate = date.getTime();
-        long currentTime = Calendar.getInstance().getTime().getTime();
+    private void updateChildAge(Calendar calendar) {
+        long selectedDate = calendar.getTime().getTime();
+        long currentTime = DateUtil.getCurrentDate().getTime();
         long age = 0;
         int dateFormat;
         long diffTime = Math.abs(currentTime - selectedDate);
+        //add half day to avoid some time changes like a transition to winter/daylight saving time
+        diffTime = diffTime + 3600 * 1000 * 12;
         if (mDateType == BIRTH_DATE) {
+            Calendar currentCalendar = DateUtil.getCurrentCalendar();
+//            formula from Jacob
+//            age = ((currentCalendar.get(Calendar.YEAR) - calendar.get(Calendar.YEAR))*12)
+//                    + currentCalendar.get(Calendar.MONTH) - calendar.get(Calendar.MONTH);
             age = diffTime / 1000 / 3600 / 24 / 30;
             dateFormat = PreferencesManager.DATE_TYPE_MONTH;
         } else {
@@ -229,12 +235,13 @@ public class BirthDateFragment extends BaseFragment {
         }
     }
 
-    public boolean isValidDate(Date date) {
+    public boolean isValidDate(Calendar calendar) {
         if (mDateType == BabyProfileResponse.DATE_TYPE_NOT_SET) {
             Toast.makeText(getActivity(), getString(R.string.please_select_date), Toast.LENGTH_SHORT).show();
             return false;
         }
-        Date currentDate = Calendar.getInstance().getTime();
+        Date currentDate = DateUtil.getCurrentDate();
+        Date date = (Date) calendar.getTime();
         if (mDateType == BabyProfileResponse.DATE_TYPE_BIRTH_DATE
                 && DateUtil.compareDatesWithToday(date, currentDate, true)) {
             Toast.makeText(getActivity(), getString(R.string.please_select_correct_date), Toast.LENGTH_SHORT).show();

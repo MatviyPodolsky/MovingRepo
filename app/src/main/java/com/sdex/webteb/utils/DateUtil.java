@@ -148,7 +148,7 @@ public class DateUtil {
         return new SimpleDateFormat(dateFormat, Locale.US).format(date);
     }
 
-    public static boolean   compareDatesWithToday(Date from, Date to, boolean isBorn) {
+    public static boolean compareDatesWithToday(Date from, Date to, boolean isBorn) {
 
         if (!isBorn) {
             long diff = to.getTime() - from.getTime();
@@ -201,4 +201,33 @@ public class DateUtil {
             return elapsedDays < 8 || elapsedDays > 280;
         }
     }
+
+    public static Date getCurrentDate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    public static Calendar getCurrentCalendar(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
+    }
+
+    public static Calendar getCalendarFromDate(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
+    }
+
 }
