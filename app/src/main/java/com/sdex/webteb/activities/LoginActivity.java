@@ -56,11 +56,10 @@ public class LoginActivity extends FacebookAuthActivity {
             @Override
             public void failure(RestError restError) {
                 mLogin.setEnabled(true);
-                String text = "failure :(";
                 if (restError != null) {
-                    text = "Error:" + restError.getErrorDescription();
+                    String text = restError.getErrorDescription();
+                    Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
             }
 
             @Override
