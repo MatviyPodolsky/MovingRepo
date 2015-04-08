@@ -3,9 +3,6 @@
 
     <string name="app_name">BabyTime</string>
 
-    <string name="facebook_app_id" translatable="false">326836307523571</string>
-    <string name="ga_trackingId" translatable="false">UA-27175568-11</string>
-
     <!--welcome-->
     <string name="welcome_text">Test text to test data display on the screen of the mobile device</string>
     <string name="welcome_subtext">Test subtext to test data display on the screen of the mobile device</string>
@@ -32,16 +29,23 @@
     <string name="please_enter_email">"الرجاء ادخال عنوان بريدك الالكتروني"</string>
     <string name="please_enter_password">Please enter your password</string>
     <string name="password_must_contain_at_least_6_characters">"على كلمة المرور ان تكون مؤلفة من 4 أحرف على الاقل"</string>
+    <string name="error_email_already_registered">This email has been already registered</string>
+    <string name="invalid_email">Invalid email</string>
 
     <!--restore password-->
     <string name="positive_restore_message">"لقد تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
     <string name="negative_restore_message">"لم نتمكن من التحقق من بريدك الالكتروني"</string>
 
     <!--terms of use-->
-    <string name="in_the_registration_process_agree_on">في عملية التسجيل الاتفاق على</string>
-    <string name="terms_of_use"><u>شروط الاستخدام</u></string>
-    <string name="and"> و </string>
-    <string name="security_agreement"><u>الاتفاقية الأمنية</u></string>
+    <string name="in_the_registration_process_agree_on">"في عملية التسجيل الاتفاق على"</string>
+    <string name="terms_of_use">"<u>شروط الاستخدام</u>"</string>
+    <string name="and">" و "</string>
+    <string name="security_agreement">"<u>الاتفاقية الأمنية</u>"</string>
+    <string name="terms_of_use_text">"كل المواد الطبية و/أو العلاجية و/أو الدوائية التي تظهر بهذا التطبيق، هي بمثابة معلومات عامة فقط، ولا يجب اعتبارها، بأي حال، "استشارة طبية" و/ أو "توصية علاجية" و/أو" بديلاً لعلاج طبي شخصي". المعلومات في هذا التطبيق تعتبر عامة ولا يمكن ملاءمتها بشكل خاص لاحتياجات كل شخص،، بناء على ذلك، لتلقي علاج طبي شخصي و/أو استشارة طبية شخصية يجب التوجه لطبيب أو طبيبة.
+
+استعمال التطبيق "ويب طب" (webteb.com) والمعلومات المعروضة  فيه  يكون وفقا لشروط الاستخدام
+
+​,​ يرجى قراءة الشروط بدقة وانتباه، حيث أن الاستخدام يعتبر بمثابة مصادقة على كل شروط التطبيق."</string>
 
     <!--profile card-->
     <string name="hello">"مرحباً"</string>
@@ -74,8 +78,7 @@
     <string name="yes">"نعم"</string>
     <string name="no">"كلا"</string>
     <string name="are_u_sure_u_want_to_delete_child">"هل انت متأكدة انك تريدين حذف الطفل؟"</string>
-    <string name="item_id">item id</string>
-    <string name="position_id">position id</string>
+
 
     <!--home-->
     <string name="in_app_notification_btn_back">"العودة"</string>
@@ -85,10 +88,10 @@
     <string name="notification_tip_title">"نصيحة"</string>
     <string name="week">"%1$s الاسبوع"</string>
     <string name="month">"%1$s أشهر"</string>
-    <string name="dialog_notification_week_confirm">"أجل، قمت بهذا"</string>  
+    <string name="dialog_notification_week_confirm">"أجل، قمت بهذا"</string>
     <string name="dialog_notification_week_cancel">"ليس بعد"</string>
     <string name="age_in_week">"%1$d الاسبوع"</string>
-    <string name="age_in_month">Age %1$d month</string>   
+    <string name="age_in_month">Age %1$d month</string>
     <string name="age_in_years">Age %1$d years</string>
     <string name="age_in_years_and_month">Age %1$d years %2$d month</string>
 
@@ -134,7 +137,7 @@
     <string name="specialty">"التخصص"</string>
     <string name="doctor_name">"اسم الطبيب"</string>
     <string name="search">"بحث"</string>
-    <string name="found_n_doctors">Showing %1$d out of total %2$d</string> 
+    <string name="found_n_doctors">Showing %1$d out of total %2$d</string>
     <string name="no_doctors_found">"لم نعثر على طبيب"</string>
     <string name="turn_location_options">"الرجاء قم بتشغيل امكانية "تحديد الموقع" في الجهاز ان اردت اختيار البحث في موقعك الحالي دائماً"</string>
     <string name="any_country">"كل الدول"</string>
@@ -213,39 +216,14 @@
     <string name="hint_comment">a moment to remember, type few words about it</string>
 
     <!--newborn-->
+    <string name="week_n">Week %1$d</string>
+    <string name="had_you_already_born">It’s important for us to know if you already had your birth</string>
     <string name="newborn_title">"مبروك مولودك الجديد"</string>
     <string name="newborn_text">new child new child new child new child new child new child
     new child new child new child new child</string>
-    <string name="week_n">Week %1$d</string>
-    <string name="had_you_already_born">It’s important for us to know if you already had your birth</string>
-
-    <string name="month_0_1">"الشهر الاول"</string>
-    <string name="month_1_3">"1-3 أشهر"</string>
-    <string name="month_3_6">"3-6 أشهر"</string>
-    <string name="month_6_9">"6-9 أشهر"</string>
-    <string name="month_9_12">"9-12 شهراً"</string>
-    <string name="month_12_18">"12-18 شهراً"</string>
-    <string name="month_18_24">"18-24 شهراً"</string>
-    <string name="month_24_37">"2-3 أعوام"</string>
-    <string name="month_37_61">"الحضانة"</string>
-    <string name="month_61_145">"المدرسة"</string>
-    <string name="month_145_216">"النضوج"</string>
-
-    <string name="month_0_1_title">"الشهر الاول"</string>
-    <string name="month_1_3_title">"1-3 أشهر"</string>
-    <string name="month_3_6_title">"3-6 أشهر"</string>
-    <string name="month_6_9_title">"6-9 أشهر"</string>
-    <string name="month_9_12_title">"9-12 شهراً"</string>
-    <string name="month_12_18_title">"12-18 شهراً"</string>
-    <string name="month_18_24_title">"18-24 شهراً"</string>
-    <string name="month_24_37_title">"2-3 أعوام"</string>
-    <string name="month_37_61_title">"الحضانة"</string>
-    <string name="month_61_145_title">"المدرسة"</string>
-    <string name="month_145_216_title">"النضوج"</string>
 
     <string name="loading">"جاري التحميل…"</string>
     <string name="retry">"إعادة المحاولة"</string>
-
 	<string name="error_loading_title">Oops!</string>
     <string name="error_loading_text">Unable to load data</string>
 

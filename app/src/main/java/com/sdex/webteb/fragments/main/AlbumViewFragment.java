@@ -1,21 +1,12 @@
 package com.sdex.webteb.fragments.main;
 
-import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.print.PrintHelper;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.PhotoPagerAdapter;
@@ -26,19 +17,12 @@ import com.sdex.webteb.internal.events.ClickPhotoEvent;
 import com.sdex.webteb.internal.events.DeletePhotoEvent;
 import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
-import com.sdex.webteb.utils.DisplayUtil;
-import com.sdex.webteb.utils.EmailUtil;
-import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.PreferencesManager;
-import com.sdex.webteb.utils.PrintUtil;
 import com.sdex.webteb.view.WrapLinearLayoutManager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
 
 import butterknife.InjectView;
-import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -120,57 +104,6 @@ public class AlbumViewFragment extends BaseMainFragment {
         mEventBus.unregister(this);
     }
 
-    @OnClick(R.id.btn_share)
-    void share(View v) {
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        final View contentView = inflater.inflate(R.layout.pop_up_share, null);
-        final PopupWindow pw = new PopupWindow(contentView, DisplayUtil.dpToPx(80),
-                ViewGroup.LayoutParams.WRAP_CONTENT, true);
-
-        contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DbPhoto photo = data.get(mViewPager.getCurrentItem());
-                FacebookUtil.publishPhoto(getActivity(), photo.getPath());
-                pw.dismiss();
-            }
-        });
-        contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DbPhoto dbPhoto = data.get(mViewPager.getCurrentItem());
-                String subject = String.format(getString(R.string.share_photo_email_subject),
-                        PreferencesManager.getInstance().getUsername());
-                EmailUtil.sharePhoto(getActivity(), subject, dbPhoto.getPath());
-                pw.dismiss();
-            }
-        });
-        contentView.findViewById(R.id.print).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PrintHelper.systemSupportsPrint()) {
-                    try {
-                        DbPhoto dbPhoto = data.get(mViewPager.getCurrentItem());
-                        PrintUtil.printPhoto(getActivity(), dbPhoto.getDescription(),
-                                Uri.fromFile(new File(dbPhoto.getPath())));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Toast.makeText(getActivity(), getString(R.string.not_support_printing_error),
-                            Toast.LENGTH_SHORT).show();
-                }
-                pw.dismiss();
-            }
-        });
-        pw.setBackgroundDrawable(new ColorDrawable());
-        pw.setOutsideTouchable(true);
-        contentView.measure(0, 0);
-        Rect location = DisplayUtil.locateView(v);
-        pw.showAtLocation(v, Gravity.TOP | Gravity.START,
-                location.left, location.top - contentView.getMeasuredHeight());
-    }
-
     private void showPhotoInfo(int position) {
         if (data.size() > 0) {
             DbPhoto photo = data.get(position);
@@ -182,7 +115,11 @@ public class AlbumViewFragment extends BaseMainFragment {
     }
 
     private void setCurrentPhotoIndex(int position) {
-        mCurrentPhoto.setText(String.valueOf(data.size() - position));
+        mCurrentPhoto.setText(String.valueOf(position + 1));
+    }
+
+    public DbPhoto getCurrentPhoto() {
+        return data.get(mViewPager.getCurrentItem());
     }
 
     public void onEvent(IntentDeletePhotoEvent event) {

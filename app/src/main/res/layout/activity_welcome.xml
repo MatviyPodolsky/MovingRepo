@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/default_background"
+    tools:background="@color/primary"
     android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
@@ -24,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/in_the_registration_process_agree_on"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/small_text" />
 
         <LinearLayout
@@ -38,27 +40,28 @@
                 android:id="@+id/link1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:text="@string/terms_of_use"
-                android:textColor="@color/link"
-                android:textSize="@dimen/small_text" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/small_text"
+                android:textColorLink="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:text="@string/and"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/small_text" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/small_text"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
 
             <TextView
                 android:id="@+id/link2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:text="@string/security_agreement"
-                android:textColor="@color/link"
-                android:textSize="@dimen/small_text" />
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/small_text"
+                android:textColorLink="@android:color/white" />
 
         </LinearLayout>
 
