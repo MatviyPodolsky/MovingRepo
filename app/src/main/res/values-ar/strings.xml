@@ -29,6 +29,8 @@
     <string name="please_enter_email">"الرجاء ادخال عنوان بريدك الالكتروني"</string>
     <string name="please_enter_password">Please enter your password</string>
     <string name="password_must_contain_at_least_6_characters">"على كلمة المرور ان تكون مؤلفة من 4 أحرف على الاقل"</string>
+    <string name="error_email_already_registered">This email has been already registered</string>
+    <string name="invalid_email">Invalid email</string>
 
     <!--restore password-->
     <string name="positive_restore_message">"لقد تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
@@ -86,10 +88,10 @@
     <string name="notification_tip_title">"نصيحة"</string>
     <string name="week">"%1$s الاسبوع"</string>
     <string name="month">"%1$s أشهر"</string>
-    <string name="dialog_notification_week_confirm">"أجل، قمت بهذا"</string>  
+    <string name="dialog_notification_week_confirm">"أجل، قمت بهذا"</string>
     <string name="dialog_notification_week_cancel">"ليس بعد"</string>
     <string name="age_in_week">"%1$d الاسبوع"</string>
-    <string name="age_in_month">Age %1$d month</string>   
+    <string name="age_in_month">Age %1$d month</string>
     <string name="age_in_years">Age %1$d years</string>
     <string name="age_in_years_and_month">Age %1$d years %2$d month</string>
 
@@ -135,7 +137,7 @@
     <string name="specialty">"التخصص"</string>
     <string name="doctor_name">"اسم الطبيب"</string>
     <string name="search">"بحث"</string>
-    <string name="found_n_doctors">Showing %1$d out of total %2$d</string> 
+    <string name="found_n_doctors">Showing %1$d out of total %2$d</string>
     <string name="no_doctors_found">"لم نعثر على طبيب"</string>
     <string name="turn_location_options">"الرجاء قم بتشغيل امكانية "تحديد الموقع" في الجهاز ان اردت اختيار البحث في موقعك الحالي دائماً"</string>
     <string name="any_country">"كل الدول"</string>

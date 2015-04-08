@@ -9,6 +9,9 @@ import android.view.ViewTreeObserver;
 import com.sdex.webteb.R;
 import com.sdex.webteb.fragments.profile.BirthDateFragment;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by Yuriy Mysochenko on 11.03.2015.
  */
@@ -70,6 +73,15 @@ public final class Utils {
             }
         }
         return currentDate;
+    }
+
+    public static boolean isEmailValid(String email) {
+        String expression = "^[\\w\\.-]{2,}+@([\\w\\-]{2,}+\\.)+[A-Z]{2,}$";
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
     }
 
 }
