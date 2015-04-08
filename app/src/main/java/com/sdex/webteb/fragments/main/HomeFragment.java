@@ -118,7 +118,9 @@ public class HomeFragment extends PhotoFragment {
     @InjectViews({R.id.photo_1, R.id.photo_2, R.id.photo_3})
     List<ImageView> mPhotoViews;
     @InjectView(R.id.progress)
-    TextView mProgress;
+    TextView mRightProgress;
+    @InjectView(R.id.left_progress)
+    TextView mLeftProgress;
     // notifications
     @InjectView(R.id.notifications_container)
     RelativeLayout mNotificationsContainer;
@@ -588,18 +590,29 @@ public class HomeFragment extends PhotoFragment {
             String pregnancyWeek = Utils.dateBuilder(getActivity(),
                     currentWeek, preferencesManager.getCurrentDateType());
             mText.setText(pregnancyWeek);
-            ViewGroup.LayoutParams layoutParams = mProgress.getLayoutParams();
+            ViewGroup.LayoutParams layoutParams = mRightProgress.getLayoutParams();
+
             int currentDays = (card.getTotalDays() - card.getDaysLeft());
             layoutParams.width = currentDays * DisplayUtil.getScreenWidth(getActivity()) / card.getTotalDays();
-            String progressTitle = getString(R.string.profile_progress_text);
-            mProgress.setVisibility(View.VISIBLE);
-            mProgress.setText(String.format(progressTitle, card.getDaysLeft()));
-            mProgress.requestLayout();
+            String progress = getString(R.string.profile_progress_text);
+            String progressTitle = String.format(progress, card.getDaysLeft());
+
+            mRightProgress.setVisibility(View.VISIBLE);
+            mRightProgress.setText(progressTitle);
+
+            mRightProgress.measure(0, 0);
+            if (mRightProgress.getMeasuredWidth() > layoutParams.width) {
+                mRightProgress.setText("");
+                mLeftProgress.setVisibility(View.VISIBLE);
+                mLeftProgress.setText(progressTitle);
+            }
+
             preferencesManager.setCurrentDate(String.valueOf(currentWeek),
                     PreferencesManager.DATE_TYPE_WEEK);
         } else {
             RestClient.getApiService().getBabyProfile(getProfileCallback);
-            mProgress.setVisibility(View.GONE);
+            mRightProgress.setVisibility(View.GONE);
+            mLeftProgress.setVisibility(View.GONE);
         }
 
         if (gaveBirth) {
