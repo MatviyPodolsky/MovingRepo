@@ -229,8 +229,8 @@
     <string name="week_n">%1$d "الاسبوع"</string>
     <string name="had_you_already_born">It’s important for us to know if you already had your birth</string>
     <string name="newborn_title">"مبروك مولودك الجديد"</string>
-    <string name="newborn_text">new child new child new child new child new child new child
-    new child new child new child new child</string>
+    <string name="newborn_text">" رجاءُ اكتب تفاصيل ابنك هنا وعببي الخانات
+لكي نستطيع ان نساعدك ونكمل الطريق معاً بالاشهر والسنين الأولى من الولادة"</string>
 
     <string name="loading">"جاري التحميل…"</string>
     <string name="retry">"المحاولة من جديد"</string>
