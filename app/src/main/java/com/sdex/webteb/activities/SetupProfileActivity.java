@@ -130,7 +130,12 @@ public class SetupProfileActivity extends BaseActivity {
         if (preferencesManager.getCurrentDate() != null) {
             int currentDateValue = Integer.parseInt(preferencesManager.getCurrentDate());
             int dateFormat = preferencesManager.getCurrentDateType();
-            String currentDate = Utils.dateBuilder(SetupProfileActivity.this, currentDateValue, dateFormat);
+            String currentDate;
+            if (currentDateValue == 0 && dateFormat == PreferencesManager.DATE_TYPE_MONTH){
+                currentDate = getString(R.string.first_month);
+            } else {
+                currentDate = Utils.dateBuilder(SetupProfileActivity.this, currentDateValue, dateFormat);
+            }
             mDate.setText(currentDate);
         }
     }
@@ -207,7 +212,12 @@ public class SetupProfileActivity extends BaseActivity {
     }
 
     public void setChildAge(int dateValue, int dateType) {
-        String currentDate = Utils.dateBuilder(SetupProfileActivity.this, dateValue, dateType);
+        String currentDate;
+        if (dateType == PreferencesManager.DATE_TYPE_MONTH && dateValue == 0){
+            currentDate = getString(R.string.first_month);
+        } else {
+            currentDate = Utils.dateBuilder(SetupProfileActivity.this, dateValue, dateType);
+        }
         newDateValue = dateValue;
         newDateType = dateType;
         ((TextView) profileCard.findViewById(R.id.textView5)).setText(currentDate);

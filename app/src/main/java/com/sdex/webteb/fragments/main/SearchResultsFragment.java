@@ -38,7 +38,7 @@ public class SearchResultsFragment extends BaseMainFragment {
 
     public static final String NAME = SearchResultsFragment.class.getSimpleName();
 
-    public static final int PAGE_SIZE = 10;
+    public static final int PAGE_SIZE = 15;
     private SearchResultsAdapter mAdapter;
     @InjectView(R.id.list)
     ListView mList;
