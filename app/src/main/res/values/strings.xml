@@ -164,7 +164,7 @@
 
     <!--about-->
     <string name="about_title">About</string>
-    <string name="about_app_version">1.1.0 application version</string>
+    <string name="about_app_version">%1$s application version</string>
     <string name="logo_text">logo text</string>
     <string name="about_text">Long about text with app description or other stuff. Long about text with app description or other stuff.</string>
 

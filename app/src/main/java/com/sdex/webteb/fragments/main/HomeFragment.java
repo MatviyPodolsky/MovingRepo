@@ -307,7 +307,6 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void initAdvertisement() {
-        // TODO add counter
         boolean showInterstitialAd = preferencesManager.getPreferences()
                 .getBoolean(PreferencesManager.ADS_SHOW_KEY, true);
         int counter = preferencesManager.getPreferences()

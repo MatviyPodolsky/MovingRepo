@@ -150,6 +150,8 @@ public abstract class FacebookAuthActivity extends BaseActivity {
 
                     if (userLoginResponse.isUserRegister()) {
                         sendAnalyticsDimension(R.string.screen_register, 3, getString(R.string.dimension_register_type_facebook));
+                        PreferencesManager.getInstance().getPreferences().edit()
+                                .putBoolean(PreferencesManager.ADS_SHOW_KEY, false).apply();
                     }
 
                     mProgressDialog.dismiss();
