@@ -168,6 +168,9 @@ public class HomeFragment extends PhotoFragment {
                 getActivity(), R.drawable.divider_home_list));
         photoContainer.setVisibility(View.VISIBLE);
 
+        setProfilePhoto();
+        showLastPhoto();
+
         final LinearLayoutManager timeNavControllerLayoutManager =
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mTimeNavigationRecyclerView.setLayoutManager(timeNavControllerLayoutManager);
@@ -203,9 +206,6 @@ public class HomeFragment extends PhotoFragment {
         initAdvertisement();
 
         setUpSummaryView();
-
-        setProfilePhoto();
-        showLastPhoto();
 
         RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
             @Override
