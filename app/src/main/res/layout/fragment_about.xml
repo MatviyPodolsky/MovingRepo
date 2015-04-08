@@ -14,12 +14,23 @@
         android:layout_centerInParent="true" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/about_app_version"
+        android:id="@+id/textAppVersion"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/small_text"
+        android:layout_below="@+id/logoAbout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/about_text"
         android:id="@+id/textAbout"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/logoAbout"
+        android:layout_below="@+id/textAppVersion"
         android:gravity="center"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp"
@@ -31,10 +42,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_above="@+id/textAppVersion"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        android:layout_alignParentBottom="true">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -55,14 +66,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="@string/about_app_version"
-        android:id="@+id/textAppVersion"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/small_text"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

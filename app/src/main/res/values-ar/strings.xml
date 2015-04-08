@@ -154,7 +154,7 @@
 
     <!--settings-->
     <string name="settings_title">"اعدادات"</string>
-    <string name="settings_title_1">Settings title 1</string>
+    <string name="settings_title_1">"الإعدادات"</string>
     <string name="profile_settings">"اعدادت البروفيل"</string>
     <string name="weekly_tips_notifications">"اشعارات للنصائح الاسبوعية"</string>
     <string name="tests_reminders">"منبه الفحوصات"</string>
@@ -169,9 +169,14 @@
 
     <!--about-->
     <string name="about_title">"حول التطبيق"</string>
-    <string name="about_app_version">"1.1.0 نسخة التطبيق"</string>
+    <string name="about_app_version">"%1$s نسخة التطبيق"</string>
     <string name="logo_text">logo text</string>
-    <string name="about_text">Long about text with app description or other stuff. Long about text with app description or other stuff.</string>
+    <string name="about_text">"على الرغم من أن الاعتقاد السائد بأن هذه التغيرات هي غير عكسية، ففي كثير
+من الحالات فان الإقلاع عن التدخين يمكن أن يعمل على "تنظيف الرئتين عند
+المدخنين" والتقليل من تأثير سنوات التدخين على الرغم من أن الاعتقاد
+السائد بأن هذه التغيرات هي غير عكسية، ففي كثير
+من الحالات فان الإقلاع عن التدخين يمكن أن يعمل على "تنظيف الرئتين عند
+المدخنين" والتقليل من تأثير سنوات التدخين الطويلة!اليكم التفاصيل"</string>
 
     <!--contact us-->
     <string name="contact_us_title">"اتصل بنا"</string>
