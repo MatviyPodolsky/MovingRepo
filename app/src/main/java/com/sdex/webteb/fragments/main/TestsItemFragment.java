@@ -7,6 +7,7 @@ import android.view.View;
 import android.webkit.WebView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.model.Ad;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.utils.AdUtil;
 
@@ -54,7 +55,7 @@ public class TestsItemFragment extends BaseMainFragment {
             sendAnalyticsScreenName(name);
 
             showAd(name, null);
-            AdUtil.initInterstitialAd(getActivity(), name);
+            AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL);
         }
     }
 

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.sdex.webteb.R;
 import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.AddArticlesEvent;
+import com.sdex.webteb.model.Ad;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -195,7 +196,7 @@ public class ArticleFragment extends BaseMainFragment {
         String name = String.format(getString(R.string.screen_article), title);
         sendAnalyticsScreenName(name);
         showAd(name, null);
-        AdUtil.initInterstitialAd(getActivity(), name);
+        AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL);
     }
 
     @Override
