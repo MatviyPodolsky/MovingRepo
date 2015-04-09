@@ -81,7 +81,8 @@
     <string name="yes">"نعم"</string>
     <string name="no">"كلا"</string>
     <string name="are_u_sure_u_want_to_delete_child">"هل انت متأكدة انك تريدين حذف الطفل؟"</string>
-
+    <string name="identify_family_relationship">تحديد العلاقة العائلية</string>
+    <string name="please_choose">الرجاء اختيار</string>
 
     <!--home-->
     <string name="in_app_notification_btn_back">"العودة"</string>

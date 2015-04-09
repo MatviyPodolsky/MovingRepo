@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:text="birth date"
+        android:text="@string/please_choose"
         android:textSize="@dimen/default_text_size"
         android:textColor="@color/secondary_text" />
 

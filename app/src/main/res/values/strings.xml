@@ -74,6 +74,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="are_u_sure_u_want_to_delete_child">Are you sure you want to delete child?</string>
+    <string name="identify_family_relationship">Identify family relationship</string>
+    <string name="please_choose">Please choose</string>
 
     <!--home-->
     <string name="in_app_notification_btn_back">back</string>
