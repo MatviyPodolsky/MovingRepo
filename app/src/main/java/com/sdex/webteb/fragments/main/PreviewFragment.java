@@ -10,6 +10,7 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.model.Ad;
 import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.model.EntityField;
 import com.sdex.webteb.model.EntityFieldBody;
@@ -87,7 +88,7 @@ public class PreviewFragment extends BaseMainFragment {
             String name = entityResponse.getName();
             title.setText(name);
             showAd(name, entityResponse.getTargeting());
-            AdUtil.initInterstitialAd(getActivity(), name);
+            AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL);
             List<EntityField> fields = entityResponse.getFields();
             if (fields != null && fields.size() > 0) {
                 EntityField entityField = fields.get(0);

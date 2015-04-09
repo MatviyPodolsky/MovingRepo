@@ -17,16 +17,16 @@ import com.sdex.webteb.model.Ad;
  */
 public class AdUtil {
 
-    public static void initInterstitialAd(Context context, @StringRes int screenName) {
-        initInterstitialAd(context, context.getString(screenName));
+    public static void initInterstitialAd(Context context, @StringRes int screenName, @Ad.AdType String type) {
+        initInterstitialAd(context, context.getString(screenName), type);
     }
 
-    public static void initInterstitialAd(Context context, String screenName) {
+    public static void initInterstitialAd(Context context, String screenName, @Ad.AdType String type) {
         final PublisherInterstitialAd mPublisherInterstitialAd =
                 new PublisherInterstitialAd(context);
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         String adsServerId = preferencesManager.getAdsServerId();
-        mPublisherInterstitialAd.setAdUnitId("/" + adsServerId + Ad.INTERSTITIAL_HOME);
+        mPublisherInterstitialAd.setAdUnitId("/" + adsServerId + type);
         mPublisherInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
