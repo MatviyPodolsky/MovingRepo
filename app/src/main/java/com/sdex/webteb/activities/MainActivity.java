@@ -445,7 +445,11 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     }
 
     private void handlePushNotification(Bundle extras) {
-        String type = extras.getString(NOTIFICATION_TYPE).trim();
+        String type = extras.getString(NOTIFICATION_TYPE);
+        if (type == null) {
+            return;
+        }
+        type = type.trim();
         final String notificationId = extras.getString(NOTIFICATION_ID);
         BaseDialog pushNotificationDialog = null;
         switch (type) {
