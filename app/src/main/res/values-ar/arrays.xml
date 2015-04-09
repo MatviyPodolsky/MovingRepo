@@ -2,7 +2,7 @@
 <resources>
 
     <!--menu-->
-    <string name="title_home">"البيت"</string>
+    <string name="title_home">"الرئيسية"</string>
     <string-array name="menu_item_titles">
         <item>"فحوصاتي"</item>
         <item>"ألبوم صوري"</item>

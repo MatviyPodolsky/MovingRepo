@@ -2,17 +2,23 @@ package com.sdex.webteb.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.NewbornAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
+import com.sdex.webteb.dialogs.DatePickerFragmentDialog;
 import com.sdex.webteb.model.Child;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -24,6 +30,7 @@ import com.sdex.webteb.utils.PreferencesManager;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -33,16 +40,19 @@ import retrofit.client.Response;
 /**
  * Created by Yuriy Mysochenko on 24.03.2015.
  */
-public class NewbornActivity extends BaseActivity {
+public class NewbornActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
 
     public static final int BIRTH_DATE = 3;
     public static final int NEWBORN_ACTIVITY_REQUEST_CODE = 19937;
+    public static final int REQUEST_GET_DATE = 0;
 
     private NewbornAdapter mAdapter;
     @InjectView(R.id.children_list)
     ListView mList;
     @InjectView(R.id.save)
     Button mSave;
+    @InjectView(R.id.select_date)
+    TextView mDate;
     private List<Child> mChildren;
 
     private BabyProfileRequest request = new BabyProfileRequest();
@@ -72,9 +82,12 @@ public class NewbornActivity extends BaseActivity {
                             }
                         });
                 dialog.show();
-
             }
         });
+
+        Date date = DateUtil.getCurrentDate();
+        String textDate = DateUtil.formatDate(date, "MMM dd, yyyy");
+        mDate.setText(textDate);
 
         getBabyProfileCallback = new RestCallback<BabyProfileResponse>() {
             @Override
@@ -84,7 +97,7 @@ public class NewbornActivity extends BaseActivity {
             @Override
             public void success(BabyProfileResponse babyProfileResponse, Response response) {
                 List<Child> children = babyProfileResponse.getChildren();
-                if(babyProfileResponse != null && children != null){
+                if (babyProfileResponse != null && children != null) {
                     request.setFamilyRelation(babyProfileResponse.getFamilyRelation());
                     request.setDateType(BIRTH_DATE);
                     Date currentDate = Calendar.getInstance().getTime();
@@ -107,10 +120,16 @@ public class NewbornActivity extends BaseActivity {
         return R.layout.activity_newborn;
     }
 
-    @OnClick(R.id.add)
-    public void addChild() {
-        mAdapter.addChild(new Child());
-        mAdapter.notifyDataSetChanged();
+    @OnClick(R.id.select_date)
+    public void selectDate() {
+        String dateString = mDate.getText().toString();
+        DialogFragment dialog = new DatePickerFragmentDialog();
+        if (!TextUtils.isEmpty(dateString)) {
+            Bundle args = new Bundle();
+            args.putString(DatePickerFragmentDialog.EXTRA_DATE, dateString);
+            dialog.setArguments(args);
+        }
+        dialog.show(getSupportFragmentManager(), null);
     }
 
     @OnClick(R.id.save)
@@ -159,4 +178,19 @@ public class NewbornActivity extends BaseActivity {
         activity.startActivityForResult(launch, NEWBORN_ACTIVITY_REQUEST_CODE);
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        if (year >= 0 && monthOfYear >= 0 && dayOfMonth >= 0) {
+            Calendar date = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+            Date time = date.getTime();
+            String requestDate = DateUtil.formatDate(time, "yyyy-MM-dd'T'HH:mm:ssZ");
+            String textDate = DateUtil.formatDate(time, "MMM dd, yyyy");
+            if (DateUtil.compareDatesWithToday(time, DateUtil.getCurrentDate(), true)) {
+                Toast.makeText(this, getString(R.string.please_select_correct_date), Toast.LENGTH_SHORT).show();
+            } else {
+                mDate.setText(textDate);
+                request.setDate(requestDate);
+            }
+        }
+    }
 }

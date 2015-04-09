@@ -204,6 +204,7 @@
     <string name="empty_loaded_data">"لا يوجد معلومات"</string>
     <string name="no_connection">"الرجاء التأكد ان كان التواصل بالشبكة سليم والمحاولة من جديد"</string>
     <string name="error_with_description">"%1$s خطأ"</string>
+    <string name="connect_your_device">Baby teb app requires internet connection , please connect your device</string>
 
     <!--confirm dialogs-->
     <string name="dialog_delete_photo_title">"حذف الصورة"</string>
