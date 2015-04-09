@@ -13,7 +13,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="60dp"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/ic_newborn_larege" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/banka_moloka"
         android:gravity="right"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="30dp"
         android:text="@string/newborn_title"
         android:textColor="@color/button_text"
         android:textSize="@dimen/newborn_title" />
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/done"
             android:layout_below="@id/title"
-            android:layout_marginTop="27dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <ListView
@@ -58,21 +58,26 @@
                 android:dividerHeight="5dp"
                 android:divider="@android:color/transparent"
                 android:layout_height="0dp"
-                android:layout_weight="0.1" />
-
-            <Button
-                android:id="@+id/add"
+                android:layout_weight="0.1"
+                android:layout_marginBottom="10dp"/>
+            
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="right|bottom"
-                android:background="@color/button_text"
-                android:gravity="center_vertical|right"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="add child"
-                android:textColor="@color/primary"
-                android:textSize="@dimen/default_text_size" />
+                android:background="@drawable/btn_white_border">
+
+                <TextView
+                    android:id="@+id/select_date"
+                    android:layout_width="124dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textColor="@color/newborn_selected_text"
+                    android:background="@color/default_background"/>
+
+                </RelativeLayout>
 
         </LinearLayout>
 
@@ -85,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
         android:text="@string/save" />
 </RelativeLayout>

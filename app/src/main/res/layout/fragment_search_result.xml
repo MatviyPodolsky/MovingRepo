@@ -33,11 +33,10 @@
                 android:id="@+id/titleResults"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
                 tools:text="text"
                 android:textColor="@color/button_text"
                 android:textSize="@dimen/extra_small_text"
-                android:layout_alignBottom="@+id/title"
+                android:layout_alignBaseline="@id/title"
                 android:layout_toLeftOf="@+id/title" />
 
         </RelativeLayout>

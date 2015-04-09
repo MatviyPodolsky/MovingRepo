@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:layout_height="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:rotationY="180"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent">
 
     <view
+        android:id="@+id/image"
+        class="com.sdex.webteb.view.SquareImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.sdex.webteb.view.SquareImageView"
-        android:id="@+id/image"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:rotationY="180" />
 
 </FrameLayout>

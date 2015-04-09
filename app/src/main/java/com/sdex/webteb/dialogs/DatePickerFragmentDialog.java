@@ -42,7 +42,11 @@ public class DatePickerFragmentDialog extends DialogFragment
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        if (getTargetFragment() != null) {
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        } else {
+            return new DatePickerDialog(getActivity(), (DatePickerDialog.OnDateSetListener)getActivity(), year, month, day);
+        }
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -50,7 +54,11 @@ public class DatePickerFragmentDialog extends DialogFragment
         intent.putExtra(EXTRA_YEAR, year);
         intent.putExtra(EXTRA_MONTH, month);
         intent.putExtra(EXTRA_DAY, day);
-        getTargetFragment().onActivityResult(BirthDateFragment.REQUEST_GET_DATE, Activity.RESULT_OK, intent);
+        if (getTargetFragment() != null) {
+            getTargetFragment().onActivityResult(BirthDateFragment.REQUEST_GET_DATE, Activity.RESULT_OK, intent);
+        } else {
+            onActivityResult(BirthDateFragment.REQUEST_GET_DATE, Activity.RESULT_OK, intent);
+        }
         getDialog().hide();
     }
 }

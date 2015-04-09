@@ -191,6 +191,7 @@
     <string name="empty_loaded_data">Empty loaded data</string>
     <string name="no_connection">Baby teb app requires internet connection, please connect your device</string>
     <string name="error_with_description">Error: %1$s</string>
+    <string name="connect_your_device">Baby teb app requires internet connection , please connect your device</string>
 
     <!--confirm dialogs-->
     <string name="dialog_delete_photo_title">Delete photo</string>
