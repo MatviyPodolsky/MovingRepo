@@ -108,6 +108,9 @@ public class ArticleFragment extends BaseMainFragment {
                 mNextArticle.setVisibility(View.VISIBLE);
             }
         };
+        if (currentPosition == mData.size() - 1) {
+            mNextArticle.setVisibility(View.GONE);
+        }
         loadData();
     }
 
@@ -168,14 +171,16 @@ public class ArticleFragment extends BaseMainFragment {
 
     @OnClick(R.id.btn_next_article)
     void setNextArticle() {
-        if (currentPosition < mData.size() - 2) {
+        int size = mData.size();
+        if (currentPosition < size - 1) {
             currentPosition++;
             loadData();
             sendAnalyticsEvent(Events.CATEGORY_NAVIGATION, Events.ACTION_NEXT);
-        } else {
-            mNextArticle.setVisibility(View.GONE);
-            if(mData.size() < totalCount) {
-                RestClient.getApiService().getArticles(page, MoreArticlesFragment.PAGE_SIZE, getArticlesCallback);
+            if (currentPosition == size - 1) {
+                mNextArticle.setVisibility(View.GONE);
+                if(size < totalCount) {
+                    RestClient.getApiService().getArticles(page, MoreArticlesFragment.PAGE_SIZE, getArticlesCallback);
+                }
             }
         }
     }

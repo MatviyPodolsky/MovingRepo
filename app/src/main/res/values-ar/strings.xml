@@ -97,6 +97,7 @@
     <string name="age_in_month">"العمر %1$d شهر"</string>
     <string name="age_in_years">"العمر %1$d سنوات"</string>
     <string name="age_in_years_and_month">"العمر %1$d سنوات  %2$d شهر"</string>
+    <string name="first_month">الشهر الاول</string>
 
     <!--summary-->
     <string name="tests">"فحوصات"</string>

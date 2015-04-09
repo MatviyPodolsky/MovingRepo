@@ -433,7 +433,8 @@ public class HomeFragment extends PhotoFragment {
         long birthDate = DateUtil.parseDate(babyProfileResponse.getDate()).getTime();
         long diffTime = currentTime - birthDate;
         long totalMonth = diffTime / 1000 / 3600 / 24 / 30;
-        String childAge = Utils.dateBuilder(getActivity(),
+        String childAge = totalMonth == 0 ? getString(R.string.first_month)
+                : Utils.dateBuilder(getActivity(),
                 (int) totalMonth, preferencesManager.getCurrentDateType());
         mText.setText(childAge);
         preferencesManager.setCurrentDate(String.valueOf(totalMonth),
