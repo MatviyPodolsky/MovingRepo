@@ -179,6 +179,8 @@ public class TestsAdapter extends BaseExpandableListAdapter {
                     } else {
                         holder.addReminder.setVisibility(View.VISIBLE);
                     }
+                } else {
+                    holder.addReminder.setVisibility(View.VISIBLE);
                 }
                 holder.addReminder.setOnClickListener(new View.OnClickListener() {
                     @Override
