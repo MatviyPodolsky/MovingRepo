@@ -315,7 +315,7 @@ public class HomeFragment extends PhotoFragment {
             preferencesManager.getPreferences().edit()
                     .putInt(PreferencesManager.ADS_SHOWS_COUNTER_KEY, ++counter)
                     .apply();
-            AdUtil.initInterstitialAd(getActivity(), R.string.screen_home);
+            AdUtil.initInterstitialAd(getActivity(), R.string.screen_home, Ad.INTERSTITIAL_HOME);
         } else {
             preferencesManager.getPreferences().edit()
                     .putBoolean(PreferencesManager.ADS_SHOW_KEY, true).apply();
