@@ -33,8 +33,6 @@ public class AdditionalContentFragment extends BaseMainFragment {
     ListView mList;
     @InjectView(R.id.progress)
     ProgressBar progress;
-    @InjectView(R.id.error)
-    TextView error;
     @InjectView(R.id.title)
     TextView title;
 
@@ -70,7 +68,6 @@ public class AdditionalContentFragment extends BaseMainFragment {
 
         mList.setVisibility(View.VISIBLE);
         progress.setVisibility(View.GONE);
-        error.setVisibility(View.GONE);
 
         Bundle args = getArguments();
         final List<ContentLink> articles = Parcels.unwrap(args.getParcelable(ARG_ARTICLES_LIST));
