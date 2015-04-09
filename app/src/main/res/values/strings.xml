@@ -189,7 +189,7 @@
     <!--errors-->
     <string name="error_loading_data">Error loading data</string>
     <string name="empty_loaded_data">Empty loaded data</string>
-    <string name="no_connection">No connection to the internet</string>
+    <string name="no_connection">Baby teb app requires internet connection, please connect your device</string>
     <string name="error_with_description">Error: %1$s</string>
     <string name="connect_your_device">Baby teb app requires internet connection , please connect your device</string>
 
