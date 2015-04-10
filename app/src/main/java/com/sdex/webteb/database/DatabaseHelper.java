@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
+import com.sdex.webteb.database.model.DbLocation;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbTest;
 import com.sdex.webteb.database.model.DbUser;
@@ -29,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cupboard().register(DbPhoto.class);
         cupboard().register(DbUser.class);
         cupboard().register(DbTest.class);
+        cupboard().register(DbLocation.class);
     }
 
     public static DatabaseHelper getInstance(Context context) {
@@ -128,6 +130,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DbTest getTest(String email, int testId) {
         return cupboard().withDatabase(getReadableDatabase()).query(DbTest.class)
                 .withSelection("owner = ? AND testId = ?", email, String.valueOf(testId))
+                .get();
+    }
+
+    public void setLocation(DbLocation city) {
+        cupboard().withDatabase(getWritableDatabase()).put(city);
+    }
+
+    public void deleteLocation(DbLocation city) {
+        cupboard().withDatabase(getWritableDatabase()).delete(city);
+    }
+
+    public DbLocation getLocation(String email) {
+        return cupboard().withDatabase(getReadableDatabase()).query(DbLocation.class)
+                .withSelection("owner = ?", email)
                 .get();
     }
 

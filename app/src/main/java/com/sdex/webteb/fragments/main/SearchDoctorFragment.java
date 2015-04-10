@@ -24,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sdex.webteb.R;
+import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbLocation;
 import com.sdex.webteb.dialogs.SearchFilterDialog;
 import com.sdex.webteb.internal.events.DoctorsFoundEvent;
 import com.sdex.webteb.internal.events.DoctorsNotFoundEvent;
@@ -33,6 +35,7 @@ import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.CityResponse;
 import com.sdex.webteb.rest.response.SpecialtiesResponse;
 import com.sdex.webteb.utils.KeyboardUtils;
+import com.sdex.webteb.utils.PreferencesManager;
 
 import java.util.List;
 import java.util.Locale;
@@ -68,9 +71,12 @@ public class SearchDoctorFragment extends BaseMainFragment {
     private int[] citiesIds;
     private int[] specialitiesIds;
     private String[] countryCodes;
-    private int currentCountry = 0;  //Any country
+    private int currentCountryPosition = 0;  //Any country
 
     private EventBus mEventBus = EventBus.getDefault();
+
+    private PreferencesManager mPreferencesManager;
+    private DatabaseHelper databaseHelper;
 
     @InjectView(R.id.search)
     EditText mSearch;
@@ -99,9 +105,20 @@ public class SearchDoctorFragment extends BaseMainFragment {
         countryCodes = getActivity().getResources().getStringArray(R.array.iso_codes);
         citiesList = new String[] {getString(R.string.any_city)};
         specialtiesList = new String[] {getString(R.string.any_speciality)};
-        setCurrentCountry(currentCountry);
+
+        databaseHelper = DatabaseHelper.getInstance(getActivity());
+        mPreferencesManager = PreferencesManager.getInstance();
+
+        String username = mPreferencesManager.getEmail();
+
+        DbLocation dbLocation = databaseHelper.getLocation(username);
+        if (dbLocation != null) {
+            setCurrentCountry(getCountryPosition(dbLocation.getCountry()));
+        } else {
+            setCurrentCountry(currentCountryPosition);
+            setCurrentLocation();
+        }
         setSpecialties();
-        setCurrentLocation();
     }
 
     @Override
@@ -128,8 +145,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
                 case REQUEST_GET_COUNTRY:
                     if (data != null) {
                         mCountry.setText(data.getStringExtra(SearchFilterDialog.EXTRA_DATA));
-                        currentCountry = data.getIntExtra(SearchFilterDialog.EXTRA_POSITION, 3);
-                        setCurrentCountry(currentCountry);
+                        currentCountryPosition = data.getIntExtra(SearchFilterDialog.EXTRA_POSITION, 3);
+                        setCurrentCountry(currentCountryPosition);
                     }
                     break;
                 case REQUEST_GET_CITY:
@@ -190,16 +207,19 @@ public class SearchDoctorFragment extends BaseMainFragment {
         Fragment fragment = new SearchResultsFragment();
         Bundle args = new Bundle();
         args.putString("Name", mSearch.getText().toString());
+
         String countryName = mCountry.getText().toString();
         String countryId = String.valueOf(getIdItemFromString(countryName, countriesList, REQUEST_GET_COUNTRY));
         if (!countryName.equals(getString(R.string.any_country))) {
             args.putString("Country", countryId);
         }
+
         String cityName = mCity.getText().toString();
         String cityId = String.valueOf(getIdItemFromString(cityName, citiesList, REQUEST_GET_CITY));
         if (!cityName.equals(getString(R.string.any_city))) {
             args.putString("City", cityId);
         }
+
         String specialityName = mSpecialty.getText().toString();
         String specialityId = String.valueOf(getIdItemFromString(specialityName, specialtiesList, REQUEST_GET_SPECIALITY));
         if (!specialityName.equals(getString(R.string.any_speciality))) {
@@ -207,16 +227,47 @@ public class SearchDoctorFragment extends BaseMainFragment {
         } else {
             args.putString("Specialty", String.valueOf(ANY_SPECIALITY_ID));
         }
+        setDbLocation(countryName, cityName);
         fragment.setArguments(args);
 
         addNestedFragment(R.id.fragment_container, fragment, SearchResultsFragment.NAME);
     }
 
     private void setCurrentCountry(int currentCountry) {
-        this.currentCountry = currentCountry;
-        mCountry.setText(countriesList[currentCountry]);
+        this.currentCountryPosition = currentCountry;
+        String countryName = countriesList[currentCountry];
+        mCountry.setText(countryName);
         setCities(countryCodes[currentCountry]);
-        mCity.setText(getString(R.string.any_city));
+
+        String username = mPreferencesManager.getEmail();
+        DbLocation dbLocation = databaseHelper.getLocation(username);
+        if (dbLocation != null && dbLocation.getCountry().equals(countryName)) {
+            mCity.setText(dbLocation.getCity());
+        } else {
+            mCity.setText(getString(R.string.any_city));
+        }
+    }
+
+    private int getCountryPosition(String countryName) {
+        for (int i = 0; i < countriesList.length; i++) {
+            if (countryName.equals(countriesList[i])) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private void setDbLocation(String countryName, String cityName) {
+        String username = mPreferencesManager.getEmail();
+        if (databaseHelper.getLocation(username) != null) {
+            databaseHelper.deleteLocation(databaseHelper.getLocation(username));
+        }
+        DbLocation dbLocation = new DbLocation();
+        dbLocation.setOwner(username);
+        dbLocation.setCountry(countryName);
+        dbLocation.setCity(cityName);
+
+        databaseHelper.setLocation(dbLocation);
     }
 
     private int getIdItemFromString(String str, String[] list, int requestCode) {
