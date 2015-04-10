@@ -71,16 +71,16 @@
             android:layout_marginTop="7dp"
             android:text="@string/login" />
 
-        <com.facebook.widget.LoginButton xmlns:fb="http://schemas.android.com/apk/res-auto"
+        <com.facebook.login.widget.LoginButton xmlns:facebook="http://schemas.android.com/apk/res-auto"
             android:id="@+id/auth_button"
             style="@style/FacebookLoginButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/login"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="7dp"
-            fb:login_text="Facebook تسجيل الدخول" />
+            facebook:confirm_logout="false"
+            facebook:tooltip_mode="never_display"
+            facebook:login_text="Facebook تسجيل الدخول" />
 
 
         <com.sdex.webteb.view.TypefaceTextView

@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.fragments.main.BaseMainFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Yuriy Mysochenko on 03.03.2015.
  */
-public abstract class PhotoFragment extends BaseFragment {
+public abstract class PhotoFragment extends BaseMainFragment {
 
     public static final int PHOTO_TAKEN_ALBUM = 6001;
     public static final int PHOTO_TAKEN_PROFILE = 6002;

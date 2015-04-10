@@ -1,5 +1,6 @@
 package com.sdex.webteb.fragments.main;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,9 +16,15 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
 import com.sdex.webteb.R;
+import com.sdex.webteb.fragments.FacebookShareFragment;
 import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.AddArticlesEvent;
+import com.sdex.webteb.internal.events.DeletePhotoEvent;
+import com.sdex.webteb.internal.events.SavedPhotoEvent;
+import com.sdex.webteb.internal.events.SelectedPhotoEvent;
+import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.model.Ad;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.rest.RestCallback;
@@ -26,7 +33,6 @@ import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.ArticlesResponse;
 import com.sdex.webteb.utils.AdUtil;
 import com.sdex.webteb.utils.EmailUtil;
-import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.PrintUtil;
 
 import org.parceler.Parcels;
@@ -38,7 +44,7 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
 
-public class ArticleFragment extends BaseMainFragment {
+public class ArticleFragment extends FacebookShareFragment {
 
     public static final String NAME = ArticleFragment.class.getSimpleName();
 
@@ -64,6 +70,8 @@ public class ArticleFragment extends BaseMainFragment {
     private int page;
     private int totalCount;
 
+    private CallbackManager callbackManager;
+
     public static Fragment newInstance(List<ContentLink> data, int position, int page, int totalCount) {
         ArticleFragment fragment = new ArticleFragment();
         Bundle args = new Bundle();
@@ -78,6 +86,7 @@ public class ArticleFragment extends BaseMainFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        callbackManager = CallbackManager.Factory.create();
         Bundle args = getArguments();
         mData = Parcels.unwrap(args.getParcelable(ARG_ARTICLES));
         currentPosition = args.getInt(ARG_POSITION);
@@ -126,7 +135,7 @@ public class ArticleFragment extends BaseMainFragment {
         contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FacebookUtil.publishArticle(getActivity(), article);
+                performPublishLink(article);
                 mSharePopUp.dismiss();
             }
         });
@@ -162,6 +171,12 @@ public class ArticleFragment extends BaseMainFragment {
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_article;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @OnClick(R.id.share)
@@ -204,4 +219,19 @@ public class ArticleFragment extends BaseMainFragment {
         EventBus.getDefault().post(new AddArticlesEvent(page));
         super.onDestroy();
     }
+
+    // TODO need refactoring
+
+    public void onEvent(DeletePhotoEvent event) {
+    }
+
+    public void onEvent(SavedPhotoEvent event) {
+    }
+
+    public void onEvent(TakenPhotoEvent event) {
+    }
+
+    public void onEvent(SelectedPhotoEvent event) {
+    }
+
 }

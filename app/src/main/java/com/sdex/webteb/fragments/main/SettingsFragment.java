@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.Session;
+import com.facebook.login.LoginManager;
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
 import com.sdex.webteb.activities.WelcomeActivity;
@@ -171,10 +171,8 @@ public class SettingsFragment extends BaseMainFragment {
             @Override
             public void success(String s, Response response) {
                 PreferencesManager.getInstance().clear();
-                Session activeSession = Session.getActiveSession();
-                if (activeSession != null) {
-                    activeSession.closeAndClearTokenInformation();
-                }
+                // TODO facebook logout
+                LoginManager.getInstance().logOut();
                 Intent intent = new Intent(getActivity(), WelcomeActivity.class);
                 startActivity(intent);
                 getActivity().finish();
