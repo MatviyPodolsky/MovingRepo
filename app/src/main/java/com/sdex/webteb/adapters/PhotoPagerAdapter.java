@@ -8,6 +8,7 @@ import android.support.v4.view.PagerAdapter;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.fragments.main.AlbumImageFragment;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ public class PhotoPagerAdapter extends FragmentStatePagerAdapter {
     public PhotoPagerAdapter(FragmentManager fm, List<DbPhoto> photos) {
         super(fm);
         this.photos = photos;
+        Collections.reverse(this.photos);
     }
 
     @Override

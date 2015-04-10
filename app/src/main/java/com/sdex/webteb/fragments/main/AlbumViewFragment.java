@@ -74,8 +74,8 @@ public class AlbumViewFragment extends BaseMainFragment {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(2);
         final int currentPhoto = getArguments().getInt("current_photo");
-        mViewPager.setCurrentItem(currentPhoto);
-        showPhotoInfo(currentPhoto);
+        mViewPager.setCurrentItem(data.size() - currentPhoto - 1);
+        showPhotoInfo(data.size() - currentPhoto - 1);
 
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -115,7 +115,7 @@ public class AlbumViewFragment extends BaseMainFragment {
     }
 
     private void setCurrentPhotoIndex(int position) {
-        mCurrentPhoto.setText(String.valueOf(position + 1));
+        mCurrentPhoto.setText(String.valueOf(data.size() - position));
     }
 
     public DbPhoto getCurrentPhoto() {
