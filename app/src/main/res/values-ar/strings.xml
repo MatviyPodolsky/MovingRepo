@@ -128,7 +128,7 @@
     <string name="take_photo">"التقط صورة"</string>
     <string name="select_photo">"اختر صورة"</string>
     <string name="cancel">"الغاء"</string>
-    <string name="album_title"><![CDATA["الخاص بي" <b>%1$s</b>]]></string>
+    <string name="album_title"><![CDATA["الخاص بي" <b>%1$s</b> ألبوم الصور]]></string>
     <string name="album_text">"ألبوم الصور"</string>
     <string name="album_empty_text">"ألبوم الصور فارغ"</string>
     <string name="take_photo_button_title">"صورة"</string>

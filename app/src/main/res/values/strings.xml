@@ -121,7 +121,7 @@
     <string name="take_photo">Take photo</string>
     <string name="select_photo">Select photo</string>
     <string name="cancel">Cancel</string>
-    <string name="album_title"><![CDATA[My <b>%1$s</b>]]></string>
+    <string name="album_title"><![CDATA[My <b>%1$s</b>  album]]></string>
     <string name="album_text">" album"</string>
     <string name="album_empty_text">Album is empty</string>
     <string name="take_photo_button_title">photo</string>

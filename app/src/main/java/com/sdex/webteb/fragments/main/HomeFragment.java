@@ -267,7 +267,8 @@ public class HomeFragment extends PhotoFragment {
 
         boolean expired = preferencesManager.isNotificationDateExpired();
         NotificationsResponse lastNotification = preferencesManager.getLastNotification();
-        if (lastNotification == null) {
+        if (lastNotification == null
+                || (lastNotification.getTests().isEmpty() && lastNotification.getTips().isEmpty())) {
             if (expired) {
                 boolean ignoreSettings = false;
                 RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
