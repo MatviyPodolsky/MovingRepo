@@ -2,6 +2,7 @@
 <resources>
 
     <string name="facebook_app_id" translatable="false">326836307523571</string>
+    <string name="facebook_app_name" translatable="false">webteb android</string>
     <string name="ga_trackingId" translatable="false">UA-27175568-11</string>
 
     <string name="item_id">item id</string>

@@ -28,6 +28,7 @@ import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.ConfirmDialog;
 import com.sdex.webteb.dialogs.DialogCallback;
 import com.sdex.webteb.dialogs.PhotoDialog;
+import com.sdex.webteb.fragments.FacebookShareFragment;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.internal.analytics.Events;
@@ -37,7 +38,6 @@ import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.utils.EmailUtil;
-import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.utils.PrintUtil;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
@@ -55,7 +55,7 @@ import butterknife.OnClick;
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBackStackChangedListener {
+public class AlbumFragment extends FacebookShareFragment implements FragmentManager.OnBackStackChangedListener {
 
     public static final String NAME = AlbumFragment.class.getSimpleName();
     public static final String ALBUM_DISPLAYED_DATE = "ALBUM_DISPLAYED_DATE";
@@ -138,20 +138,20 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         String title = getString(R.string.album_title);
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         DbUser user = databaseHelper.getUser(preferencesManager.getEmail());
-        String[] childsArray = user.getChildren().split("/");
+        String[] childArray = user.getChildren().split("/");
         String titleString = "";
-        String childs = "";
-        for (int i = 0; i < childsArray.length; i++) {
-            String childName = childsArray[i].replaceAll("\\s+", "");
+        String child = "";
+        for (int i = 0; i < childArray.length; i++) {
+            String childName = childArray[i].replaceAll("\\s+", "");
             if (!TextUtils.isEmpty(childName)) {
                 titleString = titleString + childName + ", ";
             }
         }
         if (!TextUtils.isEmpty(titleString)) {
             int lastIndex = titleString.lastIndexOf(",");
-            childs = titleString.substring(0, lastIndex);
+            child = titleString.substring(0, lastIndex);
         }
-        String formattedTitle = String.format(title, childs);
+        String formattedTitle = String.format(title, child);
         mTitle.setText(Html.fromHtml(formattedTitle));
     }
 
@@ -302,9 +302,9 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
         contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DbPhoto photo = getCurrentPhoto();
-                FacebookUtil.publishPhoto(getActivity(), photo.getPath());
                 mSharePopUp.dismiss();
+                DbPhoto photo = getCurrentPhoto();
+                performPublishPhoto(photo.getPath());
             }
         });
         contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {

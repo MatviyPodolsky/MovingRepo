@@ -3,6 +3,7 @@ package com.sdex.webteb;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.FacebookSdk;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.sdex.webteb.utils.PreferencesManager;
@@ -23,6 +24,7 @@ public class WTApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        FacebookSdk.sdkInitialize(getApplicationContext());
         PreferencesManager.initializeInstance(this);
         File cacheDir = getDir("api-cache", Context.MODE_PRIVATE);
         int cacheSize = 2 * 1024 * 1024;
