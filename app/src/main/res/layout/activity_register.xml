@@ -105,16 +105,14 @@
             android:layout_marginTop="10dp"
             android:text="@string/sign_up" />
 
-        <com.facebook.widget.LoginButton xmlns:fb="http://schemas.android.com/apk/res-auto"
+        <com.facebook.login.widget.LoginButton
             android:id="@+id/auth_button"
-            style="@style/FacebookLoginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/register"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="52dp"
-            fb:login_text="Facebook تسجيل الدخول" />
+            android:layout_marginTop="52dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

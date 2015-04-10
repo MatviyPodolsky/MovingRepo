@@ -99,7 +99,7 @@
 
     </LinearLayout>
 
-    <com.facebook.widget.LoginButton xmlns:fb="http://schemas.android.com/apk/res-auto"
+    <com.facebook.login.widget.LoginButton
         android:id="@+id/auth_button"
         android:layout_above="@+id/ll_buttons"
         android:layout_centerHorizontal="true"
@@ -109,8 +109,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginBottom="10dp"
-        fb:login_text="Facebook تسجيل الدخول" />
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:id="@+id/info"

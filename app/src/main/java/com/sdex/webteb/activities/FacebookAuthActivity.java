@@ -3,13 +3,12 @@ package com.sdex.webteb.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.facebook.Session;
-import com.facebook.SessionLoginBehavior;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.widget.LoginButton;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
 import com.sdex.webteb.R;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
@@ -33,9 +32,10 @@ import retrofit.client.Response;
 public abstract class FacebookAuthActivity extends BaseActivity {
 
     private static final String TAG = "FacebookAuthActivity";
-    private UiLifecycleHelper uiHelper;
+//    private UiLifecycleHelper uiHelper;
     @InjectView(R.id.auth_button)
-    LoginButton loginButton;
+    com.facebook.login.widget.LoginButton loginButton;
+    CallbackManager callbackManager;
     private ProgressDialog mProgressDialog;
     private String mUserEmail;
 
@@ -45,11 +45,68 @@ public abstract class FacebookAuthActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loginButton.setReadPermissions(Arrays.asList("email"));
-        loginButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
-        uiHelper = new UiLifecycleHelper(this, callback);
-        uiHelper.onCreate(savedInstanceState);
+        loginButton.setReadPermissions(Arrays.asList("email"));
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                FacebookLoginRequest request = new FacebookLoginRequest();
+                request.setToken(loginResult.getAccessToken().getToken());
+
+                RestClient.getApiService().facebookLogin(request, new RestCallback<UserLoginResponse>() {
+                    @Override
+                    public void failure(RestError restError) {
+                        mProgressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void success(UserLoginResponse userLoginResponse, retrofit.client.Response response) {
+                        final PreferencesManager preferencesManager = PreferencesManager.getInstance();
+                        preferencesManager.setTokenData(userLoginResponse.getAccessToken(), userLoginResponse.getTokenType());
+                        mUserEmail = userLoginResponse.getUserName();
+                        preferencesManager.setEmail(mUserEmail);
+                        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(FacebookAuthActivity.this);
+                        DbUser user = databaseHelper.getUser(mUserEmail);
+                        if (user == null) {
+                            DbUser newUser = new DbUser();
+                            newUser.setEmail(userLoginResponse.getUserName());
+                            databaseHelper.addUser(newUser);
+
+                            RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
+                        } else {
+                            if (user.isCompletedProfile()) {
+                                launchMainActivity(true);
+                            } else {
+                                launchMainActivity(false);
+                            }
+                        }
+
+                        if (userLoginResponse.isUserRegister()) {
+                            sendAnalyticsDimension(R.string.screen_register, 3, getString(R.string.dimension_register_type_facebook));
+                            PreferencesManager.getInstance().getPreferences().edit()
+                                    .putBoolean(PreferencesManager.ADS_SHOW_KEY, false).apply();
+                        }
+
+                        mProgressDialog.dismiss();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException e) {
+
+            }
+        });
+
+//        uiHelper = new UiLifecycleHelper(this, callback);
+//        uiHelper.onCreate(savedInstanceState);
 
 //        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 
@@ -86,88 +143,83 @@ public abstract class FacebookAuthActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        uiHelper.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        uiHelper.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        uiHelper.onDestroy();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        uiHelper.onSaveInstanceState(outState);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
     }
 
-    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-        if (state.isOpened()) {
-            mProgressDialog = ProgressDialog.show(this, "", getString(R.string.loading), true, false);
-            Log.i(TAG, "Logged in...");
-            FacebookLoginRequest request = new FacebookLoginRequest();
-            request.setToken(session.getAccessToken());
-
-            RestClient.getApiService().facebookLogin(request, new RestCallback<UserLoginResponse>() {
-                @Override
-                public void failure(RestError restError) {
-                    mProgressDialog.dismiss();
-                }
-
-                @Override
-                public void success(UserLoginResponse userLoginResponse, retrofit.client.Response response) {
-                    final PreferencesManager preferencesManager = PreferencesManager.getInstance();
-                    preferencesManager.setTokenData(userLoginResponse.getAccessToken(), userLoginResponse.getTokenType());
-                    mUserEmail = userLoginResponse.getUserName();
-                    preferencesManager.setEmail(mUserEmail);
-                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(FacebookAuthActivity.this);
-                    DbUser user = databaseHelper.getUser(mUserEmail);
-                    if (user == null) {
-                        DbUser newUser = new DbUser();
-                        newUser.setEmail(userLoginResponse.getUserName());
-                        databaseHelper.addUser(newUser);
-
-                        RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
-                    } else {
-                        if (user.isCompletedProfile()) {
-                            launchMainActivity(true);
-                        } else {
-                            launchMainActivity(false);
-                        }
-                    }
-
-                    if (userLoginResponse.isUserRegister()) {
-                        sendAnalyticsDimension(R.string.screen_register, 3, getString(R.string.dimension_register_type_facebook));
-                        PreferencesManager.getInstance().getPreferences().edit()
-                                .putBoolean(PreferencesManager.ADS_SHOW_KEY, false).apply();
-                    }
-
-                    mProgressDialog.dismiss();
-                }
-            });
-        } else if (state.isClosed()) {
-            Log.i(TAG, "Logged out...");
-        }
-    }
-
-    private Session.StatusCallback callback = new Session.StatusCallback() {
-        @Override
-        public void call(Session session, SessionState state, Exception exception) {
-            onSessionStateChange(session, state, exception);
-        }
-    };
+//    private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+//        if (state.isOpened()) {
+//            mProgressDialog = ProgressDialog.show(this, "", getString(R.string.loading), true, false);
+//            Log.i(TAG, "Logged in...");
+//            FacebookLoginRequest request = new FacebookLoginRequest();
+//            request.setToken(session.getAccessToken());
+//
+//            RestClient.getApiService().facebookLogin(request, new RestCallback<UserLoginResponse>() {
+//                @Override
+//                public void failure(RestError restError) {
+//                    mProgressDialog.dismiss();
+//                }
+//
+//                @Override
+//                public void success(UserLoginResponse userLoginResponse, retrofit.client.Response response) {
+//                    final PreferencesManager preferencesManager = PreferencesManager.getInstance();
+//                    preferencesManager.setTokenData(userLoginResponse.getAccessToken(), userLoginResponse.getTokenType());
+//                    mUserEmail = userLoginResponse.getUserName();
+//                    preferencesManager.setEmail(mUserEmail);
+//                    DatabaseHelper databaseHelper = DatabaseHelper.getInstance(FacebookAuthActivity.this);
+//                    DbUser user = databaseHelper.getUser(mUserEmail);
+//                    if (user == null) {
+//                        DbUser newUser = new DbUser();
+//                        newUser.setEmail(userLoginResponse.getUserName());
+//                        databaseHelper.addUser(newUser);
+//
+//                        RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
+//                    } else {
+//                        if (user.isCompletedProfile()) {
+//                            launchMainActivity(true);
+//                        } else {
+//                            launchMainActivity(false);
+//                        }
+//                    }
+//
+//                    if (userLoginResponse.isUserRegister()) {
+//                        sendAnalyticsDimension(R.string.screen_register, 3, getString(R.string.dimension_register_type_facebook));
+//                        PreferencesManager.getInstance().getPreferences().edit()
+//                                .putBoolean(PreferencesManager.ADS_SHOW_KEY, false).apply();
+//                    }
+//
+//                    mProgressDialog.dismiss();
+//                }
+//            });
+//        } else if (state.isClosed()) {
+//            Log.i(TAG, "Logged out...");
+//        }
+//    }
+//
+//    private Session.StatusCallback callback = new Session.StatusCallback() {
+//        @Override
+//        public void call(Session session, SessionState state, Exception exception) {
+//            onSessionStateChange(session, state, exception);
+//        }
+//    };
 
     private void launchMainActivity(boolean completedProfile) {
         Intent intent;

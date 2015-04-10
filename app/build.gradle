@@ -78,7 +78,7 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.viewpagerindicator:library:2.4.1@aar'
     compile 'com.squareup.picasso:picasso:2.4.0'
-    compile 'com.facebook.android:facebook-android-sdk:3.20.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.0.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'

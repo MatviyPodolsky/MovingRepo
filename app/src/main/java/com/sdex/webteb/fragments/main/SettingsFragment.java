@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.Session;
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.SetupProfileActivity;
 import com.sdex.webteb.activities.WelcomeActivity;
@@ -171,10 +170,10 @@ public class SettingsFragment extends BaseMainFragment {
             @Override
             public void success(String s, Response response) {
                 PreferencesManager.getInstance().clear();
-                Session activeSession = Session.getActiveSession();
-                if (activeSession != null) {
-                    activeSession.closeAndClearTokenInformation();
-                }
+//                Session activeSession = Session.getActiveSession();
+//                if (activeSession != null) {
+//                    activeSession.closeAndClearTokenInformation();
+//                }
                 Intent intent = new Intent(getActivity(), WelcomeActivity.class);
                 startActivity(intent);
                 getActivity().finish();

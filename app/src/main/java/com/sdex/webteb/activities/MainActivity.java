@@ -18,9 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.facebook.Session;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.widget.FacebookDialog;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MenuAdapter;
@@ -47,7 +44,6 @@ import com.sdex.webteb.internal.events.TakenProfilePhotoEvent;
 import com.sdex.webteb.model.SideMenuItem;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.request.NotificationTappedRequest;
-import com.sdex.webteb.utils.FacebookUtil;
 import com.sdex.webteb.utils.KeyboardUtils;
 
 import java.util.ArrayList;
@@ -104,7 +100,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     Runnable mOpenMenuItemTask;
     int mCurrentFragmentIndex = 0;
 
-    private UiLifecycleHelper uiHelper;
+//    private UiLifecycleHelper uiHelper;
 
     private EventBus BUS = EventBus.getDefault();
 
@@ -123,8 +119,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         GcmHelper gcmHelper = new GcmHelper(this);
         gcmHelper.register();
 
-        uiHelper = new UiLifecycleHelper(this, null);
-        uiHelper.onCreate(savedInstanceState);
+//        uiHelper = new UiLifecycleHelper(this, null);
+//        uiHelper.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
             mCurrentFragmentIndex = savedInstanceState.getInt(CURRENT_FRAGMENT_INDEX);
@@ -190,26 +186,26 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     @Override
     protected void onResume() {
         super.onResume();
-        uiHelper.onResume();
+//        uiHelper.onResume();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        uiHelper.onSaveInstanceState(outState);
+//        uiHelper.onSaveInstanceState(outState);
         outState.putInt(CURRENT_FRAGMENT_INDEX, mCurrentFragmentIndex);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        uiHelper.onPause();
+//        uiHelper.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        uiHelper.onDestroy();
+//        uiHelper.onDestroy();
     }
 
     @Override
@@ -315,37 +311,37 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             setMenuItem(0);
         }
 
-        if ((requestCode == FACEBOOK_APP_REQUEST_CODE || requestCode == FACEBOOK_WEB_REQUEST_CODE)
-                && resultCode == RESULT_OK) {
-            if (FacebookUtil.isFacebookInstalled(this)
-                    && FacebookDialog.canPresentShareDialog(this, FacebookDialog.ShareDialogFeature.SHARE_DIALOG)
-                    && FacebookDialog.canPresentShareDialog(this, FacebookDialog.ShareDialogFeature.PHOTOS)) {
-                uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
-                    @Override
-                    public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-                    }
-
-                    @Override
-                    public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
-                    }
-                });
-            } else {
-                if (Session.getActiveSession() != null) {
-                    Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-                }
-
-                Session currentSession = Session.getActiveSession();
-                if (currentSession == null || currentSession.getState().isClosed()) {
-                    Session session = new Session.Builder(MainActivity.this).build();
-                    Session.setActiveSession(session);
-                    currentSession = session;
-                }
-
-                if (currentSession.isOpened()) {
-                    FacebookUtil.publishLastContent(this);
-                }
-            }
-        }
+//        if ((requestCode == FACEBOOK_APP_REQUEST_CODE || requestCode == FACEBOOK_WEB_REQUEST_CODE)
+//                && resultCode == RESULT_OK) {
+//            if (FacebookUtil.isFacebookInstalled(this)
+//                    && FacebookDialog.canPresentShareDialog(this, FacebookDialog.ShareDialogFeature.SHARE_DIALOG)
+//                    && FacebookDialog.canPresentShareDialog(this, FacebookDialog.ShareDialogFeature.PHOTOS)) {
+//                uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+//                    @Override
+//                    public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+//                    }
+//
+//                    @Override
+//                    public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+//                    }
+//                });
+//            } else {
+//                if (Session.getActiveSession() != null) {
+//                    Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+//                }
+//
+//                Session currentSession = Session.getActiveSession();
+//                if (currentSession == null || currentSession.getState().isClosed()) {
+//                    Session session = new Session.Builder(MainActivity.this).build();
+//                    Session.setActiveSession(session);
+//                    currentSession = session;
+//                }
+//
+//                if (currentSession.isOpened()) {
+//                    FacebookUtil.publishLastContent(this);
+//                }
+//            }
+//        }
     }
 
     public void onEvent(SelectMenuItemEvent event) {
@@ -530,9 +526,9 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         });
     }
 
-    public UiLifecycleHelper getUiHelper() {
-        return uiHelper;
-    }
+//    public UiLifecycleHelper getUiHelper() {
+//        return uiHelper;
+//    }
 
     public static void launch(Context context) {
         Intent i = new Intent(context, MainActivity.class);
