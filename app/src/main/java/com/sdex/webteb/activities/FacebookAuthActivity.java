@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -52,6 +53,9 @@ public abstract class FacebookAuthActivity extends BaseActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 mProgressDialog = ProgressDialog.show(FacebookAuthActivity.this, "", getString(R.string.loading), true, false);
+
+                AccessToken.setCurrentAccessToken(loginResult.getAccessToken());
+
                 Log.i(TAG, "Logged in...");
                 FacebookLoginRequest request = new FacebookLoginRequest();
                 request.setToken(loginResult.getAccessToken().getToken());
