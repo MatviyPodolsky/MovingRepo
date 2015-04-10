@@ -177,7 +177,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
 
     @OnClick(R.id.city)
     public void selectCity() {
-        if(citiesList.length > 1) {
+        if (citiesList.length > 1) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             DialogFragment dialog = new SearchFilterDialog();
             Bundle args = new Bundle();
@@ -186,6 +186,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
             dialog.setArguments(args);
             dialog.setTargetFragment(this, REQUEST_GET_CITY);
             dialog.show(ft, "dialog");
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.please_select_country), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -321,7 +323,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
                             @Override
                             public void run() {
                                 Toast.makeText(getActivity(),
-                                        getActivity().getString(R.string.turn_location_options), Toast.LENGTH_LONG).show();
+                                        getString(R.string.turn_location_options), Toast.LENGTH_LONG).show();
                             }
                         });
                     } else {

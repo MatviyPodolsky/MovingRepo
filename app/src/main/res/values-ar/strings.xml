@@ -150,6 +150,7 @@
     <string name="any_speciality">"كل التخصصات"</string>
     <string name="error_not_found_title">"ابحث عن طبيب"</string>
     <string name="error_not_found_text">"لم نحصل على نتائح للبحث على"</string>
+    <string name="please_select_country">"Please select country"</string>
 
     <!--more articles-->
     <string name="more_articles_title">"المزيد من المقالات"</string>
