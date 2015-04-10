@@ -267,24 +267,25 @@ public class HomeFragment extends PhotoFragment {
 
         boolean expired = preferencesManager.isNotificationDateExpired();
         NotificationsResponse lastNotification = preferencesManager.getLastNotification();
-        if (lastNotification == null) {
-            if (expired) {
-                boolean ignoreSettings = false;
-                RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
-                    @Override
-                    public void success(NotificationsResponse notificationsResponse, Response response) {
-                        setUpNotifications(notificationsResponse);
-                        preferencesManager.setLastNotification(notificationsResponse);
-                    }
+        if (expired) {
+            boolean ignoreSettings = false;
+            RestClient.getApiService().getNotifications(ignoreSettings, new Callback<NotificationsResponse>() {
+                @Override
+                public void success(NotificationsResponse notificationsResponse, Response response) {
+                    setUpNotifications(notificationsResponse);
+                    preferencesManager.setLastNotification(notificationsResponse);
+                    preferencesManager.setLastNotificationDate(System.currentTimeMillis());
+                }
 
-                    @Override
-                    public void failure(RetrofitError error) {
+                @Override
+                public void failure(RetrofitError error) {
 
-                    }
-                });
-            }
+                }
+            });
         } else {
-            setUpNotifications(lastNotification);
+            if (lastNotification != null) {
+                setUpNotifications(lastNotification);
+            }
         }
 
 //        if baby got birth, send request to get birth date
@@ -344,7 +345,6 @@ public class HomeFragment extends PhotoFragment {
             }
 
             showNotification(notificationsResponse);
-            preferencesManager.setLastNotificationDate(System.currentTimeMillis());
         }
     }
 

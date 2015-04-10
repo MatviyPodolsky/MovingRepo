@@ -81,7 +81,8 @@
     <string name="yes">"نعم"</string>
     <string name="no">"كلا"</string>
     <string name="are_u_sure_u_want_to_delete_child">"هل انت متأكدة انك تريدين حذف الطفل؟"</string>
-
+    <string name="identify_family_relationship">تحديد العلاقة العائلية</string>
+    <string name="please_choose">الرجاء اختيار</string>
 
     <!--home-->
     <string name="in_app_notification_btn_back">"العودة"</string>
@@ -127,7 +128,7 @@
     <string name="take_photo">"التقط صورة"</string>
     <string name="select_photo">"اختر صورة"</string>
     <string name="cancel">"الغاء"</string>
-    <string name="album_title"><![CDATA["الخاص بي" <b>%1$s</b>]]></string>
+    <string name="album_title"><![CDATA["الخاص بي" <b>%1$s</b> ألبوم الصور]]></string>
     <string name="album_text">"ألبوم الصور"</string>
     <string name="album_empty_text">"ألبوم الصور فارغ"</string>
     <string name="take_photo_button_title">"صورة"</string>

@@ -60,20 +60,18 @@
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:gravity="center_horizontal"
-                        android:id="@+id/title"
-                        android:layout_toLeftOf="@+id/album_text"
-                        android:layout_toStartOf="@+id/album_text" />
+                        android:id="@+id/title" />
 
-                    <TextView
-                        android:id="@+id/album_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/album_text"
-                        android:singleLine="true"
-                        android:layout_centerVertical="true"
-                        android:gravity="center_horizontal"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/album_text"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/album_text"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_alignParentEnd="true" />-->
 
                 </RelativeLayout>
 
