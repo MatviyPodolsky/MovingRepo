@@ -418,10 +418,16 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void showSummaryProgress() {
+        if (getActivity() == null) {
+            return;
+        }
         mProgress.setVisibility(View.VISIBLE);
     }
 
     private void hideSummaryProgress() {
+        if (getActivity() == null) {
+            return;
+        }
         mProgress.setVisibility(View.GONE);
     }
 
