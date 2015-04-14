@@ -6,6 +6,7 @@ import android.content.Context;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.mobileapptracker.MobileAppTracker;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
@@ -25,6 +26,7 @@ public class WTApp extends Application {
     public void onCreate() {
         super.onCreate();
         FacebookSdk.sdkInitialize(getApplicationContext());
+        MobileAppTracker.init(getApplicationContext(), "160862", "b6787c20ef70a88db94f9e54bd411a4b");
         PreferencesManager.initializeInstance(this);
         File cacheDir = getDir("api-cache", Context.MODE_PRIVATE);
         int cacheSize = 2 * 1024 * 1024;
