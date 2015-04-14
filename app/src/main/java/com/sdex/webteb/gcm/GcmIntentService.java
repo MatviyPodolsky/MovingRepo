@@ -85,13 +85,15 @@ public class GcmIntentService extends IntentService {
         String title = extras.getString(MainActivity.NOTIFICATION_TITLE);
         String message = extras.getString(MainActivity.NOTIFICATION_CONTENT);
 
+        boolean appActive = eventBus.hasSubscriberForEvent(NotificationEvent.class);
+
         boolean notifyOnReceiveNotification = PreferencesManager.getInstance().isNotifyOnReceiveNotification();
         if (notifyOnReceiveNotification) {
-            NotificationReceivedRequest receivedRequest = new NotificationReceivedRequest(id);
+            NotificationReceivedRequest receivedRequest = new NotificationReceivedRequest(id, appActive);
             RestClient.getApiService().postNotificationReceived(receivedRequest);
         }
 
-        if (eventBus.hasSubscriberForEvent(NotificationEvent.class)) {
+        if (appActive) {
             NotificationEvent event = new NotificationEvent(extras);
             eventBus.post(event);
         } else {
