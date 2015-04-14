@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.mobileapptracker.MobileAppTracker;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.MenuAdapter;
 import com.sdex.webteb.dialogs.BaseDialog;
@@ -106,6 +107,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     private boolean isKeyboardVisible;
 
+    private MobileAppTracker mobileAppTracker = MobileAppTracker.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +143,15 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
             handlePushNotification(extras);
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Get source of open for app re-engagement
+        mobileAppTracker.setReferralSources(this);
+        // MAT will not function unless the measureSession call is included
+        mobileAppTracker.measureSession();
     }
 
     private void initSideMenu() {
