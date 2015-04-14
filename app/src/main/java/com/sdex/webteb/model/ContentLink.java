@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,6 +37,9 @@ public class ContentLink {
     @SerializedName("PublishedDate")
     @Expose
     public String publishedDate;
+    @SerializedName("Targeting")
+    @Expose
+    public List<Targeting> targeting;
 
     public ContentLink() {
     }
