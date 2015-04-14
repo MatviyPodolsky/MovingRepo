@@ -238,8 +238,15 @@ public class HomeFragment extends PhotoFragment {
                     preferencesManager.getPreferences().edit()
                             .putBoolean(PreferencesManager.SEND_CURRENT_DATE, false).apply();
 
-                    sendAnalyticsDimension(R.string.screen_home,
-                            2, String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
+                    if (!gaveBirth) {
+                        sendAnalyticsDimension(R.string.screen_home,
+                                2, String.valueOf(babyHomeResponse.getCard().getCurrentWeek()));
+                    } else {
+                        BabyPeriod currentRange = RangeUtil.getCurrentRange(babyPeriods,
+                                Integer.valueOf(preferencesManager.getCurrentDate()));
+                        sendAnalyticsDimension(R.string.screen_home,
+                                2, currentRange.getTitle());
+                    }
                 }
             }
         });
