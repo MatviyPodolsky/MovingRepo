@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -129,6 +130,8 @@ public class HomeFragment extends PhotoFragment {
     TextView mNotificationsAmount;
     @InjectView(R.id.first_notification_title)
     TextView mNotificationsTitle;
+    @InjectView(R.id.summary_progress)
+    ProgressBar mProgress;
 
     private RestCallback<WeekResponse> getWeekCallback;
     private RestCallback<MonthResponse> getMonthCallback;
@@ -245,10 +248,12 @@ public class HomeFragment extends PhotoFragment {
             @Override
             public void failure(RestError restError) {
                 showError(restError);
+                hideSummaryProgress();
             }
 
             @Override
             public void success(WeekResponse weekResponse, Response response) {
+                hideSummaryProgress();
                 showWeeks(weekResponse);
             }
         };
@@ -256,11 +261,13 @@ public class HomeFragment extends PhotoFragment {
         getMonthCallback = new RestCallback<MonthResponse>() {
             @Override
             public void failure(RestError restError) {
+                hideSummaryProgress();
                 showError(restError);
             }
 
             @Override
             public void success(MonthResponse monthResponse, Response response) {
+                hideSummaryProgress();
                 showMonths(monthResponse);
             }
         };
@@ -408,6 +415,14 @@ public class HomeFragment extends PhotoFragment {
         }
         mTimeLineList.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
+    }
+
+    private void showSummaryProgress() {
+        mProgress.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSummaryProgress() {
+        mProgress.setVisibility(View.GONE);
     }
 
     private void showError(RestError restError) {
@@ -618,6 +633,7 @@ public class HomeFragment extends PhotoFragment {
                     int fromMonth = babyPeriods.get(position).getFromMonth();
                     toMonth = babyPeriods.get(position).getToMonth();
                     RestClient.getApiService().getMonth(fromMonth, getMonthCallback);
+                    showSummaryProgress();
                     updateSelectedTimeNavigationItem(view, position);
                 }
             });
@@ -627,6 +643,7 @@ public class HomeFragment extends PhotoFragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     RestClient.getApiService().getWeek(mTimeNavAdapter.getItemCount() - position, getWeekCallback);
+                    showSummaryProgress();
                     updateSelectedTimeNavigationItem(view, position);
                 }
             });
