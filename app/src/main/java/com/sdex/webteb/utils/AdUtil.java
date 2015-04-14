@@ -10,6 +10,9 @@ import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherInterstitialAd;
 import com.google.android.gms.ads.mediation.admob.AdMobExtras;
 import com.sdex.webteb.model.Ad;
+import com.sdex.webteb.model.Targeting;
+
+import java.util.List;
 
 /**
  * Author: Yuriy Mysochenko
@@ -17,11 +20,13 @@ import com.sdex.webteb.model.Ad;
  */
 public class AdUtil {
 
-    public static void initInterstitialAd(Context context, @StringRes int screenName, @Ad.AdType String type) {
-        initInterstitialAd(context, context.getString(screenName), type);
+    public static void initInterstitialAd(Context context, @StringRes int screenName,
+                                          @Ad.AdType String type, List<Targeting> targetings) {
+        initInterstitialAd(context, context.getString(screenName), type, targetings);
     }
 
-    public static void initInterstitialAd(Context context, String screenName, @Ad.AdType String type) {
+    public static void initInterstitialAd(Context context, String screenName,
+                                          @Ad.AdType String type, List<Targeting> targetings) {
         final PublisherInterstitialAd mPublisherInterstitialAd =
                 new PublisherInterstitialAd(context);
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
@@ -41,6 +46,12 @@ public class AdUtil {
         Bundle args = new Bundle();
         args.putString("mobileapp", "baby");
         args.putString("screenname", screenName);
+        if (targetings != null) {
+            for (Targeting targeting : targetings) {
+                args.putString(targeting.getName(), targeting.getValue());
+            }
+        }
+
         PublisherAdRequest adRequest = new PublisherAdRequest.Builder()
                 .addNetworkExtras(new AdMobExtras(args))
                 .build();

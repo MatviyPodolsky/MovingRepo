@@ -88,7 +88,8 @@ public class PreviewFragment extends BaseMainFragment {
             String name = entityResponse.getName();
             title.setText(name);
             showAd(name, entityResponse.getTargeting());
-            AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL);
+            AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL,
+                    entityResponse.getTargeting());
             List<EntityField> fields = entityResponse.getFields();
             if (fields != null && fields.size() > 0) {
                 EntityField entityField = fields.get(0);

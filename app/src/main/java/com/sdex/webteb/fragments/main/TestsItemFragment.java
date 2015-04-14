@@ -54,8 +54,9 @@ public class TestsItemFragment extends BaseMainFragment {
             String name = String.format(getString(R.string.screen_test), title);
             sendAnalyticsScreenName(name);
 
-            showAd(name, null);
-            AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL);
+            showAd(name, item.getContentPreview().getTargeting());
+            AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL,
+                    item.getContentPreview().getTargeting());
         }
     }
 
