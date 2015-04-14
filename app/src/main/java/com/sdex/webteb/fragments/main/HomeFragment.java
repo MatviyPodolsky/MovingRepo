@@ -1,7 +1,6 @@
 package com.sdex.webteb.fragments.main;
 
 import android.animation.ValueAnimator;
-import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -86,13 +85,15 @@ public class HomeFragment extends PhotoFragment {
     @InjectView(R.id.fragment_container)
     FrameLayout mRootView;
     @InjectView(R.id.content_list)
-    RecyclerView mRecyclerView;
+    RecyclerView mTimeLineList;
     @InjectView(R.id.recyclerview)
     CenteredRecyclerView mTimeNavigationRecyclerView;
     @InjectView(R.id.sliding_layout)
     SlidingUpPanelLayout mSlidingUpPanelLayout;
     @InjectView(R.id.drag_view)
     FrameLayout mDragView;
+    @InjectView(R.id.progress_view)
+    View mProgressBar;
     //summary
     @InjectView(R.id.summary_image)
     ImageView summaryImage;
@@ -142,7 +143,6 @@ public class HomeFragment extends PhotoFragment {
     private PreferencesManager preferencesManager;
 
     private TimeNavigationAdapter mTimeNavAdapter;
-    private ProgressDialog mProgressDialog;
     private List<BabyPeriod> babyPeriods;
     private int maxPregnancyWeeks;
     private int toMonth = 0;
@@ -163,8 +163,8 @@ public class HomeFragment extends PhotoFragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(
+        mTimeLineList.setLayoutManager(layoutManager);
+        mTimeLineList.addItemDecoration(new SimpleDividerItemDecoration(
                 getActivity(), R.drawable.divider_home_list));
         photoContainer.setVisibility(View.VISIBLE);
 
@@ -398,16 +398,16 @@ public class HomeFragment extends PhotoFragment {
     }
 
     private void showProgress() {
-        mProgressDialog = ProgressDialog.show(getActivity(), "", getString(R.string.loading), true, false);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mTimeLineList.setVisibility(View.GONE);
     }
 
     private void hideProgress() {
         if (getActivity() == null) {
             return;
         }
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
+        mTimeLineList.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
     }
 
     private void showError(RestError restError) {
@@ -666,7 +666,7 @@ public class HomeFragment extends PhotoFragment {
             }
         });
 
-        mRecyclerView.setAdapter(adapter);
+        mTimeLineList.setAdapter(adapter);
     }
 
     private void updateSelectedTimeNavigationItem(View view, int position) {
