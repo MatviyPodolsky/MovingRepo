@@ -11,14 +11,13 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
-import com.sdex.webteb.database.DatabaseHelper;
-import com.sdex.webteb.database.model.DbTest;
 import com.sdex.webteb.model.Range;
 import com.sdex.webteb.model.UserTest;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.request.BabyReminderRequest;
+import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.utils.PreferencesManager;
 
@@ -41,7 +40,6 @@ public class TestsAdapter extends BaseExpandableListAdapter {
     private LayoutInflater inflater;
     private Callback mCallback;
     private PreferencesManager mPreferencesManager;
-    private DatabaseHelper databaseHelper;
 
     public interface Callback {
         void onReadMoreBtnClick(BabyTestResponse item);
@@ -57,7 +55,6 @@ public class TestsAdapter extends BaseExpandableListAdapter {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
         mPreferencesManager = PreferencesManager.getInstance();
-        databaseHelper = DatabaseHelper.getInstance(context);
     }
 
     public void setCallback(Callback callback) {
@@ -203,7 +200,7 @@ public class TestsAdapter extends BaseExpandableListAdapter {
                 if (mCallback != null) {
                     mCallback.onTestDoneClick(item);
                 }
-                changeTestStatus(item);
+                changeTestStatus(item, groupPosition);
             }
         });
         refreshButtons(item.getUserTest(), holder);
@@ -243,16 +240,12 @@ public class TestsAdapter extends BaseExpandableListAdapter {
                     isSetReminder = false;
                 }
             }
-            String username = mPreferencesManager.getEmail();
-            DbTest dbTest = databaseHelper.getTest(username, test.getTestId());
-            if (dbTest != null) {
-                test.setTestDone(true);
+            if (test.isTestDone()) {
                 holder.done.setVisibility(View.VISIBLE);
                 if (isSetReminder) {
                     holder.reminder.setVisibility(View.GONE);
                 }
             } else {
-                test.setTestDone(false);
                 holder.done.setVisibility(View.GONE);
                 if (isSetReminder) {
                     holder.reminder.setVisibility(View.VISIBLE);
@@ -316,20 +309,45 @@ public class TestsAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    private void changeTestStatus(final BabyTestResponse item) {
-        UserTest test = item.getUserTest();
-        if (test != null) {
-            String username = mPreferencesManager.getEmail();
-            DbTest dbTest = new DbTest();
-            dbTest.setOwner(username);
-            dbTest.setTestId(test.getTestId());
-            if (item.getUserTest() != null && test.isTestDone()) {
-                DbTest deletedTest = databaseHelper.getTest(username, test.getTestId());
-                databaseHelper.deleteTest(deletedTest);
-            } else {
-                databaseHelper.addTest(dbTest);
-            }
-            notifyDataSetChanged();
+    private void changeTestStatus(final BabyTestResponse item, final int position) {
+        BabyTestDoneRequest request = new BabyTestDoneRequest();
+        request.setTestId(item.getContentPreview().getKey().getId());
+        if (item.getUserTest() != null && item.getUserTest().isTestDone()) {
+            RestClient.getApiService().makeTestUndone(request, new RestCallback<String>() {
+                @Override
+                public void failure(RestError restError) {
+                }
+
+                @Override
+                public void success(String s, Response response) {
+                    UserTest test = item.getUserTest();
+                    test.setTestDone(false);
+                    item.setUserTest(test);
+                    data.set(position, item);
+                    notifyDataSetChanged();
+                }
+            });
+        } else {
+            RestClient.getApiService().makeTestDone(request, new RestCallback<String>() {
+                @Override
+                public void failure(RestError restError) {
+                }
+
+                @Override
+                public void success(String s, Response response) {
+                    UserTest test;
+                    if (item.getUserTest() == null) {
+                        test = new UserTest();
+                        test.setTestId(item.getContentPreview().getKey().getId());
+                    } else {
+                        test = item.getUserTest();
+                    }
+                    test.setTestDone(true);
+                    item.setUserTest(test);
+                    data.set(position, item);
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 

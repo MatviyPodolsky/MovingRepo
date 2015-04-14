@@ -8,7 +8,6 @@ import android.net.Uri;
 
 import com.sdex.webteb.database.model.DbLocation;
 import com.sdex.webteb.database.model.DbPhoto;
-import com.sdex.webteb.database.model.DbTest;
 import com.sdex.webteb.database.model.DbUser;
 
 import java.util.Collections;
@@ -29,7 +28,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static {
         cupboard().register(DbPhoto.class);
         cupboard().register(DbUser.class);
-        cupboard().register(DbTest.class);
         cupboard().register(DbLocation.class);
     }
 
@@ -117,20 +115,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updateUser(DbUser user) {
         ContentValues values = cupboard().withEntity(DbUser.class).toContentValues(user);
         cupboard().withDatabase(getWritableDatabase()).update(DbUser.class, values);
-    }
-
-    public void addTest(DbTest test) {
-        cupboard().withDatabase(getWritableDatabase()).put(test);
-    }
-
-    public void deleteTest(DbTest test) {
-        cupboard().withDatabase(getWritableDatabase()).delete(test);
-    }
-
-    public DbTest getTest(String email, int testId) {
-        return cupboard().withDatabase(getReadableDatabase()).query(DbTest.class)
-                .withSelection("owner = ? AND testId = ?", email, String.valueOf(testId))
-                .get();
     }
 
     public void setLocation(DbLocation city) {
