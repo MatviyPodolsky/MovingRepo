@@ -56,6 +56,8 @@ public class SplashActivity extends BaseActivity {
                 .edit()
                 .putBoolean(PreferencesManager.ADS_SHOW_KEY, true)
                 .putInt(PreferencesManager.ADS_SHOWS_COUNTER_KEY, 0)
+                .remove(PreferencesManager.SEND_CURRENT_DATE)
+                .remove(PreferencesManager.SEND_FAMILY_RELATION)
                 .apply();
     }
 
