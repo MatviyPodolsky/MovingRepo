@@ -17,9 +17,13 @@ public class NotificationReceivedRequest extends ApiRequest {
     @SerializedName("NotificationId")
     @Expose
     private String notificationId;
+    @SerializedName("AppActive")
+    @Expose
+    private boolean appActive;
 
-    public NotificationReceivedRequest(String notificationId) {
+    public NotificationReceivedRequest(String notificationId, boolean appActive) {
         this.notificationId = notificationId;
+        this.appActive = appActive;
     }
 
 }

@@ -210,8 +210,8 @@ public class ArticleFragment extends FacebookShareFragment {
 
         String name = String.format(getString(R.string.screen_article), title);
         sendAnalyticsScreenName(name);
-        showAd(name, null);
-        AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL);
+        showAd(name, article.getTargeting());
+        AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL, article.getTargeting());
     }
 
     @Override
