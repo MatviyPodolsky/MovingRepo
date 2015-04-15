@@ -86,14 +86,8 @@ public class RegisterActivity extends FacebookAuthActivity {
                     DbUser newUser = new DbUser();
                     newUser.setEmail(userName);
                     databaseHelper.addUser(newUser);
-                    launchMainActivity(false);
-                } else {
-                    if (user.isCompletedProfile()) {
-                        launchMainActivity(true);
-                    } else {
-                        launchMainActivity(false);
-                    }
                 }
+                launchProfileActivity();
             }
         };
 
@@ -206,17 +200,6 @@ public class RegisterActivity extends FacebookAuthActivity {
         return stringBuilder.toString();
     }
 
-    private void launchMainActivity(boolean completedProfile) {
-        Intent intent;
-        if (completedProfile) {
-            MainActivity.launch(RegisterActivity.this);
-        } else {
-            intent = new Intent(RegisterActivity.this, SetupProfileActivity.class);
-            startActivity(intent);
-        }
-        finish();
-    }
-
     private boolean isValidData() {
         boolean isValid = true;
 //        if (mConfirmPassword.getText().length() < 4) {
@@ -247,7 +230,7 @@ public class RegisterActivity extends FacebookAuthActivity {
         return isValid;
     }
 
-    private void launchMainActivity() {
+    private void launchProfileActivity() {
         Intent intent = new Intent(RegisterActivity.this, SetupProfileActivity.class);
         startActivity(intent);
         finish();

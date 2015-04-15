@@ -80,29 +80,21 @@ public class LoginActivity extends FacebookAuthActivity {
                     DbUser newUser = new DbUser();
                     newUser.setEmail(mUserEmail);
                     databaseHelper.addUser(newUser);
-
-                    RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
-
-                } else {
-                    if (user.isCompletedProfile()) {
-                        launchMainActivity(true);
-                    } else {
-                        launchMainActivity(false);
-                    }
                 }
+                RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
             }
         };
 
         getBabyProfileCallback = new RestCallback<BabyProfileResponse>() {
             @Override
             public void failure(RestError restError) {
-                launchMainActivity(false);
+                launchProfileActivity();
             }
 
             @Override
             public void success(BabyProfileResponse babyProfileResponse, Response response) {
                 if (babyProfileResponse != null && babyProfileResponse.getDateType() == BabyProfileResponse.DATE_TYPE_NOT_SET) {
-                    launchMainActivity(false);
+                    launchProfileActivity();
                 } else {
                     DatabaseHelper databaseHelper = DatabaseHelper.getInstance(LoginActivity.this);
                     DbUser user = databaseHelper.getUser(mUserEmail);
@@ -117,7 +109,7 @@ public class LoginActivity extends FacebookAuthActivity {
                     }
                     user.setChildren(children);
                     databaseHelper.updateUser(user);
-                    launchMainActivity(true);
+                    launchMainActivity();
                 }
             }
         };
@@ -210,14 +202,14 @@ public class LoginActivity extends FacebookAuthActivity {
         return isValid;
     }
 
-    private void launchMainActivity(boolean completedProfile) {
-        Intent intent;
-        if (completedProfile) {
-            MainActivity.launch(LoginActivity.this);
-        } else {
-            intent = new Intent(LoginActivity.this, SetupProfileActivity.class);
-            startActivity(intent);
-        }
+    private void launchMainActivity() {
+        MainActivity.launch(LoginActivity.this);
+        finish();
+    }
+
+    private void launchProfileActivity(){
+        Intent intent = new Intent(LoginActivity.this, SetupProfileActivity.class);
+        startActivity(intent);
         finish();
     }
 
