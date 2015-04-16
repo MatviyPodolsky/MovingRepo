@@ -83,11 +83,12 @@ public class GcmIntentService extends IntentService {
 
         Log.d("GCM", extras.toString());
 
-        mAnalytics.sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_RECEIVED);
-
         String id = extras.getString(MainActivity.NOTIFICATION_ID);
         String title = extras.getString(MainActivity.NOTIFICATION_TITLE);
         String message = extras.getString(MainActivity.NOTIFICATION_CONTENT);
+        String type = extras.getString(MainActivity.NOTIFICATION_TYPE);
+
+        mAnalytics.sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_RECEIVED, type);
 
         boolean appActive = eventBus.hasSubscriberForEvent(NotificationEvent.class);
 

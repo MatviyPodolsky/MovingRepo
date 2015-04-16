@@ -136,6 +136,7 @@ public class ArticleFragment extends BaseMainFragment {
     void share() {
         final ContentLink article = mData.get(currentPosition);
         ShareIntents.shareTextContent(getActivity(), article.getTitle(), article.getCanonicalUrl());
+        sendAnalyticsEvent(Events.CATEGORY_SHARE, article.getCanonicalUrl());
     }
 
     @OnClick(R.id.btn_next_article)

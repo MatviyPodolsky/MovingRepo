@@ -57,6 +57,8 @@ public class VideoPlayerActivity extends BaseActivity {
                 ContentLink video = data.get(position);
                 mVideoView.setVideoPath(video.getUrl());
                 mVideoView.start();
+
+                sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_FIRST_PLAY, video.getTitle());
             }
         });
 
@@ -64,12 +66,13 @@ public class VideoPlayerActivity extends BaseActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
+                    final ContentLink video = data.get(currentVideoPosition);
                     if (mVideoView.isPlaying()) {
                         mVideoView.pause();
-                        sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_PAUSED);
+                        sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_PAUSED, video.getTitle());
                     } else {
                         mVideoView.start();
-                        sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_PLAY);
+                        sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_PLAY, video.getTitle());
                     }
                 }
                 return true;
@@ -80,16 +83,17 @@ public class VideoPlayerActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        ContentLink video = data.get(currentVideoPosition);
+        final ContentLink video = data.get(currentVideoPosition);
         mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mVideoView.stopPlayback();
-                sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_ENDED);
+                sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_ENDED, video.getTitle());
             }
         });
         mVideoView.setVideoPath(video.getUrl());
         mVideoView.start();
+        sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_FIRST_PLAY, video.getTitle());
     }
 
     private void showLoading() {

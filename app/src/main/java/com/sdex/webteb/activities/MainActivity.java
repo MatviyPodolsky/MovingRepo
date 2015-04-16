@@ -140,7 +140,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED);
+            String type = extras.getString(NOTIFICATION_TYPE);
+            sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED, type);
             handlePushNotification(extras);
         }
 
@@ -405,6 +406,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         type = type.trim();
         final String notificationId = extras.getString(NOTIFICATION_ID);
         BaseDialog pushNotificationDialog = null;
+        final String resultType = type;
         switch (type) {
             case NOTIFICATION_TYPE_TEST_SINGLE:
                 // open the test page in the app
@@ -419,7 +421,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                     public void confirm() {
                         super.confirm();
                         setMenuItem(1, args);
-                        postNotificationTapped(notificationId);
+                        postNotificationTapped(notificationId, resultType);
                     }
                 });
                 break;
@@ -431,7 +433,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                     public void confirm() {
                         super.confirm();
                         setMenuItem(1);
-                        postNotificationTapped(notificationId);
+                        postNotificationTapped(notificationId, resultType);
                     }
                 });
                 break;
@@ -442,7 +444,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                     @Override
                     public void confirm() {
                         super.confirm();
-                        postNotificationTapped(notificationId);
+                        postNotificationTapped(notificationId, resultType);
                     }
                 });
                 break;
@@ -458,7 +460,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                     @Override
                     public void confirm() {
                         super.confirm();
-                        postNotificationTapped(notificationId);
+                        postNotificationTapped(notificationId, resultType);
                     }
                 });
                 break;
@@ -470,8 +472,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         }
     }
 
-    private void postNotificationTapped(String notificationId) {
-        sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED_IN_APP);
+    private void postNotificationTapped(String notificationId, String type) {
+        sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED_IN_APP, type);
         NotificationTappedRequest request = new NotificationTappedRequest(notificationId);
         RestClient.getApiService().postNotificationTapped(request, new Callback<String>() {
             @Override

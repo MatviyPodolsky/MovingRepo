@@ -156,6 +156,12 @@ public class SearchResultsFragment extends BaseMainFragment {
                             showNoData();
                         }
                     }
+
+                    if (mAdapter.getCount() > PAGE_SIZE) {
+                        sendAnalyticsEvent(Events.CATEGORY_SCROLL, Events.ACTION_DOCTOR_SEARCH,
+                                String.valueOf(mAdapter.getCount()));
+                    }
+
                 }
             }
         };

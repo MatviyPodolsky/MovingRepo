@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.ArticlesAdapter;
 import com.sdex.webteb.fragments.Errorable;
+import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.AddArticlesEvent;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.rest.RestCallback;
@@ -142,6 +143,11 @@ public class MoreArticlesFragment extends BaseMainFragment implements Errorable 
                     String titleText = getString(R.string.showing_articles);
                     title.setText(String.format(titleText, mAdapter.getCount(), totalCount));
                     isLoading = false;
+                }
+
+                if (mAdapter.getCount() > PAGE_SIZE) {
+                    sendAnalyticsEvent(Events.CATEGORY_SCROLL, Events.ACTION_ARTICLES,
+                            String.valueOf(mAdapter.getCount()));
                 }
             }
         };
