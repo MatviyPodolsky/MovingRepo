@@ -66,8 +66,10 @@ public class VideoPlayerActivity extends BaseActivity {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (mVideoView.isPlaying()) {
                         mVideoView.pause();
+                        sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_PAUSED);
                     } else {
                         mVideoView.start();
+                        sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_PLAY);
                     }
                 }
                 return true;
