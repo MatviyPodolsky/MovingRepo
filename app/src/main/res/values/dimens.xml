@@ -22,4 +22,7 @@
 
     <dimen name="notification_bar_height">90dp</dimen>
 
+    <dimen name="share_button_height">40dp</dimen>
+    <dimen name="share_button_width">50dp</dimen>
+
 </resources>
