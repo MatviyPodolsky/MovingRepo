@@ -6,8 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -49,6 +52,8 @@ public class ArticleFragment extends BaseMainFragment {
     ImageButton mShareButton;
     @InjectView(R.id.btn_next_article)
     Button mNextArticle;
+    @InjectView(R.id.progress)
+    ProgressBar mProgress;
     private RestCallback<ArticlesResponse> getArticlesCallback;
 
     private List<ContentLink> mData;
@@ -79,6 +84,13 @@ public class ArticleFragment extends BaseMainFragment {
         page = args.getInt(ARG_PAGE);
         totalCount = args.getInt(ARG_TOTAL_COUNT);
         setUpWebView(mContentView);
+        mContentView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                mProgress.setVisibility(View.GONE);
+
+            }
+        });
 
         getArticlesCallback = new RestCallback<ArticlesResponse>() {
             @Override
@@ -147,7 +159,7 @@ public class ArticleFragment extends BaseMainFragment {
         ContentLink article = mData.get(currentPosition);
         String title = article.getTitle();
         mTitle.setText(title);
-
+        mProgress.setVisibility(View.VISIBLE);
         mContentView.loadUrl(article.getUrl());
 
         String name = String.format(getString(R.string.screen_article), title);
