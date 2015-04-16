@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +63,8 @@ public class ArticleFragment extends FacebookShareFragment {
     ImageButton mShareButton;
     @InjectView(R.id.btn_next_article)
     Button mNextArticle;
+    @InjectView(R.id.progress)
+    ProgressBar mProgress;
     private RestCallback<ArticlesResponse> getArticlesCallback;
 
     private PopupWindow mSharePopUp;
@@ -93,6 +97,13 @@ public class ArticleFragment extends FacebookShareFragment {
         page = args.getInt(ARG_PAGE);
         totalCount = args.getInt(ARG_TOTAL_COUNT);
         setUpWebView(mContentView);
+        mContentView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                mProgress.setVisibility(View.GONE);
+
+            }
+        });
         initSharingPopUp();
         getArticlesCallback = new RestCallback<ArticlesResponse>() {
             @Override
@@ -205,7 +216,7 @@ public class ArticleFragment extends FacebookShareFragment {
         ContentLink article = mData.get(currentPosition);
         String title = article.getTitle();
         mTitle.setText(title);
-
+        mProgress.setVisibility(View.VISIBLE);
         mContentView.loadUrl(article.getUrl());
 
         String name = String.format(getString(R.string.screen_article), title);
