@@ -138,7 +138,9 @@ public class ArticleFragment extends FacebookShareFragment {
     private void initSharingPopUp() {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View contentView = inflater.inflate(R.layout.pop_up_share, null);
-        mSharePopUp = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
+
+        mSharePopUp = new PopupWindow(contentView,
+                (int)getResources().getDimension(R.dimen.share_button_width),
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         final ContentLink article = mData.get(currentPosition);
