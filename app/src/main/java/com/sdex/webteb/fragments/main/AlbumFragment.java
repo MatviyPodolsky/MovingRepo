@@ -1,24 +1,18 @@
 package com.sdex.webteb.fragments.main;
 
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.print.PrintHelper;
 import android.text.Html;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.AlbumAdapter;
@@ -28,7 +22,6 @@ import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.ConfirmDialog;
 import com.sdex.webteb.dialogs.DialogCallback;
 import com.sdex.webteb.dialogs.PhotoDialog;
-import com.sdex.webteb.fragments.FacebookShareFragment;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.internal.analytics.Events;
@@ -37,13 +30,10 @@ import com.sdex.webteb.internal.events.IntentDeletePhotoEvent;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
-import com.sdex.webteb.utils.EmailUtil;
 import com.sdex.webteb.utils.PreferencesManager;
-import com.sdex.webteb.utils.PrintUtil;
+import com.sdex.webteb.utils.ShareIntents;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -55,7 +45,7 @@ import butterknife.OnClick;
 /**
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
-public class AlbumFragment extends FacebookShareFragment implements FragmentManager.OnBackStackChangedListener {
+public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBackStackChangedListener {
 
     public static final String NAME = AlbumFragment.class.getSimpleName();
     public static final String ALBUM_DISPLAYED_DATE = "ALBUM_DISPLAYED_DATE";
@@ -73,8 +63,6 @@ public class AlbumFragment extends FacebookShareFragment implements FragmentMana
     ImageButton mShareButton;
     @InjectView(R.id.btn_take_photo)
     Button mTakePhoto;
-
-    private PopupWindow mSharePopUp;
 
     private AlbumAdapter mAdapter;
     private List<DbPhoto> data;
@@ -105,7 +93,7 @@ public class AlbumFragment extends FacebookShareFragment implements FragmentMana
         super.onViewCreated(view, savedInstanceState);
         databaseHelper = DatabaseHelper.getInstance(getActivity());
         loadPhotos();
-        initSharingPopUp();
+
         showOrHideEmptyView();
 
         if (getParentFragment() != null) {
@@ -217,7 +205,7 @@ public class AlbumFragment extends FacebookShareFragment implements FragmentMana
 
             for (DbPhoto photo : data) {
                 if (header.equals(photo.getDisplayedDate())) {
-                    photosCounter ++;
+                    photosCounter++;
                 }
             }
             if (photosCounter <= 4) {
@@ -225,7 +213,7 @@ public class AlbumFragment extends FacebookShareFragment implements FragmentMana
             } else {
                 rowsCounter = photosCounter / 4;
                 if (photosCounter % 4 > 0) {
-                    rowsCounter ++;
+                    rowsCounter++;
                 }
             }
             rows.add(rowsCounter);
@@ -288,61 +276,9 @@ public class AlbumFragment extends FacebookShareFragment implements FragmentMana
     }
 
     @OnClick(R.id.btn_share)
-    void share(View v) {
-        v.setEnabled(false);
-        mSharePopUp.showAsDropDown(v);
-    }
-
-    private void initSharingPopUp() {
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        final View contentView = inflater.inflate(R.layout.pop_up_share, null);
-        mSharePopUp = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, true);
-
-        contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSharePopUp.dismiss();
-                DbPhoto photo = getCurrentPhoto();
-                performPublishPhoto(photo.getPath());
-            }
-        });
-        contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DbPhoto photo = getCurrentPhoto();
-                String subject = String.format(getString(R.string.share_photo_email_subject),
-                        PreferencesManager.getInstance().getUsername());
-                EmailUtil.sharePhoto(getActivity(), subject, photo.getPath());
-                mSharePopUp.dismiss();
-            }
-        });
-        contentView.findViewById(R.id.print).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PrintHelper.systemSupportsPrint()) {
-                    try {
-                        DbPhoto photo = getCurrentPhoto();
-                        PrintUtil.printPhoto(getActivity(), photo.getDescription(),
-                                Uri.fromFile(new File(photo.getPath())));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Toast.makeText(getActivity(), getString(R.string.not_support_printing_error),
-                            Toast.LENGTH_SHORT).show();
-                }
-                mSharePopUp.dismiss();
-            }
-        });
-        mSharePopUp.setBackgroundDrawable(new ColorDrawable());
-        mSharePopUp.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                mShareButton.setEnabled(true);
-            }
-        });
-        mSharePopUp.setOutsideTouchable(true);
+    void share() {
+        DbPhoto photo = getCurrentPhoto();
+        ShareIntents.shareBinaryContent(getActivity(), Uri.parse("file://" + photo.getPath()));
     }
 
     @Nullable
