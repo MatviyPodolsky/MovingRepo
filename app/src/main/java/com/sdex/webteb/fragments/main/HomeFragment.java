@@ -28,6 +28,7 @@ import com.sdex.webteb.adapters.MonthNavigationAdapter;
 import com.sdex.webteb.adapters.TimeNavigationAdapter;
 import com.sdex.webteb.adapters.WeekNavigationAdapter;
 import com.sdex.webteb.database.DatabaseHelper;
+import com.sdex.webteb.database.model.DbLocation;
 import com.sdex.webteb.database.model.DbPhoto;
 import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.dialogs.NotificationDialog;
@@ -611,6 +612,14 @@ public class HomeFragment extends PhotoFragment {
         int currentWeek = card.getCurrentWeek();
         preferencesManager.setUsername(username);
         gaveBirth = card.isGaveBirth();
+
+        if (databaseHelper.getLocation(username) == null) {
+            DbLocation dbLocation = new DbLocation();
+            dbLocation.setOwner(username);
+            dbLocation.setCountry(card.getIsoCode());
+            databaseHelper.setLocation(dbLocation);
+        }
+
 
         if (!gaveBirth) {
             String pregnancyWeek = Utils.dateBuilder(getActivity(),

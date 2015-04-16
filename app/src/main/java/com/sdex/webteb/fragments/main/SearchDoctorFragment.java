@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -112,11 +113,8 @@ public class SearchDoctorFragment extends BaseMainFragment {
         String username = mPreferencesManager.getEmail();
 
         DbLocation dbLocation = databaseHelper.getLocation(username);
-        if (dbLocation != null) {
-            setCurrentCountry(getCountryPosition(dbLocation.getCountry()));
-        } else {
+        if (!(dbLocation != null && checkoutCountry(dbLocation.getCountry()))) {
             setCurrentCountry(currentCountryPosition);
-            setCurrentLocation();
         }
         setSpecialties();
     }
@@ -229,7 +227,7 @@ public class SearchDoctorFragment extends BaseMainFragment {
         } else {
             args.putString("Specialty", String.valueOf(ANY_SPECIALITY_ID));
         }
-        setDbLocation(countryName, cityName);
+        setDbLocation(countryCodes[getCountryPosition(countryName)], cityName);
         fragment.setArguments(args);
 
         addNestedFragment(R.id.fragment_container, fragment, SearchResultsFragment.NAME);
@@ -238,12 +236,14 @@ public class SearchDoctorFragment extends BaseMainFragment {
     private void setCurrentCountry(int currentCountry) {
         this.currentCountryPosition = currentCountry;
         String countryName = countriesList[currentCountry];
+        String countryIso = countryCodes[currentCountry];
         mCountry.setText(countryName);
         setCities(countryCodes[currentCountry]);
 
         String username = mPreferencesManager.getEmail();
         DbLocation dbLocation = databaseHelper.getLocation(username);
-        if (dbLocation != null && dbLocation.getCountry().equals(countryName)) {
+        if (dbLocation != null && dbLocation.getCountry().equals(countryIso)
+                && !TextUtils.isEmpty(dbLocation.getCity())) {
             mCity.setText(dbLocation.getCity());
         } else {
             mCity.setText(getString(R.string.any_city));
@@ -287,12 +287,14 @@ public class SearchDoctorFragment extends BaseMainFragment {
         return 0;
     }
 
-    private void checkoutCountry(String isoCode) {
+    private boolean checkoutCountry(String isoCode) {
         for (int i = 0; i < countryCodes.length; i++) {
             if (countryCodes[i].equals(isoCode)) {
                 setCurrentCountry(i);
+                return true;
             }
         }
+        return false;
     }
 
     private void setCurrentLocation() {

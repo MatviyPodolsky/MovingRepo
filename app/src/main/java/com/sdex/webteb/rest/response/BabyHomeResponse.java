@@ -57,6 +57,9 @@ public class BabyHomeResponse extends ApiResponse {
         @SerializedName("FamilyRelation")
         @Expose
         private String familyRelation;
+        @SerializedName("IsoCode")
+        @Expose
+        private String isoCode;
 
     }
 
