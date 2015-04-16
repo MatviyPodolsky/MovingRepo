@@ -485,6 +485,7 @@ public class HomeFragment extends PhotoFragment {
                         .load(imageUrl)
                         .placeholder(R.drawable.ic_transparent_placeholder)
                         .fit()
+                        .centerCrop()
                         .into(summaryImage);
             }
             articlesCount.setText(getString(R.string.articles_count) + " " + contentLinks.size());
@@ -554,6 +555,7 @@ public class HomeFragment extends PhotoFragment {
                         .load(imageUrl)
                         .placeholder(R.drawable.ic_transparent_placeholder)
                         .fit()
+                        .centerCrop()
                         .into(summaryImage);
             }
             articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
