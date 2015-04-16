@@ -16,9 +16,10 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.gson.Gson;
 import com.sdex.webteb.R;
 import com.sdex.webteb.activities.MainActivity;
+import com.sdex.webteb.internal.analytics.Analytics;
+import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.NotificationEvent;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.request.NotificationReceivedRequest;
@@ -38,7 +39,7 @@ public class GcmIntentService extends IntentService {
     private static int NOTIFICATION_ID = 1;
     private NotificationManager mNotificationManager;
 
-    private Gson gson = new Gson();
+    private Analytics mAnalytics;
 
     private EventBus eventBus = EventBus.getDefault();
 
@@ -50,6 +51,7 @@ public class GcmIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        mAnalytics = new Analytics(getApplication());
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
         // The getMessageType() intent parameter must be the intent you received
@@ -80,6 +82,8 @@ public class GcmIntentService extends IntentService {
     private void parseNotification(Bundle extras) {
 
         Log.d("GCM", extras.toString());
+
+        mAnalytics.sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_RECEIVED);
 
         String id = extras.getString(MainActivity.NOTIFICATION_ID);
         String title = extras.getString(MainActivity.NOTIFICATION_TITLE);

@@ -140,6 +140,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED);
             handlePushNotification(extras);
         }
 
@@ -470,6 +471,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     }
 
     private void postNotificationTapped(String notificationId) {
+        sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED_IN_APP);
         NotificationTappedRequest request = new NotificationTappedRequest(notificationId);
         RestClient.getApiService().postNotificationTapped(request, new Callback<String>() {
             @Override

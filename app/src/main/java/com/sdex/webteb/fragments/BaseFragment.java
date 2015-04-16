@@ -12,9 +12,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.sdex.webteb.WTApp;
+import com.sdex.webteb.internal.analytics.Analytics;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.request.SendEventRequest;
 
@@ -27,6 +25,14 @@ import retrofit.client.Response;
  * Created by Yuriy Mysochenko on 02.02.2015.
  */
 public abstract class BaseFragment extends Fragment {
+
+    private Analytics mAnalytics;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mAnalytics = new Analytics(getActivity().getApplication());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -58,47 +64,30 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void sendAnalyticsScreenName(@StringRes int nameRes) {
-        sendAnalyticsScreenName(getString(nameRes));
+        mAnalytics.sendAnalyticsScreenName(nameRes);
     }
 
     protected void sendAnalyticsScreenName(String name) {
-        if (isAdded()) {
-            Tracker tracker = ((WTApp) getActivity().getApplication()).getTracker();
-            tracker.setScreenName(name);
-            tracker.send(new HitBuilders.ScreenViewBuilder()
-                    .setNewSession()
-                    .build());
-        }
+        mAnalytics.sendAnalyticsScreenName(name);
     }
 
     protected void sendAnalyticsDimension(@StringRes int screenName, int index, String dimension) {
-        sendAnalyticsDimension(getString(screenName), index, dimension);
+        mAnalytics.sendAnalyticsDimension(screenName, index, dimension);
     }
 
     protected void sendAnalyticsDimension(String screenName, int index, String dimension) {
         if (isAdded()) {
-            Tracker tracker = ((WTApp) getActivity().getApplication()).getTracker();
-            tracker.setScreenName(screenName);
-            tracker.send(new HitBuilders.ScreenViewBuilder()
-                    .setCustomDimension(index, dimension)
-                    .build());
+            mAnalytics.sendAnalyticsDimension(screenName, index, dimension);
         }
     }
 
     protected void sendAnalyticsEvent(String category, String action) {
-        sendAnalyticsEvent(category, action, null);
+        mAnalytics.sendAnalyticsEvent(category, action, null);
     }
 
     public void sendAnalyticsEvent(String category, String action, String label) {
         if (isAdded()) {
-            Tracker t = ((WTApp) getActivity().getApplication()).getTracker();
-            HitBuilders.EventBuilder eventBuilder = new HitBuilders.EventBuilder();
-            eventBuilder.setCategory(category);
-            eventBuilder.setAction(action);
-            if (label != null) {
-                eventBuilder.setLabel(label);
-            }
-            t.send(eventBuilder.build());
+            mAnalytics.sendAnalyticsEvent(category, action, label);
         }
     }
 

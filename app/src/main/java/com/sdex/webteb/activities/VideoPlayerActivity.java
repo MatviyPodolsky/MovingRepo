@@ -11,6 +11,7 @@ import android.widget.GridView;
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.VideoListAdapter;
 import com.sdex.webteb.fragments.main.VideoThumbnailFragment;
+import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.view.VideoView;
 
@@ -67,6 +68,7 @@ public class VideoPlayerActivity extends BaseActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mVideoView.stopPlayback();
+                sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_ENDED);
             }
         });
         mVideoView.setVideoPath(video.getUrl());
