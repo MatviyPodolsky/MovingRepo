@@ -196,17 +196,14 @@
     <string name="please_enter_message">"الرجاء كتابة الرسالة"</string>
 
     <!--sharing-->
-    <string name="choose_email_client">"اختر حساب البريد الالكتروني"</string>
-    <string name="no_email_client_error">"لا يوجد حساب بريد إلكتروني على جهازك"</string>
-    <string name="not_support_printing_error">"جهازك لا يملك امكانية الطباعة"</string>
-    <string name="share_photo_email_subject">%1$s "قامت بمشاركتك بهذه الصورة"</string>
+    <string name="share_to">Share to</string>
 
     <!--errors-->
     <string name="error_loading_data">"خطأ في تحميل المعلومات"</string>
     <string name="empty_loaded_data">"لا يوجد معلومات"</string>
     <string name="no_connection">"الرجاء التأكد ان كان التواصل بالشبكة سليم والمحاولة من جديد"</string>
     <string name="error_with_description">"%1$s خطأ"</string>
-    <string name="connect_your_device">Baby teb app requires internet connection , please connect your device</string>
+    <string name="connect_your_device">Baby teb app requires internet connection, please connect your device</string>
 
     <!--confirm dialogs-->
     <string name="dialog_delete_photo_title">"حذف الصورة"</string>

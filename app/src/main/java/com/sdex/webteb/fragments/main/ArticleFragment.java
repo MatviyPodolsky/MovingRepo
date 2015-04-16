@@ -1,14 +1,10 @@
 package com.sdex.webteb.fragments.main;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.print.PrintHelper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -16,17 +12,11 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.sdex.webteb.R;
-import com.sdex.webteb.fragments.FacebookShareFragment;
 import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.AddArticlesEvent;
-import com.sdex.webteb.internal.events.DeletePhotoEvent;
-import com.sdex.webteb.internal.events.SavedPhotoEvent;
-import com.sdex.webteb.internal.events.SelectedPhotoEvent;
-import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.model.Ad;
 import com.sdex.webteb.model.ContentLink;
 import com.sdex.webteb.rest.RestCallback;
@@ -34,8 +24,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.ArticlesResponse;
 import com.sdex.webteb.utils.AdUtil;
-import com.sdex.webteb.utils.EmailUtil;
-import com.sdex.webteb.utils.PrintUtil;
+import com.sdex.webteb.utils.ShareIntents;
 
 import org.parceler.Parcels;
 
@@ -46,7 +35,7 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import retrofit.client.Response;
 
-public class ArticleFragment extends FacebookShareFragment {
+public class ArticleFragment extends BaseMainFragment {
 
     public static final String NAME = ArticleFragment.class.getSimpleName();
 
@@ -66,8 +55,6 @@ public class ArticleFragment extends FacebookShareFragment {
     @InjectView(R.id.progress)
     ProgressBar mProgress;
     private RestCallback<ArticlesResponse> getArticlesCallback;
-
-    private PopupWindow mSharePopUp;
 
     private List<ContentLink> mData;
     private int currentPosition;
@@ -104,14 +91,14 @@ public class ArticleFragment extends FacebookShareFragment {
 
             }
         });
-        initSharingPopUp();
+
         getArticlesCallback = new RestCallback<ArticlesResponse>() {
             @Override
             public void failure(RestError restError) {
                 if (getActivity() == null) {
-                    mNextArticle.setVisibility(View.VISIBLE);
                     return;
                 }
+                mNextArticle.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -135,52 +122,6 @@ public class ArticleFragment extends FacebookShareFragment {
         loadData();
     }
 
-    private void initSharingPopUp() {
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        final View contentView = inflater.inflate(R.layout.pop_up_share, null);
-
-        mSharePopUp = new PopupWindow(contentView,
-                (int)getResources().getDimension(R.dimen.share_button_width),
-                ViewGroup.LayoutParams.WRAP_CONTENT, true);
-
-        final ContentLink article = mData.get(currentPosition);
-
-        contentView.findViewById(R.id.facebook).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performPublishLink(article);
-                mSharePopUp.dismiss();
-            }
-        });
-        contentView.findViewById(R.id.email).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EmailUtil.shareText(getActivity(), article.getTitle(), article.getUrl());
-                mSharePopUp.dismiss();
-            }
-        });
-        contentView.findViewById(R.id.print).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (PrintHelper.systemSupportsPrint()) {
-                    PrintUtil.printText(getActivity(), article.getTitle(), mContentView);
-                } else {
-                    Toast.makeText(getActivity(), R.string.not_support_printing_error,
-                            Toast.LENGTH_SHORT).show();
-                }
-                mSharePopUp.dismiss();
-            }
-        });
-        mSharePopUp.setBackgroundDrawable(new ColorDrawable());
-        mSharePopUp.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                mShareButton.setEnabled(true);
-            }
-        });
-        mSharePopUp.setOutsideTouchable(true);
-    }
-
     @Override
     public int getLayoutResource() {
         return R.layout.fragment_article;
@@ -193,9 +134,9 @@ public class ArticleFragment extends FacebookShareFragment {
     }
 
     @OnClick(R.id.share)
-    void share(View v) {
-        v.setEnabled(false);
-        mSharePopUp.showAsDropDown(v);
+    void share() {
+        final ContentLink article = mData.get(currentPosition);
+        ShareIntents.shareTextContent(getActivity(), article.getTitle(), article.getUrl());
     }
 
     @OnClick(R.id.btn_next_article)
@@ -207,7 +148,7 @@ public class ArticleFragment extends FacebookShareFragment {
             sendAnalyticsEvent(Events.CATEGORY_NAVIGATION, Events.ACTION_NEXT);
             if (currentPosition == size - 1) {
                 mNextArticle.setVisibility(View.GONE);
-                if(size < totalCount) {
+                if (size < totalCount) {
                     RestClient.getApiService().getArticles(page, MoreArticlesFragment.PAGE_SIZE, getArticlesCallback);
                 }
             }
@@ -231,20 +172,6 @@ public class ArticleFragment extends FacebookShareFragment {
     public void onDestroy() {
         EventBus.getDefault().post(new AddArticlesEvent(page));
         super.onDestroy();
-    }
-
-    // TODO need refactoring
-
-    public void onEvent(DeletePhotoEvent event) {
-    }
-
-    public void onEvent(SavedPhotoEvent event) {
-    }
-
-    public void onEvent(TakenPhotoEvent event) {
-    }
-
-    public void onEvent(SelectedPhotoEvent event) {
     }
 
 }
