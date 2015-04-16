@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -55,6 +56,20 @@ public class VideoPlayerActivity extends BaseActivity {
                 ContentLink video = data.get(position);
                 mVideoView.setVideoPath(video.getUrl());
                 mVideoView.start();
+            }
+        });
+
+        mVideoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (mVideoView.isPlaying()) {
+                        mVideoView.pause();
+                    } else {
+                        mVideoView.start();
+                    }
+                }
+                return true;
             }
         });
     }
