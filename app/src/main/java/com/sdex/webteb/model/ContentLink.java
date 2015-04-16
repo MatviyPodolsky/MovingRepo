@@ -40,6 +40,9 @@ public class ContentLink {
     @SerializedName("Targeting")
     @Expose
     public List<Targeting> targeting;
+    @SerializedName("CanonicalUrl")
+    @Expose
+    public String canonicalUrl;
 
     public ContentLink() {
     }

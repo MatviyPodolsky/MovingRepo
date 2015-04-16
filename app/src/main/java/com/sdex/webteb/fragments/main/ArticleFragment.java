@@ -9,7 +9,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -136,7 +135,7 @@ public class ArticleFragment extends BaseMainFragment {
     @OnClick(R.id.share)
     void share() {
         final ContentLink article = mData.get(currentPosition);
-        ShareIntents.shareTextContent(getActivity(), article.getTitle(), article.getUrl());
+        ShareIntents.shareTextContent(getActivity(), article.getTitle(), article.getCanonicalUrl());
     }
 
     @OnClick(R.id.btn_next_article)
