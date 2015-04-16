@@ -78,15 +78,8 @@ public abstract class FacebookAuthActivity extends BaseActivity {
                             DbUser newUser = new DbUser();
                             newUser.setEmail(userLoginResponse.getUserName());
                             databaseHelper.addUser(newUser);
-
-                            RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
-                        } else {
-                            if (user.isCompletedProfile()) {
-                                launchMainActivity(true);
-                            } else {
-                                launchMainActivity(false);
-                            }
                         }
+                        RestClient.getApiService().getBabyProfile(getBabyProfileCallback);
 
                         if (userLoginResponse.isUserRegister()) {
                             sendAnalyticsDimension(R.string.screen_register, 3, getString(R.string.dimension_register_type_facebook));
@@ -113,13 +106,13 @@ public abstract class FacebookAuthActivity extends BaseActivity {
         getBabyProfileCallback = new RestCallback<BabyProfileResponse>() {
             @Override
             public void failure(RestError restError) {
-                launchMainActivity(false);
+                launchProfileActivity();
             }
 
             @Override
             public void success(BabyProfileResponse babyProfileResponse, Response response) {
                 if (babyProfileResponse != null && babyProfileResponse.getDateType() == BabyProfileResponse.DATE_TYPE_NOT_SET) {
-                    launchMainActivity(false);
+                    launchProfileActivity();
                 } else {
                     DatabaseHelper databaseHelper = DatabaseHelper.getInstance(FacebookAuthActivity.this);
                     DbUser user = databaseHelper.getUser(mUserEmail);
@@ -134,7 +127,7 @@ public abstract class FacebookAuthActivity extends BaseActivity {
                     }
                     user.setChildren(children);
                     databaseHelper.updateUser(user);
-                    launchMainActivity(true);
+                    launchMainActivity();
                 }
             }
         };
@@ -146,14 +139,14 @@ public abstract class FacebookAuthActivity extends BaseActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void launchMainActivity(boolean completedProfile) {
-        Intent intent;
-        if (completedProfile) {
-            MainActivity.launch(FacebookAuthActivity.this);
-        } else {
-            intent = new Intent(FacebookAuthActivity.this, SetupProfileActivity.class);
-            startActivity(intent);
-        }
+    private void launchMainActivity() {
+        MainActivity.launch(FacebookAuthActivity.this);
+        finish();
+    }
+
+    private void launchProfileActivity(){
+        Intent intent = new Intent(FacebookAuthActivity.this, SetupProfileActivity.class);
+        startActivity(intent);
         finish();
     }
 
