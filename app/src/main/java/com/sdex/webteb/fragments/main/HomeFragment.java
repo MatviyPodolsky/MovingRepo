@@ -22,7 +22,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.sdex.webteb.R;
+import com.sdex.webteb.WTApp;
 import com.sdex.webteb.adapters.HomeListAdapter;
 import com.sdex.webteb.adapters.MonthNavigationAdapter;
 import com.sdex.webteb.adapters.TimeNavigationAdapter;
@@ -47,6 +49,7 @@ import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.model.ExaminationPreview;
 import com.sdex.webteb.model.Notifications;
 import com.sdex.webteb.model.TipContent;
+import com.sdex.webteb.rest.HttpHeaderParser;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -62,11 +65,13 @@ import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
 import com.sdex.webteb.utils.Utils;
+import com.sdex.webteb.utils.cache.GetCallback;
 import com.sdex.webteb.view.CenteredRecyclerView;
 import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -261,6 +266,13 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(WeekResponse weekResponse, Response response) {
+
+                HttpHeaderParser.CacheEntry cacheEntry = HttpHeaderParser.parseCacheHeaders(response.getHeaders());
+                if (cacheEntry != null) {
+                    WTApp.getCacheManager().putAsync(response.getUrl(), weekResponse,
+                            cacheEntry.maxAge, false, null);
+                }
+
                 hideSummaryProgress();
                 showWeeks(weekResponse);
             }
@@ -275,6 +287,13 @@ public class HomeFragment extends PhotoFragment {
 
             @Override
             public void success(MonthResponse monthResponse, Response response) {
+
+                HttpHeaderParser.CacheEntry cacheEntry = HttpHeaderParser.parseCacheHeaders(response.getHeaders());
+                if (cacheEntry != null) {
+                    WTApp.getCacheManager().putAsync(response.getUrl(), monthResponse,
+                            cacheEntry.maxAge, false, null);
+                }
+
                 hideSummaryProgress();
                 showMonths(monthResponse);
             }
@@ -655,11 +674,36 @@ public class HomeFragment extends PhotoFragment {
             mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    int fromMonth = babyPeriods.get(position).getFromMonth();
+                    final int fromMonth = babyPeriods.get(position).getFromMonth();
                     toMonth = babyPeriods.get(position).getToMonth();
-                    RestClient.getApiService().getMonth(fromMonth, getMonthCallback);
+
                     showSummaryProgress();
                     updateSelectedTimeNavigationItem(view, position);
+
+                    String API_URL = PreferencesManager.getInstance()
+                            .getPreferences().getString("server", RestClient.SERVER_URL);
+                    Type type = new TypeToken<MonthResponse>() {}.getType();
+                    WTApp.getCacheManager().getAsync(
+                            API_URL + "/baby/month?ageInMonths=" + fromMonth,
+                            MonthResponse.class,
+                            type,
+                            new GetCallback<MonthResponse>() {
+                                @Override
+                                public void onSuccess(MonthResponse monthResponse) {
+                                    if (monthResponse != null) {
+                                        hideSummaryProgress();
+                                        showMonths(monthResponse);
+                                    } else {
+                                        RestClient.getApiService().getMonth(fromMonth, getMonthCallback);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+
+                                }
+                            }
+                    );
                 }
             });
         } else {
@@ -667,9 +711,37 @@ public class HomeFragment extends PhotoFragment {
             mTimeNavAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    RestClient.getApiService().getWeek(mTimeNavAdapter.getItemCount() - position, getWeekCallback);
+                    final int weekNumber = mTimeNavAdapter.getItemCount() - position;
+
                     showSummaryProgress();
                     updateSelectedTimeNavigationItem(view, position);
+
+
+                    String API_URL = PreferencesManager.getInstance()
+                            .getPreferences().getString("server", RestClient.SERVER_URL);
+                    Type type = new TypeToken<MonthResponse>() {}.getType();
+                    WTApp.getCacheManager().getAsync(
+                            API_URL + "/baby/week?weekNumber=" + weekNumber,
+                            MonthResponse.class,
+                            type,
+                            new GetCallback<MonthResponse>() {
+                                @Override
+                                public void onSuccess(MonthResponse monthResponse) {
+                                    if (monthResponse != null) {
+                                        hideSummaryProgress();
+                                        showMonths(monthResponse);
+                                    } else {
+                                        RestClient.getApiService().getWeek(weekNumber, getWeekCallback);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Exception e) {
+
+                                }
+                            }
+                    );
+
                 }
             });
         }

@@ -2,9 +2,11 @@ package com.sdex.webteb.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sdex.webteb.WTApp;
 import com.sdex.webteb.rest.service.ApiService;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.squareup.okhttp.OkHttpClient;
+
+import java.util.concurrent.TimeUnit;
 
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
@@ -24,11 +26,13 @@ public class RestClient {
             .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
             .create();
 
+    public static final OkHttpClient okHttpClient = new OkHttpClient();
+
     public static final ChangeableEndpoint ENDPOINT = new ChangeableEndpoint(API_URL);
 
     private static final RestAdapter restAdapter = new RestAdapter.Builder()
             .setEndpoint(ENDPOINT)
-            .setClient(new OkClient(WTApp.okHttpClient))
+            .setClient(new OkClient(okHttpClient))
             .setRequestInterceptor(new SessionRequestInterceptor())
             .setLogLevel(RestAdapter.LogLevel.FULL)
             .setConverter(new GsonConverter(gson))
@@ -36,11 +40,11 @@ public class RestClient {
 
     private static final ApiService apiService = restAdapter.create(ApiService.class);
 
-//    static {
-//        okHttpClient.setConnectTimeout(60, TimeUnit.SECONDS);
-//        okHttpClient.setReadTimeout(60, TimeUnit.SECONDS);
-//        okHttpClient.setWriteTimeout(60, TimeUnit.SECONDS);
-//    }
+    static {
+        okHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
+        okHttpClient.setReadTimeout(10, TimeUnit.SECONDS);
+        okHttpClient.setWriteTimeout(30, TimeUnit.SECONDS);
+    }
 
     private RestClient() {
     }
