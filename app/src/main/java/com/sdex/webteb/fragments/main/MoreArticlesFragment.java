@@ -167,12 +167,6 @@ public class MoreArticlesFragment extends BaseMainFragment implements Errorable 
     }
 
     @Override
-    public void onDestroy() {
-        getArticlesCallback.cancel();
-        super.onDestroy();
-    }
-
-    @Override
     public int getLayoutResource() {
         return R.layout.fragment_more_articles;
     }

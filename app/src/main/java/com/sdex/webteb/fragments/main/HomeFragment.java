@@ -49,7 +49,7 @@ import com.sdex.webteb.model.ContentPreview;
 import com.sdex.webteb.model.ExaminationPreview;
 import com.sdex.webteb.model.Notifications;
 import com.sdex.webteb.model.TipContent;
-import com.sdex.webteb.rest.HttpHeaderParser;
+import com.sdex.webteb.rest.CachedRestCallback;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
@@ -139,8 +139,8 @@ public class HomeFragment extends PhotoFragment {
     @InjectView(R.id.summary_progress)
     ProgressBar mProgress;
 
-    private RestCallback<WeekResponse> getWeekCallback;
-    private RestCallback<MonthResponse> getMonthCallback;
+    private Callback<WeekResponse> getWeekCallback;
+    private Callback<MonthResponse> getMonthCallback;
     private RestCallback<BabyProfileResponse> getProfileCallback;
     private boolean gaveBirth;
     private String albumLabel;
@@ -219,7 +219,6 @@ public class HomeFragment extends PhotoFragment {
         RestClient.getApiService().getBabyHome(new RestCallback<BabyHomeResponse>() {
             @Override
             public void failure(RestError restError) {
-                hideProgress();
                 showError(restError);
             }
 
@@ -257,7 +256,7 @@ public class HomeFragment extends PhotoFragment {
             }
         });
 
-        getWeekCallback = new RestCallback<WeekResponse>() {
+        getWeekCallback = new CachedRestCallback<WeekResponse>() {
             @Override
             public void failure(RestError restError) {
                 showError(restError);
@@ -265,20 +264,14 @@ public class HomeFragment extends PhotoFragment {
             }
 
             @Override
-            public void success(WeekResponse weekResponse, Response response) {
-
-                HttpHeaderParser.CacheEntry cacheEntry = HttpHeaderParser.parseCacheHeaders(response.getHeaders());
-                if (cacheEntry != null) {
-                    WTApp.getCacheManager().putAsync(response.getUrl(), weekResponse,
-                            cacheEntry.maxAge, false, null);
-                }
-
+            public void success(WeekResponse weekResponse) {
                 hideSummaryProgress();
                 showWeeks(weekResponse);
             }
         };
 
-        getMonthCallback = new RestCallback<MonthResponse>() {
+        getMonthCallback = new CachedRestCallback<MonthResponse>() {
+
             @Override
             public void failure(RestError restError) {
                 hideSummaryProgress();
@@ -286,14 +279,7 @@ public class HomeFragment extends PhotoFragment {
             }
 
             @Override
-            public void success(MonthResponse monthResponse, Response response) {
-
-                HttpHeaderParser.CacheEntry cacheEntry = HttpHeaderParser.parseCacheHeaders(response.getHeaders());
-                if (cacheEntry != null) {
-                    WTApp.getCacheManager().putAsync(response.getUrl(), monthResponse,
-                            cacheEntry.maxAge, false, null);
-                }
-
+            public void success(MonthResponse monthResponse) {
                 hideSummaryProgress();
                 showMonths(monthResponse);
             }
@@ -463,6 +449,7 @@ public class HomeFragment extends PhotoFragment {
         if (getActivity() == null) {
             return;
         }
+        hideProgress();
         // TODO show error
     }
 

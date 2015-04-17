@@ -198,12 +198,6 @@ public class SearchResultsFragment extends BaseMainFragment {
         return R.layout.fragment_search_result;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getDoctorsCallback.cancel();
-    }
-
     private void showProgress() {
         progress.setVisibility(View.VISIBLE);
         error.setVisibility(View.GONE);
