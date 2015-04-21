@@ -15,7 +15,7 @@ import retrofit.converter.GsonConverter;
  */
 public class RestClient {
 
-    public static final String SERVER_URL = "http://api.qwebteb.com";
+    public static final String SERVER_URL = "https://babyapi.webteb.com";
 
     private static final String API_URL = PreferencesManager.getInstance()
             .getPreferences().getString("server", SERVER_URL);

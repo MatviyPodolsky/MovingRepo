@@ -52,7 +52,7 @@ public class WelcomeActivity extends FacebookAuthActivity {
         mPager.setOffscreenPageLimit(3);
         mPager.setCurrentItem(TutorialPageAdapter.sCount);
 
-        showServerChooseDialog();
+//        showServerChooseDialog();
     }
 
     @Override
