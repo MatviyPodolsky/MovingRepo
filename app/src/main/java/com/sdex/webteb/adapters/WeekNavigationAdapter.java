@@ -54,6 +54,11 @@ public class WeekNavigationAdapter extends TimeNavigationAdapter<WeekNavigationA
     }
 
     @Override
+    public int getSelectedItem(){
+        return selectedItem;
+    }
+
+    @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }

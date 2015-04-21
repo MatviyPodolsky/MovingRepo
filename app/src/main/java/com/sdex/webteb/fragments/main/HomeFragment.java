@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -101,8 +102,14 @@ public class HomeFragment extends PhotoFragment {
     ImageView summaryImage;
     @InjectView(R.id.summary_articles_count)
     TextView articlesCount;
+    @InjectView(R.id.summary_tests_container)
+    RelativeLayout testsContainer;
     @InjectView(R.id.summary_test_title)
     TextView testTitle;
+    @InjectView(R.id.summary_show_tests)
+    Button showTests;
+    @InjectView(R.id.divider1)
+    View testsDivider;
     @InjectViews({R.id.summary_image1, R.id.summary_image2, R.id.summary_image3})
     List<ImageView> summaryPhotos;
     @InjectView(R.id.no_photos)
@@ -413,6 +420,16 @@ public class HomeFragment extends PhotoFragment {
         });
     }
 
+    private void hideSummaryTests(){
+        testsContainer.setVisibility(View.GONE);
+        testsDivider.setVisibility(View.GONE);
+    }
+
+    private void showSummaryTests(){
+        testsContainer.setVisibility(View.VISIBLE);
+        testsDivider.setVisibility(View.VISIBLE);
+    }
+
     private void showProgress() {
         mProgressBar.setVisibility(View.VISIBLE);
         mTimeLineList.setVisibility(View.GONE);
@@ -498,13 +515,16 @@ public class HomeFragment extends PhotoFragment {
             }
             articlesCount.setText(getString(R.string.articles_count) + " " + contentLinks.size());
             int count = testsList.size();
+            if (count > 0) {
+                showSummaryTests();
+            }
             if (testsList != null && count == 1) {
                 testTitle.setText(testsList.get(0).getContentPreview().getTitle());
             } else if (testsList != null && count > 1) {
                 String testsCount = getString(R.string.n_tests);
                 testTitle.setText(String.format(testsCount, count));
             } else {
-                testTitle.setText(getActivity().getString(R.string.no_tests));
+                hideSummaryTests();
             }
             String email = PreferencesManager.getInstance().getEmail();
             String dateType = getString(R.string.month);
@@ -568,13 +588,16 @@ public class HomeFragment extends PhotoFragment {
             }
             articlesCount.setText(getActivity().getString(R.string.articles_count) + " " + contentLinks.size());
             int count = testsList.size();
+            if (count > 0) {
+                showSummaryTests();
+            }
             if (testsList != null && count == 1) {
                 testTitle.setText(testsList.get(0).getContentPreview().getTitle());
             } else if (testsList != null && count > 1) {
                 String testsCount = getString(R.string.n_tests);
                 testTitle.setText(String.format(testsCount, count));
             } else {
-                testTitle.setText(getString(R.string.no_tests));
+                hideSummaryTests();
             }
             String email = PreferencesManager.getInstance().getEmail();
             String dateType = getString(R.string.week);
@@ -733,11 +756,44 @@ public class HomeFragment extends PhotoFragment {
 
     @OnClick(R.id.summary_show_tests)
     public void showTests() {
-        if (testsList != null) {
-            Fragment fragment = SummaryTestsFragment.newInstance(testsList);
-            addNestedFragment(R.id.fragment_container, fragment, SummaryTestsFragment.NAME);
+        showTests.setEnabled(false);
+        int position = mTimeNavAdapter.getSelectedItem();
+        if (gaveBirth) {
+            RestClient.getApiService().getMonthTests(babyPeriods.get(position).getFromMonth(), new Callback<List<BabyTestResponse>>() {
+                @Override
+                public void success(List<BabyTestResponse> testsList, Response response) {
+                    showTests.setEnabled(true);
+                    if (testsList != null && !testsList.isEmpty()) {
+                        Fragment fragment = SummaryTestsFragment.newInstance(testsList);
+                        addNestedFragment(R.id.fragment_container, fragment, SummaryTestsFragment.NAME);
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.no_tests), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    showTests.setEnabled(true);
+                }
+            });
         } else {
-            Toast.makeText(getActivity(), "No tests", Toast.LENGTH_SHORT).show();
+            RestClient.getApiService().getWeekTests(mTimeNavAdapter.getItemCount() - position, new Callback<List<BabyTestResponse>>() {
+                @Override
+                public void success(List<BabyTestResponse> testsList, Response response) {
+                    showTests.setEnabled(true);
+                    if (testsList != null && !testsList.isEmpty()) {
+                        Fragment fragment = SummaryTestsFragment.newInstance(testsList);
+                        addNestedFragment(R.id.fragment_container, fragment, SummaryTestsFragment.NAME);
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.no_tests), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    showTests.setEnabled(true);
+                }
+            });
         }
     }
 
@@ -747,7 +803,7 @@ public class HomeFragment extends PhotoFragment {
             Fragment fragment = AdditionalContentFragment.newInstance(contentLinks);
             addNestedFragment(R.id.fragment_container, fragment, AdditionalContentFragment.NAME);
         } else {
-            Toast.makeText(getActivity(), "No articles", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getString(R.string.no_articles), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -153,8 +153,14 @@ public interface ApiService {
     @GET("/baby/week")
     void getWeek(@Query("weekNumber") int weekNumber, Callback<WeekResponse> callback);
 
+    @GET("/baby/tests/week")
+    void getWeekTests(@Query("weekNumber") int weekNumber, Callback<List<BabyTestResponse>> callback);
+
     @GET("/baby/month")
     void getMonth(@Query("ageInMonths") int ageInMonths, Callback<MonthResponse> callback);
+
+    @GET("/baby/tests/month")
+    void getMonthTests(@Query("ageInMonths") int ageInMonths, Callback<List<BabyTestResponse>> callback);
 
     @GET("/GetEntity")
     void getEntity(@Query("ID") int id, @Query("Type") String type,

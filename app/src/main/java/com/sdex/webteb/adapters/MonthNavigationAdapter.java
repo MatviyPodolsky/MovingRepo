@@ -56,6 +56,11 @@ public class MonthNavigationAdapter extends TimeNavigationAdapter<MonthNavigatio
     }
 
     @Override
+    public int getSelectedItem(){
+        return selectedItem;
+    }
+
+    @Override
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }

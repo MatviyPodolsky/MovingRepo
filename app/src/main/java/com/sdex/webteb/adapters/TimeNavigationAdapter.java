@@ -11,6 +11,7 @@ public abstract class TimeNavigationAdapter<VH extends RecyclerView.ViewHolder> 
         RecyclerView.Adapter<VH> {
 
     public abstract void setSelectedItem(int position);
+    public abstract int getSelectedItem();
     public abstract void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener);
 
     public void hideLabels() {
