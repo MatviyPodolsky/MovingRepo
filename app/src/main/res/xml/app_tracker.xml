@@ -8,7 +8,7 @@
 
     <string name="ga_appName">WebTeb android</string>
 
-    <bool name="ga_debug">true</bool>
+    <bool name="ga_debug">false</bool>
 
     <item name="ga_dispatchPeriod" format="integer" type="integer">120</item>
 
