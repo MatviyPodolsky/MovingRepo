@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--save_photo-->
+    <string name="male_hint_comment">male hint comment</string>
+
+</resources>
