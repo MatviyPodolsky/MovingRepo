@@ -20,6 +20,7 @@ import com.sdex.webteb.rest.request.BabyReminderRequest;
 import com.sdex.webteb.rest.request.BabyTestDoneRequest;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.ResourcesUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -165,6 +166,8 @@ public class TestsAdapter extends BaseExpandableListAdapter {
 
         holder.addReminder.setTag(item);
 
+        holder.readMore.setText(ResourcesUtil.getString(context, "read_more"));
+
         int currentDate = Integer.parseInt(mPreferencesManager.getCurrentDate());
         List<Range> relatedPeriods = item.getRelatedPeriods();
         for (int i = 0; i < relatedPeriods.size(); i++) {
@@ -259,9 +262,9 @@ public class TestsAdapter extends BaseExpandableListAdapter {
 
     private void refreshButtons(final UserTest test, final ViewHolderChild holder) {
         if (test != null && test.isReminderStatus()) {
-            holder.addReminder.setText(context.getString(R.string.delete_reminder));
+            holder.addReminder.setText(R.string.delete_reminder);
         } else {
-            holder.addReminder.setText(context.getString(R.string.add_reminder));
+            holder.addReminder.setText(ResourcesUtil.getString(context, "add_reminder"));
         }
         holder.checkbox.setChecked(test != null && test.isTestDone());
 

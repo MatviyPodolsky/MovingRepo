@@ -32,8 +32,8 @@
     <string name="please_enter_email">"أدخل بريدك الألكتروني""</string>
     <string name="please_enter_password">"اكتبي الكلمة السرية"</string>
     <string name="password_must_contain_at_least_6_characters">"على كلمة المرور ان تكون مؤلفة من 6 أحرف على الاقل"</string>
-    <string name="error_email_already_registered">This email has been already registered</string>
-    <string name="invalid_email">Invalid email</string>
+    <string name="error_email_already_registered">"وقد تم تسجيل هذه الرسالة بالفعل"</string>
+    <string name="invalid_email">"بريد إلكتروني خاطئ"</string>
 
     <!--restore password-->
     <string name="positive_restore_message">"لقد تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
@@ -115,20 +115,21 @@
 
     <!--my tests-->
     <string name="my_tests_title">"فحوصاتي"</string>
-    <string name="read_more">"اقرأ المزيد"</string>
+    <string name="read_more">"اقرئي المزيد"</string>
     <string name="search_doctor">"البحث عن طبيب"</string>
     <string name="add_reminder">"اضيفي تذكير"</string>
-    <string name="delete_reminder">"الغاء التنبيه"</string>
+    <string name="delete_reminder">"الغاء التذكير"</string>
     <string name="done_test">"اجريت الفحص"</string>
     <string name="undone_test">"لم اقم بالفحص"</string>
     <string name="reminder">"تذكير"</string>
-    <string name="we_found_n_tests">We found (%1$d) tests</string>
+    <string name="we_found_n_tests">"لقد وجدنا (%1$d) الاختبارات"</string>
+    
 
     <!--album-->
-    <string name="take_photo">"التقط صورة"</string>
+    <string name="take_photo">"التقاط صورة"</string>
     <string name="select_photo">"اختر صورة"</string>
     <string name="cancel">"الغاء"</string>
-    <string name="album_title"><![CDATA["الخاص بي" <b>%1$s</b> ألبوم الصور]]></string>
+    <string name="album_title"><![CDATA["<b>%1$s</b> البوم صور"]]></string>
     <string name="album_text">"ألبوم الصور"</string>
     <string name="album_empty_text">"ألبوم الصور فارغ"</string>
     <string name="take_photo_button_title">"صورة"</string>
@@ -145,13 +146,13 @@
     <string name="search">"بحث"</string>
     <string name="found_n_doctors">%1$d/%2$d</string>
     <string name="no_doctors_found">"لم نعثر على طبيب"</string>
-    <string name="turn_location_options">"الرجاء قم بتشغيل امكانية "تحديد الموقع" في الجهاز ان اردت اختيار البحث في موقعك الحالي دائماً"</string>
-    <string name="any_country">"كل الدول"</string>
-    <string name="any_city">"كل المدن"</string>
-    <string name="any_speciality">"كل التخصصات"</string>
+    <string name="turn_location_options">"رجاء، قومي بتشغيل امكانية "تحديد الموقع" في الجهاز ان اردتي اختيار البحث في موقعك الحالي"</string>
+    <string name="any_country">"جميع الدول"</string>
+    <string name="any_city">"جميع المدن"</string>
+    <string name="any_speciality">"جميع التخصصات"</string>
     <string name="error_not_found_title">"ابحث عن طبيب"</string>
     <string name="error_not_found_text">"لم نحصل على نتائح للبحث على"</string>
-    <string name="please_select_country">"Please select country"</string>
+    <string name="please_select_country">"الرجاء اختيار البلد"</string>
 
     <!--more articles-->
     <string name="more_articles_title">"المزيد من المقالات"</string>
@@ -196,14 +197,14 @@
     <string name="please_enter_message">"الرجاء كتابة الرسالة"</string>
 
     <!--sharing-->
-    <string name="share_to">Share to</string>
+    <string name="share_to">"حصة ل"</string>
 
     <!--errors-->
     <string name="error_loading_data">"خطأ في تحميل المعلومات"</string>
     <string name="empty_loaded_data">"لا يوجد معلومات"</string>
     <string name="no_connection">"الرجاء التأكد ان كان التواصل بالشبكة سليم والمحاولة من جديد"</string>
     <string name="error_with_description">"%1$s خطأ"</string>
-    <string name="connect_your_device">Baby teb app requires internet connection, please connect your device</string>
+    <string name="connect_your_device">"تطبيق TebBaby يحتاج الى الاتصال بالانترنت، الرجاء توصيل جهازك"</string>
 
     <!--confirm dialogs-->
     <string name="dialog_delete_photo_title">"حذف الصورة"</string>
@@ -228,14 +229,14 @@
 
     <!--newborn-->
     <string name="week_n">%1$d "الاسبوع"</string>
-    <string name="had_you_already_born">It’s important for us to know if you already had your birth</string>
+    <string name="had_you_already_born">"من المهم بالنسبة لنا أن نعرف إذا كان لديك بالفعل ولادتك"</string>
     <string name="newborn_title">"مبروك مولودك الجديد"</string>
     <string name="newborn_text">" رجاءُ اكتب تفاصيل ابنك هنا وعببي الخانات
 لكي نستطيع ان نساعدك ونكمل الطريق معاً بالاشهر والسنين الأولى من الولادة"</string>
 
     <string name="loading">"جاري التحميل…"</string>
     <string name="retry">"المحاولة من جديد"</string>
-    <string name="error_loading_title">Oops!</string>
-    <string name="error_loading_text">Unable to load data</string>
+    <string name="error_loading_title">"عفوا!"</string>
+    <string name="error_loading_text">"غير قادر على تحميل البيانات"</string>
 
 </resources>

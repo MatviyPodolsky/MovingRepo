@@ -23,6 +23,7 @@ import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyTestResponse;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.ResourcesUtil;
 
 import java.util.List;
 
@@ -44,6 +45,8 @@ public class TestsFragment extends BaseMainFragment implements Errorable {
     ExpandableListView mList;
     @InjectView(R.id.progress)
     ProgressBar mProgress;
+    @InjectView(R.id.title)
+    TextView mTitle;
 
     // Start errors
     @InjectView(R.id.error_title)
@@ -75,6 +78,8 @@ public class TestsFragment extends BaseMainFragment implements Errorable {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mTitle.setText(ResourcesUtil.getString(getActivity(), "my_tests_title"));
 
         Bundle args = getArguments();
         if (args != null) {

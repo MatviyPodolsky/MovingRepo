@@ -27,6 +27,7 @@ import com.sdex.webteb.rest.request.BabyProfileRequest;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.ResourcesUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -53,6 +54,8 @@ public class NewbornActivity extends BaseActivity implements DatePickerDialog.On
     Button mSave;
     @InjectView(R.id.select_date)
     TextView mDate;
+    @InjectView(R.id.text)
+    TextView mText;
     private List<Child> mChildren;
 
     private BabyProfileRequest request = new BabyProfileRequest();
@@ -62,6 +65,9 @@ public class NewbornActivity extends BaseActivity implements DatePickerDialog.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sendAnalyticsScreenName(R.string.screen_congratulations);
+
+        mText.setText(ResourcesUtil.getString(this, "newborn_text"));
+
         enableFullscreen();
         mAdapter = new NewbornAdapter(NewbornActivity.this);
         mAdapter.setCallback(new NewbornAdapter.Callback() {

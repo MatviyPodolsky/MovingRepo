@@ -251,7 +251,8 @@ public class SetupProfileActivity extends BaseActivity {
 
             if (wasChanged) {
                 ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_edit_profile_title,
-                        R.string.dialog_edit_profile_message, R.string.dialog_edit_profile_confirm,
+                        R.string.dialog_edit_profile_message,
+                        R.string.dialog_edit_profile_confirm,
                         R.string.dialog_edit_profile_cancel);
                 dialog.setCallback(new DialogCallback() {
                     @Override

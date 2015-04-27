@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--profile card-->
+    <string name="male_click_to_select_date">"اضغط لاختيار التاريخ"</string>
+
+    <!--summary-->
+    <string name="male_summary_read_more">"اقرأ"</string>
+
+    <!--my tests-->
+    <string name="male_my_tests_title">"الفحوصات"</string>
+    <string name="male_read_more">"اقرئي المزيد"</string>
+    <string name="male_add_reminder">"اضف تذكير"</string>
+
+    <!--confirm dialogs-->
+
+    <string name="male_dialog_logout_message">"يؤسفنا انك تود الخروج، هل انت متاكد من انك تريد الخروج؟"</string>
+    <string name="male_dialog_reset_message">"هل ترغب باعادة ضبط التطبيق؟ الموافقة على هذه الخطوة سوف تؤدي الى اختفاء جميع محتويات التطبيق."</string>
+
     <!--save_photo-->
-    <string name="male_hint_comment">male hint comment</string>
+    <string name="male_hint_comment">"لحظة لا تنتسى، اكتب بعض الكلمات عن هذه اللحظة المميزة"</string>
+
+    <!--newborn-->
+    <string name="male_newborn_text">"رجاء قم بكتابة تفاصيل ابنك وتعبئة الخانات، لكي نستطيع ان نساعدك ونكمل الطريق معا في الاشهر والسنين الاولى من الولادة"</string>
 
 </resources>

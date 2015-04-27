@@ -26,6 +26,7 @@ import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.BabyGeneralResponse;
 import com.sdex.webteb.service.ApiActionService;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.ResourcesUtil;
 import com.sdex.webteb.view.switchbutton.SwitchButton;
 
 import java.util.List;
@@ -143,8 +144,10 @@ public class SettingsFragment extends BaseMainFragment {
 
     @OnClick(R.id.logout_container)
     public void logout(View v) {
+        int messageRes = ResourcesUtil.getStringRes(getActivity(), "dialog_logout_message");
         ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_logout_title,
-                R.string.dialog_logout_message, R.string.dialog_logout_confirm,
+                messageRes,
+                R.string.dialog_logout_confirm,
                 R.string.dialog_logout_cancel);
         dialog.setCallback(new DialogCallback.EmptyCallback() {
             @Override
@@ -189,8 +192,11 @@ public class SettingsFragment extends BaseMainFragment {
 
     @OnClick(R.id.reset_container)
     public void reset() {
+        int messageRes = ResourcesUtil.getStringRes(getActivity(), "dialog_reset_message");
+
         ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_reset_title,
-                R.string.dialog_reset_message, R.string.dialog_reset_confirm,
+                messageRes,
+                R.string.dialog_reset_confirm,
                 R.string.dialog_reset_cancel);
         dialog.setCallback(new DialogCallback.EmptyCallback() {
             @Override

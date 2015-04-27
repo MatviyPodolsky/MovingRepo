@@ -18,6 +18,7 @@ import com.sdex.webteb.fragments.BaseFragment;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
 import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.ResourcesUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -56,6 +57,9 @@ public class BirthDateFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mDate.setText(ResourcesUtil.getString(getActivity(), "click_to_select_date"));
+
         Bundle data = getArguments();
         selectCategory(LAST_PERIOD);
         if (data != null) {

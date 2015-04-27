@@ -62,6 +62,7 @@ import com.sdex.webteb.utils.AdUtil;
 import com.sdex.webteb.utils.DateUtil;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.ResourcesUtil;
 import com.sdex.webteb.utils.Utils;
 import com.sdex.webteb.view.CenteredRecyclerView;
 import com.sdex.webteb.view.slidinguppanel.SlideListenerAdapter;
@@ -108,6 +109,8 @@ public class HomeFragment extends PhotoFragment {
     TextView testTitle;
     @InjectView(R.id.summary_show_tests)
     Button showTests;
+    @InjectView(R.id.summary_articles)
+    Button showArticles;
     @InjectView(R.id.divider1)
     View testsDivider;
     @InjectViews({R.id.summary_image1, R.id.summary_image2, R.id.summary_image3})
@@ -169,6 +172,9 @@ public class HomeFragment extends PhotoFragment {
         super.onViewCreated(view, savedInstanceState);
         databaseHelper = DatabaseHelper.getInstance(getActivity());
         preferencesManager = PreferencesManager.getInstance();
+
+        showTests.setText(ResourcesUtil.getString(getActivity(), "summary_read_more"));
+        showArticles.setText(ResourcesUtil.getString(getActivity(), "summary_read_more"));
 
         showProgress();
 
@@ -629,7 +635,7 @@ public class HomeFragment extends PhotoFragment {
         if (!isAdded()) {
             return;
         }
-        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+
         BabyHomeResponse.Card card = babyHomeResponse.getCard();
         String username = card.getName();
         int currentWeek = card.getCurrentWeek();
