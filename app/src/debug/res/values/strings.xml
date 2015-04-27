@@ -9,10 +9,10 @@
 
     <!--login & registration-->
     <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="register">Register</string> <!---->
     <string name="username">Username</string>
     <string name="title_forgot_password">Forgot password</string>
-    <string name="confirm_username">Confirm username</string>
+    <string name="confirm_username">Confirm username</string> <!--useless-->
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
@@ -123,7 +123,7 @@
     <string name="cancel">Cancel</string>
     <string name="album_title"><![CDATA[My <b>%1$s</b>  album]]></string>
     <string name="album_text">" album"</string>
-    <string name="album_empty_text">Album is empty</string>
+    <string name="album_empty_text">Album is empty</string> <!---->
     <string name="take_photo_button_title">photo</string>
     <string name="save">Save</string>
     <string name="add_new_photo_title">Add image</string>
