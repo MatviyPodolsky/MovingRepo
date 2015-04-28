@@ -27,4 +27,17 @@ public class ResourcesUtil {
         return context.getResources().getIdentifier(resName, "string", context.getPackageName());
     }
 
+    public static String [] getStringArray(Context context, String name) {
+        PreferencesManager preferencesManager = PreferencesManager.getInstance();
+        int relationType = preferencesManager.getGender();
+        String resName;
+        if (relationType == PreferencesManager.MALE) {
+            resName = PREFIX_MALE + name;
+        } else {
+            resName = name;
+        }
+        int arrayId = context.getResources().getIdentifier(resName, "array", context.getPackageName());
+        return context.getResources().getStringArray(arrayId);
+    }
+
 }

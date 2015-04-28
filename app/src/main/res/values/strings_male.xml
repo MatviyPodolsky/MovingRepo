@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--menu-->
+
+    <string-array name="male_menu_item_titles">
+        <item>"فحوصاتي"</item>
+        <item>"ألبوم صوري"</item>
+        <item>"البحث عن طبيب"</item>
+        <item>"المزيد من المقالات"</item>
+        <item>"اعدادات"</item>
+        <item>"حول التطبيق"</item>
+        <item>"اتصل بنا"</item>
+    </string-array>
+
     <!--profile card-->
     <string name="male_click_to_select_date">"اضغط لاختيار التاريخ"</string>
 

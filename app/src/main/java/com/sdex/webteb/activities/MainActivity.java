@@ -46,6 +46,7 @@ import com.sdex.webteb.model.SideMenuItem;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.request.NotificationTappedRequest;
 import com.sdex.webteb.utils.KeyboardUtils;
+import com.sdex.webteb.utils.ResourcesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,7 +167,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         View menuHeader = inflater.inflate(R.layout.menu_list_header, mDrawerList, false);
         mDrawerList.addHeaderView(menuHeader, null, true);
 
-        String[] titles = getResources().getStringArray(R.array.menu_item_titles);
+        String[] titles = ResourcesUtil.getStringArray(this, "menu_item_titles");
+
         TypedArray icons = getResources().obtainTypedArray(R.array.menu_item_icons);
 
         if (titles.length != icons.length()) {
