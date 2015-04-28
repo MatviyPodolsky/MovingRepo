@@ -15,7 +15,7 @@
 
     <!--profile card-->
     <string name="male_click_to_select_date">"اضغط لاختيار التاريخ"</string>
-    <string name="are_u_sure_u_want_to_delete_child">"هل انت متاكد انك تريد حذف الطفل؟"</string>
+    <string name="male_are_u_sure_u_want_to_delete_child">"هل انت متاكد انك تريد حذف الطفل؟"</string>
 
     <!--summary-->
     <string name="male_summary_read_more">"اقرأ"</string>

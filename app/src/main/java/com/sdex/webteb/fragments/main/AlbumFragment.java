@@ -31,6 +31,7 @@ import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
 import com.sdex.webteb.utils.PreferencesManager;
+import com.sdex.webteb.utils.ResourcesUtil;
 import com.sdex.webteb.utils.ShareIntents;
 import com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView;
 
@@ -171,8 +172,10 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
 
     @OnClick(R.id.btn_delete_photo)
     void deletePhoto() {
+        int messageRes = ResourcesUtil.getStringRes(getActivity(), "are_u_sure_u_want_to_delete_child");
         ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_delete_photo_title,
-                R.string.dialog_delete_photo_message, R.string.dialog_delete_photo_confirm,
+                messageRes,
+                R.string.dialog_delete_photo_confirm,
                 R.string.dialog_delete_photo_cancel);
         dialog.setCallback(new DialogCallback.EmptyCallback() {
             @Override
