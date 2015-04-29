@@ -33,14 +33,14 @@
                 android:layout_below="@+id/notifications_container" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/content_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@+id/profile_card"
-                android:layout_centerHorizontal="true"
-                android:clipToPadding="false"
-                android:paddingBottom="@dimen/time_navigation_controller_size" />
+            android:id="@+id/content_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/profile_card"
+            android:layout_centerHorizontal="true"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/time_navigation_controller_size" />
 
             <FrameLayout
                 android:id="@+id/progress_view"

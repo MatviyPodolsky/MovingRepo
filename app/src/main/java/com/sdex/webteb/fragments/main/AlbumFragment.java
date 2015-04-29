@@ -172,7 +172,7 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
 
     @OnClick(R.id.btn_delete_photo)
     void deletePhoto() {
-        int messageRes = ResourcesUtil.getStringRes(getActivity(), "are_u_sure_u_want_to_delete_child");
+        int messageRes = ResourcesUtil.getStringRes(getActivity(), "dialog_delete_photo_message");
         ConfirmDialog dialog = ConfirmDialog.newInstance(R.string.dialog_delete_photo_title,
                 messageRes,
                 R.string.dialog_delete_photo_confirm,

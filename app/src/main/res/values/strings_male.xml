@@ -22,18 +22,24 @@
 
     <!--my tests-->
     <string name="male_my_tests_title">"الفحوصات"</string>
-    <string name="male_read_more">"اقرئي المزيد"</string>
+    <string name="male_read_more">"اقرأ المزيد"</string>
     <string name="male_add_reminder">"اضف تذكير"</string>
 
     <!--confirm dialogs-->
 
     <string name="male_dialog_logout_message">"يؤسفنا انك تود الخروج، هل انت متاكد من انك تريد الخروج؟"</string>
     <string name="male_dialog_reset_message">"هل ترغب باعادة ضبط التطبيق؟ الموافقة على هذه الخطوة سوف تؤدي الى اختفاء جميع محتويات التطبيق."</string>
+    <string name="male_dialog_delete_photo_message">"هل انت متاكد انك تريد حذف الصورة؟"</string>
 
     <!--save_photo-->
     <string name="male_hint_comment">"لحظة لا تنتسى، اكتب بعض الكلمات عن هذه اللحظة المميزة"</string>
 
     <!--newborn-->
     <string name="male_newborn_text">"رجاء قم بكتابة تفاصيل ابنك وتعبئة الخانات، لكي نستطيع ان نساعدك ونكمل الطريق معا في الاشهر والسنين الاولى من الولادة"</string>
+
+    <!--home-->
+    <string name="male_age_in_month">"عمر طفلك %1$d شهر"</string>
+    <string name="male_age_in_years">"عمر طفلك %1$d سنوات"</string>
+    <string name="male_age_in_years_and_month">"عمر طفلك %1$d سنوات  %2$d شهر"</string>
 
 </resources>

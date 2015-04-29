@@ -60,14 +60,14 @@ public final class Utils {
             currentDate = String.format(context.getString(R.string.age_in_week), currentDateValue);
         } else {
             if (currentDateValue < 12) {
-                currentDate = String.format(context.getString(R.string.age_in_month), currentDateValue);
+                currentDate = String.format(ResourcesUtil.getString(context, "age_in_month"), currentDateValue);
             } else if (currentDateValue % 12 == 0) {
                 int years = currentDateValue / 12;
-                currentDate = String.format(context.getString(R.string.age_in_years), years);
+                currentDate = String.format(ResourcesUtil.getString(context, "age_in_years"), years);
             } else {
                 int years = currentDateValue / 12;
                 int month = currentDateValue % 12;
-                currentDate = String.format(context.getString(R.string.age_in_years_and_month), years, month);
+                currentDate = String.format(ResourcesUtil.getString(context, "age_in_years_and_month"), years, month);
             }
         }
         return currentDate;
