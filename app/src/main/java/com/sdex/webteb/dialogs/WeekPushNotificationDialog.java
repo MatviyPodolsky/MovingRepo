@@ -20,8 +20,8 @@ public class WeekPushNotificationDialog extends BaseDialog {
 
     @InjectView(R.id.title)
     TextView mTitle;
-//    @InjectView(R.id.content)
-//    TextView mContent;
+    @InjectView(R.id.content)
+    TextView mContent;
 
     public static BaseDialog newInstance() {
         BaseDialog dialog = new WeekPushNotificationDialog();
@@ -34,9 +34,9 @@ public class WeekPushNotificationDialog extends BaseDialog {
         super.onViewCreated(view, savedInstanceState);
         Bundle args = getArguments();
         String title = args.getString(MainActivity.NOTIFICATION_TITLE);
-//        String content = args.getString(MainActivity.NOTIFICATION_CONTENT);
+        String content = args.getString(MainActivity.NOTIFICATION_CONTENT);
         mTitle.setText(title);
-//        mContent.setText(content);
+        mContent.setText(content);
     }
 
     @Override
