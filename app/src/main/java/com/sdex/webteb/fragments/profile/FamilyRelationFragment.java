@@ -46,6 +46,8 @@ public class FamilyRelationFragment extends BaseFragment {
             relationPosition = DEFAULT_RELATION_POSITION;
         }
         relationPosition = relationPosition < 1 ? 1 : relationPosition;
+        //according to parameter changes
+        relationPosition = relationPosition > 2 ? 1 : relationPosition;
         ((SetupProfileActivity) getActivity()).setFamilyRelation(relationPosition);
         relation.setText(relations[relationPosition - 1]);
     }

@@ -26,11 +26,6 @@
     <string-array name="relations">
         <item>"الأم"</item>
         <item>"الاب"</item>
-        <item>"الاخ"</item>
-        <item>"الاخت"</item>
-        <item>"الجدة"</item>
-        <item>"الجد"</item>
-        <item>"صديق"</item>
     </string-array>
 
     <string-array name="countries">
