@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.sdex.webteb.R;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
+import com.sdex.webteb.dialogs.SecurityAgreementDialog;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -156,7 +157,7 @@ public class RegisterActivity extends FacebookAuthActivity {
 
     @OnClick(R.id.link2)
     public void showTOS(final View v) {
-        DialogFragment newFragment = TermsOfServiceDialog.newInstance();
+        DialogFragment newFragment = SecurityAgreementDialog.newInstance();
         newFragment.show(getSupportFragmentManager(), null);
     }
 

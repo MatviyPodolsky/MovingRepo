@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.adapters.TutorialPageAdapter;
+import com.sdex.webteb.dialogs.SecurityAgreementDialog;
 import com.sdex.webteb.dialogs.TermsOfServiceDialog;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.utils.PreferencesManager;
@@ -80,7 +81,7 @@ public class WelcomeActivity extends FacebookAuthActivity {
 
     @OnClick(R.id.link2)
     public void showSA(final View v) {
-        DialogFragment newFragment = TermsOfServiceDialog.newInstance();
+        DialogFragment newFragment = SecurityAgreementDialog.newInstance();
         newFragment.show(getSupportFragmentManager(), "dialog");
     }
 
