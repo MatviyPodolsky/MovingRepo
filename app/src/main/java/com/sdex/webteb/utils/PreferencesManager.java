@@ -149,7 +149,7 @@ public class PreferencesManager {
     }
 
     public String getCurrentDate() {
-        return mPref.getString(CURRENT_DATE, null);
+        return mPref.getString(CURRENT_DATE, "0");
     }
 
     public int getCurrentDateType() {
