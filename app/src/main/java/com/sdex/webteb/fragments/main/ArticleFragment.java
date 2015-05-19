@@ -8,7 +8,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -47,8 +46,6 @@ public class ArticleFragment extends BaseMainFragment {
     WebView mContentView;
     @InjectView(R.id.title)
     TextView mTitle;
-    @InjectView(R.id.share)
-    ImageButton mShareButton;
     @InjectView(R.id.btn_next_article)
     Button mNextArticle;
     @InjectView(R.id.progress)
@@ -132,7 +129,7 @@ public class ArticleFragment extends BaseMainFragment {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    @OnClick(R.id.share)
+    @OnClick({R.id.share, R.id.share_button, R.id.share_text})
     void share() {
         final ContentLink article = mData.get(currentPosition);
         ShareIntents.shareTextContent(getActivity(), article.getTitle(), article.getCanonicalUrl());
