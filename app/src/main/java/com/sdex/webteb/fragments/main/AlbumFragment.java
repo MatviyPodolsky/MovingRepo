@@ -124,7 +124,7 @@ public class AlbumFragment extends PhotoFragment implements FragmentManager.OnBa
             }
         });
 
-        String title = getString(R.string.album_title);
+        String title = getString(R.string.album_title_children);
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
         DbUser user = databaseHelper.getUser(preferencesManager.getEmail());
         String[] childArray = user.getChildren().split("/");

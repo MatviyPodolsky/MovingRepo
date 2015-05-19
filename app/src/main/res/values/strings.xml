@@ -14,12 +14,12 @@
     <string name="login">"الدخول"</string>
     <string name="register">"التسجيل"</string>
     <string name="username">"اسم المستخدم"</string>
-    <string name="title_forgot_password">"نسيت كلمة المرور"</string>
+    <string name="title_forgot_password">"استعادة كلمة المرور"</string>
     <string name="confirm_username">"الموافقة على اسم المستخدم"</string>
-    <string name="email">"البريد الالكتروني"</string>
+    <string name="email">"البرید الالكتروني"</string>
     <string name="password">"كلمة المرور"</string>
     <string name="confirm_password">"الموافقة على كلمة المرور"</string>
-    <string name="sign_up">"سجل"</string>
+    <string name="sign_up">"تسجیل"</string>
     <string name="login_with_facebook">"الدخول من خلال الفيس بوك"</string>
     <string name="forgot_password"><u>"نسيت كلمة المرور"</u></string>
     <string name="type_your_email_here">"الرجاء تسجيل بريدك الالكتروني هنا"</string>
@@ -27,7 +27,7 @@
     <string name="create_your_profile">"انشاء ملفك شخصي"</string>
     <string name="email_is_not_registered">"البريد الالكتروني غير مسجل"</string>
     <string name="your_password_was_sent_to_your_email">"تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
-    <string name="agree_to_newsletter">"المواقة على النشرة الالكترونية"</string>
+    <string name="agree_to_newsletter">"ارسلوا لي النشرة الالكترونیة"</string>
     <string name="please_enter_username">"الرجاء ادخال اسم المستخدم"</string>
     <string name="please_enter_email">"أدخل بريدك الألكتروني""</string>
     <string name="please_enter_password">"اكتبي الكلمة السرية"</string>
@@ -38,12 +38,13 @@
     <!--restore password-->
     <string name="positive_restore_message">"لقد تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
     <string name="negative_restore_message">"لم نتمكن من التحقق من بريدك الالكتروني"</string>
+    <string name="enter_your_email">"الرجاء ادخال بریدك الالكتروني"</string>
 
     <!--terms of use-->
-    <string name="in_the_registration_process_agree_on">"في عملية التسجيل الاتفاق على"</string>
+    <string name="in_the_registration_process_agree_on">"عند التسجيل انت توافق على شروط التطبيق"</string>
     <string name="terms_of_use">"<u>شروط الاستخدام</u>"</string>
     <string name="and">" و "</string>
-    <string name="security_agreement">"<u>الاتفاقية الأمنية</u>"</string>
+    <string name="security_agreement">"<u>اتفاقية الخصوصية</u>"</string>
     <string name="terms_of_use_text">"كل المواد الطبية و/أو العلاجية و/أو الدوائية التي تظهر بهذا التطبيق، هي بمثابة معلومات عامة فقط، ولا يجب اعتبارها، بأي حال، "استشارة طبية" و/ أو "توصية علاجية" و/أو" بديلاً لعلاج طبي شخصي". المعلومات في هذا التطبيق تعتبر عامة ولا يمكن ملاءمتها بشكل خاص لاحتياجات كل شخص، بناء على ذلك، لتلقي علاج طبي شخصي و/أو استشارة طبية شخصية يجب التوجه لطبيب أو طبيبة.
 
 استعمال التطبيق "الحمل وتربية الاطفال-" (Teb-Baby) والمعلومات المعروضة  فيه  يكون وفقا لشروط الاستخدام
@@ -96,11 +97,34 @@
     <string name="month">"%1$s أشهر"</string>
     <string name="dialog_notification_week_confirm">"أجل، قمت بهذا"</string>
     <string name="dialog_notification_week_cancel">"ليس بعد"</string>
+
+    <!--age-->
     <string name="age_in_week">"%1$d الاسبوع"</string>
+    <string name="first_month">الشهر الاول</string>
+
     <string name="age_in_month">"العمر %1$d شهر"</string>
     <string name="age_in_years">"العمر %1$d سنوات"</string>
     <string name="age_in_years_and_month">"العمر %1$d سنوات  %2$d شهر"</string>
-    <string name="first_month">الشهر الاول</string>
+
+    <string name="age_1_month">"شهراً واحداً"</string>
+    <string name="age_2_months">"شهرين"</string>
+    <string name="age_3_10_months">"%1$d أشهر"</string>
+    <string name="age_11_24_months">"%1$d شهراً"</string>
+    <string name="age_2_years_1_month">"سنتين وشهراً واحداً"</string>
+    <string name="age_2_years_2_months">"سنتين وشهرين"</string>
+    <string name="age_2_years_3_10_months">"سنتين و %1$d أشهر"</string>
+    <string name="age_2_years_11_months">"سنتين و 11 شهراً"</string>
+    <string name="age_3_10_years">"%1$d سنوات"</string>
+    <string name="age_3_10_years_1_month">"%1$d سنوات و شهراً واحداً"</string>
+    <string name="age_3_10_years_2_months">"%1$d سنوات و شهرين"</string>
+    <string name="age_3_10_years_3_10_months">"%1$d سنوات و %2$d أشهر"</string>
+    <string name="age_3_10_years_11_months">"%1$d سنوات و 11 شهراً"</string>
+    <string name="age_more_11_years">"%1$d سنة"</string>
+    <string name="age_more_11_years_1_month">"%1$d سنة وشهراً واحداً"</string>
+    <string name="age_more_11_years_2_months">"%1$d سنة وشهرين"</string>
+    <string name="age_more_11_years_3_10_months">"%1$d سنة و %2$d أشهر"</string>
+    <string name="age_more_11_years_11_months">"%1$d سنة و 11 شهراً"</string>
+
 
     <!--summary-->
     <string name="tests">"فحوصات"</string>
@@ -121,7 +145,7 @@
     <string name="search_doctor">"البحث عن طبيب"</string>
     <string name="add_reminder">"اضيفي تذكير"</string>
     <string name="delete_reminder">"الغاء التذكير"</string>
-    <string name="done_test">"اجريت الفحص"</string>
+    <string name="done_test">"تم اجراء الفحص"</string>
     <string name="undone_test">"لم اقم بالفحص"</string>
     <string name="reminder">"تذكير"</string>
     <string name="we_found_n_tests">"لقد وجدنا (%1$d) الاختبارات"</string>
@@ -131,27 +155,29 @@
     <string name="take_photo">"التقاط صورة"</string>
     <string name="select_photo">"اختر صورة"</string>
     <string name="cancel">"الغاء"</string>
-    <string name="album_title"><![CDATA["<b>%1$s</b> البوم صور"]]></string>
+    <string name="album_title"><![CDATA["البوم صور <b>%1$s</b>"]]></string>
+    <string name="album_title_constant">"البوم صور"</string>
+    <string name="album_title_children"><![CDATA["<b>%1$s</b>"]]></string>
     <string name="album_text">"ألبوم الصور"</string>
-    <string name="album_empty_text">"ألبوم الصور فارغ"</string>
+    <string name="album_empty_text">"لا یوجد صور"</string>
     <string name="take_photo_button_title">"صورة"</string>
     <string name="save">"حفظ"</string>
-    <string name="add_new_photo_title">"أضف صورة"</string>
-    <string name="me">"أنا"</string>
-    <string name="add_tag">"+ أضف"</string>
+    <string name="add_new_photo_title">"اضافة صورة"</string>
+    <string name="me">"انا"</string>
+    <string name="add_tag">"اضافة اشارة في الصورة"</string>
     <string name="add">"أضف"</string>
 
     <!--search doctor-->
-    <string name="country">"الدولة"</string>
+    <string name="country">"جمیع الدول"</string>
     <string name="specialty">"التخصص"</string>
-    <string name="doctor_name">"اسم الطبيب"</string>
+    <string name="doctor_name">"اسم الطبیب"</string>
     <string name="search">"بحث"</string>
     <string name="found_n_doctors">%1$d/%2$d</string>
     <string name="no_doctors_found">"لم نعثر على طبيب"</string>
     <string name="turn_location_options">"رجاء، قومي بتشغيل امكانية "تحديد الموقع" في الجهاز ان اردتي اختيار البحث في موقعك الحالي"</string>
     <string name="any_country">"جميع الدول"</string>
     <string name="any_city">"جميع المدن"</string>
-    <string name="any_speciality">"جميع التخصصات"</string>
+    <string name="any_speciality">"جمیع التخصصات"</string>
     <string name="error_not_found_title">"ابحث عن طبيب"</string>
     <string name="error_not_found_text">"لم نحصل على نتائح للبحث على"</string>
     <string name="please_select_country">"الرجاء اختيار البلد"</string>
@@ -227,7 +253,7 @@
     <string name="dialog_edit_profile_cancel">"الغاء"</string>
 
     <!--save_photo-->
-    <string name="hint_comment">"لحظة لا تنتسي، اوصفي بكلمات قليلة افكارك عن هذه اللحظة "</string>
+    <string name="hint_comment">"لحظة لا تنتسى، اكتب بعض الكلمات عن ھذه اللحظة الممیزة"</string>
 
     <!--newborn-->
     <string name="week_n">%1$d "الاسبوع"</string>

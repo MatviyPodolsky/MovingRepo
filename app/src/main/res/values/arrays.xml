@@ -4,8 +4,8 @@
     <!--menu-->
     <string name="title_home">"الرئيسية"</string>
     <string-array name="menu_item_titles">
-        <item>"فحوصاتي"</item>
-        <item>"ألبوم صوري"</item>
+        <item>"الفحوصات"</item>
+        <item>"البوم الصور"</item>
         <item>"البحث عن طبيب"</item>
         <item>"المزيد من المقالات"</item>
         <item>"اعدادات"</item>
@@ -29,7 +29,7 @@
     </string-array>
 
     <string-array name="countries">
-        <item>"كل الدول"</item>
+        <item>"جمیع الدول"</item>
         <item>المملكة العربية السعودية</item>
         <item>مصر</item>
         <item>العراق</item>

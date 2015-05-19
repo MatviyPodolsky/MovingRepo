@@ -19,6 +19,7 @@ import com.sdex.webteb.dialogs.DialogCallback;
 import com.sdex.webteb.dialogs.PhotoDialog;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.main.SettingsFragment;
+import com.sdex.webteb.fragments.profile.BirthDateFragment;
 import com.sdex.webteb.model.Child;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
@@ -215,8 +216,10 @@ public class SetupProfileActivity extends BaseActivity {
         String currentDate;
         if (dateType == PreferencesManager.DATE_TYPE_MONTH && dateValue == 0){
             currentDate = getString(R.string.first_month);
+        } else if (dateValue == BirthDateFragment.EMPTY_DATA) {
+            currentDate = "";
         } else {
-            currentDate = Utils.dateBuilder(SetupProfileActivity.this, dateValue, dateType);
+            currentDate = Utils.dateBuilder(this, dateValue, dateType);
         }
         newDateValue = dateValue;
         newDateType = dateType;

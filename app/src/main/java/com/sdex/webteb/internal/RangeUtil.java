@@ -18,7 +18,6 @@ public class RangeUtil {
                 return period;
             }
         }
-        return null;
+        return periods.get(0);
     }
-
 }

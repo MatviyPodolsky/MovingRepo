@@ -59,15 +59,68 @@ public final class Utils {
         } else if (dateType == PreferencesManager.DATE_TYPE_WEEK) {
             currentDate = String.format(context.getString(R.string.age_in_week), currentDateValue);
         } else {
-            if (currentDateValue < 12) {
-                currentDate = String.format(ResourcesUtil.getString(context, "age_in_month"), currentDateValue);
-            } else if (currentDateValue % 12 == 0) {
-                int years = currentDateValue / 12;
-                currentDate = String.format(ResourcesUtil.getString(context, "age_in_years"), years);
+            int years = currentDateValue / 12;
+            int months = currentDateValue % 12;
+            if (currentDateValue == 1) {
+//                currentDate = ResourcesUtil.getString(context, "age_1_month");
+                currentDate = context.getString(R.string.age_1_month);
+            } else if (currentDateValue == 2) {
+//                currentDate = ResourcesUtil.getString(context, "age_2_months");
+                currentDate = context.getString(R.string.age_2_months);
+            } else if (currentDateValue >= 3 && currentDateValue <= 10) {
+//                currentDate = String.format(ResourcesUtil.getString(context, "age_3_10_months"), currentDateValue);
+                currentDate = String.format(context.getString(R.string.age_3_10_months), currentDateValue);
+            } else if (currentDateValue >= 11 && currentDateValue <= 24) {
+//                currentDate = String.format(ResourcesUtil.getString(context, "age_11_24_months"), currentDateValue);
+                currentDate = String.format(context.getString(R.string.age_11_24_months), currentDateValue);
+            } else if (currentDateValue == 25) {
+//                currentDate = ResourcesUtil.getString(context, "age_2_years_1_month");
+                currentDate = context.getString(R.string.age_2_years_1_month);
+            } else if (currentDateValue == 26) {
+//                currentDate = ResourcesUtil.getString(context, "age_2_years_2_months");
+                currentDate = context.getString(R.string.age_2_years_2_months);
+            } else if (currentDateValue >= 27 && currentDateValue <= 34) {
+//                currentDate = String.format(ResourcesUtil.getString(context, "age_2_years_3_10_months"), months);
+                currentDate = String.format(context.getString(R.string.age_2_years_3_10_months), months);
+            } else if (currentDateValue == 35) {
+//                currentDate = ResourcesUtil.getString(context, "age_2_years_11_months");
+                currentDate = context.getString(R.string.age_2_years_11_months);
             } else {
-                int years = currentDateValue / 12;
-                int month = currentDateValue % 12;
-                currentDate = String.format(ResourcesUtil.getString(context, "age_in_years_and_month"), years, month);
+                if (years >= 3 && years <= 10) {
+                    if (months == 0) {
+//                        currentDate = String.format(ResourcesUtil.getString(context, "age_3_10_years"), years);
+                        currentDate = String.format(context.getString(R.string.age_3_10_years), years);
+                    } else if (months == 1) {
+//                        currentDate = String.format(ResourcesUtil.getString(context, "age_3_10_years_1_month"), years);
+                        currentDate = String.format(context.getString(R.string.age_3_10_years_1_month), years);
+                    } else if (months == 2) {
+//                        currentDate = String.format(ResourcesUtil.getString(context, "age_3_10_years_2_months"), years);
+                        currentDate = String.format(context.getString(R.string.age_3_10_years_2_months), years);
+                    } else if (months == 11) {
+//                        currentDate = String.format(ResourcesUtil.getString(context, "age_3_10_years_11_months"), years);
+                        currentDate = String.format(context.getString(R.string.age_3_10_years_11_months), years);
+                    } else {
+//                        currentDate = String.format(ResourcesUtil.getString(context, "age_3_10_years_3_10_months"), years, months);
+                        currentDate = String.format(context.getString(R.string.age_3_10_years_3_10_months), years, months);
+                    }
+                } else {
+                    if (months == 0) {
+//                        currentDate = String.format(ResourcesUtil.getString(context, "age_more_11_years"), years);
+                        currentDate = String.format(context.getString(R.string.age_more_11_years), years);
+                    } else if (months == 1) {
+//                        currentDate = String.format(ResourcesUtil.getString(context, "age_more_11_years_1_month"), years);
+                        currentDate = String.format(context.getString(R.string.age_more_11_years_1_month), years);
+                    } else if (months == 2) {
+//                        currentDate = String.format(ResourcesUtil.getString(context, "age_more_11_years_2_months"), years);
+                        currentDate = String.format(context.getString(R.string.age_more_11_years_2_months), years);
+                    } else if (months == 11) {
+//                        currentDate = String.format(ResourcesUtil.getString(context, "age_more_11_years_11_months"), years);
+                        currentDate = String.format(context.getString(R.string.age_more_11_years_11_months), years);
+                    } else {
+//                        currentDate = String.format(ResourcesUtil.getString(context, "age_more_11_years_3_10_months"), years, months);
+                        currentDate = String.format(context.getString(R.string.age_more_11_years_3_10_months), years, months);
+                    }
+                }
             }
         }
         return currentDate;
