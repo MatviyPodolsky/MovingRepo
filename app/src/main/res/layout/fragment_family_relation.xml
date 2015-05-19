@@ -47,6 +47,7 @@
             <!--android:background="@color/primary" />-->
 
         <TextView
+            android:id="@+id/family_relation_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"

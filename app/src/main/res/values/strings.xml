@@ -24,7 +24,7 @@
     <string name="forgot_password"><u>"نسيت كلمة المرور"</u></string>
     <string name="type_your_email_here">"الرجاء تسجيل بريدك الالكتروني هنا"</string>
     <string name="restore_password">"استعادة كلمة المرور"</string>
-    <string name="create_your_profile">"انشاء ملفك شخصي"</string>
+    <string name="create_your_profile">"اعداد الملف الشخصي"</string>
     <string name="email_is_not_registered">"البريد الالكتروني غير مسجل"</string>
     <string name="your_password_was_sent_to_your_email">"تم ارسال كلمة المرور الى بريدك الالكتروني"</string>
     <string name="agree_to_newsletter">"ارسلوا لي النشرة الالكترونیة"</string>
@@ -44,7 +44,7 @@
     <string name="in_the_registration_process_agree_on">"عند التسجيل انت توافق على شروط التطبيق"</string>
     <string name="terms_of_use">"<u>شروط الاستخدام</u>"</string>
     <string name="and">" و "</string>
-    <string name="security_agreement">"<u>اتفاقية الخصوصية</u>"</string>
+    <string name="security_agreement">"<u>اتفاقیة الخصوصیة</u>"</string>
     <string name="terms_of_use_text">"كل المواد الطبية و/أو العلاجية و/أو الدوائية التي تظهر بهذا التطبيق، هي بمثابة معلومات عامة فقط، ولا يجب اعتبارها، بأي حال، "استشارة طبية" و/ أو "توصية علاجية" و/أو" بديلاً لعلاج طبي شخصي". المعلومات في هذا التطبيق تعتبر عامة ولا يمكن ملاءمتها بشكل خاص لاحتياجات كل شخص، بناء على ذلك، لتلقي علاج طبي شخصي و/أو استشارة طبية شخصية يجب التوجه لطبيب أو طبيبة.
 
 استعمال التطبيق "الحمل وتربية الاطفال-" (Teb-Baby) والمعلومات المعروضة  فيه  يكون وفقا لشروط الاستخدام
@@ -59,12 +59,12 @@
     <string name="done">"انهاء"</string>
     <string name="family_relation">"العلاقة العائلية"</string>
     <string name="click_to_select_family_relation">"اضغطي لاختيار العلاقة العائلية"</string>
-    <string name="last_period_first_day">"الدورة الشهرية (الحيض) الأخيرة"</string>
+    <string name="last_period_first_day">"الحيض الاخير"</string>
     <string name="expected_birth_date">"تاريخ الولادة المتوقع"</string>
     <string name="birth_date">"تاريخ الميلاد"</string>
     <string name="date">"يوم"</string>
     <string name="click_to_select_date">"اضغطي لاختيار التاريخ"</string>
-    <string name="type_child_name">"كتابة أسم الطفل"</string>
+    <string name="type_child_name">"كتابة اسم الطفل"</string>
     <string name="add_child">"أضافة طفل"</string>
     <string name="male">"ذكر"</string>
     <string name="female">"انثى"</string>
@@ -75,16 +75,16 @@
     <string name="birth_date_cant_be_in_future">"تاريخ الميلاد لا يمكن ان يكون بالمستقبل"</string>
     <string name="last_period_cant_be_in_future">"تاريخ الدورة الشهرية لا يمكن ان يكون بالمستقبل"</string>
     <string name="expected_birth_date_cant_be_in_past">"تاريخ الولادة المتوقع لا يمكن ان يكون بالماضي"</string>
-    <string name="last_period_description">"تاريخ آخر يوم في الدورة الشهرية لا يمكن ان يكون بالمستقبل"</string>
-    <string name="expected_birth_date_description">"تاريخ الولادة المتوقع لا يمكن ان يكون بالماضي"</string>
-    <string name="birth_date_description">"تاريخ الميلاد لا يمكن ان يكون بالمستقبل"</string>
+    <string name="last_period_description">"الرجاء ادخال موعد الحیض الاخیر"</string>
+    <string name="expected_birth_date_description">"ادخال تاریخ الولادة المتوقع"</string>
+    <string name="birth_date_description">"في حال تمت الولادة، الرجاء ادخال تاریخ المیلاد"</string>
     <string name="children_count">%1$d "أطفال"</string>
     <string name="child_count">1 "طفل"</string>
     <string name="title_childs">"أطفال"</string>
     <string name="yes">"نعم"</string>
     <string name="no">"كلا"</string>
     <string name="are_u_sure_u_want_to_delete_child">"هل انت متأكدة انك تريدين حذف الطفل؟"</string>
-    <string name="identify_family_relationship">تحديد العلاقة العائلية</string>
+    <string name="identify_family_relationship">"انشاء الملف الشخصي"</string>
     <string name="please_choose">الرجاء اختيار</string>
 
     <!--home-->
@@ -153,14 +153,14 @@
 
     <!--album-->
     <string name="take_photo">"التقاط صورة"</string>
-    <string name="select_photo">"اختر صورة"</string>
+    <string name="select_photo">"اختیار صورة"</string>
     <string name="cancel">"الغاء"</string>
     <string name="album_title"><![CDATA["البوم صور <b>%1$s</b>"]]></string>
     <string name="album_title_constant">"البوم صور"</string>
     <string name="album_title_children"><![CDATA["<b>%1$s</b>"]]></string>
     <string name="album_text">"ألبوم الصور"</string>
     <string name="album_empty_text">"لا یوجد صور"</string>
-    <string name="take_photo_button_title">"صورة"</string>
+    <string name="take_photo_button_title">"صور"</string>
     <string name="save">"حفظ"</string>
     <string name="add_new_photo_title">"اضافة صورة"</string>
     <string name="me">"انا"</string>
@@ -253,7 +253,7 @@
     <string name="dialog_edit_profile_cancel">"الغاء"</string>
 
     <!--save_photo-->
-    <string name="hint_comment">"لحظة لا تنتسى، اكتب بعض الكلمات عن ھذه اللحظة الممیزة"</string>
+    <string name="hint_comment">"لحظة لا تنتسي، اوصفي بكلمات قليلة افكارك عن هذه اللحظة "</string>
 
     <!--newborn-->
     <string name="week_n">%1$d "الاسبوع"</string>
@@ -265,6 +265,7 @@
     <string name="loading">"جاري التحميل…"</string>
     <string name="retry">"المحاولة من جديد"</string>
     <string name="error_loading_title">"عفوا!"</string>
-    <string name="error_loading_text">"غير قادر على تحميل البيانات"</string>
+    <string name="error_loading_text">"حدث خطأ في الاتصال"</string>
+    <string name="share_article_text">"شارك"</string>
 
 </resources>
