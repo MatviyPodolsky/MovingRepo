@@ -53,14 +53,40 @@
                     android:layout_toLeftOf="@+id/btn_delete_photo"
                     android:layout_toStartOf="@+id/btn_delete_photo">
 
-                    <TextView
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/album_title"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:ellipsize="end"-->
+                        <!--android:gravity="center_horizontal"-->
+                        <!--android:id="@+id/title" />-->
+
+                    <LinearLayout
+                        android:id="@+id/title_conteiner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/album_title"
-                        android:singleLine="true"
-                        android:ellipsize="end"
-                        android:gravity="center_horizontal"
-                        android:id="@+id/title" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/album_title_children"
+                            android:singleLine="true"
+                            android:ellipsize="end"
+                            android:gravity="center_horizontal"
+                            android:id="@+id/title" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/album_title_constant"
+                            android:singleLine="true"
+                            android:ellipsize="end"
+                            android:gravity="center_horizontal"
+                            android:id="@+id/title_constant" />
+
+                    </LinearLayout>
 
                     <!--<TextView-->
                         <!--android:id="@+id/album_text"-->

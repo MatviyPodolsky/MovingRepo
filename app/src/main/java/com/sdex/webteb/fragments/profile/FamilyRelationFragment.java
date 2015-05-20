@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.sdex.webteb.R;
@@ -23,11 +24,14 @@ import butterknife.OnClick;
 public class FamilyRelationFragment extends BaseFragment {
 
     public static final int REQUEST_GET_RELATION = 0;
-    public static final int DEFAULT_RELATION_POSITION = 1; //Mother
     public static final String RELATIONS_LIST = "RELATIONS_LIST";
 
     @InjectView(R.id.family_relation)
     TextView relation;
+    @InjectView(R.id.family_relation_title)
+    TextView relationTitle;
+    @InjectView(R.id.next)
+    Button mBtnNext;
 
     @Override
     public int getLayoutResource() {
@@ -37,19 +41,22 @@ public class FamilyRelationFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setButtonEnabled(false);
         int relationPosition;
+        String relationText = "";
         Bundle data = getArguments();
         String[] relations = getResources().getStringArray(R.array.relations);
         if (data != null && data.containsKey(SetupProfileActivity.FAMILY_RELATION)) {
             relationPosition = data.getInt(SetupProfileActivity.FAMILY_RELATION, 1);
-        } else {
-            relationPosition = DEFAULT_RELATION_POSITION;
+            relationPosition = relationPosition < 1 ? 1 : relationPosition;
+            //according to parameter changes
+            relationPosition = relationPosition > 2 ? 1 : relationPosition;
+            ((SetupProfileActivity) getActivity()).setFamilyRelation(relationPosition);
+            relationText = relations[relationPosition - 1];
+            clearRelationTitle();
+            setButtonEnabled(true);
         }
-        relationPosition = relationPosition < 1 ? 1 : relationPosition;
-        //according to parameter changes
-        relationPosition = relationPosition > 2 ? 1 : relationPosition;
-        ((SetupProfileActivity) getActivity()).setFamilyRelation(relationPosition);
-        relation.setText(relations[relationPosition - 1]);
+        relation.setText(relationText);
     }
 
     @Override
@@ -59,12 +66,22 @@ public class FamilyRelationFragment extends BaseFragment {
                 case REQUEST_GET_RELATION:
                     String extra = data.getStringExtra(FamilyRelationDialog.EXTRA_RELATION);
                     relation.setText(extra);
+                    clearRelationTitle();
+                    setButtonEnabled(true);
                     int relationPosition = data.getIntExtra(FamilyRelationDialog.EXTRA_POSITION, 0);
                     //relation IDs begins from 1. 0 means "Not set".
                     ((SetupProfileActivity) getActivity()).setFamilyRelation(relationPosition + 1);
                     break;
             }
         }
+    }
+
+    private void setButtonEnabled(boolean isEnabled) {
+        mBtnNext.setEnabled(isEnabled);
+    }
+
+    private void clearRelationTitle() {
+        relationTitle.setText("");
     }
 
     @OnClick(R.id.next)
