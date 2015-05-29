@@ -368,9 +368,10 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 mTitle.setVisibility(View.GONE);
                 return new MoreArticlesFragment();
             case 5:
-                mLogo.setVisibility(View.GONE);
-                mTitle.setText(R.string.settings_title);
-                mTitle.setVisibility(View.VISIBLE);
+                mLogo.setVisibility(View.VISIBLE);
+                mTitle.setVisibility(View.GONE);
+//                mTitle.setText(R.string.settings_title);
+//                mTitle.setVisibility(View.VISIBLE);
                 return new SettingsFragment();
             case 6:
                 mLogo.setVisibility(View.GONE);

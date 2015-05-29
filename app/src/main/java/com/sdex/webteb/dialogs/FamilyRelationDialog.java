@@ -23,7 +23,7 @@ public class FamilyRelationDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final String[] values = getArguments().getStringArray(FamilyRelationFragment.RELATIONS_LIST);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getString(R.string.family_relation));
+        builder.setTitle(getString(R.string.select_family_relation));
         builder.setItems(values, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int index) {

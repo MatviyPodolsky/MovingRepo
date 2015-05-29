@@ -222,7 +222,7 @@ public class ChildrenAdapter extends BaseAdapter {
     private void selectFemale(ViewHolder holder) {
         clearMale(holder);
         clearUnknown(holder);
-        holder.textFemale.setVisibility(View.VISIBLE);
+//        holder.textFemale.setVisibility(View.VISIBLE);
         holder.imageFemale.setImageResource(R.drawable.ic_female_pressed);
         if(completedChildren.get((int)holder.name.getTag(POSITION))) {
             holder.containerFemale.setBackgroundColor(context.getResources().getColor(R.color.added_child_selected));
@@ -234,7 +234,7 @@ public class ChildrenAdapter extends BaseAdapter {
     private void selectMale(ViewHolder holder) {
         clearFemale(holder);
         clearUnknown(holder);
-        holder.textMale.setVisibility(View.VISIBLE);
+//        holder.textMale.setVisibility(View.VISIBLE);
         holder.imageMale.setImageResource(R.drawable.ic_male_pressed);
         if(completedChildren.get((int)holder.name.getTag(POSITION))) {
             holder.containerMale.setBackgroundColor(context.getResources().getColor(R.color.added_child_selected));
@@ -246,7 +246,7 @@ public class ChildrenAdapter extends BaseAdapter {
     private void selectUnknown(ViewHolder holder) {
         clearFemale(holder);
         clearMale(holder);
-        holder.textUnknown.setVisibility(View.VISIBLE);
+//        holder.textUnknown.setVisibility(View.VISIBLE);
         holder.imageUnknown.setImageResource(R.drawable.ic_question_mark_selected);
         if(completedChildren.get((int)holder.name.getTag(POSITION))) {
             holder.containerUnknown.setBackgroundColor(context.getResources().getColor(R.color.added_child_selected));

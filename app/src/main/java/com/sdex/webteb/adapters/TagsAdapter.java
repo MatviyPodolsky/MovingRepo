@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,8 +48,8 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
 
     public void addTag(String name) {
         Item tag = new Item(name);
-        if (mTags.size() > 1) {
-            mTags.add(1, tag);
+        if (mTags.size() > 2) {
+            mTags.add(2, tag);
         } else {
             mTags.add(tag);
         }
@@ -68,6 +69,13 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
         Item item = mTags.get(position);
         itemHolder.setValue(item.child.getName());
         itemHolder.setSelected(item.isSelected);
+        if (position == 0) {
+            itemHolder.mIcon.setVisibility(View.VISIBLE);
+            itemHolder.mPlus.setVisibility(View.VISIBLE);
+        } else {
+            itemHolder.mIcon.setVisibility(View.GONE);
+            itemHolder.mPlus.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -129,6 +137,8 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
     public static class VerticalItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mValue;
+        private ImageView mIcon;
+        private TextView mPlus;
         private LinearLayout layout;
 
         private TagsAdapter mAdapter;
@@ -140,6 +150,8 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.VerticalItemHo
             mAdapter = adapter;
 
             mValue = (TextView) itemView.findViewById(R.id.value);
+            mIcon = (ImageView) itemView.findViewById(R.id.icon);
+            mPlus = (TextView) itemView.findViewById(R.id.plus);
             layout = (LinearLayout) itemView.findViewById(R.id.item_tag_root);
         }
 

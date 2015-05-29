@@ -44,7 +44,7 @@
     <string name="in_the_registration_process_agree_on">"عند التسجيل انت توافق على شروط التطبيق"</string>
     <string name="terms_of_use">"<u>شروط الاستخدام</u>"</string>
     <string name="and">" و "</string>
-    <string name="security_agreement">"<u>اتفاقیة الخصوصیة</u>"</string>
+    <string name="security_agreement">"<u>اتفاقية الخصوصية</u>"</string>
     <string name="terms_of_use_text">"كل المواد الطبية و/أو العلاجية و/أو الدوائية التي تظهر بهذا التطبيق، هي بمثابة معلومات عامة فقط، ولا يجب اعتبارها، بأي حال، "استشارة طبية" و/ أو "توصية علاجية" و/أو" بديلاً لعلاج طبي شخصي". المعلومات في هذا التطبيق تعتبر عامة ولا يمكن ملاءمتها بشكل خاص لاحتياجات كل شخص، بناء على ذلك، لتلقي علاج طبي شخصي و/أو استشارة طبية شخصية يجب التوجه لطبيب أو طبيبة.
 
 استعمال التطبيق "الحمل وتربية الاطفال-" (Teb-Baby) والمعلومات المعروضة  فيه  يكون وفقا لشروط الاستخدام
@@ -57,15 +57,16 @@
     <string name="hello">"مرحباً"</string>
     <string name="next">"التالي"</string>
     <string name="done">"انهاء"</string>
-    <string name="family_relation">"العلاقة العائلية"</string>
-    <string name="click_to_select_family_relation">"اضغطي لاختيار العلاقة العائلية"</string>
+    <string name="family_relation">"علاقتي بالمولود"</string>
+    <string name="select_family_relation">""</string>
+    <string name="click_to_select_family_relation">"اختيار العلاقة"</string>
     <string name="last_period_first_day">"الحيض الاخير"</string>
     <string name="expected_birth_date">"تاريخ الولادة المتوقع"</string>
     <string name="birth_date">"تاريخ الميلاد"</string>
     <string name="date">"يوم"</string>
     <string name="click_to_select_date">"اضغطي لاختيار التاريخ"</string>
     <string name="type_child_name">"كتابة اسم الطفل"</string>
-    <string name="add_child">"أضافة طفل"</string>
+    <string name="add_child">"+ أضافة طفل"</string>
     <string name="male">"ذكر"</string>
     <string name="female">"انثى"</string>
     <string name="none">"لا شيء"</string>
@@ -75,8 +76,8 @@
     <string name="birth_date_cant_be_in_future">"تاريخ الميلاد لا يمكن ان يكون بالمستقبل"</string>
     <string name="last_period_cant_be_in_future">"تاريخ الدورة الشهرية لا يمكن ان يكون بالمستقبل"</string>
     <string name="expected_birth_date_cant_be_in_past">"تاريخ الولادة المتوقع لا يمكن ان يكون بالماضي"</string>
-    <string name="last_period_description">"الرجاء ادخال موعد الحیض الاخیر"</string>
-    <string name="expected_birth_date_description">"ادخال تاریخ الولادة المتوقع"</string>
+    <string name="last_period_description">"الرجاء ادخال موعد الحيض الاخير"</string>
+    <string name="expected_birth_date_description">"ادخال تاريخ الولادة المتوقع"</string>
     <string name="birth_date_description">"في حال تمت الولادة، الرجاء ادخال تاریخ المیلاد"</string>
     <string name="children_count">%1$d "أطفال"</string>
     <string name="child_count">1 "طفل"</string>
@@ -84,7 +85,7 @@
     <string name="yes">"نعم"</string>
     <string name="no">"كلا"</string>
     <string name="are_u_sure_u_want_to_delete_child">"هل انت متأكدة انك تريدين حذف الطفل؟"</string>
-    <string name="identify_family_relationship">"انشاء الملف الشخصي"</string>
+    <string name="identify_family_relationship">"علاقتي بالمولود"</string>
     <string name="please_choose">الرجاء اختيار</string>
 
     <!--home-->
@@ -99,7 +100,7 @@
     <string name="dialog_notification_week_cancel">"ليس بعد"</string>
 
     <!--age-->
-    <string name="age_in_week">"%1$d الاسبوع"</string>
+    <string name="age_in_week">"انت في الاسبوع %1$d"</string>
     <string name="first_month">الشهر الاول</string>
 
     <string name="age_in_month">"العمر %1$d شهر"</string>
@@ -140,7 +141,7 @@
     <string name="summary_read_more">إقرأ</string>
 
     <!--my tests-->
-    <string name="my_tests_title">"فحوصاتي"</string>
+    <string name="my_tests_title">"الفحوصات"</string>
     <string name="read_more">"اقرئي المزيد"</string>
     <string name="search_doctor">"البحث عن طبيب"</string>
     <string name="add_reminder">"اضيفي تذكير"</string>
@@ -185,7 +186,7 @@
     <!--more articles-->
     <string name="more_articles_title">"المزيد من المقالات"</string>
     <string name="we_found_n_articles">"(1%$d) وجدنا مقالة"</string>
-    <string name="showing_articles_title">"مقالة"</string>
+    <string name="showing_articles_title">"مقالات"</string>
     <string name="showing_articles">"%1$d/%2$d"</string>
 
     <!--settings-->
