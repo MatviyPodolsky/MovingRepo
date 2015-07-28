@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="TypographyDashes">
 
-    <string name="app_name">BabyTime</string>
+    <string name="app_name">TebBaby</string>
 
     <!--welcome-->
         <string name="welcome_text">"دليل الفحوصات الطبية المنتظمة
