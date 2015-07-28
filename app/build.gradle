@@ -4,7 +4,7 @@ def APK_NAME = "WebTeb"
 def versionMajor = 0
 def versionMinor = 9
 def versionPatch = 9
-def versionBuild = 1
+def versionBuild = 2
 
 def VERSION_CODE = versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
 def VERSION_NAME = "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
@@ -20,6 +20,7 @@ android {
         targetSdkVersion 21
         versionCode VERSION_CODE
         versionName VERSION_NAME
+        multiDexEnabled true
     }
 
     signingConfigs {
