@@ -3,12 +3,17 @@ package com.sdex.webteb.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.sdex.webteb.R;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.internal.analytics.Events;
+import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
+
+import butterknife.InjectView;
 
 public class SplashActivity extends BaseActivity {
 
@@ -20,6 +25,9 @@ public class SplashActivity extends BaseActivity {
     private static final int AUTO_HIDE_DELAY_MILLIS = 2000;
     private final PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
+    @InjectView(R.id.logo)
+    ImageView mLogo;
+
     private Handler mHandler;
     private Runnable mInvokeMainActivityTask;
     private boolean isLoggedIn;
@@ -28,6 +36,8 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        alignLogo();
 
         boolean wasLaunched = preferencesManager.wasLaunched();
         String action;
@@ -50,7 +60,7 @@ public class SplashActivity extends BaseActivity {
                 invokeMainActivity();
             }
         };
-        mHandler.postDelayed(mInvokeMainActivityTask, AUTO_HIDE_DELAY_MILLIS);
+//        mHandler.postDelayed(mInvokeMainActivityTask, AUTO_HIDE_DELAY_MILLIS);
 
         preferencesManager.getPreferences()
                 .edit()
@@ -70,6 +80,13 @@ public class SplashActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         mHandler.removeCallbacks(mInvokeMainActivityTask);
+    }
+
+    private void alignLogo() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mLogo.getLayoutParams();
+        int side = (int) (DisplayUtil.getScreenWidth(this) * 0.227f);
+        int top = (int) (DisplayUtil.getScreenHeight(this) * 0.11f);
+        params.setMargins(side, top, side, 0);
     }
 
     private void invokeMainActivity() {
