@@ -60,7 +60,7 @@ public class SplashActivity extends BaseActivity {
                 invokeMainActivity();
             }
         };
-//        mHandler.postDelayed(mInvokeMainActivityTask, AUTO_HIDE_DELAY_MILLIS);
+        mHandler.postDelayed(mInvokeMainActivityTask, AUTO_HIDE_DELAY_MILLIS);
 
         preferencesManager.getPreferences()
                 .edit()
