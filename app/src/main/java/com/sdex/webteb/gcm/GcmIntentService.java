@@ -25,6 +25,7 @@ import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.NotificationEvent;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.request.NotificationReceivedRequest;
+import com.sdex.webteb.utils.AnalyticsUtils;
 import com.sdex.webteb.utils.PreferencesManager;
 
 import de.greenrobot.event.EventBus;
@@ -90,7 +91,7 @@ public class GcmIntentService extends IntentService {
         String message = extras.getString(MainActivity.NOTIFICATION_CONTENT);
         String type = extras.getString(MainActivity.NOTIFICATION_TYPE);
 
-        mAnalytics.sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_RECEIVED, type);
+        mAnalytics.sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_RECEIVED, AnalyticsUtils.getNotificationName(type));
 
         boolean appActive = eventBus.hasSubscriberForEvent(NotificationEvent.class);
 

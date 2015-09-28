@@ -46,4 +46,6 @@ public class Events {
 
     public static final String CATEGORY_SHARE = "Share";
 
+    public static final String CATEGORY_TIMING = "Timing";
+
 }

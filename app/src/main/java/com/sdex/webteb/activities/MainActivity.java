@@ -45,6 +45,7 @@ import com.sdex.webteb.internal.events.TakenProfilePhotoEvent;
 import com.sdex.webteb.model.SideMenuItem;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.request.NotificationTappedRequest;
+import com.sdex.webteb.utils.AnalyticsUtils;
 import com.sdex.webteb.utils.KeyboardUtils;
 import com.sdex.webteb.utils.ResourcesUtil;
 
@@ -142,7 +143,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String type = extras.getString(NOTIFICATION_TYPE);
-            sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED, type);
+            sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED, AnalyticsUtils.getNotificationName(type));
             handlePushNotification(extras);
         }
 
@@ -462,8 +463,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
                 pushNotificationDialog.setCallback(new BaseDialog.Callback.EmptyCallback() {
                     @Override
                     public void confirm() {
-                        super.confirm();
                         postNotificationTapped(notificationId, resultType);
+                        super.confirm();
                     }
                 });
                 break;
@@ -476,7 +477,7 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
     }
 
     private void postNotificationTapped(String notificationId, String type) {
-        sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED_IN_APP, type);
+        sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED_IN_APP, AnalyticsUtils.getNotificationName(type));
         NotificationTappedRequest request = new NotificationTappedRequest(notificationId);
         RestClient.getApiService().postNotificationTapped(request, new Callback<String>() {
             @Override

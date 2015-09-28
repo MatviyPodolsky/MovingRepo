@@ -37,6 +37,9 @@ public class PreferencesManager {
     public static final String SEND_FAMILY_RELATION = "send_family_relation";
     public static final String SEND_CURRENT_DATE = "send_current_date";
 
+    public static final String DEVICE_ID = "device_id";
+    public static final String WEBTEB_ANALYTICS_BASE_URL  = "webteb_analytics_base_url";
+
     private static PreferencesManager sInstance;
     private final SharedPreferences mPref;
 
@@ -193,6 +196,26 @@ public class PreferencesManager {
 
     public String getAdsServerId() {
         return mPref.getString(ADS_SERVER_ID, null);
+    }
+
+    public void setDeviceID(String deviceID) {
+        mPref.edit()
+                .putString(DEVICE_ID, deviceID)
+                .commit();
+    }
+
+    public String getDeviceID() {
+        return mPref.getString(DEVICE_ID, "0000");
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        mPref.edit()
+                .putString(WEBTEB_ANALYTICS_BASE_URL, baseUrl)
+                .commit();
+    }
+
+    public String getBaseUrl() {
+        return mPref.getString(WEBTEB_ANALYTICS_BASE_URL, "https://d2ok2wp1sn8v3w.cloudfront.net/");
     }
 
     public void setNotifyOnReceiveNotification(boolean notifyOnReceiveNotification) {

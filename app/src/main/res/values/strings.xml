@@ -188,6 +188,7 @@
     <string name="we_found_n_articles">"(1%$d) وجدنا مقالة"</string>
     <string name="showing_articles_title">"مقالات"</string>
     <string name="showing_articles">"%1$d/%2$d"</string>
+    <string name="next_article">"المقال التالي"</string>
 
     <!--settings-->
     <string name="settings_title">"اعدادات"</string>

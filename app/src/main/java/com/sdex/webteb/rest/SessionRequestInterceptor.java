@@ -26,6 +26,7 @@ public class SessionRequestInterceptor implements RequestInterceptor {
         request.addHeader("BasicAuthorization", "basic YmFieXVzZXI6cnRpZmxkQDNeZA==");
         request.addHeader("ApplicationVersion", BuildConfig.VERSION_NAME);
         request.addHeader("DeviceType", Utils.getDeviceName());
+        request.addHeader("DeviceID", preferencesManager.getDeviceID());
         request.addHeader("ApplicationName", "baby");
         request.addHeader("OS", "Android");
         request.addHeader("OSVersion", Build.VERSION.RELEASE);

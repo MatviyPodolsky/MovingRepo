@@ -69,6 +69,9 @@ public class TestsFragment extends BaseMainFragment implements Errorable {
     private String mItemId;
     private String mItemType;
 
+    private boolean isFirstSearch = true;
+    private long startLoadingPage;
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -78,6 +81,8 @@ public class TestsFragment extends BaseMainFragment implements Errorable {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        startLoadingPage = System.currentTimeMillis();
 
         mTitle.setText(ResourcesUtil.getString(getActivity(), "my_tests_title"));
 
@@ -141,6 +146,11 @@ public class TestsFragment extends BaseMainFragment implements Errorable {
                     }
                 } else {
                     mList.setSelection(getPositionWithAge(tests));
+                }
+                if (isFirstSearch) {
+                    isFirstSearch = false;
+                    long pageLoadingDuration = System.currentTimeMillis() - startLoadingPage;
+                    sendAnalyticsTiming(R.string.screen_my_tests, Events.CATEGORY_TIMING, pageLoadingDuration);
                 }
 
             }

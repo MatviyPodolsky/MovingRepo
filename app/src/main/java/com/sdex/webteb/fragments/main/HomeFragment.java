@@ -38,6 +38,7 @@ import com.sdex.webteb.extras.SimpleDividerItemDecoration;
 import com.sdex.webteb.fragments.PhotoFragment;
 import com.sdex.webteb.fragments.SavePhotoFragment;
 import com.sdex.webteb.internal.RangeUtil;
+import com.sdex.webteb.internal.analytics.Events;
 import com.sdex.webteb.internal.events.SavedPhotoEvent;
 import com.sdex.webteb.internal.events.SelectedPhotoEvent;
 import com.sdex.webteb.internal.events.TakenPhotoEvent;
@@ -161,6 +162,8 @@ public class HomeFragment extends PhotoFragment {
     private int maxPregnancyWeeks;
     private int toMonth = 0;
 
+    private long startLoadingPage;
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -170,6 +173,9 @@ public class HomeFragment extends PhotoFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        startLoadingPage = System.currentTimeMillis();
+
         databaseHelper = DatabaseHelper.getInstance(getActivity());
         preferencesManager = PreferencesManager.getInstance();
 
@@ -200,6 +206,10 @@ public class HomeFragment extends PhotoFragment {
                 }
                 Ad ads = babyConfigResponse.getAds();
                 String serverId = ads.getServerId();
+                String baseUrl = babyConfigResponse.getBaseUrl();
+                if (!TextUtils.isEmpty(baseUrl)) {
+                    preferencesManager.setBaseUrl(baseUrl);
+                }
                 babyPeriods = babyConfigResponse.getBabyPeriods();
                 maxPregnancyWeeks = babyConfigResponse.getMaxPregnancyWeeks();
                 Notifications notifications = babyConfigResponse.getNotifications();
@@ -262,6 +272,9 @@ public class HomeFragment extends PhotoFragment {
                                 2, currentRange.getTitle());
                     }
                 }
+
+                long pageLoadingDuration = System.currentTimeMillis() - startLoadingPage;
+                sendAnalyticsTiming(R.string.screen_home, Events.CATEGORY_TIMING, pageLoadingDuration);
             }
         });
 

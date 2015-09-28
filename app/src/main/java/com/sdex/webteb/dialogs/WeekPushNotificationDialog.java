@@ -46,12 +46,18 @@ public class WeekPushNotificationDialog extends BaseDialog {
 
     @OnClick(R.id.yes)
     void ok() {
+        if (callback != null) {
+            callback.confirm();
+        }
         dismiss();
         NewbornActivity.launch(getActivity());
     }
 
     @OnClick({R.id.no, R.id.close})
     void close() {
+        if (callback != null) {
+            callback.cancel();
+        }
         dismiss();
     }
 

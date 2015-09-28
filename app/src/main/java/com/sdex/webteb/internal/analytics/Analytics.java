@@ -6,6 +6,7 @@ import android.support.annotation.StringRes;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.sdex.webteb.WTApp;
+import com.sdex.webteb.utils.AnalyticsUtils;
 
 /**
  * Author: Yuriy Mysochenko
@@ -27,8 +28,9 @@ public class Analytics {
         Tracker tracker = application.getTracker();
         tracker.setScreenName(name);
         tracker.send(new HitBuilders.ScreenViewBuilder()
-                .setNewSession()
+//                .setNewSession()
                 .build());
+        AnalyticsUtils.sendScreenName(name);
     }
 
     public void sendAnalyticsDimension(@StringRes int screenName, int index, String dimension) {
@@ -56,6 +58,20 @@ public class Analytics {
             eventBuilder.setLabel(label);
         }
         t.send(eventBuilder.build());
+        AnalyticsUtils.sendEvent(category, action, label, null);
+    }
+
+    public void sendAnalyticsTiming(@StringRes int screenName, String category, long value) {
+        sendAnalyticsTiming(application.getString(screenName), category, value);
+    }
+
+    public void sendAnalyticsTiming(String screenName, String category, long value) {
+        Tracker tracker = application.getTracker();
+        tracker.setScreenName(screenName);
+        tracker.send(new HitBuilders.TimingBuilder()
+                .setCategory(category)
+                .setValue(value)
+                .build());
     }
 
 }

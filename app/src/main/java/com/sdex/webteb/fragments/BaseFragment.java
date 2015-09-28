@@ -91,6 +91,14 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
+    protected void sendAnalyticsTiming(@StringRes int screenName, String category, long value) {
+        mAnalytics.sendAnalyticsTiming(screenName, category, value);
+    }
+
+    protected void sendAnalyticsTiming(String screenName, String category, long value) {
+        mAnalytics.sendAnalyticsTiming(screenName, category, value);
+    }
+
     protected void sendInnerAnalyticsEvent(String category, String action, String label) {
         sendAnalyticsEvent(category, action, label);
         SendEventRequest request = new SendEventRequest();

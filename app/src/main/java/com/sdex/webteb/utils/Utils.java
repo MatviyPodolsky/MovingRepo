@@ -40,6 +40,11 @@ public final class Utils {
         }
     }
 
+    public static String getDeviceID() {
+        String id = Build.ID;
+        return id;
+    }
+
     private static String capitalize(String s) {
         if (s == null || s.length() == 0) {
             return "";

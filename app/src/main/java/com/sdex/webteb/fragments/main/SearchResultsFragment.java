@@ -57,9 +57,14 @@ public class SearchResultsFragment extends BaseMainFragment {
     private Map<String, String> mOptions;
     private String searchKey;
 
+    private boolean isFirstSearch = true;
+    private long startLoadingPage;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        startLoadingPage = System.currentTimeMillis();
 
         showProgress();
 
@@ -160,6 +165,12 @@ public class SearchResultsFragment extends BaseMainFragment {
                     if (mAdapter.getCount() > PAGE_SIZE) {
                         sendAnalyticsEvent(Events.CATEGORY_SCROLL, Events.ACTION_DOCTOR_SEARCH,
                                 String.valueOf(mAdapter.getCount()));
+                    }
+
+                    if (isFirstSearch) {
+                        isFirstSearch = false;
+                        long pageLoadingDuration = System.currentTimeMillis() - startLoadingPage;
+                        sendAnalyticsTiming(R.string.screen_search_doctor_result, Events.CATEGORY_TIMING, pageLoadingDuration);
                     }
 
                 }

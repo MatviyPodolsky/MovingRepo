@@ -56,7 +56,8 @@ public abstract class PhotoFragment extends BaseMainFragment {
         final String[] imageColumns = {MediaStore.Images.Media.DATA};
         final String imageOrderBy = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            String id = selectedImage.getLastPathSegment().split(":")[1];
+            String[] split = selectedImage.getLastPathSegment().split(":");
+            String id = split.length < 2 ? split[0] : split[1];
             Uri uri = getUri();
             Cursor cursor = null;
             try {
