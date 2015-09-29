@@ -109,6 +109,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     private boolean isKeyboardVisible;
 
+    private boolean wasNotificationReceived;
+
     private MobileAppTracker mobileAppTracker = MobileAppTracker.getInstance();
 
     @Override
@@ -118,6 +120,8 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 //        if (BuildConfig.DEBUG) {
 //            SharedPreferenceUtils.startActivity(this);
 //        }
+
+        wasNotificationReceived = false;
 
         GcmHelper gcmHelper = new GcmHelper(this);
         gcmHelper.register();
@@ -142,7 +146,10 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+//            Log.d("tester", "onCreate with intent");
+            String notificationId = extras.getString(NOTIFICATION_ID);
             String type = extras.getString(NOTIFICATION_TYPE);
+            postNotificationTappedToEndpoint(notificationId);
             sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED, AnalyticsUtils.getNotificationName(type));
             handlePushNotification(extras);
         }
@@ -156,6 +163,21 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         mobileAppTracker.setReferralSources(this);
         // MAT will not function unless the measureSession call is included
         mobileAppTracker.measureSession();
+
+        if (wasNotificationReceived) {
+            Intent intent = getIntent();
+            if (intent != null) {
+                Bundle extras = intent.getExtras();
+                if (extras != null) {
+//                    Log.d("tester", "onResume with intent");
+                    String notificationId = extras.getString(NOTIFICATION_ID);
+                    String type = extras.getString(NOTIFICATION_TYPE);
+                    sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED, AnalyticsUtils.getNotificationName(type));
+                    postNotificationTappedToEndpoint(notificationId);
+                    handlePushNotification(extras);
+                }
+            }
+        }
     }
 
     private void initSideMenu() {
@@ -393,7 +415,10 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
         super.onNewIntent(intent);
         Bundle extras = intent.getExtras();
         if (extras != null) {
-            handlePushNotification(extras);
+            wasNotificationReceived = true;
+            setIntent(intent);
+//            Log.d("tester", "onNewIntent");
+//            handlePushNotification(extras);
         }
     }
 
@@ -478,6 +503,10 @@ public class MainActivity extends BaseActivity implements DrawerLayout.DrawerLis
 
     private void postNotificationTapped(String notificationId, String type) {
         sendAnalyticsEvent(Events.CATEGORY_NOTIFICATIONS, Events.ACTION_TAPPED_IN_APP, AnalyticsUtils.getNotificationName(type));
+        postNotificationTappedToEndpoint(notificationId);
+    }
+
+    private void postNotificationTappedToEndpoint(String notificationId) {
         NotificationTappedRequest request = new NotificationTappedRequest(notificationId);
         RestClient.getApiService().postNotificationTapped(request, new Callback<String>() {
             @Override

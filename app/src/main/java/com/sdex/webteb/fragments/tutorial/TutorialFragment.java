@@ -32,17 +32,17 @@ public class TutorialFragment extends BaseFragment {
 
         switch (getArguments().getInt("position")) {
             case 0:
-                root.setBackgroundResource(R.drawable.webteb_welcome_1);
+                root.setBackgroundResource(R.drawable.embryo_min);
                 break;
             case 1:
-                root.setBackgroundResource(R.drawable.webteb_welcome_2);
-                content.setVisibility(View.VISIBLE);
+                root.setBackgroundResource(R.drawable.tests_min);
+//                content.setVisibility(View.VISIBLE);
                 break;
             case 2:
-                root.setBackgroundResource(R.drawable.webteb_welcome_1);
+                root.setBackgroundResource(R.drawable.baby_min);
                 break;
             case 3:
-                root.setBackgroundResource(R.drawable.webteb_welcome_2);
+                root.setBackgroundResource(R.drawable.tools_min);
                 break;
         }
 

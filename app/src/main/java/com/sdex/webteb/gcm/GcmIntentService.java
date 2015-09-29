@@ -107,6 +107,10 @@ public class GcmIntentService extends IntentService {
         } else {
             Intent i = new Intent(this, MainActivity.class);
             i.putExtras(extras);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             showNotification(i, title, message);
         }
     }
@@ -133,7 +137,6 @@ public class GcmIntentService extends IntentService {
                         .setSound(alarmSound)
                         .setAutoCancel(true)
                         .setContentIntent(contentIntent);
-
         mNotificationManager.notify(NOTIFICATION_ID++, mBuilder.build());
     }
 

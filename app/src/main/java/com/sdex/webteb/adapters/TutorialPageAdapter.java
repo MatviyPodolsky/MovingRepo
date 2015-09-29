@@ -10,7 +10,7 @@ import com.viewpagerindicator.IconPagerAdapter;
 
 public class TutorialPageAdapter extends FragmentStatePagerAdapter implements IconPagerAdapter {
 
-    public static final int sCount = 2;
+    public static final int sCount = 4;
 
     public TutorialPageAdapter(FragmentManager fm) {
         super(fm);
