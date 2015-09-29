@@ -52,6 +52,7 @@ import com.sdex.webteb.model.TipContent;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
+import com.sdex.webteb.rest.response.AnalyticsConfig;
 import com.sdex.webteb.rest.response.BabyConfigResponse;
 import com.sdex.webteb.rest.response.BabyHomeResponse;
 import com.sdex.webteb.rest.response.BabyProfileResponse;
@@ -206,9 +207,12 @@ public class HomeFragment extends PhotoFragment {
                 }
                 Ad ads = babyConfigResponse.getAds();
                 String serverId = ads.getServerId();
-                String baseUrl = babyConfigResponse.getBaseUrl();
-                if (!TextUtils.isEmpty(baseUrl)) {
-                    preferencesManager.setBaseUrl(baseUrl);
+                AnalyticsConfig config = babyConfigResponse.getConfig();
+                if (config != null) {
+                    String baseUrl = config.getBaseUrl();
+                    if (!TextUtils.isEmpty(baseUrl)) {
+                        preferencesManager.setBaseUrl(baseUrl);
+                    }
                 }
                 babyPeriods = babyConfigResponse.getBabyPeriods();
                 maxPregnancyWeeks = babyConfigResponse.getMaxPregnancyWeeks();

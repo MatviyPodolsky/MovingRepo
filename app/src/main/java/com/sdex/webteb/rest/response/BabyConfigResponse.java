@@ -31,8 +31,7 @@ public class BabyConfigResponse {
     @SerializedName("Notifications")
     @Expose
     private com.sdex.webteb.model.Notifications notifications;
-    @SerializedName("WebtebAnalyticsBaseUrl")
-    @Expose
-    private String baseUrl;
+    @SerializedName("AnalyticsConfig")
+    private AnalyticsConfig config;
 
 }
