@@ -52,6 +52,7 @@ public class AnalyticsUtils {
             if (!TextUtils.isEmpty(username)) {
                 url+=getNewParam("username", username);
             }
+            url+=getNewParam("ticks", String.valueOf(System.currentTimeMillis()));
             url = url.replaceAll("\\s+","");
             return url;
         } else {
@@ -83,6 +84,7 @@ public class AnalyticsUtils {
             if (!TextUtils.isEmpty(username)) {
                 url+=getNewParam("username", username);
             }
+            url+=getNewParam("ticks", String.valueOf(System.currentTimeMillis()));
             url = url.replaceAll("\\s+","");
             return url;
         } else {

@@ -205,7 +205,7 @@ public class PreferencesManager {
     }
 
     public String getDeviceID() {
-        return mPref.getString(DEVICE_ID, "0000");
+        return mPref.getString(DEVICE_ID, null);
     }
 
     public void setBaseUrl(String baseUrl) {

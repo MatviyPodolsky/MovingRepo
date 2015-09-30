@@ -3,7 +3,6 @@ package com.sdex.webteb;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
-import android.telephony.TelephonyManager;
 
 import com.facebook.FacebookSdk;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -15,6 +14,7 @@ import com.squareup.okhttp.OkHttpClient;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 /**
  * Created by Yuriy Mysochenko on 03.02.2015.
@@ -24,6 +24,7 @@ public class WTApp extends Application {
     private Tracker tracker;
     public static final OkHttpClient okHttpClient = new OkHttpClient();
     public static final long SESSION_TIMEOUT = 30 * 60 * 1000;
+    private PreferencesManager preferencesManager;
 
     @Override
     public void onCreate() {
@@ -38,10 +39,11 @@ public class WTApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String ts = Context.TELEPHONY_SERVICE;
-        TelephonyManager tm = (TelephonyManager) this.getSystemService(ts);
-        String deviceId = tm.getDeviceId();
-        PreferencesManager.getInstance().setDeviceID(deviceId != null ? deviceId : "0000");
+        preferencesManager = PreferencesManager.getInstance();
+        if (preferencesManager.getDeviceID() == null) {
+            Random r = new Random();
+            preferencesManager.setDeviceID(String.valueOf(Math.abs(r.nextLong())));
+        }
     }
 
     @Override

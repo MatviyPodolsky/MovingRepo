@@ -3,6 +3,7 @@ package com.sdex.webteb.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -10,10 +11,16 @@ import com.sdex.webteb.R;
 import com.sdex.webteb.database.DatabaseHelper;
 import com.sdex.webteb.database.model.DbUser;
 import com.sdex.webteb.internal.analytics.Events;
+import com.sdex.webteb.rest.RestClient;
+import com.sdex.webteb.rest.response.AnalyticsConfig;
+import com.sdex.webteb.rest.response.BabyConfigResponse;
 import com.sdex.webteb.utils.DisplayUtil;
 import com.sdex.webteb.utils.PreferencesManager;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class SplashActivity extends BaseActivity {
 
@@ -32,6 +39,7 @@ public class SplashActivity extends BaseActivity {
     private Runnable mInvokeMainActivityTask;
     private boolean isLoggedIn;
     private DatabaseHelper databaseHelper;
+    private long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +57,32 @@ public class SplashActivity extends BaseActivity {
         }
         sendAnalyticsEvent(Events.CATEGORY_LAUNCH_EVENTS, action);
 
+        startTime = System.currentTimeMillis();
+        RestClient.getApiService().getBabyConfig(new Callback<BabyConfigResponse>() {
+            @Override
+            public void success(BabyConfigResponse babyConfigResponse, Response response) {
+                if (this == null || babyConfigResponse == null) {
+                    return;
+                }
+                AnalyticsConfig config = babyConfigResponse.getConfig();
+                if (config != null) {
+                    String baseUrl = config.getBaseUrl();
+                    if (!TextUtils.isEmpty(baseUrl)) {
+                        preferencesManager.setBaseUrl(baseUrl);
+                    }
+                }
+                startMain();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                startMain();
+            }
+        });
+
         databaseHelper = DatabaseHelper.getInstance(this);
 
         isLoggedIn = (preferencesManager.getAccessToken() != null);
-
-        mHandler = new Handler();
-        mInvokeMainActivityTask = new Runnable() {
-            @Override
-            public void run() {
-                invokeMainActivity();
-            }
-        };
-        mHandler.postDelayed(mInvokeMainActivityTask, AUTO_HIDE_DELAY_MILLIS);
 
         preferencesManager.getPreferences()
                 .edit()
@@ -87,6 +109,22 @@ public class SplashActivity extends BaseActivity {
         int side = (int) (DisplayUtil.getScreenWidth(this) * 0.227f);
         int top = (int) (DisplayUtil.getScreenHeight(this) * 0.11f);
         params.setMargins(side, top, side, 0);
+    }
+
+    private void startMain() {
+        mHandler = new Handler();
+        mInvokeMainActivityTask = new Runnable() {
+            @Override
+            public void run() {
+                invokeMainActivity();
+            }
+        };
+        long timeLeft = AUTO_HIDE_DELAY_MILLIS - (System.currentTimeMillis() - startTime);
+        if (timeLeft > 0) {
+            mHandler.postDelayed(mInvokeMainActivityTask, AUTO_HIDE_DELAY_MILLIS);
+        } else {
+            invokeMainActivity();
+        }
     }
 
     private void invokeMainActivity() {
