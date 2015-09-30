@@ -48,9 +48,9 @@ public class AnalyticsUtils {
             url+=getNewParam("OSVersion", Build.VERSION.RELEASE);
             url+=getNewParam("deviceId", preferencesManager.getDeviceID());
 
-            String username = preferencesManager.getUsername();
-            if (!TextUtils.isEmpty(username)) {
-                url+=getNewParam("username", username);
+            String email = preferencesManager.getEmail();
+            if (!TextUtils.isEmpty(email)) {
+                url+=getNewParam("username", email);
             }
             url+=getNewParam("ticks", String.valueOf(System.currentTimeMillis()));
             url = url.replaceAll("\\s+","");
@@ -80,9 +80,9 @@ public class AnalyticsUtils {
             url+=getNewParam("OSVersion", Build.VERSION.RELEASE);
             url+=getNewParam("deviceId", preferencesManager.getDeviceID());
 
-            String username = preferencesManager.getUsername();
-            if (!TextUtils.isEmpty(username)) {
-                url+=getNewParam("username", username);
+            String email = preferencesManager.getEmail();
+            if (!TextUtils.isEmpty(email)) {
+                url+=getNewParam("username", email);
             }
             url+=getNewParam("ticks", String.valueOf(System.currentTimeMillis()));
             url = url.replaceAll("\\s+","");
