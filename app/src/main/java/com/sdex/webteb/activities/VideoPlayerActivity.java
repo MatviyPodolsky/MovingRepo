@@ -93,6 +93,7 @@ public class VideoPlayerActivity extends BaseActivity {
         });
         mVideoView.setVideoPath(video.getUrl());
         mVideoView.start();
+        sendAnalyticsScreenName(R.string.screen_video);
         sendAnalyticsEvent(Events.CATEGORY_VIDEOS, Events.ACTION_FIRST_PLAY, video.getTitle());
     }
 

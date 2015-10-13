@@ -41,6 +41,7 @@ public class ArticleFragment extends BaseMainFragment {
     private static final String ARG_POSITION = "ARG_POSITION";
     private static final String ARG_PAGE = "ARG_PAGE";
     private static final String ARG_TOTAL_COUNT = "ARG_TOTAL_COUNT";
+    private static final String ARG_LOADED_FROM = "ARG_LOADED_FROM";
 
     @InjectView(R.id.content)
     WebView mContentView;
@@ -57,15 +58,18 @@ public class ArticleFragment extends BaseMainFragment {
     private int page;
     private int totalCount;
 
+    private boolean isLoadedFromHome;
+
     private CallbackManager callbackManager;
 
-    public static Fragment newInstance(List<ContentLink> data, int position, int page, int totalCount) {
+    public static Fragment newInstance(List<ContentLink> data, int position, int page, int totalCount, boolean fromHome) {
         ArticleFragment fragment = new ArticleFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_ARTICLES, Parcels.wrap(data));
         args.putInt(ARG_POSITION, position);
         args.putInt(ARG_PAGE, page);
         args.putInt(ARG_TOTAL_COUNT, totalCount);
+        args.putBoolean(ARG_LOADED_FROM, fromHome);
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,6 +83,7 @@ public class ArticleFragment extends BaseMainFragment {
         currentPosition = args.getInt(ARG_POSITION);
         page = args.getInt(ARG_PAGE);
         totalCount = args.getInt(ARG_TOTAL_COUNT);
+        isLoadedFromHome = args.getBoolean(ARG_LOADED_FROM);
         setUpWebView(mContentView);
         mContentView.setWebViewClient(new WebViewClient() {
             @Override
@@ -159,7 +164,7 @@ public class ArticleFragment extends BaseMainFragment {
         mProgress.setVisibility(View.VISIBLE);
         mContentView.loadUrl(article.getUrl());
 
-        String name = String.format(getString(R.string.screen_article), title);
+        String name = String.format(getString(isLoadedFromHome ? R.string.screen_home_content : R.string.screen_article), title);
         sendAnalyticsScreenName(name);
         showAd(name, article.getTargeting());
         AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL, article.getTargeting());

@@ -30,11 +30,13 @@ import com.sdex.webteb.database.model.DbLocation;
 import com.sdex.webteb.dialogs.SearchFilterDialog;
 import com.sdex.webteb.internal.events.DoctorsFoundEvent;
 import com.sdex.webteb.internal.events.DoctorsNotFoundEvent;
+import com.sdex.webteb.model.Ad;
 import com.sdex.webteb.rest.RestCallback;
 import com.sdex.webteb.rest.RestClient;
 import com.sdex.webteb.rest.RestError;
 import com.sdex.webteb.rest.response.CityResponse;
 import com.sdex.webteb.rest.response.SpecialtiesResponse;
+import com.sdex.webteb.utils.AdUtil;
 import com.sdex.webteb.utils.KeyboardUtils;
 import com.sdex.webteb.utils.PreferencesManager;
 
@@ -117,6 +119,9 @@ public class SearchDoctorFragment extends BaseMainFragment {
             setCurrentCountry(currentCountryPosition);
         }
         setSpecialties();
+
+//        AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL,
+//                item.getContentPreview().getTargeting());
     }
 
     @Override

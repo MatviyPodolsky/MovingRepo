@@ -743,7 +743,7 @@ public class HomeFragment extends PhotoFragment {
         adapter.setCallback(new HomeListAdapter.OnItemClickCallback() {
             @Override
             public void onAdditionalContentClick(ContentLink content, int position) {
-                Fragment fragment = ArticleFragment.newInstance(additionalContent, position, -1 , -1);
+                Fragment fragment = ArticleFragment.newInstance(additionalContent, position, -1 , -1, true);
                 addNestedFragment(R.id.fragment_container, fragment, ArticleFragment.NAME);
             }
 

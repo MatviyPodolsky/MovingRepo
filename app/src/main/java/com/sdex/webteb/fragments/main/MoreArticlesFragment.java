@@ -83,7 +83,7 @@ public class MoreArticlesFragment extends BaseMainFragment implements Errorable 
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = ArticleFragment.newInstance(mData, position, lastPage, totalCount);
+                Fragment fragment = ArticleFragment.newInstance(mData, position, lastPage, totalCount, false);
                 addNestedFragment(R.id.fragment_container, fragment, ArticleFragment.NAME);
             }
         });

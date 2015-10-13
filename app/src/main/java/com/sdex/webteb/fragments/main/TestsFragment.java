@@ -149,6 +149,8 @@ public class TestsFragment extends BaseMainFragment implements Errorable {
                 }
                 if (isFirstSearch) {
                     isFirstSearch = false;
+//                    AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL,
+//                            item.getContentPreview().getTargeting());
                     long pageLoadingDuration = System.currentTimeMillis() - startLoadingPage;
                     sendAnalyticsTiming(R.string.screen_my_tests, Events.CATEGORY_TIMING, pageLoadingDuration);
                 }

@@ -79,7 +79,7 @@ public class AdditionalContentFragment extends BaseMainFragment {
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = ArticleFragment.newInstance(articles, position, -1, -1);
+                Fragment fragment = ArticleFragment.newInstance(articles, position, -1, -1, true);
                 addNestedFragment(R.id.fragment_container, fragment, ArticleFragment.NAME);
             }
         });

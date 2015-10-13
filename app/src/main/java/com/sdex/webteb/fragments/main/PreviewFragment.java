@@ -87,6 +87,8 @@ public class PreviewFragment extends BaseMainFragment {
             mProgressBar.setVisibility(View.GONE);
             String name = entityResponse.getName();
             title.setText(name);
+            String screenName = String.format(getString(R.string.screen_home_content), name);
+            sendAnalyticsScreenName(screenName);
             showAd(name, entityResponse.getTargeting());
             AdUtil.initInterstitialAd(getActivity(), name, Ad.INTERSTITIAL,
                     entityResponse.getTargeting());
@@ -111,6 +113,8 @@ public class PreviewFragment extends BaseMainFragment {
         if (isAdded()) {
             mProgressBar.setVisibility(View.GONE);
             String name = content.getTitle();
+            String screenName = String.format(getString(R.string.screen_home_content), name);
+            sendAnalyticsScreenName(screenName);
             title.setText(name);
             showAd(name, content.getTargeting());
             mContentView.loadUrl(content.getKey().getUrl());
