@@ -41,11 +41,13 @@
             android:layout_weight="1"
             android:textColor="@color/btn_notification_selector"
             android:background="@drawable/btn_grey_notification"
-            android:text="cancel" />
+            android:text="cancel"
+            android:visibility="gone"/>
 
         <Space
             android:layout_width="2dp"
-            android:layout_height="1dp" />
+            android:layout_height="1dp"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/ok"
@@ -54,6 +56,8 @@
             android:layout_weight="1"
             android:textColor="@color/btn_notification_selector"
             android:background="@drawable/btn_grey_notification"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:text="ok" />
 
     </LinearLayout>
