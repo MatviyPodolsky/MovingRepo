@@ -67,10 +67,12 @@ public class Analytics {
 
     public void sendAnalyticsTiming(String screenName, String category, long value) {
         Tracker tracker = application.getTracker();
-        tracker.setScreenName(screenName);
+//        tracker.setScreenName(screenName);
         tracker.send(new HitBuilders.TimingBuilder()
                 .setCategory(category)
                 .setValue(value)
+                .setVariable(screenName + ".timing")
+                .setLabel(screenName + "Speed")
                 .build());
     }
 

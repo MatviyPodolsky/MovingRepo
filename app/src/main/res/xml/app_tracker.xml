@@ -2,6 +2,7 @@
 <resources>
 
     <string name="ga_trackingId">UA-27175568-11</string>
+    <!--<string name="ga_trackingId">UA-53587119-2</string>-->
 
     <bool name="ga_autoActivityTracking">true</bool>
     <bool name="ga_reportUncaughtExceptions">true</bool>
@@ -10,7 +11,7 @@
 
     <bool name="ga_debug">false</bool>
 
-    <item name="ga_dispatchPeriod" format="integer" type="integer">120</item>
+    <item name="ga_dispatchPeriod" format="integer" type="integer">20</item>
 
     <string name="ga_sampleFrequency">90</string>
 
@@ -18,6 +19,6 @@
 
     <string name="ga_sampleFrequency">100.0</string>
 
-    <integer name="ga_sessionTimeout">-1</integer>
+    <!--<integer name="ga_sessionTimeout">-1</integer>-->
 
 </resources>

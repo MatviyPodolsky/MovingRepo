@@ -55,8 +55,10 @@ public class WTApp extends Application {
     public synchronized Tracker getTracker() {
         if (tracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            analytics.setLocalDispatchPeriod(20);
             tracker = analytics.newTracker(getString(R.string.ga_trackingId));
-            tracker.setSessionTimeout(SESSION_TIMEOUT);
+//            analytics.dispatchLocalHits();
+//            tracker.setSessionTimeout(SESSION_TIMEOUT);
         }
         return tracker;
     }

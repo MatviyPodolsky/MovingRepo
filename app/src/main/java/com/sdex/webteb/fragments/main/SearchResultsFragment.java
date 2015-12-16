@@ -172,7 +172,6 @@ public class SearchResultsFragment extends BaseMainFragment {
                         long pageLoadingDuration = System.currentTimeMillis() - startLoadingPage;
                         sendAnalyticsTiming(R.string.screen_search_doctor_result, Events.CATEGORY_TIMING, pageLoadingDuration);
                     }
-
                 }
             }
         };
